@@ -29,3 +29,6 @@ HEADERS  += mainwindow.h \
     datasingleton.h \
     additionaltools.h \
     effects.h
+
+RESOURCES += \
+    media.qrc

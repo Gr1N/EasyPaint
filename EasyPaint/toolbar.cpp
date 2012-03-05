@@ -51,34 +51,34 @@ QToolButton* ToolBar::createToolButton(const char *name, const QString &iconPath
 
 void ToolBar::initializeItems()
 {
-    mCursorButton = createToolButton("Cursor", "");
+    mCursorButton = createToolButton("Cursor", ":/media/instruments-icons/cursor.png");
     connect(mCursorButton, SIGNAL(toggled(bool)), this, SLOT(setCursor(bool)));
 
-    mLasticButton = createToolButton("Lastic", "");
+    mLasticButton = createToolButton("Lastic", ":/media/instruments-icons/lastic.png");
     connect(mLasticButton, SIGNAL(toggled(bool)), this, SLOT(setLastic(bool)));
 
-    mPenButton = createToolButton("Pen", "");
+    mPenButton = createToolButton("Pen", ":/media/instruments-icons/pencil.png");
     connect(mPenButton, SIGNAL(toggled(bool)), this, SLOT(setPen(bool)));
 
-    mLineButton = createToolButton("Line", "");
+    mLineButton = createToolButton("Line", ":/media/instruments-icons/line.png");
     connect(mLineButton, SIGNAL(toggled(bool)), this, SLOT(setLine(bool)));
 
-    mPipetteButton = createToolButton("Pipette", "");
+    mPipetteButton = createToolButton("Pipette", ":/media/instruments-icons/pipette.png");
     connect(mPipetteButton, SIGNAL(toggled(bool)), this, SLOT(setPipette(bool)));
 
-    mLoupeButton = createToolButton("Loupe", "");
+    mLoupeButton = createToolButton("Loupe", ":/media/instruments-icons/loupe.png");
     connect(mLoupeButton, SIGNAL(toggled(bool)), this, SLOT(setLoupe(bool)));
 
-    mSprayButton = createToolButton("Spray", "");
+    mSprayButton = createToolButton("Spray", ":/media/instruments-icons/spray.png");
     connect(mSprayButton, SIGNAL(toggled(bool)), this, SLOT(setSpray(bool)));
 
-    mFillButton = createToolButton("Fill", "");
+    mFillButton = createToolButton("Fill", ":/media/instruments-icons/fill.png");
     connect(mFillButton, SIGNAL(toggled(bool)), this, SLOT(setFill(bool)));
 
-    mRectButton = createToolButton("Rect", "");
+    mRectButton = createToolButton("Rect", ":/media/instruments-icons/rectangle.png");
     connect(mRectButton, SIGNAL(toggled(bool)), this, SLOT(setRect(bool)));
 
-    mEllipseButton = createToolButton("Ellipse", "");
+    mEllipseButton = createToolButton("Ellipse", ":/media/instruments-icons/ellipse.png");
     connect(mEllipseButton, SIGNAL(toggled(bool)), this, SLOT(setEllipse(bool)));
 
 

@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>media/instruments-icons/cursor.png</file>
+        <file>media/instruments-icons/ellipse.png</file>
+        <file>media/instruments-icons/fill.png</file>
+        <file>media/instruments-icons/lastic.png</file>
+        <file>media/instruments-icons/line.png</file>
+        <file>media/instruments-icons/loupe.png</file>
+        <file>media/instruments-icons/pencil.png</file>
+        <file>media/instruments-icons/pipette.png</file>
+        <file>media/instruments-icons/rectangle.png</file>
+        <file>media/instruments-icons/spray.png</file>
+    </qresource>
+</RCC>
