@@ -30,6 +30,7 @@
 #include <QtGui/QImage>
 #include <QtGui/QPainter>
 #include <QtGui/QLabel>
+#include <QtGui/QTransform>
 
 AdditionalTools::AdditionalTools(ImageArea *pImageArea, QObject *parent) :
     QObject(parent)
@@ -72,4 +73,22 @@ void AdditionalTools::resizeImage()
                             mPImageArea->getImage()->rect().bottom() + 6);
         mPImageArea->setEdited(true);
     }
+}
+
+void AdditionalTools::rotateImage(bool flag)
+{
+    QTransform transform;
+    if(flag)
+    {
+        transform.rotate(90);
+    }
+    else
+    {
+        transform.rotate(-90);
+    }
+    mPImageArea->setImage(mPImageArea->getImage()->transformed(transform));
+    mPImageArea->resize(mPImageArea->getImage()->rect().right() + 6,
+                        mPImageArea->getImage()->rect().bottom() + 6);
+    mPImageArea->update();
+    mPImageArea->setEdited(true);
 }

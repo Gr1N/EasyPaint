@@ -82,6 +82,8 @@ private slots:
     void effectGrayAct();
     void effectNegativeAct();
     void resizeImageAct();
+    void rotateLeftImageAct();
+    void rotateRightImageAct();
 
 };
 

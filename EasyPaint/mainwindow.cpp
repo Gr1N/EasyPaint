@@ -203,17 +203,28 @@ void MainWindow::initializeMainMenu()
     connect(negativeEfAction, SIGNAL(triggered()), this, SLOT(effectNegativeAct()));
     effectsMenu->addAction(negativeEfAction);
 
-    QMenu *toolsMenu =  menuBar()->addMenu(tr("&Tools"));
+    QMenu *toolsMenu = menuBar()->addMenu(tr("&Tools"));
 
     QAction *resizeImAction = new QAction(tr("Resize"), this);
 //    newAction->setStatusTip();
     connect(resizeImAction, SIGNAL(triggered()), this, SLOT(resizeImageAct()));
     toolsMenu->addAction(resizeImAction);
 
-    QAction *rotateAction = new QAction(tr("Rotate image"), this);
+    QMenu *rotateMenu = new QMenu(tr("Rotate"));
+
+    QAction *rotateLAction = new QAction(tr("Left"), this);
+    rotateLAction->setIcon(QIcon::fromTheme("object-rotate-left"/*, QIcon("")*/));
 //    newAction->setStatusTip();
-//    connect();
-    toolsMenu->addAction(rotateAction);
+    connect(rotateLAction, SIGNAL(triggered()), this, SLOT(rotateLeftImageAct()));
+    rotateMenu->addAction(rotateLAction);
+
+    QAction *rotateRAction = new QAction(tr("Right"), this);
+    rotateRAction->setIcon(QIcon::fromTheme("object-rotate-right"/*, QIcon("")*/));
+//    newAction->setStatusTip();
+    connect(rotateRAction, SIGNAL(triggered()), this, SLOT(rotateRightImageAct()));
+    rotateMenu->addAction(rotateRAction);
+
+    toolsMenu->addMenu(rotateMenu);
 
     QMenu *aboutMenu = menuBar()->addMenu(tr("&About"));
 
@@ -284,6 +295,16 @@ void MainWindow::effectNegativeAct()
 void MainWindow::resizeImageAct()
 {
     getCurrentImageArea()->resizeImage();
+}
+
+void MainWindow::rotateLeftImageAct()
+{
+    getCurrentImageArea()->rotateImage(true);
+}
+
+void MainWindow::rotateRightImageAct()
+{
+    getCurrentImageArea()->rotateImage(false);
 }
 
 void MainWindow::helpAct()

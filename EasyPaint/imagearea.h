@@ -92,6 +92,7 @@ public:
      */
     inline void effectNegative() { mEffects->negative(); }
     inline void resizeImage() { mAdditionalTools->resizeImage(); }
+    inline void rotateImage(bool flag) { mAdditionalTools->rotateImage(flag); }
     
 private:
     /**

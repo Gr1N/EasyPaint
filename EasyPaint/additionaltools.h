@@ -61,10 +61,15 @@ public:
     /**
      * @brief Resize image
      *
-     * @param width
-     * @param height
      */
     void resizeImage();
+
+    /**
+     * @brief Rotate image
+     *
+     * @param flag Left or right
+     */
+    void rotateImage(bool flag);
     
 private:
     ImageArea *mPImageArea; /**< A pointer to ImageArea */
