@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     paintinstruments.cpp \
     datasingleton.cpp \
     additionaltools.cpp \
-    effects.cpp
+    effects.cpp \
+    resizeimagedialog.cpp
 
 HEADERS  += mainwindow.h \
     toolbar.h \
@@ -28,7 +29,8 @@ HEADERS  += mainwindow.h \
     paintinstruments.h \
     datasingleton.h \
     additionaltools.h \
-    effects.h
+    effects.h \
+    resizeimagedialog.h
 
 RESOURCES += \
     media.qrc

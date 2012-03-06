@@ -25,7 +25,6 @@
 
 #include "imagearea.h"
 #include "paintinstruments.h"
-#include "additionaltools.h"
 #include "datasingleton.h"
 
 #include <QtGui/QApplication>

@@ -28,13 +28,13 @@
 
 #include "easypaintenums.h"
 #include "effects.h"
+#include "additionaltools.h"
 
 #include <QtGui/QWidget>
 #include <QtGui/QImage>
 
 QT_BEGIN_NAMESPACE
 class PaintInstruments;
-class AdditionalTools;
 QT_END_NAMESPACE
 
 /**
@@ -91,6 +91,7 @@ public:
      *
      */
     inline void effectNegative() { mEffects->negative(); }
+    inline void resizeImage() { mAdditionalTools->resizeImage(); }
     
 private:
     /**

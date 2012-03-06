@@ -205,9 +205,9 @@ void MainWindow::initializeMainMenu()
 
     QMenu *toolsMenu =  menuBar()->addMenu(tr("&Tools"));
 
-    QAction *resizeImAction = new QAction(tr("Resize image"), this);
+    QAction *resizeImAction = new QAction(tr("Resize"), this);
 //    newAction->setStatusTip();
-//    connect();
+    connect(resizeImAction, SIGNAL(triggered()), this, SLOT(resizeImageAct()));
     toolsMenu->addAction(resizeImAction);
 
     QAction *rotateAction = new QAction(tr("Rotate image"), this);
@@ -279,6 +279,11 @@ void MainWindow::effectGrayAct()
 void MainWindow::effectNegativeAct()
 {
     getCurrentImageArea()->effectNegative();
+}
+
+void MainWindow::resizeImageAct()
+{
+    getCurrentImageArea()->resizeImage();
 }
 
 void MainWindow::helpAct()

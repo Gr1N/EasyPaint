@@ -23,20 +23,22 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef ADDITIONALTOOLS_H
-#define ADDITIONALTOOLS_H
+#ifndef RISEZEIMAGEDIALOG_H
+#define RISEZEIMAGEDIALOG_H
 
-#include <QtCore/QObject>
+#include <QtGui/QDialog>
 
 QT_BEGIN_NAMESPACE
-class ImageArea;
+class QLabel;
+class QSpinBox;
+class QCheckBox;
 QT_END_NAMESPACE
 
 /**
- * @brief Class for implementation of additional tools which changing state of image.
+ * @brief QDialog for resizing image.
  *
  */
-class AdditionalTools : public QObject
+class ResizeImageDialog : public QDialog
 {
     Q_OBJECT
 
@@ -44,35 +46,38 @@ public:
     /**
      * @brief Constructor
      *
-     * @param pImageArea A pointer to ImageArea.
+     * @param size Current image size.
      * @param parent Pointer for parent.
      */
-    explicit AdditionalTools(ImageArea *pImageArea, QObject *parent = 0);
-    ~AdditionalTools();
+    explicit ResizeImageDialog(const QSize &size, QWidget *parent = 0);
 
     /**
-     * @brief Resize image area
+     * @brief Return new image size
      *
-     * @param width
-     * @param height
+     * @return QSize New size.
      */
-    void resizeArea(int width, int height);
-
-    /**
-     * @brief Resize image
-     *
-     * @param width
-     * @param height
-     */
-    void resizeImage();
+    inline QSize getNewSize() { return QSize(mWidth, mHeight); }
     
 private:
-    ImageArea *mPImageArea; /**< A pointer to ImageArea */
+    void initializeGui();
+
+    QLabel *mNewSizeLabel; /**< Label for showing new size */
+    QSpinBox *mPixelWButton, *mPixelHButton,
+             *mPercentWButton, *mPercentHButton;
+    QCheckBox *mPreserveAspectBox;
+    int mWidth, mHeight,
+        mOrigWidth, mOrigHeight;
 
 signals:
     
-public slots:
+private slots:
+    void pixelsButtonClicked(bool flag);
+    void percentButtonClicked(bool flag);
+    void pixelsWValueChanged(const int &value);
+    void pixelsHValueChanged(const int &value);
+    void percentWValueChanged(const int &value);
+    void percentHValueChanged(const int &value);
     
 };
 
-#endif // ADDITIONALTOOLS_H
+#endif // RISEZEIMAGEDIALOG_H
