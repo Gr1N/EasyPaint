@@ -95,6 +95,7 @@ void ImageArea::open()
     if(!filePath.isEmpty())
     {
         mImage->load(filePath);
+        *mImage = mImage->convertToFormat(QImage::Format_ARGB32_Premultiplied);
         mFilePath = filePath;
 
         resize(mImage->rect().right() + 6,
