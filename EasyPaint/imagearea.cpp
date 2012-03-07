@@ -124,7 +124,12 @@ void ImageArea::save()
 void ImageArea::saveAs()
 {
     QString filter;
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), "",
+    QString fileName(getFileName());
+    if(fileName.isEmpty())
+    {
+        fileName = tr("Untitled image");
+    }
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName,
                                                     tr("*.png;;*.jpg;;*.jpeg;;*.bmp;;*.xbm;;*.xpm"),
                                                     &filter,
                                                     QFileDialog::DontUseNativeDialog);
