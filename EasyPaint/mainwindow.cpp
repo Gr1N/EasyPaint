@@ -75,18 +75,25 @@ void MainWindow::initializeNewTab(const bool &isOpen)
         imageArea = new ImageArea();
     }
 
-    QScrollArea *scrollArea = new QScrollArea();
-    scrollArea->setAttribute(Qt::WA_DeleteOnClose);
-    scrollArea->setBackgroundRole(QPalette::Dark);
-    scrollArea->setWidget(imageArea);
+    if (!fileName.isEmpty())
+    {
+        QScrollArea *scrollArea = new QScrollArea();
+        scrollArea->setAttribute(Qt::WA_DeleteOnClose);
+        scrollArea->setBackgroundRole(QPalette::Dark);
+        scrollArea->setWidget(imageArea);
 
-    mTabWidget->addTab(scrollArea, fileName);
-    mTabWidget->setCurrentIndex(mTabWidget->count()-1);
+        mTabWidget->addTab(scrollArea, fileName);
+        mTabWidget->setCurrentIndex(mTabWidget->count()-1);
 
-    connect(imageArea, SIGNAL(sendFirstColorView()), mToolbar, SLOT(setFirstColorView()));
-    connect(imageArea, SIGNAL(sendSecondColorView()), mToolbar, SLOT(setSecondColorView()));
-    connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
-    connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
+        connect(imageArea, SIGNAL(sendFirstColorView()), mToolbar, SLOT(setFirstColorView()));
+        connect(imageArea, SIGNAL(sendSecondColorView()), mToolbar, SLOT(setSecondColorView()));
+        connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
+        connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
+    }
+    else
+    {
+        delete imageArea;
+    }
 }
 
 void MainWindow::initializeMainMenu()
