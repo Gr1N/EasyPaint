@@ -34,6 +34,7 @@ class QStatusBar;
 class QTabWidget;
 class ToolBar;
 class ImageArea;
+class QLabel;
 QT_END_NAMESPACE
 
 /**
@@ -69,11 +70,15 @@ private:
     QStatusBar *mStatusBar;
     QTabWidget *mTabWidget;
     ToolBar *mToolbar;
+    QLabel *mSizeLabel, *mPosLabel;
 //    QAction
 //            *mCloseAction, *mPrintAction, *mUndoAction, *mRedoAction,
 //            *mCopyAction, *mPasteAction, *mSettingsAction;
 
 private slots:
+    void activateTab(const int &index);
+    void setNewSizeToSizeLabel(const QSize &size);
+    void setNewPosToPosLabel(const QPoint &pos);
     void newAct();
     void openAct();
     void helpAct();

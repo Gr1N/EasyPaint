@@ -66,6 +66,19 @@ public:
      */
     void saveAs();
 
+    /**
+     * @brief Resize image.
+     *
+     */
+    void resizeImage();
+
+    /**
+     * @brief Rotate image.
+     *
+     * @param flag Rotate to left or to right.
+     */
+    void rotateImage(bool flag);
+
     inline QString getFileName() { return mFilePath.split('/').last(); }
     inline QImage* getImage() { return mImage; }
     inline void setImage(const QImage &image) { *mImage = image; }
@@ -91,8 +104,6 @@ public:
      *
      */
     inline void effectNegative() { mEffects->negative(); }
-    inline void resizeImage() { mAdditionalTools->resizeImage(); }
-    inline void rotateImage(bool flag) { mAdditionalTools->rotateImage(flag); }
     
 private:
     /**
@@ -126,6 +137,8 @@ signals:
      *
      */
     void sendSecondColorView();
+    void sendNewImageSize(const QSize&);
+    void sendCursorPos(const QPoint&);
     
 public slots:
 

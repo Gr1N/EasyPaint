@@ -38,6 +38,8 @@ ImageArea::ImageArea(const bool &isOpen, QWidget *parent) :
     QWidget(parent), mBaseSize(400, 300),
     mIsEdited(false), mIsPaint(false), mIsResize(false)
 {
+    setMouseTracking(true);
+
     mFilePath.clear();
     initializeImage();
 
@@ -143,6 +145,18 @@ void ImageArea::saveAs()
     QApplication::restoreOverrideCursor();
 }
 
+void ImageArea::resizeImage()
+{
+    mAdditionalTools->resizeImage();
+    emit sendNewImageSize(mImage->size());
+}
+
+void ImageArea::rotateImage(bool flag)
+{
+    mAdditionalTools->rotateImage(flag);
+    emit sendNewImageSize(mImage->size());
+}
+
 void ImageArea::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
@@ -198,7 +212,15 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
 void ImageArea::mouseMoveEvent(QMouseEvent *event)
 {
     if(mIsResize)
+    {
          mAdditionalTools->resizeArea(event->x(), event->y());
+         emit sendNewImageSize(mImage->size());
+    }
+    if(event->pos().x() <= mImage->width() &&
+            event->pos().y() <= mImage->height())
+    {
+        emit sendCursorPos(event->pos());
+    }
     if((event->buttons() & Qt::LeftButton) && mIsPaint)
     {
         switch(DataSingleton::Instance()->getInstrument())

@@ -34,13 +34,14 @@
 #include <QtGui/QStatusBar>
 #include <QtGui/QMessageBox>
 #include <QtGui/QScrollArea>
+#include <QtGui/QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     initializeMainMenu();
-    initializeStatusBar();
     initializeToolBar();
+    initializeStatusBar();
     initializeTabWidget();
 }
 
@@ -55,6 +56,7 @@ void MainWindow::initializeTabWidget()
     mTabWidget->setUsesScrollButtons(true);
     mTabWidget->setTabsClosable(true);
     mTabWidget->setMovable(true);
+    connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(activateTab(int)));
     setCentralWidget(mTabWidget);
     initializeNewTab();
 }
@@ -83,7 +85,8 @@ void MainWindow::initializeNewTab(const bool &isOpen)
 
     connect(imageArea, SIGNAL(sendFirstColorView()), mToolbar, SLOT(setFirstColorView()));
     connect(imageArea, SIGNAL(sendSecondColorView()), mToolbar, SLOT(setSecondColorView()));
-
+    connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
+    connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
 }
 
 void MainWindow::initializeMainMenu()
@@ -245,6 +248,12 @@ void MainWindow::initializeStatusBar()
 {
     mStatusBar = new QStatusBar();
     setStatusBar(mStatusBar);
+
+    mSizeLabel = new QLabel();
+    mPosLabel = new QLabel();
+
+    mStatusBar->addPermanentWidget(mSizeLabel, -1);
+    mStatusBar->addPermanentWidget(mPosLabel, 1);
 }
 
 void MainWindow::initializeToolBar()
@@ -258,6 +267,23 @@ ImageArea* MainWindow::getCurrentImageArea()
     QScrollArea *tempScrollArea = qobject_cast<QScrollArea*>(mTabWidget->currentWidget());
     ImageArea *tempArea = qobject_cast<ImageArea*>(tempScrollArea->widget());
     return tempArea;
+}
+
+void MainWindow::activateTab(const int &index)
+{
+    mTabWidget->setCurrentIndex(index);
+    QSize size = getCurrentImageArea()->getImage()->size();
+    mSizeLabel->setText(QString("%1 x %2").arg(size.width()).arg(size.height()));
+}
+
+void MainWindow::setNewSizeToSizeLabel(const QSize &size)
+{
+    mSizeLabel->setText(QString("%1 x %2").arg(size.width()).arg(size.height()));
+}
+
+void MainWindow::setNewPosToPosLabel(const QPoint &pos)
+{
+    mPosLabel->setText(QString("%1,%2").arg(pos.x()).arg(pos.y()));
 }
 
 void MainWindow::newAct()
