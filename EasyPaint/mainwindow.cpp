@@ -64,7 +64,7 @@ void MainWindow::initializeTabWidget()
 void MainWindow::initializeNewTab(const bool &isOpen)
 {
     ImageArea *imageArea;
-    QString fileName("new");
+    QString fileName(tr("Untitled Image"));
     if(isOpen)
     {
         imageArea = new ImageArea(isOpen);
@@ -89,6 +89,8 @@ void MainWindow::initializeNewTab(const bool &isOpen)
         connect(imageArea, SIGNAL(sendSecondColorView()), mToolbar, SLOT(setSecondColorView()));
         connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
         connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
+
+        setWindowTitle(QString("%1 - EasyPaint").arg(fileName));
     }
     else
     {
@@ -281,6 +283,15 @@ void MainWindow::activateTab(const int &index)
     mTabWidget->setCurrentIndex(index);
     QSize size = getCurrentImageArea()->getImage()->size();
     mSizeLabel->setText(QString("%1 x %2").arg(size.width()).arg(size.height()));
+
+    if(!getCurrentImageArea()->getFileName().isEmpty())
+    {
+        setWindowTitle(QString("%1 - EasyPaint").arg(getCurrentImageArea()->getFileName()));
+    }
+    else
+    {
+        setWindowTitle(QString("%1 - EasyPaint").arg(tr("Untitled Image")));
+    }
 }
 
 void MainWindow::setNewSizeToSizeLabel(const QSize &size)
