@@ -134,7 +134,7 @@ void MainWindow::initializeMainMenu()
     printAction->setShortcut(QKeySequence::Print);
     printAction->setIcon(QIcon::fromTheme("document-print"/*, QIcon("")*/));
 //    newAction->setStatusTip();
-//    connect();
+    connect(printAction, SIGNAL(triggered()), this, SLOT(printAct()));
     fileMenu->addAction(printAction);
 
     fileMenu->addSeparator();
@@ -306,6 +306,11 @@ void MainWindow::saveAsAct()
 {
     getCurrentImageArea()->saveAs();
     mTabWidget->setTabText(mTabWidget->currentIndex(), getCurrentImageArea()->getFileName());
+}
+
+void MainWindow::printAct()
+{
+    getCurrentImageArea()->print();
 }
 
 void MainWindow::effectGrayAct()

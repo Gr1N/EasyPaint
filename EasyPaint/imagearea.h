@@ -65,13 +65,16 @@ public:
      *
      */
     void saveAs();
-
+    /**
+     * @brief Print image.
+     *
+     */
+    void print();
     /**
      * @brief Resize image.
      *
      */
     void resizeImage();
-
     /**
      * @brief Rotate image.
      *

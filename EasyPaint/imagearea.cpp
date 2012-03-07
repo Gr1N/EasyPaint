@@ -33,6 +33,8 @@
 #include <QtCore/QDebug>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QPaintEvent>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
 
 ImageArea::ImageArea(const bool &isOpen, QWidget *parent) :
     QWidget(parent), mBaseSize(400, 300),
@@ -143,6 +145,22 @@ void ImageArea::saveAs()
         mIsEdited = false;
     }
     QApplication::restoreOverrideCursor();
+}
+
+void ImageArea::print()
+{
+    QPrinter *printer = new QPrinter();
+    QPrintDialog *printDialog = new QPrintDialog(printer);
+    if(printDialog->exec())
+    {
+        QPainter painter(printer);
+        QRect rect = painter.viewport();
+        QSize size = mImage->size();
+        size.scale(rect.size(), Qt::KeepAspectRatio);
+        painter.setViewport(rect.x(), rect.y(), size.width(), size.height());
+        painter.setWindow(mImage->rect());
+        painter.drawImage(0, 0, *mImage);
+    }
 }
 
 void ImageArea::resizeImage()
