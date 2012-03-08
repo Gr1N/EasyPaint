@@ -783,6 +783,10 @@ void MainWindow::enableActions(int index)
     mRedoAction->setEnabled(isEnable);
     mCopyAction->setEnabled(isEnable);
     mCutAction->setEnabled(isEnable);
+
+    setAllInstrumentsUnchecked(NULL);
+    DataSingleton::Instance()->setInstrument(NONE);
+    emit sendInstrumentChecked(NONE);
 }
 
 void MainWindow::helpAct()
