@@ -35,6 +35,7 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QScrollArea>
 #include <QtGui/QLabel>
+#include <QtGui/QtEvents>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -57,6 +58,7 @@ void MainWindow::initializeTabWidget()
     mTabWidget->setTabsClosable(true);
     mTabWidget->setMovable(true);
     connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(activateTab(int)));
+    connect(mTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     setCentralWidget(mTabWidget);
     initializeNewTab();
 }
@@ -134,7 +136,7 @@ void MainWindow::initializeMainMenu()
     closeAction->setShortcut(QKeySequence::Close);
     closeAction->setIcon(QIcon::fromTheme("window-close"/*, QIcon("")*/));
 //    newAction->setStatusTip();
-//    connect();
+    connect(closeAction, SIGNAL(triggered()), this, SLOT(closeTabAct()));
     fileMenu->addAction(closeAction);
 
     fileMenu->addSeparator();
@@ -278,6 +280,13 @@ ImageArea* MainWindow::getCurrentImageArea()
     return tempArea;
 }
 
+ImageArea* MainWindow::getImageArea(int index)
+{
+    QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(index));
+    ImageArea *ia = static_cast<ImageArea*>(sa->widget());
+    return ia;
+}
+
 void MainWindow::activateTab(const int &index)
 {
     mTabWidget->setCurrentIndex(index);
@@ -356,6 +365,84 @@ void MainWindow::rotateRightImageAct()
     getCurrentImageArea()->rotateImage(false);
 }
 
+void MainWindow::closeTabAct()
+{
+    closeTab(mTabWidget->currentIndex());
+}
+
+void MainWindow::closeTab(int index)
+{
+    //ImageArea *ia = static_cast<ImageArea*>(static_cast<QScrollArea*>(mTabWidget->widget(index))->widget());
+
+    ImageArea *ia = getImageArea(index);
+    if(ia->getEdited())
+    {
+        int ans = QMessageBox::warning(this, tr("Closing Tab..."),
+                                       tr("File has been modified\nDo you want to save changes?"),
+                                       QMessageBox::Yes | QMessageBox::Default,
+                                       QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
+        switch(ans)
+        {
+        case QMessageBox::Yes:
+            ia->save();
+            break;
+        case QMessageBox::Cancel:
+            return;
+        }
+    }
+    QWidget *wid = mTabWidget->widget(index);
+    mTabWidget->removeTab(index);
+    delete wid;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if(!isSomethingModified())
+        event->accept();
+    else if(closeAllTabs())
+        event->accept();
+    else
+        event->ignore();
+}
+
+bool MainWindow::isSomethingModified()
+{
+    for(int i = 0; i < mTabWidget->count(); ++i)
+    {
+        if(getImageArea(i)->getEdited())
+            return true;
+    }
+    return false;
+}
+
+bool MainWindow::closeAllTabs()
+{
+
+    while(mTabWidget->count() != 0)
+    {
+        ImageArea *ia = getImageArea(0);
+        if(ia->getEdited())
+        {
+            int ans = QMessageBox::warning(this, tr("Closing Tab..."),
+                                           tr("File has been modified\nDo you want to save changes?"),
+                                           QMessageBox::Yes | QMessageBox::Default,
+                                           QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
+            switch(ans)
+            {
+            case QMessageBox::Yes:
+                ia->save();
+                break;
+            case QMessageBox::Cancel:
+                return false;
+            }
+        }
+        QWidget *wid = mTabWidget->widget(0);
+        mTabWidget->removeTab(0);
+        delete wid;
+    }
+    return true;
+}
+
 void MainWindow::helpAct()
 {
     QMessageBox::about(this, tr("About EasyPaint"),
@@ -364,6 +451,8 @@ void MainWindow::helpAct()
                                "<br> <br>Copyright (c) 2012 Nikita Grishko"
                                "<br> <br>Authors:<ul>"
                                "<li>Nikita Grishko (Gr1N)</li>"
+                               "<li>Artem Stepanyuk (faulknercs)</li>"
+                               "<li>Denis Klimenko (DenisKlimenko)</li>"
                                "</ul>")
                        .arg(tr("0.0.1")));
 }
