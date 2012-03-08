@@ -72,7 +72,13 @@ private:
      * @return ImageArea Geted ImageArea.
      */
     ImageArea* getCurrentImageArea();
-    ImageArea* getImageArea(int index);
+    /**
+     * @brief Get ImageArea from QTabWidget by index.
+     *
+     * @param index tab index
+     * @return ImageArea, which corresponds to the index.
+     */
+    ImageArea* getImageAreaByIndex(int index);
     bool closeAllTabs();
     bool isSomethingModified();
 
