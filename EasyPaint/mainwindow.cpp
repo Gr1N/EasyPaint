@@ -178,7 +178,7 @@ void MainWindow::initializeMainMenu()
     exitAction->setIcon(QIcon::fromTheme("application-exit"/*, QIcon("")*/));
     exitAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
-//    connect();
+    connect(exitAction, SIGNAL(triggered()), SLOT(close()));
     fileMenu->addAction(exitAction);
 
     QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
