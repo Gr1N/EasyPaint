@@ -206,6 +206,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 event->pos().y() < mImage->rect().bottom() + 6)
         {
             mIsResize = true;
+            setCursor(Qt::SizeFDiagCursor);
         }
         else
         {
@@ -254,6 +255,17 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
     {
          mAdditionalTools->resizeArea(event->x(), event->y());
          emit sendNewImageSize(mImage->size());
+    }
+    else if(event->pos().x() < mImage->rect().right() + 6 &&
+            event->pos().x() > mImage->rect().right() &&
+            event->pos().y() > mImage->rect().bottom() &&
+            event->pos().y() < mImage->rect().bottom() + 6)
+    {
+        setCursor(Qt::SizeFDiagCursor);
+    }
+    else
+    {
+        restoreCursor();
     }
     if(event->pos().x() <= mImage->width() &&
             event->pos().y() <= mImage->height())
@@ -338,7 +350,10 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
 void ImageArea::mouseReleaseEvent(QMouseEvent *event)
 {
     if(mIsResize)
+    {
        mIsResize = false;
+       restoreCursor();
+    }
     if(event->button() == Qt::LeftButton && mIsPaint)
     {
         mPaintInstruments->setEndPoint(event->pos());
@@ -439,4 +454,9 @@ void ImageArea::paintEvent(QPaintEvent *event)
                             mImage->rect().bottom(), 6, 6));
 
     painter->end();
+}
+
+void ImageArea::restoreCursor()
+{
+    setCursor(Qt::ArrowCursor);
 }
