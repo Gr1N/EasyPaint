@@ -71,6 +71,7 @@ void MainWindow::initializeTabWidget()
     mTabWidget->setTabsClosable(true);
     mTabWidget->setMovable(true);
     connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(activateTab(int)));
+    connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(enableActions(int)));
     connect(mTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     setCentralWidget(mTabWidget);
 }
@@ -137,39 +138,39 @@ void MainWindow::initializeMainMenu()
     connect(openAction, SIGNAL(triggered()), this, SLOT(openAct()));
     fileMenu->addAction(openAction);
 
-    QAction *saveAction = new QAction(tr("&Save"), this);
-    saveAction->setShortcut(QKeySequence::Save);
-    saveAction->setIcon(QIcon::fromTheme("document-save"/*, QIcon("")*/));
-    saveAction->setIconVisibleInMenu(true);
+    mSaveAction = new QAction(tr("&Save"), this);
+    mSaveAction->setShortcut(QKeySequence::Save);
+    mSaveAction->setIcon(QIcon::fromTheme("document-save"/*, QIcon("")*/));
+    mSaveAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
-    connect(saveAction, SIGNAL(triggered()), this, SLOT(saveAct()));
-    fileMenu->addAction(saveAction);
+    connect(mSaveAction, SIGNAL(triggered()), this, SLOT(saveAct()));
+    fileMenu->addAction(mSaveAction);
 
-    QAction *saveAsAction = new QAction(tr("Save as..."), this);
-    saveAsAction->setShortcut(QKeySequence::SaveAs);
-    saveAsAction->setIcon(QIcon::fromTheme("document-save-as"/*, QIcon("")*/));
-    saveAsAction->setIconVisibleInMenu(true);
+    mSaveAsAction = new QAction(tr("Save as..."), this);
+    mSaveAsAction->setShortcut(QKeySequence::SaveAs);
+    mSaveAsAction->setIcon(QIcon::fromTheme("document-save-as"/*, QIcon("")*/));
+    mSaveAsAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
-    connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveAsAct()));
-    fileMenu->addAction(saveAsAction);
+    connect(mSaveAsAction, SIGNAL(triggered()), this, SLOT(saveAsAct()));
+    fileMenu->addAction(mSaveAsAction);
 
-    QAction *closeAction = new QAction(tr("&Close"), this);
-    closeAction->setShortcut(QKeySequence::Close);
-    closeAction->setIcon(QIcon::fromTheme("window-close"/*, QIcon("")*/));
-    closeAction->setIconVisibleInMenu(true);
+    mCloseAction = new QAction(tr("&Close"), this);
+    mCloseAction->setShortcut(QKeySequence::Close);
+    mCloseAction->setIcon(QIcon::fromTheme("window-close"/*, QIcon("")*/));
+    mCloseAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
-    connect(closeAction, SIGNAL(triggered()), this, SLOT(closeTabAct()));
-    fileMenu->addAction(closeAction);
+    connect(mCloseAction, SIGNAL(triggered()), this, SLOT(closeTabAct()));
+    fileMenu->addAction(mCloseAction);
 
     fileMenu->addSeparator();
 
-    QAction *printAction = new QAction(tr("&Print"), this);
-    printAction->setShortcut(QKeySequence::Print);
-    printAction->setIcon(QIcon::fromTheme("document-print"/*, QIcon("")*/));
-    printAction->setIconVisibleInMenu(true);
+    mPrintAction = new QAction(tr("&Print"), this);
+    mPrintAction->setShortcut(QKeySequence::Print);
+    mPrintAction->setIcon(QIcon::fromTheme("document-print"/*, QIcon("")*/));
+    mPrintAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
-    connect(printAction, SIGNAL(triggered()), this, SLOT(printAct()));
-    fileMenu->addAction(printAction);
+    connect(mPrintAction, SIGNAL(triggered()), this, SLOT(printAct()));
+    fileMenu->addAction(mPrintAction);
 
     fileMenu->addSeparator();
 
@@ -178,36 +179,36 @@ void MainWindow::initializeMainMenu()
     exitAction->setIcon(QIcon::fromTheme("application-exit"/*, QIcon("")*/));
     exitAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
-//    connect();
+    connect(exitAction, SIGNAL(triggered()), SLOT(close()));
     fileMenu->addAction(exitAction);
 
     QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
 
-    QAction *undoAction = new QAction(tr("&Undo"), this);
-    undoAction->setShortcut(QKeySequence::Undo);
-    undoAction->setIcon(QIcon::fromTheme("edit-undo"/*, QIcon("")*/));
-    undoAction->setIconVisibleInMenu(true);
+    mUndoAction = new QAction(tr("&Undo"), this);
+    mUndoAction->setShortcut(QKeySequence::Undo);
+    mUndoAction->setIcon(QIcon::fromTheme("edit-undo"/*, QIcon("")*/));
+    mUndoAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
-    editMenu->addAction(undoAction);
+    editMenu->addAction(mUndoAction);
 
-    QAction *redoAction = new QAction(tr("&Redo"), this);
-    redoAction->setShortcut(QKeySequence::Redo);
-    redoAction->setIcon(QIcon::fromTheme("edit-redo"/*, QIcon("")*/));
-    redoAction->setIconVisibleInMenu(true);
+    mRedoAction = new QAction(tr("&Redo"), this);
+    mRedoAction->setShortcut(QKeySequence::Redo);
+    mRedoAction->setIcon(QIcon::fromTheme("edit-redo"/*, QIcon("")*/));
+    mRedoAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
-    editMenu->addAction(redoAction);
+    editMenu->addAction(mRedoAction);
 
     editMenu->addSeparator();
 
-    QAction *copyAction = new QAction(tr("&Copy"), this);
-    copyAction->setShortcut(QKeySequence::Copy);
-    copyAction->setIcon(QIcon::fromTheme("edit-copy"/*, QIcon("")*/));
-    copyAction->setIconVisibleInMenu(true);
+    mCopyAction = new QAction(tr("&Copy"), this);
+    mCopyAction->setShortcut(QKeySequence::Copy);
+    mCopyAction->setIcon(QIcon::fromTheme("edit-copy"/*, QIcon("")*/));
+    mCopyAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
-    editMenu->addAction(copyAction);
+    editMenu->addAction(mCopyAction);
 
     QAction *pasteAction = new QAction(tr("&Paste"), this);
     pasteAction->setShortcut(QKeySequence::Paste);
@@ -217,13 +218,13 @@ void MainWindow::initializeMainMenu()
 //    connect();
     editMenu->addAction(pasteAction);
 
-    QAction *cutAction = new QAction(tr("C&ut"), this);
-    cutAction->setShortcut(QKeySequence::Cut);
-    cutAction->setIcon(QIcon::fromTheme("edit-cut"/*, QIcon("")*/));
-    cutAction->setIconVisibleInMenu(true);
+    mCutAction = new QAction(tr("C&ut"), this);
+    mCutAction->setShortcut(QKeySequence::Cut);
+    mCutAction->setIcon(QIcon::fromTheme("edit-cut"/*, QIcon("")*/));
+    mCutAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
-    editMenu->addAction(cutAction);
+    editMenu->addAction(mCutAction);
 
     editMenu->addSeparator();
 
@@ -235,76 +236,76 @@ void MainWindow::initializeMainMenu()
 //    connect();
     editMenu->addAction(settingsAction);
 
-    QMenu *instrumentsMenu = menuBar()->addMenu(tr("&Instruments"));
+    mInstrumentsMenu = menuBar()->addMenu(tr("&Instruments"));
 
     mCursorAction = new QAction(tr("Cursor"), this);
     mCursorAction->setCheckable(true);
     connect(mCursorAction, SIGNAL(triggered(bool)), this, SLOT(cursorAct(bool)));
-    instrumentsMenu->addAction(mCursorAction);
+    mInstrumentsMenu->addAction(mCursorAction);
 
     mLasticAction = new QAction(tr("Lastic"), this);
     mLasticAction->setCheckable(true);
     connect(mLasticAction, SIGNAL(triggered(bool)), this, SLOT(lasticAct(bool)));
-    instrumentsMenu->addAction(mLasticAction);
+    mInstrumentsMenu->addAction(mLasticAction);
 
     mPipetteAction = new QAction(tr("Pipette"), this);
     mPipetteAction->setCheckable(true);
     connect(mPipetteAction, SIGNAL(triggered(bool)), this, SLOT(pipetteAct(bool)));
-    instrumentsMenu->addAction(mPipetteAction);
+    mInstrumentsMenu->addAction(mPipetteAction);
 
     mLoupeAction = new QAction(tr("Loupe"), this);
     mLoupeAction->setCheckable(true);
     connect(mLoupeAction, SIGNAL(triggered(bool)), this, SLOT(loupeAct(bool)));
-    instrumentsMenu->addAction(mLoupeAction);
+    mInstrumentsMenu->addAction(mLoupeAction);
 
     mPenAction = new QAction(tr("Pen"), this);
     mPenAction->setCheckable(true);
     connect(mPenAction, SIGNAL(triggered(bool)), this, SLOT(penAct(bool)));
-    instrumentsMenu->addAction(mPenAction);
+    mInstrumentsMenu->addAction(mPenAction);
 
     mLineAction = new QAction(tr("Line"), this);
     mLineAction->setCheckable(true);
     connect(mLineAction, SIGNAL(triggered(bool)), this, SLOT(lineAct(bool)));
-    instrumentsMenu->addAction(mLineAction);
+    mInstrumentsMenu->addAction(mLineAction);
 
     mSprayAction = new QAction(tr("Spray"), this);
     mSprayAction->setCheckable(true);
     connect(mSprayAction, SIGNAL(triggered(bool)), this, SLOT(sprayAct(bool)));
-    instrumentsMenu->addAction(mSprayAction);
+    mInstrumentsMenu->addAction(mSprayAction);
 
     mFillAction = new QAction(tr("Fill"), this);
     mFillAction->setCheckable(true);
     connect(mFillAction, SIGNAL(triggered(bool)), this, SLOT(fillAct(bool)));
-    instrumentsMenu->addAction(mFillAction);
+    mInstrumentsMenu->addAction(mFillAction);
 
     mRectAction = new QAction(tr("Rect"), this);
     mRectAction->setCheckable(true);
     connect(mRectAction, SIGNAL(triggered(bool)), this, SLOT(rectAct(bool)));
-    instrumentsMenu->addAction(mRectAction);
+    mInstrumentsMenu->addAction(mRectAction);
 
     mEllipseAction = new QAction(tr("Ellipse"), this);
     mEllipseAction->setCheckable(true);
     connect(mEllipseAction, SIGNAL(triggered(bool)), this, SLOT(ellipseAct(bool)));
-    instrumentsMenu->addAction(mEllipseAction);
+    mInstrumentsMenu->addAction(mEllipseAction);
 
-    QMenu *effectsMenu = menuBar()->addMenu(tr("E&ffects"));
+    mEffectsMenu = menuBar()->addMenu(tr("E&ffects"));
 
     QAction *grayEfAction = new QAction(tr("Gray"), this);
 //    newAction->setStatusTip();
     connect(grayEfAction, SIGNAL(triggered()), this, SLOT(effectGrayAct()));
-    effectsMenu->addAction(grayEfAction);
+    mEffectsMenu->addAction(grayEfAction);
 
     QAction *negativeEfAction = new QAction(tr("Negative"), this);
 //    newAction->setStatusTip();
     connect(negativeEfAction, SIGNAL(triggered()), this, SLOT(effectNegativeAct()));
-    effectsMenu->addAction(negativeEfAction);
+    mEffectsMenu->addAction(negativeEfAction);
 
-    QMenu *toolsMenu = menuBar()->addMenu(tr("&Tools"));
+    mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
     QAction *resizeImAction = new QAction(tr("Resize"), this);
 //    newAction->setStatusTip();
     connect(resizeImAction, SIGNAL(triggered()), this, SLOT(resizeImageAct()));
-    toolsMenu->addAction(resizeImAction);
+    mToolsMenu->addAction(resizeImAction);
 
     QMenu *rotateMenu = new QMenu(tr("Rotate"));
 
@@ -322,7 +323,7 @@ void MainWindow::initializeMainMenu()
     connect(rotateRAction, SIGNAL(triggered()), this, SLOT(rotateRightImageAct()));
     rotateMenu->addAction(rotateRAction);
 
-    toolsMenu->addMenu(rotateMenu);
+    mToolsMenu->addMenu(rotateMenu);
 
     QMenu *aboutMenu = menuBar()->addMenu(tr("&About"));
 
@@ -367,7 +368,7 @@ ImageArea* MainWindow::getCurrentImageArea()
     return tempArea;
 }
 
-ImageArea* MainWindow::getImageArea(int index)
+ImageArea* MainWindow::getImageAreaByIndex(int index)
 {
     QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(index));
     ImageArea *ia = static_cast<ImageArea*>(sa->widget());
@@ -376,6 +377,8 @@ ImageArea* MainWindow::getImageArea(int index)
 
 void MainWindow::activateTab(const int &index)
 {
+    if(index == -1)
+        return;
     mTabWidget->setCurrentIndex(index);
     QSize size = getCurrentImageArea()->getImage()->size();
     mSizeLabel->setText(QString("%1 x %2").arg(size.width()).arg(size.height()));
@@ -461,7 +464,7 @@ void MainWindow::closeTab(int index)
 {
     //ImageArea *ia = static_cast<ImageArea*>(static_cast<QScrollArea*>(mTabWidget->widget(index))->widget());
 
-    ImageArea *ia = getImageArea(index);
+    ImageArea *ia = getImageAreaByIndex(index);
     if(ia->getEdited())
     {
         int ans = QMessageBox::warning(this, tr("Closing Tab..."),
@@ -496,7 +499,7 @@ bool MainWindow::isSomethingModified()
 {
     for(int i = 0; i < mTabWidget->count(); ++i)
     {
-        if(getImageArea(i)->getEdited())
+        if(getImageAreaByIndex(i)->getEdited())
             return true;
     }
     return false;
@@ -507,7 +510,7 @@ bool MainWindow::closeAllTabs()
 
     while(mTabWidget->count() != 0)
     {
-        ImageArea *ia = getImageArea(0);
+        ImageArea *ia = getImageAreaByIndex(0);
         if(ia->getEdited())
         {
             int ans = QMessageBox::warning(this, tr("Closing Tab..."),
@@ -603,7 +606,7 @@ void MainWindow::cursorAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -620,7 +623,7 @@ void MainWindow::lasticAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -637,7 +640,7 @@ void MainWindow::pipetteAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -654,7 +657,7 @@ void MainWindow::loupeAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -671,7 +674,7 @@ void MainWindow::penAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -688,7 +691,7 @@ void MainWindow::lineAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -705,7 +708,7 @@ void MainWindow::sprayAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -722,7 +725,7 @@ void MainWindow::fillAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -739,7 +742,7 @@ void MainWindow::rectAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -756,10 +759,34 @@ void MainWindow::ellipseAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
+}
+
+void MainWindow::enableActions(int index)
+{
+    //if index == -1 it means, that there is no tabs
+    bool isEnable = index == -1 ? false : true;
+
+    mToolsMenu->setEnabled(isEnable);
+    mEffectsMenu->setEnabled(isEnable);
+    mInstrumentsMenu->setEnabled(isEnable);
+    mToolbar->setEnabled(isEnable);
+
+    mSaveAction->setEnabled(isEnable);
+    mSaveAsAction->setEnabled(isEnable);
+    mCloseAction->setEnabled(isEnable);
+    mPrintAction->setEnabled(isEnable);
+    mUndoAction->setEnabled(isEnable);
+    mRedoAction->setEnabled(isEnable);
+    mCopyAction->setEnabled(isEnable);
+    mCutAction->setEnabled(isEnable);
+
+    setAllInstrumentsUnchecked(NULL);
+    DataSingleton::Instance()->setInstrument(NONE);
+    emit sendInstrumentChecked(NONE);
 }
 
 void MainWindow::helpAct()
