@@ -367,7 +367,7 @@ ImageArea* MainWindow::getCurrentImageArea()
     return tempArea;
 }
 
-ImageArea* MainWindow::getImageArea(int index)
+ImageArea* MainWindow::getImageAreaByIndex(int index)
 {
     QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(index));
     ImageArea *ia = static_cast<ImageArea*>(sa->widget());
@@ -376,6 +376,8 @@ ImageArea* MainWindow::getImageArea(int index)
 
 void MainWindow::activateTab(const int &index)
 {
+    if(index == -1)
+        return;
     mTabWidget->setCurrentIndex(index);
     QSize size = getCurrentImageArea()->getImage()->size();
     mSizeLabel->setText(QString("%1 x %2").arg(size.width()).arg(size.height()));
@@ -461,7 +463,7 @@ void MainWindow::closeTab(int index)
 {
     //ImageArea *ia = static_cast<ImageArea*>(static_cast<QScrollArea*>(mTabWidget->widget(index))->widget());
 
-    ImageArea *ia = getImageArea(index);
+    ImageArea *ia = getImageAreaByIndex(index);
     if(ia->getEdited())
     {
         int ans = QMessageBox::warning(this, tr("Closing Tab..."),
@@ -496,7 +498,7 @@ bool MainWindow::isSomethingModified()
 {
     for(int i = 0; i < mTabWidget->count(); ++i)
     {
-        if(getImageArea(i)->getEdited())
+        if(getImageAreaByIndex(i)->getEdited())
             return true;
     }
     return false;
@@ -507,7 +509,7 @@ bool MainWindow::closeAllTabs()
 
     while(mTabWidget->count() != 0)
     {
-        ImageArea *ia = getImageArea(0);
+        ImageArea *ia = getImageAreaByIndex(0);
         if(ia->getEdited())
         {
             int ans = QMessageBox::warning(this, tr("Closing Tab..."),
