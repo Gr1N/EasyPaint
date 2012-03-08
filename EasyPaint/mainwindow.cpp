@@ -124,6 +124,7 @@ void MainWindow::initializeMainMenu()
     QAction *newAction = new QAction(tr("&New"), this);
     newAction->setShortcut(QKeySequence::New);
     newAction->setIcon(QIcon::fromTheme("document-new"/*, QIcon("")*/));
+    newAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
     connect(newAction, SIGNAL(triggered()), this, SLOT(newAct()));
     fileMenu->addAction(newAction);
@@ -131,6 +132,7 @@ void MainWindow::initializeMainMenu()
     QAction *openAction = new QAction(tr("&Open"), this);
     openAction->setShortcut(QKeySequence::Open);
     openAction->setIcon(QIcon::fromTheme("document-open"/*, QIcon("")*/));
+    openAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
     connect(openAction, SIGNAL(triggered()), this, SLOT(openAct()));
     fileMenu->addAction(openAction);
@@ -138,6 +140,7 @@ void MainWindow::initializeMainMenu()
     QAction *saveAction = new QAction(tr("&Save"), this);
     saveAction->setShortcut(QKeySequence::Save);
     saveAction->setIcon(QIcon::fromTheme("document-save"/*, QIcon("")*/));
+    saveAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
     connect(saveAction, SIGNAL(triggered()), this, SLOT(saveAct()));
     fileMenu->addAction(saveAction);
@@ -145,6 +148,7 @@ void MainWindow::initializeMainMenu()
     QAction *saveAsAction = new QAction(tr("Save as..."), this);
     saveAsAction->setShortcut(QKeySequence::SaveAs);
     saveAsAction->setIcon(QIcon::fromTheme("document-save-as"/*, QIcon("")*/));
+    saveAsAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
     connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveAsAct()));
     fileMenu->addAction(saveAsAction);
@@ -152,6 +156,7 @@ void MainWindow::initializeMainMenu()
     QAction *closeAction = new QAction(tr("&Close"), this);
     closeAction->setShortcut(QKeySequence::Close);
     closeAction->setIcon(QIcon::fromTheme("window-close"/*, QIcon("")*/));
+    closeAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
     connect(closeAction, SIGNAL(triggered()), this, SLOT(closeTabAct()));
     fileMenu->addAction(closeAction);
@@ -161,6 +166,7 @@ void MainWindow::initializeMainMenu()
     QAction *printAction = new QAction(tr("&Print"), this);
     printAction->setShortcut(QKeySequence::Print);
     printAction->setIcon(QIcon::fromTheme("document-print"/*, QIcon("")*/));
+    printAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
     connect(printAction, SIGNAL(triggered()), this, SLOT(printAct()));
     fileMenu->addAction(printAction);
@@ -170,6 +176,7 @@ void MainWindow::initializeMainMenu()
     QAction *exitAction = new QAction(tr("&Exit"), this);
     exitAction->setShortcut(QKeySequence::Quit);
     exitAction->setIcon(QIcon::fromTheme("application-exit"/*, QIcon("")*/));
+    exitAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
     fileMenu->addAction(exitAction);
@@ -179,6 +186,7 @@ void MainWindow::initializeMainMenu()
     QAction *undoAction = new QAction(tr("&Undo"), this);
     undoAction->setShortcut(QKeySequence::Undo);
     undoAction->setIcon(QIcon::fromTheme("edit-undo"/*, QIcon("")*/));
+    undoAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(undoAction);
@@ -186,6 +194,7 @@ void MainWindow::initializeMainMenu()
     QAction *redoAction = new QAction(tr("&Redo"), this);
     redoAction->setShortcut(QKeySequence::Redo);
     redoAction->setIcon(QIcon::fromTheme("edit-redo"/*, QIcon("")*/));
+    redoAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(redoAction);
@@ -195,6 +204,7 @@ void MainWindow::initializeMainMenu()
     QAction *copyAction = new QAction(tr("&Copy"), this);
     copyAction->setShortcut(QKeySequence::Copy);
     copyAction->setIcon(QIcon::fromTheme("edit-copy"/*, QIcon("")*/));
+    copyAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(copyAction);
@@ -202,6 +212,7 @@ void MainWindow::initializeMainMenu()
     QAction *pasteAction = new QAction(tr("&Paste"), this);
     pasteAction->setShortcut(QKeySequence::Paste);
     pasteAction->setIcon(QIcon::fromTheme("edit-paste"/*, QIcon("")*/));
+    pasteAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(pasteAction);
@@ -209,6 +220,7 @@ void MainWindow::initializeMainMenu()
     QAction *cutAction = new QAction(tr("C&ut"), this);
     cutAction->setShortcut(QKeySequence::Cut);
     cutAction->setIcon(QIcon::fromTheme("edit-cut"/*, QIcon("")*/));
+    cutAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(cutAction);
@@ -218,6 +230,7 @@ void MainWindow::initializeMainMenu()
     QAction *settingsAction = new QAction(tr("&Settings"), this);
     settingsAction->setShortcut(QKeySequence::Preferences);
     settingsAction->setIcon(QIcon::fromTheme("document-properties"/*, QIcon("")*/));
+    settingsAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(settingsAction);
@@ -297,12 +310,14 @@ void MainWindow::initializeMainMenu()
 
     QAction *rotateLAction = new QAction(tr("Left"), this);
     rotateLAction->setIcon(QIcon::fromTheme("object-rotate-left"/*, QIcon("")*/));
+    rotateLAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
     connect(rotateLAction, SIGNAL(triggered()), this, SLOT(rotateLeftImageAct()));
     rotateMenu->addAction(rotateLAction);
 
     QAction *rotateRAction = new QAction(tr("Right"), this);
     rotateRAction->setIcon(QIcon::fromTheme("object-rotate-right"/*, QIcon("")*/));
+    rotateRAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
     connect(rotateRAction, SIGNAL(triggered()), this, SLOT(rotateRightImageAct()));
     rotateMenu->addAction(rotateRAction);
@@ -314,6 +329,7 @@ void MainWindow::initializeMainMenu()
     QAction *aboutAction = new QAction(tr("&About"), this);
     aboutAction->setShortcut(QKeySequence::HelpContents);
     aboutAction->setIcon(QIcon::fromTheme("help-browser"/*, QIcon("")*/));
+    aboutAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(helpAct()));
     aboutMenu->addAction(aboutAction);
