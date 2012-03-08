@@ -89,7 +89,10 @@ private:
 
     QAction *mCursorAction, *mLasticAction, *mPipetteAction, *mLoupeAction,
             *mPenAction, *mLineAction, *mSprayAction, *mFillAction,
-            *mRectAction, *mEllipseAction;
+            *mRectAction, *mEllipseAction,
+            *mSaveAction, *mSaveAsAction, *mCloseAction, *mPrintAction,
+            *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction;
+    QMenu *mInstrumentsMenu, *mEffectsMenu, *mToolsMenu;
 
 private slots:
     void activateTab(const int &index);
@@ -120,6 +123,7 @@ private slots:
     void fillAct(const bool &state);
     void rectAct(const bool &state);
     void ellipseAct(const bool &state);
+    void enableActions(int index);
 
 signals:
     void sendInstrumentChecked(InstrumentsEnum);
