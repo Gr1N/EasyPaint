@@ -108,6 +108,7 @@ public:
      */
     inline void effectNegative() { mEffects->negative(); }
     
+    inline bool isModified() { return mIsModified; }
 private:
     /**
      * @brief Initialize image with base params.
@@ -128,6 +129,7 @@ private:
     Effects *mEffects;
     QString mFilePath; /**< Path where located image. */
     bool mIsEdited, mIsPaint, mIsResize;
+    bool mIsModified;
 
 signals:
     /**
@@ -143,7 +145,7 @@ signals:
     void sendNewImageSize(const QSize&);
     void sendCursorPos(const QPoint&);
     
-public slots:
+private slots:
 
 protected:
     void mousePressEvent(QMouseEvent *event);
