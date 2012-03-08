@@ -280,6 +280,13 @@ ImageArea* MainWindow::getCurrentImageArea()
     return tempArea;
 }
 
+ImageArea* MainWindow::getImageArea(int index)
+{
+    QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(index));
+    ImageArea *ia = static_cast<ImageArea*>(sa->widget());
+    return ia;
+}
+
 void MainWindow::activateTab(const int &index)
 {
     mTabWidget->setCurrentIndex(index);
@@ -366,9 +373,9 @@ void MainWindow::closeTabAct()
 void MainWindow::closeTab(int index)
 {
     //ImageArea *ia = static_cast<ImageArea*>(static_cast<QScrollArea*>(mTabWidget->widget(index))->widget());
-    QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(index));
-    ImageArea *ia = static_cast<ImageArea*>(sa->widget());
-    if(ia->isModified())
+
+    ImageArea *ia = getImageArea(index);
+    if(ia->getEdited())
     {
         int ans = QMessageBox::warning(this, tr("Closing Tab..."),
                                        tr("File has been modified\nDo you want to save changes?"),
@@ -383,8 +390,9 @@ void MainWindow::closeTab(int index)
             return;
         }
     }
+    QWidget *wid = mTabWidget->widget(index);
     mTabWidget->removeTab(index);
-    delete sa;
+    delete wid;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -401,9 +409,7 @@ bool MainWindow::isSomethingModified()
 {
     for(int i = 0; i < mTabWidget->count(); ++i)
     {
-        QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(i));
-        ImageArea *ia = static_cast<ImageArea*>(sa->widget());
-        if(ia->isModified())
+        if(getImageArea(i)->getEdited())
             return true;
     }
     return false;
@@ -414,9 +420,8 @@ bool MainWindow::closeAllTabs()
 
     while(mTabWidget->count() != 0)
     {
-        QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(0));
-        ImageArea *ia = static_cast<ImageArea*>(sa->widget());
-        if(ia->isModified())
+        ImageArea *ia = getImageArea(0);
+        if(ia->getEdited())
         {
             int ans = QMessageBox::warning(this, tr("Closing Tab..."),
                                            tr("File has been modified\nDo you want to save changes?"),
@@ -431,8 +436,9 @@ bool MainWindow::closeAllTabs()
                 return false;
             }
         }
+        QWidget *wid = mTabWidget->widget(0);
         mTabWidget->removeTab(0);
-        delete sa;
+        delete wid;
     }
     return true;
 }
@@ -445,6 +451,8 @@ void MainWindow::helpAct()
                                "<br> <br>Copyright (c) 2012 Nikita Grishko"
                                "<br> <br>Authors:<ul>"
                                "<li>Nikita Grishko (Gr1N)</li>"
+                               "<li>Artem Stepanyuk (faulknercs)</li>"
+                               "<li>Denis Klimenko (DenisKlimenko)</li>"
                                "</ul>")
                        .arg(tr("0.0.1")));
 }

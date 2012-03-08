@@ -69,6 +69,7 @@ private:
      * @return ImageArea Geted ImageArea.
      */
     ImageArea* getCurrentImageArea();
+    ImageArea* getImageArea(int index);
     bool closeAllTabs();
     bool isSomethingModified();
 
