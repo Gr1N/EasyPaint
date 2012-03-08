@@ -108,6 +108,11 @@ public:
      *
      */
     inline void effectNegative() { mEffects->negative(); }
+    /**
+     * @brief Restores previous cursor image.
+     *
+     */
+    void restoreCursor();
     
 private:
     /**
