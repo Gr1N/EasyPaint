@@ -26,6 +26,7 @@
 #include "mainwindow.h"
 #include "toolbar.h"
 #include "imagearea.h"
+#include "datasingleton.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QAction>
@@ -221,6 +222,58 @@ void MainWindow::initializeMainMenu()
 //    connect();
     editMenu->addAction(settingsAction);
 
+    QMenu *instrumentsMenu = menuBar()->addMenu(tr("&Instruments"));
+
+    mCursorAction = new QAction(tr("Cursor"), this);
+    mCursorAction->setCheckable(true);
+    connect(mCursorAction, SIGNAL(triggered(bool)), this, SLOT(cursorAct(bool)));
+    instrumentsMenu->addAction(mCursorAction);
+
+    mLasticAction = new QAction(tr("Lastic"), this);
+    mLasticAction->setCheckable(true);
+    connect(mLasticAction, SIGNAL(triggered(bool)), this, SLOT(lasticAct(bool)));
+    instrumentsMenu->addAction(mLasticAction);
+
+    mPipetteAction = new QAction(tr("Pipette"), this);
+    mPipetteAction->setCheckable(true);
+    connect(mPipetteAction, SIGNAL(triggered(bool)), this, SLOT(pipetteAct(bool)));
+    instrumentsMenu->addAction(mPipetteAction);
+
+    mLoupeAction = new QAction(tr("Loupe"), this);
+    mLoupeAction->setCheckable(true);
+    connect(mLoupeAction, SIGNAL(triggered(bool)), this, SLOT(loupeAct(bool)));
+    instrumentsMenu->addAction(mLoupeAction);
+
+    mPenAction = new QAction(tr("Pen"), this);
+    mPenAction->setCheckable(true);
+    connect(mPenAction, SIGNAL(triggered(bool)), this, SLOT(penAct(bool)));
+    instrumentsMenu->addAction(mPenAction);
+
+    mLineAction = new QAction(tr("Line"), this);
+    mLineAction->setCheckable(true);
+    connect(mLineAction, SIGNAL(triggered(bool)), this, SLOT(lineAct(bool)));
+    instrumentsMenu->addAction(mLineAction);
+
+    mSprayAction = new QAction(tr("Spray"), this);
+    mSprayAction->setCheckable(true);
+    connect(mSprayAction, SIGNAL(triggered(bool)), this, SLOT(sprayAct(bool)));
+    instrumentsMenu->addAction(mSprayAction);
+
+    mFillAction = new QAction(tr("Fill"), this);
+    mFillAction->setCheckable(true);
+    connect(mFillAction, SIGNAL(triggered(bool)), this, SLOT(fillAct(bool)));
+    instrumentsMenu->addAction(mFillAction);
+
+    mRectAction = new QAction(tr("Rect"), this);
+    mRectAction->setCheckable(true);
+    connect(mRectAction, SIGNAL(triggered(bool)), this, SLOT(rectAct(bool)));
+    instrumentsMenu->addAction(mRectAction);
+
+    mEllipseAction = new QAction(tr("Ellipse"), this);
+    mEllipseAction->setCheckable(true);
+    connect(mEllipseAction, SIGNAL(triggered(bool)), this, SLOT(ellipseAct(bool)));
+    instrumentsMenu->addAction(mEllipseAction);
+
     QMenu *effectsMenu = menuBar()->addMenu(tr("E&ffects"));
 
     QAction *grayEfAction = new QAction(tr("Gray"), this);
@@ -287,6 +340,8 @@ void MainWindow::initializeToolBar()
 {
     mToolbar = new ToolBar(this);
     addToolBar(Qt::LeftToolBarArea, mToolbar);
+    connect(mToolbar, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), this, SLOT(setInstrumentChecked(InstrumentsEnum)));
+    connect(this, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), mToolbar, SLOT(setInstrumentChecked(InstrumentsEnum)));
 }
 
 ImageArea* MainWindow::getCurrentImageArea()
@@ -457,6 +512,238 @@ bool MainWindow::closeAllTabs()
         delete wid;
     }
     return true;
+}
+
+void MainWindow::setAllInstrumentsUnchecked(QAction *action)
+{
+    if(action != mCursorAction)
+        mCursorAction->setChecked(false);
+    if(action != mLasticAction)
+        mLasticAction->setChecked(false);
+    if(action != mPipetteAction)
+        mPipetteAction->setChecked(false);
+    if(action != mLoupeAction)
+        mLoupeAction->setChecked(false);
+    if(action != mPenAction)
+        mPenAction->setChecked(false);
+    if(action != mLineAction)
+        mLineAction->setChecked(false);
+    if(action != mSprayAction)
+        mSprayAction->setChecked(false);
+    if(action != mFillAction)
+        mFillAction->setChecked(false);
+    if(action != mRectAction)
+        mRectAction->setChecked(false);
+    if(action != mEllipseAction)
+        mEllipseAction->setChecked(false);
+}
+
+void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
+{
+    setAllInstrumentsUnchecked(new QAction(this));
+    switch(instrument)
+    {
+    case NONE:
+        mCursorAction->setChecked(true);
+        break;
+    case LASTIC:
+        mLasticAction->setChecked(true);
+        break;
+    case PIPETTE:
+        mPipetteAction->setChecked(true);
+        break;
+    case LOUPE:
+        mLoupeAction->setChecked(true);
+        break;
+    case PEN:
+        mPenAction->setChecked(true);
+        break;
+    case LINE:
+        mLineAction->setChecked(true);
+        break;
+    case SPRAY:
+        mSprayAction->setChecked(true);
+        break;
+    case FILL:
+        mFillAction->setChecked(true);
+        break;
+    case RECT:
+        mRectAction->setChecked(true);
+        break;
+    case ELLIPSE:
+        mEllipseAction->setChecked(true);
+        break;
+    }
+}
+
+void MainWindow::cursorAct(const bool &state)
+{
+    if(state)
+    {
+        setAllInstrumentsUnchecked(mCursorAction);
+        mCursorAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+    else
+    {
+        setAllInstrumentsUnchecked(new QAction(this));
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+}
+
+void MainWindow::lasticAct(const bool &state)
+{
+    if(state)
+    {
+        setAllInstrumentsUnchecked(mLasticAction);
+        mLasticAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(LASTIC);
+        emit sendInstrumentChecked(LASTIC);
+    }
+    else
+    {
+        setAllInstrumentsUnchecked(new QAction(this));
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+}
+
+void MainWindow::pipetteAct(const bool &state)
+{
+    if(state)
+    {
+        setAllInstrumentsUnchecked(mPipetteAction);
+        mPipetteAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(PIPETTE);
+        emit sendInstrumentChecked(PIPETTE);
+    }
+    else
+    {
+        setAllInstrumentsUnchecked(new QAction(this));
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+}
+
+void MainWindow::loupeAct(const bool &state)
+{
+    if(state)
+    {
+        setAllInstrumentsUnchecked(mLoupeAction);
+        mLoupeAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(LOUPE);
+        emit sendInstrumentChecked(LOUPE);
+    }
+    else
+    {
+        setAllInstrumentsUnchecked(new QAction(this));
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+}
+
+void MainWindow::penAct(const bool &state)
+{
+    if(state)
+    {
+        setAllInstrumentsUnchecked(mPenAction);
+        mPenAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(PEN);
+        emit sendInstrumentChecked(PEN);
+    }
+    else
+    {
+        setAllInstrumentsUnchecked(new QAction(this));
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+}
+
+void MainWindow::lineAct(const bool &state)
+{
+    if(state)
+    {
+        setAllInstrumentsUnchecked(mLineAction);
+        mLineAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(LINE);
+        emit sendInstrumentChecked(LINE);
+    }
+    else
+    {
+        setAllInstrumentsUnchecked(new QAction(this));
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+}
+
+void MainWindow::sprayAct(const bool &state)
+{
+    if(state)
+    {
+        setAllInstrumentsUnchecked(mSprayAction);
+        mSprayAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(SPRAY);
+        emit sendInstrumentChecked(SPRAY);
+    }
+    else
+    {
+        setAllInstrumentsUnchecked(new QAction(this));
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+}
+
+void MainWindow::fillAct(const bool &state)
+{
+    if(state)
+    {
+        setAllInstrumentsUnchecked(mFillAction);
+        mLasticAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(FILL);
+        emit sendInstrumentChecked(FILL);
+    }
+    else
+    {
+        setAllInstrumentsUnchecked(new QAction(this));
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+}
+
+void MainWindow::rectAct(const bool &state)
+{
+    if(state)
+    {
+        setAllInstrumentsUnchecked(mRectAction);
+        mRectAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(RECT);
+        emit sendInstrumentChecked(RECT);
+    }
+    else
+    {
+        setAllInstrumentsUnchecked(new QAction(this));
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+}
+
+void MainWindow::ellipseAct(const bool &state)
+{
+    if(state)
+    {
+        setAllInstrumentsUnchecked(mEllipseAction);
+        mEllipseAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(ELLIPSE);
+        emit sendInstrumentChecked(ELLIPSE);
+    }
+    else
+    {
+        setAllInstrumentsUnchecked(new QAction(this));
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
 }
 
 void MainWindow::helpAct()

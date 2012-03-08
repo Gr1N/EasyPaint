@@ -28,8 +28,10 @@
 
 #include <QtGui/QMainWindow>
 
+#include "easypaintenums.h"
+
 QT_BEGIN_NAMESPACE
-//class QAction;
+class QAction;
 class QStatusBar;
 class QTabWidget;
 class ToolBar;
@@ -79,14 +81,15 @@ private:
     ToolBar *mToolbar;
     QLabel *mSizeLabel, *mPosLabel;
 
-//    QAction
-//            *mCloseAction, *mPrintAction, *mUndoAction, *mRedoAction,
-//            *mCopyAction, *mPasteAction, *mSettingsAction;
+    QAction *mCursorAction, *mLasticAction, *mPipetteAction, *mLoupeAction,
+            *mPenAction, *mLineAction, *mSprayAction, *mFillAction,
+            *mRectAction, *mEllipseAction;
 
 private slots:
     void activateTab(const int &index);
     void setNewSizeToSizeLabel(const QSize &size);
     void setNewPosToPosLabel(const QPoint &pos);
+    void setInstrumentChecked(InstrumentsEnum instrument);
     void newAct();
     void openAct();
     void helpAct();
@@ -100,6 +103,20 @@ private slots:
     void rotateRightImageAct();
     void closeTabAct();
     void closeTab(int index);
+    void setAllInstrumentsUnchecked(QAction *action);
+    void cursorAct(const bool &state);
+    void lasticAct(const bool &state);
+    void pipetteAct(const bool &state);
+    void loupeAct(const bool &state);
+    void penAct(const bool &state);
+    void lineAct(const bool &state);
+    void sprayAct(const bool &state);
+    void fillAct(const bool &state);
+    void rectAct(const bool &state);
+    void ellipseAct(const bool &state);
+
+signals:
+    void sendInstrumentChecked(InstrumentsEnum);
 
 };
 

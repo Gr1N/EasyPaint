@@ -68,10 +68,12 @@ private:
     ColorChooser *mFColorChooser, *mSColorChooser;
     
 signals:
+    void sendInstrumentChecked(InstrumentsEnum);
 
 public slots:
     void setFirstColorView();
     void setSecondColorView();
+    void setInstrumentChecked(InstrumentsEnum instrument);
     
 private slots:
     void penValueChanged(const int &value);

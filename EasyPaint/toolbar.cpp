@@ -18,7 +18,7 @@
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
  * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN Button OF CONTRACT,
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
@@ -178,6 +178,44 @@ void ToolBar::setAllButtonsUnchecked(QToolButton *button)
         mEllipseButton->setChecked(false);
 }
 
+void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
+{
+    setAllButtonsUnchecked(new QToolButton());
+    switch(instrument)
+    {
+    case NONE:
+        mCursorButton->setChecked(true);
+        break;
+    case LASTIC:
+        mLasticButton->setChecked(true);
+        break;
+    case PIPETTE:
+        mPipetteButton->setChecked(true);
+        break;
+    case LOUPE:
+        mLoupeButton->setChecked(true);
+        break;
+    case PEN:
+        mPenButton->setChecked(true);
+        break;
+    case LINE:
+        mLineButton->setChecked(true);
+        break;
+    case SPRAY:
+        mSprayButton->setChecked(true);
+        break;
+    case FILL:
+        mFillButton->setChecked(true);
+        break;
+    case RECT:
+        mRectButton->setChecked(true);
+        break;
+    case ELLIPSE:
+        mEllipseButton->setChecked(true);
+        break;
+    }
+}
+
 void ToolBar::setCursor(const bool &state)
 {
     if(state)
@@ -185,11 +223,13 @@ void ToolBar::setCursor(const bool &state)
         setAllButtonsUnchecked(mCursorButton);
         mCursorButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
     else
     {
         setAllButtonsUnchecked(new QToolButton());
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
 }
 
@@ -200,11 +240,13 @@ void ToolBar::setLastic(const bool &state)
         setAllButtonsUnchecked(mLasticButton);
         mLasticButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(LASTIC);
+        emit sendInstrumentChecked(LASTIC);
     }
     else
     {
         setAllButtonsUnchecked(new QToolButton());
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
 }
 
@@ -215,11 +257,13 @@ void ToolBar::setPen(const bool &state)
         setAllButtonsUnchecked(mPenButton);
         mPenButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(PEN);
+        emit sendInstrumentChecked(PEN);
     }
     else
     {
         setAllButtonsUnchecked(new QToolButton());
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
 }
 
@@ -230,11 +274,13 @@ void ToolBar::setLine(const bool &state)
         setAllButtonsUnchecked(mLineButton);
         mLineButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(LINE);
+        emit sendInstrumentChecked(LINE);
     }
     else
     {
         setAllButtonsUnchecked(new QToolButton());
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
 }
 
@@ -245,11 +291,13 @@ void ToolBar::setPipette(const bool &state)
         setAllButtonsUnchecked(mPipetteButton);
         mPipetteButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(PIPETTE);
+        emit sendInstrumentChecked(PIPETTE);
     }
     else
     {
         setAllButtonsUnchecked(new QToolButton());
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
 }
 
@@ -260,11 +308,13 @@ void ToolBar::setLoupe(const bool &state)
         setAllButtonsUnchecked(mLoupeButton);
         mLoupeButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(LOUPE);
+        emit sendInstrumentChecked(LOUPE);
     }
     else
     {
         setAllButtonsUnchecked(new QToolButton());
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
 }
 
@@ -275,11 +325,13 @@ void ToolBar::setSpray(const bool &state)
         setAllButtonsUnchecked(mSprayButton);
         mSprayButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(SPRAY);
+        emit sendInstrumentChecked(SPRAY);
     }
     else
     {
         setAllButtonsUnchecked(new QToolButton());
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
 }
 
@@ -290,11 +342,13 @@ void ToolBar::setFill(const bool &state)
         setAllButtonsUnchecked(mFillButton);
         mFillButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(FILL);
+        emit sendInstrumentChecked(FILL);
     }
     else
     {
         setAllButtonsUnchecked(new QToolButton());
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
 }
 
@@ -305,11 +359,13 @@ void ToolBar::setRect(const bool &state)
         setAllButtonsUnchecked(mRectButton);
         mRectButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(RECT);
+        emit sendInstrumentChecked(RECT);
     }
     else
     {
         setAllButtonsUnchecked(new QToolButton());
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
 }
 
@@ -320,10 +376,12 @@ void ToolBar::setEllipse(const bool &state)
         setAllButtonsUnchecked(mEllipseButton);
         mEllipseButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(ELLIPSE);
+        emit sendInstrumentChecked(ELLIPSE);
     }
     else
     {
         setAllButtonsUnchecked(new QToolButton());
         DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
 }
