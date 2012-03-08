@@ -38,7 +38,7 @@ class QLabel;
 QT_END_NAMESPACE
 
 /**
- * @brief Main wondow class.
+ * @brief Main window class.
  *
  */
 class MainWindow : public QMainWindow
@@ -48,6 +48,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+protected:
+    void closeEvent(QCloseEvent *event);
 
 private:
     void initializeMainMenu();
@@ -66,11 +69,15 @@ private:
      * @return ImageArea Geted ImageArea.
      */
     ImageArea* getCurrentImageArea();
+    ImageArea* getImageArea(int index);
+    bool closeAllTabs();
+    bool isSomethingModified();
 
     QStatusBar *mStatusBar;
     QTabWidget *mTabWidget;
     ToolBar *mToolbar;
     QLabel *mSizeLabel, *mPosLabel;
+
 //    QAction
 //            *mCloseAction, *mPrintAction, *mUndoAction, *mRedoAction,
 //            *mCopyAction, *mPasteAction, *mSettingsAction;
@@ -90,6 +97,8 @@ private slots:
     void resizeImageAct();
     void rotateLeftImageAct();
     void rotateRightImageAct();
+    void closeTabAct();
+    void closeTab(int index);
 
 };
 

@@ -143,7 +143,7 @@ signals:
     void sendNewImageSize(const QSize&);
     void sendCursorPos(const QPoint&);
     
-public slots:
+private slots:
 
 protected:
     void mousePressEvent(QMouseEvent *event);
