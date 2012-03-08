@@ -50,9 +50,10 @@ public:
      * @brief Constructor
      *
      * @param isOpen Flag which shows opens a new image or from file.
+     * @param filePath Image file path to open.
      * @param parent Pointer for parent.
      */
-    explicit ImageArea(const bool &isOpen = false, QWidget *parent = 0);
+    explicit ImageArea(const bool &isOpen = false, const QString &filePath = "", QWidget *parent = 0);
     ~ImageArea();
 
     /**
@@ -119,6 +120,12 @@ private:
      *
      */
     void open();
+    /**
+     * @brief Open file from file.
+     *
+     * @param filePath File path
+     */
+    void open(const QString &filePath);
 
     QImage *mImage,  /**< Main image. */
            mImageCopy; /**< Copy of main image, need for events. */

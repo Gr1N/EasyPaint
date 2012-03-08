@@ -46,7 +46,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QStringList filePaths, QWidget *parent = 0);
     ~MainWindow();
 
 protected:
@@ -61,8 +61,9 @@ private:
      * @brief Initialize new tab for tab bar with new ImageArea and connect all needed slots.
      *
      * @param isOpen Flag which shows opens a new image or from file.
+     * @param filePath File path
      */
-    void initializeNewTab(const bool &isOpen = false);
+    void initializeNewTab(const bool &isOpen = false, const QString &filePath = "");
     /**
      * @brief Get current ImageArea from current tab.
      *

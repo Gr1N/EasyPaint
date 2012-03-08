@@ -36,7 +36,7 @@
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
 
-ImageArea::ImageArea(const bool &isOpen, QWidget *parent) :
+ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
     QWidget(parent), mBaseSize(400, 300),
     mIsEdited(false), mIsPaint(false), mIsResize(false)
 {
@@ -49,9 +49,13 @@ ImageArea::ImageArea(const bool &isOpen, QWidget *parent) :
     mAdditionalTools = new AdditionalTools(this);
     mEffects = new Effects(this);
 
-    if(isOpen)
+    if(isOpen && filePath.isEmpty())
     {
         open();
+    }
+    else if(isOpen && !filePath.isEmpty())
+    {
+        open(filePath);
     }
     else
     {
@@ -106,6 +110,18 @@ void ImageArea::open()
                mImage->rect().bottom() + 6);
     }
     QApplication::restoreOverrideCursor();
+}
+
+void ImageArea::open(const QString &filePath)
+{
+    if(mImage->load(filePath))
+    {
+        *mImage = mImage->convertToFormat(QImage::Format_ARGB32_Premultiplied);
+        mFilePath = filePath;
+
+        resize(mImage->rect().right() + 6,
+               mImage->rect().bottom() + 6);
+    }
 }
 
 void ImageArea::save()

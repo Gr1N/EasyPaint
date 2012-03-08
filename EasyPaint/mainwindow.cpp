@@ -37,13 +37,25 @@
 #include <QtGui/QLabel>
 #include <QtGui/QtEvents>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)
 {
     initializeMainMenu();
     initializeToolBar();
     initializeStatusBar();
     initializeTabWidget();
+
+    if(filePaths.isEmpty())
+    {
+        initializeNewTab();
+    }
+    else
+    {
+        for(int i(0); i < filePaths.size(); i++)
+        {
+            initializeNewTab(true, filePaths.at(i));
+        }
+    }
 }
 
 MainWindow::~MainWindow()
@@ -60,16 +72,20 @@ void MainWindow::initializeTabWidget()
     connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(activateTab(int)));
     connect(mTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     setCentralWidget(mTabWidget);
-    initializeNewTab();
 }
 
-void MainWindow::initializeNewTab(const bool &isOpen)
+void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
 {
     ImageArea *imageArea;
     QString fileName(tr("Untitled Image"));
-    if(isOpen)
+    if(isOpen && filePath.isEmpty())
     {
         imageArea = new ImageArea(isOpen);
+        fileName = imageArea->getFileName();
+    }
+    else if(isOpen && !filePath.isEmpty())
+    {
+        imageArea = new ImageArea(isOpen, filePath);
         fileName = imageArea->getFileName();
     }
     else
