@@ -50,6 +50,11 @@ MainWindow::~MainWindow()
     
 }
 
+//void MainWindow::closeEvent(QCloseEvent *event)
+//{
+
+//}
+
 void MainWindow::initializeTabWidget()
 {
     mTabWidget = new QTabWidget();
@@ -57,6 +62,7 @@ void MainWindow::initializeTabWidget()
     mTabWidget->setTabsClosable(true);
     mTabWidget->setMovable(true);
     connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(activateTab(int)));
+    connect(mTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     setCentralWidget(mTabWidget);
     initializeNewTab();
 }
@@ -134,7 +140,7 @@ void MainWindow::initializeMainMenu()
     closeAction->setShortcut(QKeySequence::Close);
     closeAction->setIcon(QIcon::fromTheme("window-close"/*, QIcon("")*/));
 //    newAction->setStatusTip();
-//    connect();
+    connect(closeAction, SIGNAL(triggered()), this, SLOT(closeTabAct()));
     fileMenu->addAction(closeAction);
 
     fileMenu->addSeparator();
@@ -354,6 +360,35 @@ void MainWindow::rotateLeftImageAct()
 void MainWindow::rotateRightImageAct()
 {
     getCurrentImageArea()->rotateImage(false);
+}
+
+void MainWindow::closeTabAct()
+{
+    closeTab(mTabWidget->currentIndex());
+}
+
+void MainWindow::closeTab(int index)
+{
+    //ImageArea *ia = static_cast<ImageArea*>(static_cast<QScrollArea*>(mTabWidget->widget(index))->widget());
+    QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(index));
+    ImageArea *ia = static_cast<ImageArea*>(sa->widget());
+    if(ia->isModified())
+    {
+        int ans = QMessageBox::warning(this, tr("Closing Tab..."),
+                                       tr("File has been modified\nDo you want to save changes?"),
+                                       QMessageBox::Yes | QMessageBox::Default,
+                                       QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
+        switch(ans)
+        {
+        case QMessageBox::Yes:
+            ia->save();
+            break;
+        case QMessageBox::Cancel:
+            return;
+        }
+    }
+    mTabWidget->removeTab(index);
+    delete sa;
 }
 
 void MainWindow::helpAct()

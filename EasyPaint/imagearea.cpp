@@ -38,7 +38,7 @@
 
 ImageArea::ImageArea(const bool &isOpen, QWidget *parent) :
     QWidget(parent), mBaseSize(400, 300),
-    mIsEdited(false), mIsPaint(false), mIsResize(false)
+    mIsEdited(false), mIsPaint(false), mIsResize(false), mIsModified(false)
 {
     setMouseTracking(true);
 
