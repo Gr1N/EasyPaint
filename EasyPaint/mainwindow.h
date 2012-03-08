@@ -50,7 +50,7 @@ public:
     ~MainWindow();
 
 protected:
-//    void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event);
 
 private:
     void initializeMainMenu();
@@ -69,11 +69,14 @@ private:
      * @return ImageArea Geted ImageArea.
      */
     ImageArea* getCurrentImageArea();
+    bool closeAllTabs();
+    bool isSomethingModified();
 
     QStatusBar *mStatusBar;
     QTabWidget *mTabWidget;
     ToolBar *mToolbar;
     QLabel *mSizeLabel, *mPosLabel;
+
 //    QAction
 //            *mCloseAction, *mPrintAction, *mUndoAction, *mRedoAction,
 //            *mCopyAction, *mPasteAction, *mSettingsAction;
@@ -95,6 +98,7 @@ private slots:
     void rotateRightImageAct();
     void closeTabAct();
     void closeTab(int index);
+
 };
 
 #endif // MAINWINDOW_H

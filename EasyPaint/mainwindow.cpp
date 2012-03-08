@@ -35,6 +35,7 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QScrollArea>
 #include <QtGui/QLabel>
+#include <QtGui/QtEvents>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -49,11 +50,6 @@ MainWindow::~MainWindow()
 {
     
 }
-
-//void MainWindow::closeEvent(QCloseEvent *event)
-//{
-
-//}
 
 void MainWindow::initializeTabWidget()
 {
@@ -389,6 +385,56 @@ void MainWindow::closeTab(int index)
     }
     mTabWidget->removeTab(index);
     delete sa;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if(!isSomethingModified())
+        event->accept();
+    else if(closeAllTabs())
+        event->accept();
+    else
+        event->ignore();
+}
+
+bool MainWindow::isSomethingModified()
+{
+    for(int i = 0; i < mTabWidget->count(); ++i)
+    {
+        QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(i));
+        ImageArea *ia = static_cast<ImageArea*>(sa->widget());
+        if(ia->isModified())
+            return true;
+    }
+    return false;
+}
+
+bool MainWindow::closeAllTabs()
+{
+
+    while(mTabWidget->count() != 0)
+    {
+        QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(0));
+        ImageArea *ia = static_cast<ImageArea*>(sa->widget());
+        if(ia->isModified())
+        {
+            int ans = QMessageBox::warning(this, tr("Closing Tab..."),
+                                           tr("File has been modified\nDo you want to save changes?"),
+                                           QMessageBox::Yes | QMessageBox::Default,
+                                           QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
+            switch(ans)
+            {
+            case QMessageBox::Yes:
+                ia->save();
+                break;
+            case QMessageBox::Cancel:
+                return false;
+            }
+        }
+        mTabWidget->removeTab(0);
+        delete sa;
+    }
+    return true;
 }
 
 void MainWindow::helpAct()

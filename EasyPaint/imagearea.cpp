@@ -118,6 +118,7 @@ void ImageArea::save()
     {
         mImage->save(mFilePath);
         mIsEdited = false;
+        mIsModified = false;
     }
 }
 
@@ -322,7 +323,10 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
 void ImageArea::mouseReleaseEvent(QMouseEvent *event)
 {
     if(mIsResize)
+    {
        mIsResize = false;
+       mIsModified = true;
+    }
     if(event->button() == Qt::LeftButton && mIsPaint)
     {
         mPaintInstruments->setEndPoint(event->pos());
@@ -333,15 +337,18 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         case PEN:
             mPaintInstruments->line(false);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case LASTIC:
             mPaintInstruments->line(false, true);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case LINE:
             *mImage = mImageCopy;
             mPaintInstruments->line(false);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case PIPETTE:
             mPaintInstruments->pipette(false);
@@ -352,19 +359,23 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             *mImage = mImageCopy;
             mPaintInstruments->rect(false);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case ELLIPSE:
             *mImage = mImageCopy;
             mPaintInstruments->ellipse(false);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case SPRAY:
             mPaintInstruments->spray(false);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case FILL:
             mPaintInstruments->fill(false);
             mIsPaint = false;
+            mIsModified = true;
             break;
         }
     }
@@ -378,11 +389,13 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         case PEN:
             mPaintInstruments->line(true);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case LINE:
             *mImage = mImageCopy;
             mPaintInstruments->line(true);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case PIPETTE:
             mPaintInstruments->pipette(true);
@@ -393,19 +406,23 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             *mImage = mImageCopy;
             mPaintInstruments->rect(true);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case ELLIPSE:
             *mImage = mImageCopy;
             mPaintInstruments->ellipse(true);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case SPRAY:
             mPaintInstruments->spray(true);
             mIsPaint = false;
+            mIsModified = true;
             break;
         case FILL:
             mPaintInstruments->fill(true);
             mIsPaint = false;
+            mIsModified = true;
             break;
         }
     }
