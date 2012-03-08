@@ -606,7 +606,7 @@ void MainWindow::cursorAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -623,7 +623,7 @@ void MainWindow::lasticAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -640,7 +640,7 @@ void MainWindow::pipetteAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -657,7 +657,7 @@ void MainWindow::loupeAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -674,7 +674,7 @@ void MainWindow::penAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -691,7 +691,7 @@ void MainWindow::lineAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -708,7 +708,7 @@ void MainWindow::sprayAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -725,7 +725,7 @@ void MainWindow::fillAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -742,7 +742,7 @@ void MainWindow::rectAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -759,7 +759,7 @@ void MainWindow::ellipseAct(const bool &state)
     }
     else
     {
-        setAllInstrumentsUnchecked(new QAction(this));
+        setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
