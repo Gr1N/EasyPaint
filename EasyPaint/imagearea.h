@@ -144,12 +144,6 @@ signals:
     void sendSecondColorView();
     void sendNewImageSize(const QSize&);
     void sendCursorPos(const QPoint&);
-    /**
-     * @brief Send state of image.
-     *
-     * @param b true, if image has unsaved data, false otherwise.
-     */
-    void smthModified(bool b);
     
 private slots:
 
