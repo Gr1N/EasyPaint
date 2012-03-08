@@ -784,9 +784,12 @@ void MainWindow::enableActions(int index)
     mCopyAction->setEnabled(isEnable);
     mCutAction->setEnabled(isEnable);
 
-    setAllInstrumentsUnchecked(NULL);
-    DataSingleton::Instance()->setInstrument(NONE);
-    emit sendInstrumentChecked(NONE);
+    if(!isEnable)
+    {
+        setAllInstrumentsUnchecked(NULL);
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
 }
 
 void MainWindow::helpAct()
