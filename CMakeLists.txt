@@ -1,44 +1,44 @@
 cmake_minimum_required (VERSION 2.6)
  
 set (PROJECT 
-	easypaint)
+    easypaint)
  
 set (HEADERS 
-	./EasyPaint/additionaltools.h
-    ./EasyPaint/colorchooser.h
-    ./EasyPaint/datasingleton.h
-    ./EasyPaint/easypaintenums.h
-    ./EasyPaint/effects.h
-    ./EasyPaint/imagearea.h
-    ./EasyPaint/mainwindow.h
-    ./EasyPaint/paintinstruments.h
-    ./EasyPaint/resizeimagedialog.h
-    ./EasyPaint/toolbar.h)
+    ./sources/additionaltools.h
+    ./sources/colorchooser.h
+    ./sources/datasingleton.h
+    ./sources/easypaintenums.h
+    ./sources/effects.h
+    ./sources/imagearea.h
+    ./sources/mainwindow.h
+    ./sources/paintinstruments.h
+    ./sources/resizeimagedialog.h
+    ./sources/toolbar.h)
  
 set (SOURCES 
-	./EasyPaint/additionaltools.cpp
-    ./EasyPaint/colorchooser.cpp
-    ./EasyPaint/datasingleton.cpp
-    ./EasyPaint/effects.cpp
-    ./EasyPaint/imagearea.cpp
-    ./EasyPaint/main.cpp
-    ./EasyPaint/mainwindow.cpp
-    ./EasyPaint/paintinstruments.cpp
-    ./EasyPaint/resizeimagedialog.cpp
-    ./EasyPaint/toolbar.cpp)
+    ./sources/additionaltools.cpp
+    ./sources/colorchooser.cpp
+    ./sources/datasingleton.cpp
+    ./sources/effects.cpp
+    ./sources/imagearea.cpp
+    ./sources/main.cpp
+    ./sources/mainwindow.cpp
+    ./sources/paintinstruments.cpp
+    ./sources/resizeimagedialog.cpp
+    ./sources/toolbar.cpp)
  
 #~ set (LANGUAGES
-	#~ rus
-	#~ eng)
+    #~ rus
+    #~ eng)
  
 set (RESOURCE_PATH 
-	./EasyPaint)
+    ./sources)
  
 set (RESOURCES 
-	${RESOURCE_PATH}/media.qrc)
+    ${RESOURCE_PATH}/media.qrc)
  
 #~ set (TRANSLATIONS_PATH 
-	#~ ../resources/translations)
+    #~ ../resources/translations)
  
 project (${PROJECT})
  
@@ -49,21 +49,21 @@ include (${QT_USE_FILE})
 qt4_add_resources (QRC_SOURCES ${RESOURCES})
 qt4_wrap_cpp (MOC_SOURCES ${HEADERS})
 #~ foreach (LANGUAGE ${LANGUAGES})
-	#~ set (TS ${TRANSLATIONS_PATH}/${LANGUAGE}.ts)
-	#~ set (QM ${TRANSLATIONS_PATH}/${LANGUAGE}.qm)
-	#~ set (TRANSLATIONS ${TRANSLATIONS} ${TS})
-	#~ set (TRANSLATIONS_BINARY ${TRANSLATIONS_BINARY} ${QM})
-	#~ add_custom_command (
-		#~ OUTPUT ${QM}
-		#~ COMMAND ${QT_LRELEASE_EXECUTABLE} ${TS}
-		#~ MAIN_DEPENDENCY ${TS})
+    #~ set (TS ${TRANSLATIONS_PATH}/${LANGUAGE}.ts)
+    #~ set (QM ${TRANSLATIONS_PATH}/${LANGUAGE}.qm)
+    #~ set (TRANSLATIONS ${TRANSLATIONS} ${TS})
+    #~ set (TRANSLATIONS_BINARY ${TRANSLATIONS_BINARY} ${QM})
+    #~ add_custom_command (
+        #~ OUTPUT ${QM}
+        #~ COMMAND ${QT_LRELEASE_EXECUTABLE} ${TS}
+        #~ MAIN_DEPENDENCY ${TS})
 #~ endforeach()
 #~ add_custom_target (
-	#~ translations 
-	#~ COMMAND ${QT_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} -ts ${TRANSLATIONS})
+    #~ translations 
+    #~ COMMAND ${QT_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} -ts ${TRANSLATIONS})
 #~ add_custom_command (
-	#~ TARGET translations
-	#~ COMMAND ${QT_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
+    #~ TARGET translations
+    #~ COMMAND ${QT_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
  
 add_definitions (-Wall)
  
