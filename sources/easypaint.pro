@@ -37,14 +37,14 @@ HEADERS  += mainwindow.h \
     effects.h \
     resizedialog.h
 
-TRANSLATIONS += translations/easypaint_ru_RU.ts \
-    translations/easypaint_en_EN.ts
+TRANSLATIONS += \
+    translations/easypaint_ru_RU.ts
 
 RESOURCES += \
     resources.qrc
 
 target.path = /usr/bin
-translations.path = $$[QT_INSTALL_TRANSLATIONS]
+translations.path = /usr/share/easypaint/translations
 translations.files = translations/*.qm
 desktop.path = /usr/share/applications
 desktop.files = media/EasyPaint.desktop

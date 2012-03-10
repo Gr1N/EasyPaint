@@ -124,5 +124,5 @@ if(UNIX AND NOT APPLE)
     # install pixmap
     #~ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/img/easypaint.png" DESTINATION share/pixmaps)
 
-    INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/translations/" DESTINATION share/screengrab/localize FILES_MATCHING PATTERN "*.qm")
+    INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/sources/translations/" DESTINATION share/easypaint/translations FILES_MATCHING PATTERN "*.qm")
 endif(UNIX AND NOT APPLE)
