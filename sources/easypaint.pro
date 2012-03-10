@@ -46,8 +46,8 @@ RESOURCES += \
 target.path = /usr/bin
 translations.path = $$[QT_INSTALL_TRANSLATIONS]
 translations.files = translations/*.qm
-;desktop.path = /usr/share/applications
-;desktop.files = contrib/easypaint.desktop
+desktop.path = /usr/share/applications
+desktop.files = media/EasyPaint.desktop
 ;icon.path = /usr/share/pixmaps
 ;icon.files = contrib/easypaint.png
 isEmpty(QMAKE_LRELEASE) {
@@ -57,7 +57,7 @@ isEmpty(QMAKE_LRELEASE) {
 else:QMAKE_LRELEASE =  $$[QT_INSTALL_BINS]/lrelease-qt4
 }
 isEmpty(TS_DIR) {
- TS_DIR =  i18n
+ TS_DIR =  translations
 }
 ;TSQM.name = $$QMAKE_LRELEASE
 ;TSQM.input = TRANSLATIONS
@@ -67,4 +67,4 @@ isEmpty(TS_DIR) {
 ;QMAKE_EXTRA_COMPILERS += TSQM
 ;PRE_TARGETDEPS += compiler_TSQM_make_all
 ;INSTALLS += target translations desktop icon
-INSTALLS += target translations
+INSTALLS += target translations desktop

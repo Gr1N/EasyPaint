@@ -16,29 +16,29 @@ message(STATUS "Install prefix: " ${CMAKE_INSTALL_PREFIX})
  
 #------- headers --------
 set (HEADERS 
-    ./sources/additionaltools.h
-    ./sources/colorchooser.h
-    ./sources/datasingleton.h
-    ./sources/easypaintenums.h
-    ./sources/effects.h
-    ./sources/imagearea.h
-    ./sources/mainwindow.h
-    ./sources/paintinstruments.h
-    ./sources/resizedialog.h
-    ./sources/toolbar.h)
+    sources/additionaltools.h
+    sources/colorchooser.h
+    sources/datasingleton.h
+    sources/easypaintenums.h
+    sources/effects.h
+    sources/imagearea.h
+    sources/mainwindow.h
+    sources/paintinstruments.h
+    sources/resizedialog.h
+    sources/toolbar.h)
 
 #------- sources --------
 set (SOURCES 
-    ./sources/additionaltools.cpp
-    ./sources/colorchooser.cpp
-    ./sources/datasingleton.cpp
-    ./sources/effects.cpp
-    ./sources/imagearea.cpp
-    ./sources/main.cpp
-    ./sources/mainwindow.cpp
-    ./sources/paintinstruments.cpp
-    ./sources/resizedialog.cpp
-    ./sources/toolbar.cpp)
+    sources/additionaltools.cpp
+    sources/colorchooser.cpp
+    sources/datasingleton.cpp
+    sources/effects.cpp
+    sources/imagearea.cpp
+    sources/main.cpp
+    sources/mainwindow.cpp
+    sources/paintinstruments.cpp
+    sources/resizedialog.cpp
+    sources/toolbar.cpp)
  
 #------- languages -------
 set (LANGUAGES
@@ -47,13 +47,13 @@ set (LANGUAGES
 
 #------- resources -------
 set (RESOURCE_PATH 
-    ./sources)
+    sources)
  
 set (RESOURCES 
     ${RESOURCE_PATH}/resources.qrc)
  
 set (TRANSLATIONS_PATH 
-    ./sources/translations)
+    sources/translations)
 
 project (${PROJECT})
  
@@ -119,7 +119,7 @@ if(UNIX AND NOT APPLE)
     INSTALL(TARGETS easypaint RUNTIME DESTINATION bin)
 
     # install desktop files
-    #~ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/easypaint.desktop" DESTINATION share/applications)
+    INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/sources/media/EasyPaint.desktop" DESTINATION share/applications)
 
     # install pixmap
     #~ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/img/easypaint.png" DESTINATION share/pixmaps)
