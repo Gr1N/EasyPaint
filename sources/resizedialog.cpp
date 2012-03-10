@@ -23,7 +23,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "resizeimagedialog.h"
+#include "resizedialog.h"
 
 #include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
@@ -33,7 +33,7 @@
 #include <QtGui/QDialogButtonBox>
 #include <QtGui/QCheckBox>
 
-ResizeImageDialog::ResizeImageDialog(const QSize &size, QWidget *parent) :
+ResizeDialog::ResizeDialog(const QSize &size, QWidget *parent) :
     QDialog(parent), mWidth(size.width()), mHeight(size.height()),
     mOrigWidth(size.width()), mOrigHeight(size.height())
 {
@@ -42,7 +42,7 @@ ResizeImageDialog::ResizeImageDialog(const QSize &size, QWidget *parent) :
     setWindowTitle(tr("Resize"));
 }
 
-void ResizeImageDialog::initializeGui()
+void ResizeDialog::initializeGui()
 {
     QLabel *label1 = new QLabel(tr("Original size:"));
     QLabel *label2 = new QLabel(QString("%1 x %2").arg(mWidth).arg(mHeight));
@@ -114,7 +114,7 @@ void ResizeImageDialog::initializeGui()
     setLayout(gLayout);
 }
 
-void ResizeImageDialog::pixelsButtonClicked(bool flag)
+void ResizeDialog::pixelsButtonClicked(bool flag)
 {
     if(flag)
     {
@@ -125,7 +125,7 @@ void ResizeImageDialog::pixelsButtonClicked(bool flag)
     }
 }
 
-void ResizeImageDialog::percentButtonClicked(bool flag)
+void ResizeDialog::percentButtonClicked(bool flag)
 {
     if(flag)
     {
@@ -136,7 +136,7 @@ void ResizeImageDialog::percentButtonClicked(bool flag)
     }
 }
 
-void ResizeImageDialog::pixelsWValueChanged(const int &value)
+void ResizeDialog::pixelsWValueChanged(const int &value)
 {
     if(mPreserveAspectBox->isChecked())
     {
@@ -151,7 +151,7 @@ void ResizeImageDialog::pixelsWValueChanged(const int &value)
     mNewSizeLabel->setText(QString("%1 x %2").arg(mWidth).arg(mHeight));
 }
 
-void ResizeImageDialog::pixelsHValueChanged(const int &value)
+void ResizeDialog::pixelsHValueChanged(const int &value)
 {
     if(mPreserveAspectBox->isChecked())
     {
@@ -166,7 +166,7 @@ void ResizeImageDialog::pixelsHValueChanged(const int &value)
     mNewSizeLabel->setText(QString("%1 x %2").arg(mWidth).arg(mHeight));
 }
 
-void ResizeImageDialog::percentWValueChanged(const int &value)
+void ResizeDialog::percentWValueChanged(const int &value)
 {
     if(mPreserveAspectBox->isChecked())
     {
@@ -181,7 +181,7 @@ void ResizeImageDialog::percentWValueChanged(const int &value)
     mNewSizeLabel->setText(QString("%1 x %2").arg(mWidth).arg(mHeight));
 }
 
-void ResizeImageDialog::percentHValueChanged(const int &value)
+void ResizeDialog::percentHValueChanged(const int &value)
 {
     if(mPreserveAspectBox->isChecked())
     {

@@ -56,7 +56,7 @@ public:
      * @param width
      * @param height
      */
-    void resizeArea(int width, int height);
+    void resizeCanvas(int width, int height, bool flag = false);
 
     /**
      * @brief Resize image

@@ -23,8 +23,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef RISEZEIMAGEDIALOG_H
-#define RISEZEIMAGEDIALOG_H
+#ifndef RISEZEDIALOG_H
+#define RISEZEDIALOG_H
 
 #include <QtGui/QDialog>
 
@@ -38,7 +38,7 @@ QT_END_NAMESPACE
  * @brief QDialog for resizing image.
  *
  */
-class ResizeImageDialog : public QDialog
+class ResizeDialog : public QDialog
 {
     Q_OBJECT
 
@@ -49,7 +49,7 @@ public:
      * @param size Current image size.
      * @param parent Pointer for parent.
      */
-    explicit ResizeImageDialog(const QSize &size, QWidget *parent = 0);
+    explicit ResizeDialog(const QSize &size, QWidget *parent = 0);
 
     /**
      * @brief Return new image size
@@ -80,4 +80,4 @@ private slots:
     
 };
 
-#endif // RISEZEIMAGEDIALOG_H
+#endif // RISEZEDIALOG_H

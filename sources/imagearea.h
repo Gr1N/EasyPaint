@@ -77,6 +77,11 @@ public:
      */
     void resizeImage();
     /**
+     * @brief Resize canvas using resize dialog.
+     *
+     */
+    void resizeCanvas();
+    /**
      * @brief Rotate image.
      *
      * @param flag Rotate to left or to right.

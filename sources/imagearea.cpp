@@ -190,6 +190,12 @@ void ImageArea::resizeImage()
     emit sendNewImageSize(mImage->size());
 }
 
+void ImageArea::resizeCanvas()
+{
+    mAdditionalTools->resizeCanvas(mImage->width(), mImage->height(), true);
+    emit sendNewImageSize(mImage->size());
+}
+
 void ImageArea::rotateImage(bool flag)
 {
     mAdditionalTools->rotateImage(flag);
@@ -253,7 +259,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
 {
     if(mIsResize)
     {
-         mAdditionalTools->resizeArea(event->x(), event->y());
+         mAdditionalTools->resizeCanvas(event->x(), event->y());
          emit sendNewImageSize(mImage->size());
     }
     else if(event->pos().x() < mImage->rect().right() + 6 &&

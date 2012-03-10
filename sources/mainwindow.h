@@ -108,6 +108,7 @@ private slots:
     void effectGrayAct();
     void effectNegativeAct();
     void resizeImageAct();
+    void resizeCanvasAct();
     void rotateLeftImageAct();
     void rotateRightImageAct();
     void closeTabAct();

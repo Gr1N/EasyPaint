@@ -302,10 +302,15 @@ void MainWindow::initializeMainMenu()
 
     mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
-    QAction *resizeImAction = new QAction(tr("Resize"), this);
+    QAction *resizeImAction = new QAction(tr("Image size"), this);
 //    newAction->setStatusTip();
     connect(resizeImAction, SIGNAL(triggered()), this, SLOT(resizeImageAct()));
     mToolsMenu->addAction(resizeImAction);
+
+    QAction *resizeCanAction = new QAction(tr("Canvas size"), this);
+//    newAction->setStatusTip();
+    connect(resizeCanAction, SIGNAL(triggered()), this, SLOT(resizeCanvasAct()));
+    mToolsMenu->addAction(resizeCanAction);
 
     QMenu *rotateMenu = new QMenu(tr("Rotate"));
 
@@ -445,14 +450,19 @@ void MainWindow::resizeImageAct()
     getCurrentImageArea()->resizeImage();
 }
 
+void MainWindow::resizeCanvasAct()
+{
+    getCurrentImageArea()->resizeCanvas();
+}
+
 void MainWindow::rotateLeftImageAct()
 {
-    getCurrentImageArea()->rotateImage(true);
+    getCurrentImageArea()->rotateImage(false);
 }
 
 void MainWindow::rotateRightImageAct()
 {
-    getCurrentImageArea()->rotateImage(false);
+    getCurrentImageArea()->rotateImage(true);
 }
 
 void MainWindow::closeTabAct()

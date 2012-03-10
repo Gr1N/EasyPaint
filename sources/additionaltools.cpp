@@ -25,7 +25,7 @@
 
 #include "additionaltools.h"
 #include "imagearea.h"
-#include "resizeimagedialog.h"
+#include "resizedialog.h"
 
 #include <QtGui/QImage>
 #include <QtGui/QPainter>
@@ -43,9 +43,20 @@ AdditionalTools::~AdditionalTools()
 
 }
 
-void AdditionalTools::resizeArea(int width, int height)
+void AdditionalTools::resizeCanvas(int width, int height, bool flag)
 {
-    if(width < 5 || height < 5)
+    if(flag)
+    {
+        ResizeDialog resizeDialog(QSize(width, height));
+        if(resizeDialog.exec() == QDialog::Accepted)
+        {
+            QSize newSize = resizeDialog.getNewSize();
+            width = newSize.width();
+            height = newSize.height();
+        }
+    }
+
+    if(width < 1 || height < 1)
         return;
     QImage *tempImage = new QImage(width, height, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(tempImage);
@@ -60,12 +71,11 @@ void AdditionalTools::resizeArea(int width, int height)
     mPImageArea->resize(mPImageArea->getImage()->rect().right() + 6,
                         mPImageArea->getImage()->rect().bottom() + 6);
     mPImageArea->setEdited(true);
-//    mPImageArea->update();
 }
 
 void AdditionalTools::resizeImage()
 {
-    ResizeImageDialog resizeDialog(mPImageArea->getImage()->size());
+    ResizeDialog resizeDialog(mPImageArea->getImage()->size());
     if(resizeDialog.exec() == QDialog::Accepted)
     {
         mPImageArea->setImage(mPImageArea->getImage()->scaled(resizeDialog.getNewSize()));
