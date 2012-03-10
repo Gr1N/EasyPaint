@@ -10,5 +10,7 @@
         <file>media/instruments-icons/pipette.png</file>
         <file>media/instruments-icons/rectangle.png</file>
         <file>media/instruments-icons/spray.png</file>
+        <file>translations/easypaint_en_EN.qm</file>
+        <file>translations/easypaint_ru_RU.qm</file>
     </qresource>
 </RCC>

@@ -332,7 +332,7 @@ void MainWindow::initializeMainMenu()
 
     QMenu *aboutMenu = menuBar()->addMenu(tr("&About"));
 
-    QAction *aboutAction = new QAction(tr("&About"), this);
+    QAction *aboutAction = new QAction(tr("&About EasyPaint"), this);
     aboutAction->setShortcut(QKeySequence::HelpContents);
     aboutAction->setIcon(QIcon::fromTheme("help-browser"/*, QIcon("")*/));
     aboutAction->setIconVisibleInMenu(true);
@@ -805,13 +805,13 @@ void MainWindow::enableActions(int index)
 void MainWindow::helpAct()
 {
     QMessageBox::about(this, tr("About EasyPaint"),
-                       QString("EasyPaint version: %1 <br> <br> Site: "
+                       QString("<b>EasyPaint</b> %1: %2 <br> <br> %3: "
                                "<a href=\"https://github.com/Gr1N/EasyPaint/\">https://github.com/Gr1N/EasyPaint/</a>"
-                               "<br> <br>Copyright (c) 2012 Nikita Grishko"
-                               "<br> <br>Authors:<ul>"
+                               "<br> <br>%4 (c) 2012 Nikita Grishko"
+                               "<br> <br>%5:<ul>"
                                "<li>Nikita Grishko (Gr1N)</li>"
                                "<li>Artem Stepanyuk (faulknercs)</li>"
                                "<li>Denis Klimenko (DenisKlimenko)</li>"
                                "</ul>")
-                       .arg(tr("0.0.1")));
+                       .arg(tr("version")).arg("0.0.1").arg(tr("Site")).arg(tr("Copyright")).arg(tr("Authors")));
 }

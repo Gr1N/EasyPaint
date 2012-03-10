@@ -27,6 +27,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
+#include <QtCore/QTranslator>
 
 #include "mainwindow.h"
 
@@ -90,6 +91,10 @@ int main(int argc, char *argv[])
         printVersion();
         return 0;
     }
+
+    QTranslator appTranslator;
+    appTranslator.load(":/translations/easypaint_" + QLocale::system().name());
+    a.installTranslator(&appTranslator);
 
     MainWindow w(filePaths);
     w.show();
