@@ -24,7 +24,7 @@ set (HEADERS
     ./sources/imagearea.h
     ./sources/mainwindow.h
     ./sources/paintinstruments.h
-    ./sources/resizeimagedialog.h
+    ./sources/resizedialog.h
     ./sources/toolbar.h)
 
 #------- sources --------
@@ -37,7 +37,7 @@ set (SOURCES
     ./sources/main.cpp
     ./sources/mainwindow.cpp
     ./sources/paintinstruments.cpp
-    ./sources/resizeimagedialog.cpp
+    ./sources/resizedialog.cpp
     ./sources/toolbar.cpp)
  
 #------- languages -------
