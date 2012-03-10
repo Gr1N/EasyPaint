@@ -144,7 +144,7 @@ private:
     AdditionalTools *mAdditionalTools;
     Effects *mEffects;
     QString mFilePath; /**< Path where located image. */
-    bool mIsEdited, mIsPaint, mIsResize;
+    bool mIsEdited, mIsPaint, mIsResize, mIsAutoSave;
 
 signals:
     /**
@@ -161,6 +161,7 @@ signals:
     void sendCursorPos(const QPoint&);
     
 private slots:
+    void autoSave();
 
 protected:
     void mousePressEvent(QMouseEvent *event);

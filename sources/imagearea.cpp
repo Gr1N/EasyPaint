@@ -35,10 +35,11 @@
 #include <QtGui/QPaintEvent>
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
+#include <QtCore/QTimer>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
-    QWidget(parent), mBaseSize(400, 300),
-    mIsEdited(false), mIsPaint(false), mIsResize(false)
+    QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false),
+    mBaseSize(400, 300), mIsAutoSave(true) // temp values, for setting in future
 {
     setMouseTracking(true);
 
@@ -65,6 +66,15 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
 
         resize(mImage->rect().right() + 6,
                mImage->rect().bottom() + 6);
+    }
+
+    if(mIsAutoSave)
+    {
+        QTimer *autoSaveTimer = new QTimer(this);
+        int timerIntervar(300000); // temp value, for setting in future
+        autoSaveTimer->setInterval(timerIntervar);
+        connect(autoSaveTimer, SIGNAL(timeout()), this, SLOT(autoSave()));
+        autoSaveTimer->start();
     }
 }
 
@@ -166,6 +176,15 @@ void ImageArea::saveAs()
         mIsEdited = false;
     }
     QApplication::restoreOverrideCursor();
+}
+
+void ImageArea::autoSave()
+{
+    if(mIsEdited && !mFilePath.isEmpty())
+    {
+        mImage->save(mFilePath);
+        mIsEdited = false;
+    }
 }
 
 void ImageArea::print()
