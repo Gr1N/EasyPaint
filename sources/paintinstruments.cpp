@@ -181,18 +181,31 @@ void PaintInstruments::spray(bool isSecondColor)
                             Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     }
 
-    for(int i(0); i < 10; i++)
+    int x, y;
+    for(int i(0); i < 12; i++)
     {
-        int x = qrand() %
-                ((7 + 1) + 7) * sqrt(DataSingleton::Instance()->getPenSize()) -
-                7 * sqrt(DataSingleton::Instance()->getPenSize());
-        int y = qrand() %
-                ((7 + 1) + 7) * sqrt(DataSingleton::Instance()->getPenSize()) -
-                7 * sqrt(DataSingleton::Instance()->getPenSize());
-        painter.drawLine(mEndPoint.x() + x,
-                         mEndPoint.y() + y,
-                         mEndPoint.x() + x + 1,
-                         mEndPoint.y() + y + 1);
+        switch(i) {
+        case 0: case 1: case 2: case 3:
+            x = (qrand() % 5 - 2)
+                    * sqrt(DataSingleton::Instance()->getPenSize());
+            y = (qrand() % 5 - 2)
+                    * sqrt(DataSingleton::Instance()->getPenSize());
+            break;
+        case 4: case 5: case 6: case 7:
+            x = (qrand() % 10 - 4)
+                    * sqrt(DataSingleton::Instance()->getPenSize());
+            y = (qrand() % 10 - 4)
+                    * sqrt(DataSingleton::Instance()->getPenSize());
+            break;
+        case 8: case 9: case 10: case 11:
+            x = (qrand() % 15 - 7)
+                    * sqrt(DataSingleton::Instance()->getPenSize());
+            y = (qrand() % 15 - 7)
+                    * sqrt(DataSingleton::Instance()->getPenSize());
+            break;
+        }
+        painter.drawPoint(mEndPoint.x() + x,
+                         mEndPoint.y() + y);
     }
     mPImageArea->setEdited(true);
     painter.end();
