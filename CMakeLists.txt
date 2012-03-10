@@ -41,19 +41,19 @@ set (SOURCES
     ./sources/toolbar.cpp)
  
 #------- languages -------
-#~ set (LANGUAGES
-    #~ rus
-    #~ eng)
+set (LANGUAGES
+    easypiant_ru_RU
+    easypiant_en_EN)
 
 #------- resources -------
 set (RESOURCE_PATH 
     ./sources)
  
 set (RESOURCES 
-    ${RESOURCE_PATH}/media.qrc)
+    ${RESOURCE_PATH}/resources.qrc)
  
-#~ set (TRANSLATIONS_PATH 
-    #~ ../resources/translations)
+set (TRANSLATIONS_PATH 
+    ./sources/translations)
 
 project (${PROJECT})
  
@@ -63,22 +63,22 @@ find_package (Qt4 REQUIRED)
 include (${QT_USE_FILE})
 qt4_add_resources (QRC_SOURCES ${RESOURCES})
 qt4_wrap_cpp (MOC_SOURCES ${HEADERS})
-#~ foreach (LANGUAGE ${LANGUAGES})
-    #~ set (TS ${TRANSLATIONS_PATH}/${LANGUAGE}.ts)
-    #~ set (QM ${TRANSLATIONS_PATH}/${LANGUAGE}.qm)
-    #~ set (TRANSLATIONS ${TRANSLATIONS} ${TS})
-    #~ set (TRANSLATIONS_BINARY ${TRANSLATIONS_BINARY} ${QM})
-    #~ add_custom_command (
-        #~ OUTPUT ${QM}
-        #~ COMMAND ${QT_LRELEASE_EXECUTABLE} ${TS}
-        #~ MAIN_DEPENDENCY ${TS})
-#~ endforeach()
-#~ add_custom_target (
-    #~ translations 
-    #~ COMMAND ${QT_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} -ts ${TRANSLATIONS})
-#~ add_custom_command (
-    #~ TARGET translations
-    #~ COMMAND ${QT_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
+foreach (LANGUAGE ${LANGUAGES})
+    set (TS ${TRANSLATIONS_PATH}/${LANGUAGE}.ts)
+    set (QM ${TRANSLATIONS_PATH}/${LANGUAGE}.qm)
+    set (TRANSLATIONS ${TRANSLATIONS} ${TS})
+    set (TRANSLATIONS_BINARY ${TRANSLATIONS_BINARY} ${QM})
+    add_custom_command (
+        OUTPUT ${QM}
+        COMMAND ${QT_LRELEASE_EXECUTABLE} ${TS}
+        MAIN_DEPENDENCY ${TS})
+endforeach()
+add_custom_target (
+    translations 
+    COMMAND ${QT_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} -ts ${TRANSLATIONS})
+add_custom_command (
+    TARGET translations
+    COMMAND ${QT_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
  
 add_definitions (-Wall)
  
@@ -124,5 +124,5 @@ if(UNIX AND NOT APPLE)
     # install pixmap
     #~ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/img/easypaint.png" DESTINATION share/pixmaps)
 
-    #~ INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/localize/" DESTINATION share/screengrab/localize FILES_MATCHING PATTERN "*.qm")
+    INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/translations/" DESTINATION share/screengrab/localize FILES_MATCHING PATTERN "*.qm")
 endif(UNIX AND NOT APPLE)

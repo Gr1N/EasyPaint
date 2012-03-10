@@ -67,4 +67,4 @@ isEmpty(TS_DIR) {
 ;QMAKE_EXTRA_COMPILERS += TSQM
 ;PRE_TARGETDEPS += compiler_TSQM_make_all
 ;INSTALLS += target translations desktop icon
-INSTALLS += target
+INSTALLS += target translations
