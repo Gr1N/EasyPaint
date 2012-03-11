@@ -6,14 +6,14 @@ EasyPaint is a simple graphics painting program
 Installing
 ----------
 
-Install PuDB using the commands, if you use CMake::
+Install EasyPaint using the commands, if you use CMake::
 
     cd ./EasyPaint
     cmake -DCMAKE_INSTALL_PREFIX=/usr
     make
     make install
     
-Install PuDB using the commands, if you use qmake::
+Install EasyPaint using the commands, if you use qmake::
 
     cd ./EasyPaint/sources
     lrelease easypaint.pro
@@ -24,4 +24,4 @@ Install PuDB using the commands, if you use qmake::
 License
 -------
 
-EasyPaint is distributed under the `MIT license <http://www.opensource.org/licenses/MIT>`_.
+EasyPaint is distributed under the [MIT license](http://www.opensource.org/licenses/MIT).
