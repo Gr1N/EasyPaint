@@ -154,6 +154,7 @@ signals:
     void sendSecondColorView();
     void sendNewImageSize(const QSize&);
     void sendCursorPos(const QPoint&);
+    void sendColor(const QColor&);
     
 private slots:
 

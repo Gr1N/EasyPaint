@@ -271,6 +271,12 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             event->pos().y() <= mImage->height())
     {
         emit sendCursorPos(event->pos());
+        if(DataSingleton::Instance()->getInstrument() == PIPETTE)
+        {
+            QRgb pixel(mImage->pixel(event->pos()));
+            QColor getColor(pixel);
+            emit sendColor(getColor);
+        }
     }
     if((event->buttons() & Qt::LeftButton) && mIsPaint)
     {

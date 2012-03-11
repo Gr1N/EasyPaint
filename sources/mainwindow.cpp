@@ -109,6 +109,7 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
         connect(imageArea, SIGNAL(sendSecondColorView()), mToolbar, SLOT(setSecondColorView()));
         connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
         connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
+        connect(imageArea, SIGNAL(sendColor(QColor)), this, SLOT(setCurrentPipetteColor(QColor)));
 
         setWindowTitle(QString("%1 - EasyPaint").arg(fileName));
     }
@@ -348,9 +349,11 @@ void MainWindow::initializeStatusBar()
 
     mSizeLabel = new QLabel();
     mPosLabel = new QLabel();
+    mColorLabel = new QLabel();
 
     mStatusBar->addPermanentWidget(mSizeLabel, -1);
     mStatusBar->addPermanentWidget(mPosLabel, 1);
+    mStatusBar->addPermanentWidget(mColorLabel, -1);
 }
 
 void MainWindow::initializeToolBar()
@@ -401,6 +404,12 @@ void MainWindow::setNewSizeToSizeLabel(const QSize &size)
 void MainWindow::setNewPosToPosLabel(const QPoint &pos)
 {
     mPosLabel->setText(QString("%1,%2").arg(pos.x()).arg(pos.y()));
+}
+
+void MainWindow::setCurrentPipetteColor(const QColor &color)
+{
+    mColorLabel->setText(QString("RGB: %1,%2,%3").arg(color.red())
+                         .arg(color.green()).arg(color.blue()));
 }
 
 void MainWindow::newAct()
