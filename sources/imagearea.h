@@ -136,6 +136,11 @@ private:
      * @param filePath File path
      */
     void open(const QString &filePath);
+    /**
+     * @brief Draw cursor for instruments 'pencil' and 'lastic', that depends on pencil's width.
+     *
+     */
+    void drawCursor();
 
     QImage *mImage,  /**< Main image. */
            mImageCopy; /**< Copy of main image, need for events. */
@@ -144,6 +149,8 @@ private:
     Effects *mEffects;
     QString mFilePath; /**< Path where located image. */
     bool mIsEdited, mIsPaint, mIsResize;
+    QPixmap *pixmap;
+    QCursor *currentCursor;
 
 signals:
     /**

@@ -482,5 +482,64 @@ void ImageArea::paintEvent(QPaintEvent *event)
 
 void ImageArea::restoreCursor()
 {
-    setCursor(Qt::ArrowCursor);
+    switch(DataSingleton::Instance()->getInstrument())
+    {
+    case LOUPE:
+        pixmap = new QPixmap(":/media/instruments-icons/cursor_loupe.png");
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    case NONE:
+        currentCursor = new QCursor(Qt::ArrowCursor);
+        setCursor(*currentCursor);
+        break;
+    case LASTIC: case PEN:
+        ImageArea::drawCursor();
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    case PIPETTE:
+        pixmap = new QPixmap(":/media/instruments-icons/cursor_pipette.png");
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    case RECT: case ELLIPSE: case LINE:
+        currentCursor = new QCursor(Qt::CrossCursor);
+        setCursor(*currentCursor);
+        break;
+    case SPRAY:
+        pixmap = new QPixmap(":/media/instruments-icons/cursor_spray.png");
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    case FILL:
+        pixmap = new QPixmap(":/media/instruments-icons/cursor_fill.png");
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    }
+}
+
+void ImageArea::drawCursor()
+{
+    QPainter painter;
+    pixmap = new QPixmap(DataSingleton::Instance()->getPenSize() + 1,
+                         DataSingleton::Instance()->getPenSize() + 1);
+    pixmap->fill(QColor(0, 0, 0, 0));
+    painter.begin(pixmap);
+    switch(DataSingleton::Instance()->getInstrument())
+    {
+    case NONE: case LINE: case PIPETTE: case LOUPE: case  SPRAY:
+    case FILL: case RECT: case ELLIPSE:
+        break;
+    case PEN:
+        painter.drawEllipse(0, 0, DataSingleton::Instance()->getPenSize(),
+                        DataSingleton::Instance()->getPenSize());
+        break;
+    case LASTIC:
+        painter.drawRect(0, 0, DataSingleton::Instance()->getPenSize(),
+                        DataSingleton::Instance()->getPenSize());
+        break;
+    }
+    painter.end();
 }
