@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     }
 
     QTranslator appTranslator;
-    appTranslator.load(":/translations/easypaint_" + QLocale::system().name());
+    appTranslator.load("/usr/share/easypaint/translations/easypaint_" + QLocale::system().name());
     a.installTranslator(&appTranslator);
 
     MainWindow w(filePaths);
