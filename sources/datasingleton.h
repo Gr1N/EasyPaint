@@ -27,6 +27,7 @@
 #define DATASINGLETON_H
 
 #include <QtGui/QColor>
+#include <QtCore/QSize>
 #include "easypaintenums.h"
 
 /**
@@ -51,6 +52,19 @@ public:
     inline void setPenSize(const int &size) { mPenSize = size; }
     inline InstrumentsEnum getInstrument() { return mCurrentInstrument; }
     inline void setInstrument(const InstrumentsEnum &instrument) { mCurrentInstrument = instrument; }
+    inline QSize getBaseSize() { return mBaseSize; }
+    inline void setBaseSize(const QSize &baseSize) { mBaseSize = baseSize; }
+    inline bool getIsAutoSave() { return mIsAutoSave; }
+    inline void setIsAutoSave(const bool &isAutoSave) { mIsAutoSave = isAutoSave; }
+    inline int getAutoSaveInterval() { return mAutoSaveInterval; }
+    inline void setAutoSaveInterval(const int &interval) { mAutoSaveInterval = interval; }
+    inline int getHistoryDepth() { return mHistoryDepth; }
+    inline void setHistoryDepth(const int &historyDepth) { mHistoryDepth = historyDepth; }
+    inline QString getAppLanguage() { return mAppLanguage; }
+    inline void setAppLanguage(const QString &appLanguage) { mAppLanguage = appLanguage; }
+
+    void readSetting();
+    void writeSettings();
 
 private:
     DataSingleton();
@@ -61,6 +75,10 @@ private:
            mSecondColor;
     int mPenSize;
     InstrumentsEnum mCurrentInstrument;
+    QSize mBaseSize;
+    bool mIsAutoSave;
+    int mAutoSaveInterval, mHistoryDepth;
+    QString mAppLanguage;
 
 };
 

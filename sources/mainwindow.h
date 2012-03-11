@@ -105,6 +105,7 @@ private slots:
     void saveAct();
     void saveAsAct();
     void printAct();
+    void settingsAct();
     void effectGrayAct();
     void effectNegativeAct();
     void resizeImageAct();

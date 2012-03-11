@@ -30,6 +30,7 @@
 #include <QtCore/QTranslator>
 
 #include "mainwindow.h"
+#include "datasingleton.h"
 
 void printHelpMessage()
 {
@@ -48,6 +49,8 @@ void printVersion()
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setApplicationName("EasyPaint");
+    a.setApplicationVersion("0.0.1");
 
     QStringList args = a.arguments();
 
@@ -93,7 +96,16 @@ int main(int argc, char *argv[])
     }
 
     QTranslator appTranslator;
-    appTranslator.load("/usr/share/easypaint/translations/easypaint_" + QLocale::system().name());
+    QString translationsPath("/usr/share/easypaint/translations/");
+    QString appLanguage = DataSingleton::Instance()->getAppLanguage();
+    if(appLanguage == "system")
+    {
+        appTranslator.load(translationsPath + "easypaint_" + QLocale::system().name());
+    }
+    else
+    {
+        appTranslator.load(translationsPath + appLanguage);
+    }
     a.installTranslator(&appTranslator);
 
     MainWindow w(filePaths);

@@ -20,7 +20,8 @@ set (HEADERS
     sources/mainwindow.h
     sources/paintinstruments.h
     sources/resizedialog.h
-    sources/toolbar.h)
+    sources/toolbar.h
+    sources/settingsdialog.h)
 
 #------- sources --------
 set (SOURCES 
@@ -33,7 +34,8 @@ set (SOURCES
     sources/mainwindow.cpp
     sources/paintinstruments.cpp
     sources/resizedialog.cpp
-    sources/toolbar.cpp)
+    sources/toolbar.cpp
+    sources/settingsdialog.cpp)
  
 #------- resources -------
 set (RESOURCE_PATH 

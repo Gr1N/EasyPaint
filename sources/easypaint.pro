@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     datasingleton.cpp \
     additionaltools.cpp \
     effects.cpp \
-    resizedialog.cpp
+    resizedialog.cpp \
+    settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
     toolbar.h \
@@ -35,7 +36,8 @@ HEADERS  += mainwindow.h \
     datasingleton.h \
     additionaltools.h \
     effects.h \
-    resizedialog.h
+    resizedialog.h \
+    settingsdialog.h
 
 TRANSLATIONS += \
     translations/easypaint_ru_RU.ts \

@@ -139,12 +139,11 @@ private:
 
     QImage *mImage,  /**< Main image. */
            mImageCopy; /**< Copy of main image, need for events. */
-    QSize mBaseSize; /**< Base size of image. */
     PaintInstruments *mPaintInstruments;
     AdditionalTools *mAdditionalTools;
     Effects *mEffects;
     QString mFilePath; /**< Path where located image. */
-    bool mIsEdited, mIsPaint, mIsResize, mIsAutoSave;
+    bool mIsEdited, mIsPaint, mIsResize;
 
 signals:
     /**

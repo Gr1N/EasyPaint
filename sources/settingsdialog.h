@@ -23,45 +23,39 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "datasingleton.h"
+#ifndef SETTINGSDIALOG_H
+#define SETTINGSDIALOG_H
 
-#include <QtCore/QSettings>
+#include <QtGui/QDialog>
 
-DataSingleton* DataSingleton::m_pInstance = 0;
+QT_BEGIN_NAMESPACE
+class QComboBox;
+class QSpinBox;
+class QCheckBox;
+QT_END_NAMESPACE
 
-DataSingleton::DataSingleton()
+class SettingsDialog : public QDialog
 {
-    mFirstColor = Qt::black;
-    mSecondColor = Qt::white;
-    mPenSize = 1;
-    mCurrentInstrument = NONE;
-    readSetting();
-}
+    Q_OBJECT
 
-DataSingleton* DataSingleton::Instance()
-{
-    if(!m_pInstance)
-        m_pInstance = new DataSingleton;
+public:
+    explicit SettingsDialog(QWidget *parent = 0);
+    ~SettingsDialog();
 
-    return m_pInstance;
-}
+    void sendSettingToSingleton();
 
-void DataSingleton::readSetting()
-{
-    QSettings settings;
-    mBaseSize = settings.value("/BaseSize", QSize(400, 300)).toSize();
-    mIsAutoSave = settings.value("/IsAutoSave", false).toBool();
-    mAutoSaveInterval = settings.value("/AutoSaveInterval", 300000).toInt();
-    mHistoryDepth = settings.value("/HistoryDepth", 40).toInt();
-    mAppLanguage = settings.value("/AppLanguage", "system").toString();
-}
+private:
+    void initializeGui();
+    int getLanguageIndex();
 
-void DataSingleton::writeSettings()
-{
-    QSettings settings;
-    settings.setValue("/BaseSize", mBaseSize);
-    settings.setValue("/IsAutoSave", mIsAutoSave);
-    settings.setValue("/AutoSaveInterval", mAutoSaveInterval);
-    settings.setValue("/HistoryDepth", mHistoryDepth);
-    settings.setValue("/AppLanguage", mAppLanguage);
-}
+    QComboBox *mLanguageBox;
+    QSpinBox *mWidth, *mHeight, *mHistoryDepth, *mAutoSaveInterval;
+    QCheckBox *mIsAutoSave;
+    
+signals:
+    
+public slots:
+    
+};
+
+#endif // SETTINGSDIALOG_H

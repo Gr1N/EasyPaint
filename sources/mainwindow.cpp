@@ -27,6 +27,7 @@
 #include "toolbar.h"
 #include "imagearea.h"
 #include "datasingleton.h"
+#include "settingsdialog.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QAction>
@@ -233,7 +234,7 @@ void MainWindow::initializeMainMenu()
     settingsAction->setIcon(QIcon::fromTheme("document-properties"/*, QIcon("")*/));
     settingsAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
-//    connect();
+    connect(settingsAction, SIGNAL(triggered()), this, SLOT(settingsAct()));
     editMenu->addAction(settingsAction);
 
     mInstrumentsMenu = menuBar()->addMenu(tr("&Instruments"));
@@ -435,6 +436,16 @@ void MainWindow::printAct()
     getCurrentImageArea()->print();
 }
 
+void MainWindow::settingsAct()
+{
+    SettingsDialog settingsDialog;
+    if(settingsDialog.exec() == QDialog::Accepted)
+    {
+        settingsDialog.sendSettingToSingleton();
+        DataSingleton::Instance()->writeSettings();
+    }
+}
+
 void MainWindow::effectGrayAct()
 {
     getCurrentImageArea()->effectGray();
@@ -500,7 +511,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(!isSomethingModified())
         event->accept();
     else if(closeAllTabs())
+    {
         event->accept();
+    }
     else
         event->ignore();
 }

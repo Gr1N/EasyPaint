@@ -38,8 +38,7 @@
 #include <QtCore/QTimer>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
-    QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false),
-    mBaseSize(400, 300), mIsAutoSave(true) // temp values, for setting in future
+    QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false)
 {
     setMouseTracking(true);
 
@@ -61,21 +60,20 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     else
     {
         QPainter *painter = new QPainter(mImage);
-        painter->fillRect(0, 0, mBaseSize.width(), mBaseSize.height(), Qt::white);
+        painter->fillRect(0, 0,
+                          DataSingleton::Instance()->getBaseSize().width(),
+                          DataSingleton::Instance()->getBaseSize().height(),
+                          Qt::white);
         painter->end();
 
         resize(mImage->rect().right() + 6,
                mImage->rect().bottom() + 6);
     }
 
-    if(mIsAutoSave)
-    {
-        QTimer *autoSaveTimer = new QTimer(this);
-        int timerIntervar(300000); // temp value, for setting in future
-        autoSaveTimer->setInterval(timerIntervar);
-        connect(autoSaveTimer, SIGNAL(timeout()), this, SLOT(autoSave()));
-        autoSaveTimer->start();
-    }
+    QTimer *autoSaveTimer = new QTimer(this);
+    autoSaveTimer->setInterval(DataSingleton::Instance()->getAutoSaveInterval());
+    connect(autoSaveTimer, SIGNAL(timeout()), this, SLOT(autoSave()));
+    autoSaveTimer->start();
 }
 
 ImageArea::~ImageArea()
@@ -85,7 +83,8 @@ ImageArea::~ImageArea()
 
 void ImageArea::initializeImage()
 {
-    mImage = new QImage(mBaseSize, QImage::Format_ARGB32_Premultiplied);
+    mImage = new QImage(DataSingleton::Instance()->getBaseSize(),
+                        QImage::Format_ARGB32_Premultiplied);
 }
 
 void ImageArea::open()
@@ -180,7 +179,7 @@ void ImageArea::saveAs()
 
 void ImageArea::autoSave()
 {
-    if(mIsEdited && !mFilePath.isEmpty())
+    if(mIsEdited && !mFilePath.isEmpty() && DataSingleton::Instance()->getIsAutoSave())
     {
         mImage->save(mFilePath);
         mIsEdited = false;
