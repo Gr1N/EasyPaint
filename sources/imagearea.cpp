@@ -464,5 +464,69 @@ void ImageArea::paintEvent(QPaintEvent *event)
 
 void ImageArea::restoreCursor()
 {
-    setCursor(Qt::ArrowCursor);
+    switch(DataSingleton::Instance()->getInstrument())
+    {
+    case LOUPE:
+        pixmap = new QPixmap(":/media/instruments-icons/cursor_loupe.png");
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    case NONE:
+        currentCursor = new QCursor(Qt::ArrowCursor);
+        setCursor(*currentCursor);
+        break;
+    case LASTIC:
+        pixmap = new QPixmap(":/media/instruments-icons/cursor_lastic.png");
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    case PEN:
+        ImageArea::drawPencilCursor();
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    case LINE:
+        currentCursor = new QCursor(Qt::CrossCursor);
+        setCursor(*currentCursor);
+        break;
+    case PIPETTE:
+        pixmap = new QPixmap(":/media/instruments-icons/cursor_pipette.png");
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    case RECT:
+        currentCursor = new QCursor(Qt::CrossCursor);
+        setCursor(*currentCursor);
+        break;
+    case ELLIPSE:
+        currentCursor = new QCursor(Qt::CrossCursor);
+        setCursor(*currentCursor);
+        break;
+    case SPRAY:
+        pixmap = new QPixmap(":/media/instruments-icons/cursor_spray.png");
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    case FILL:
+        pixmap = new QPixmap(":/media/instruments-icons/cursor_fill.png");
+        currentCursor = new QCursor(*pixmap);
+        setCursor(*currentCursor);
+        break;
+    }
+}
+
+void ImageArea::drawPencilCursor()
+{
+    QPainter painter;
+    pixmap = new QPixmap(DataSingleton::Instance()->getPenSize() + 1,
+                         DataSingleton::Instance()->getPenSize() + 1);
+//    QPixmap pixmapAlpha(DataSingleton::Instance()->getPenSize() + 1,
+//                         DataSingleton::Instance()->getPenSize() + 1);
+//    pixmapAlpha.fill();
+    pixmap->fill(QColor(0, 0, 0, 0));
+//    pixmap->setMask(pixmapAlpha);
+    painter.begin(pixmap);
+    painter.drawEllipse(0, 0, DataSingleton::Instance()->getPenSize(),
+                        DataSingleton::Instance()->getPenSize());
+    painter.end();
 }
