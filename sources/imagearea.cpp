@@ -214,7 +214,10 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             {
             case NONE: case LOUPE:
                 break;
-            case PEN: case LASTIC: case PIPETTE: case SPRAY: case FILL:
+            case PIPETTE:
+                mIsPaint = true;
+                break;
+            case PEN: case LASTIC: case SPRAY: case FILL:
                 mPaintInstruments->setStartPoint(event->pos());
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
@@ -234,7 +237,10 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
         {
         case NONE: case LASTIC: case LOUPE:
             break;
-        case PEN: case PIPETTE: case SPRAY:  case FILL:
+        case PIPETTE:
+            mIsPaint = true;
+            break;
+        case PEN: case SPRAY:  case FILL:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
             mIsPaint = true;
@@ -381,6 +387,8 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mIsPaint = false;
             break;
         case PIPETTE:
+            mPaintInstruments->setStartPoint(event->pos());
+            mPaintInstruments->setEndPoint(event->pos());
             mPaintInstruments->pipette(false);
             mIsPaint = false;
             emit sendFirstColorView();
@@ -422,6 +430,8 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mIsPaint = false;
             break;
         case PIPETTE:
+            mPaintInstruments->setStartPoint(event->pos());
+            mPaintInstruments->setEndPoint(event->pos());
             mPaintInstruments->pipette(true);
             mIsPaint = false;
             emit sendSecondColorView();
