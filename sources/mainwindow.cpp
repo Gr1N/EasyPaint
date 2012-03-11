@@ -37,7 +37,6 @@
 #include <QtGui/QScrollArea>
 #include <QtGui/QLabel>
 #include <QtGui/QtEvents>
-#include <QDebug>
 
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)

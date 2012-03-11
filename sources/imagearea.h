@@ -137,10 +137,10 @@ private:
      */
     void open(const QString &filePath);
     /**
-     * @brief Draw cursor for instrument 'pencil', that depends on pencil's width.
+     * @brief Draw cursor for instruments 'pencil' and 'lastic', that depends on pencil's width.
      *
      */
-    void drawPencilCursor();
+    void drawCursor();
 
     QImage *mImage,  /**< Main image. */
            mImageCopy; /**< Copy of main image, need for events. */
