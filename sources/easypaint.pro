@@ -38,7 +38,8 @@ HEADERS  += mainwindow.h \
     resizedialog.h
 
 TRANSLATIONS += \
-    translations/easypaint_ru_RU.ts
+    translations/easypaint_ru_RU.ts \
+    translations/easypaint_cs_CZ.ts
 
 RESOURCES += \
     resources.qrc
