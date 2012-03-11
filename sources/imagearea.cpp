@@ -36,6 +36,8 @@
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
 #include <QtCore/QTimer>
+#include <QtGui/QImageReader>
+#include <QtGui/QImageWriter>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
     QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false)
@@ -43,6 +45,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     setMouseTracking(true);
 
     mFilePath.clear();
+    makeFormatsFilters();
     initializeImage();
 
     mPaintInstruments = new PaintInstruments(this);
@@ -73,6 +76,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     QTimer *autoSaveTimer = new QTimer(this);
     autoSaveTimer->setInterval(DataSingleton::Instance()->getAutoSaveInterval());
     connect(autoSaveTimer, SIGNAL(timeout()), this, SLOT(autoSave()));
+
     autoSaveTimer->start();
 }
 
@@ -89,23 +93,25 @@ void ImageArea::initializeImage()
 
 void ImageArea::open()
 {
-    QString filters("All suported (*.bmp *gif *.jpg *.jpeg *.mng *.png *.pbm"
-                    "*.pgm *.ppm *.tiff *.xbm *.xpm *.svg)\n"
-                    "Windows Bitmap(*.bmp)\n"
-                    "Graphic Interchange Format(*.gif)\n"
-                    "Joint Photographic Experts Group(*.jpg *.jpeg)\n"
-                    "Multiple-image Network Graphics(*.mng)\n"
-                    "Portable Network Graphics(*.png)\n"
-                    "Portable Bitmap(*.pbm)\n"
-                    "Portable Graymap(*.pgm)\n"
-                    "Portable Pixmap(*.ppm)\n"
-                    "Tagged Image File Format(*.tiff)\n"
-                    "X11 Bitmap(*.xbm)\n"
-                    "X11 Pixmap(*.xpm)\n"
-                    "Scalable Vector Graphics(*.svg)\n"
-                    "All Files(*.*)");
+    qDebug() << QImageWriter::supportedImageFormats();
+
+//    QString filters("All suported (*.bmp *gif *.jpg *.jpeg *.mng *.png *.pbm"
+//                    "*.pgm *.ppm *.tiff *.xbm *.xpm *.svg)\n"
+//                    "Windows Bitmap(*.bmp)\n"
+//                    "Graphic Interchange Format(*.gif)\n"
+//                    "Joint Photographic Experts Group(*.jpg *.jpeg)\n"
+//                    "Multiple-image Network Graphics(*.mng)\n"
+//                    "Portable Network Graphics(*.png)\n"
+//                    "Portable Bitmap(*.pbm)\n"
+//                    "Portable Graymap(*.pgm)\n"
+//                    "Portable Pixmap(*.ppm)\n"
+//                    "Tagged Image File Format(*.tiff)\n"
+//                    "X11 Bitmap(*.xbm)\n"
+//                    "X11 Pixmap(*.xpSm)\n"
+//                    "Scalable Vector Graphics(*.svg)\n"
+//                    "All Files(*.*)")/*  */;
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open image..."), "",
-                                                    filters, new QString(),
+                                                    openFilter, 0, /* no new operation! */
                                                     QFileDialog::DontUseNativeDialog);
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -120,6 +126,8 @@ void ImageArea::open()
     }
     QApplication::restoreOverrideCursor();
 }
+
+
 
 void ImageArea::open(const QString &filePath)
 {
@@ -154,8 +162,8 @@ void ImageArea::saveAs()
     {
         fileName = tr("Untitled image");
     }
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName,
-                                                    tr("*.png;;*.jpg;;*.jpeg;;*.bmp;;*.xbm;;*.xpm"),
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName, saveFilter
+                                                    /*tr("*.png;;*.jpg;;*.jpeg;;*.bmp;;*.xbm;;*.xpm")*/,
                                                     &filter,
                                                     QFileDialog::DontUseNativeDialog);
 
@@ -542,4 +550,60 @@ void ImageArea::drawCursor()
         break;
     }
     painter.end();
+}
+
+void ImageArea::makeFormatsFilters()
+{
+    QList<QByteArray> ba = QImageReader::supportedImageFormats();
+    //make "all supported" part
+    openFilter = "All supported (";
+    foreach (QByteArray temp, ba)
+        openFilter += "*." + temp + " ";
+    openFilter[openFilter.length() - 1] = ')'; //delete last space
+    openFilter += ";;";
+
+    //using ";;" as separator instead of "\n", because Qt's docs recomended it :)
+    if(ba.contains("bmp"))
+        openFilter += "Windows Bitmap(*.bmp);;";
+    if(ba.contains("gif"))
+        openFilter += "Graphic Interchange Format(*.gif);;";
+    if(ba.contains("jpg") || ba.contains("jpeg"))
+        openFilter += "Joint Photographic Experts Group(*.jpg *.jpeg);;";
+    if(ba.contains("mng"))
+        openFilter += "Multiple-image Network Graphics(*.mng);;";
+    if(ba.contains("png"))
+        openFilter += "Portable Network Graphics(*.png);;";
+    if(ba.contains("pbm"))
+        openFilter += "Portable Bitmap(*.pbm);;";
+    if(ba.contains("pgm"))
+        openFilter += "Portable Graymap(*.pgm);;";
+    if(ba.contains("ppm"))
+        openFilter += "Portable Pixmap(*.ppm);;";
+    if(ba.contains("tiff") || ba.contains("tif"))
+        openFilter += "Tagged Image File Format(*.tiff);;";
+    if(ba.contains("xbm"))
+        openFilter += "X11 Bitmap(*.xbm);;";
+    if(ba.contains("xpm"))
+        openFilter += "X11 Pixmap(*.xpm);;";
+    if(ba.contains("svg"))
+        openFilter += "Scalable Vector Graphics(*.svg);;";
+
+    openFilter += "All Files(*.*)";
+
+    //make saveFilter
+    ba = QImageWriter::supportedImageFormats();
+    if(ba.contains("bmp"))
+        saveFilter += "Windows Bitmap(*.bmp)";
+    if(ba.contains("jpg") || ba.contains("jpeg"))
+        saveFilter += ";;Joint Photographic Experts Group(*.jpg *.jpeg)";
+    if(ba.contains("png"))
+        saveFilter += ";;Portable Network Graphics(*.png)";
+    if(ba.contains("ppm"))
+        saveFilter += ";;Portable Pixmap(*.ppm)";
+    if(ba.contains("tiff") || ba.contains("tif"))
+        saveFilter += ";;Tagged Image File Format(*.tiff)";
+    if(ba.contains("xbm"))
+        saveFilter += ";;X11 Bitmap(*.xbm)";
+    if(ba.contains("xpm"))
+        saveFilter += ";;X11 Pixmap(*.xpm)";
 }
