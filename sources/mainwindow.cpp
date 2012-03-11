@@ -807,11 +807,12 @@ void MainWindow::helpAct()
     QMessageBox::about(this, tr("About EasyPaint"),
                        QString("<b>EasyPaint</b> %1: %2 <br> <br> %3: "
                                "<a href=\"https://github.com/Gr1N/EasyPaint/\">https://github.com/Gr1N/EasyPaint/</a>"
-                               "<br> <br>%4 (c) 2012 Nikita Grishko"
+                               "<br> <br>%4 (c) 2012"
                                "<br> <br>%5:<ul>"
                                "<li>Nikita Grishko (Gr1N)</li>"
                                "<li>Artem Stepanyuk (faulknercs)</li>"
                                "<li>Denis Klimenko (DenisKlimenko)</li>"
+                               "<li>BahdanSiamionau (Bahdan)</li>"
                                "</ul>")
                        .arg(tr("version")).arg("0.0.1").arg(tr("Site")).arg(tr("Copyright")).arg(tr("Authors")));
 }
