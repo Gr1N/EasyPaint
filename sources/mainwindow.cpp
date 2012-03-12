@@ -38,6 +38,7 @@
 #include <QtGui/QScrollArea>
 #include <QtGui/QLabel>
 #include <QtGui/QtEvents>
+#include <QtGui/QPainter>
 
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)
@@ -356,11 +357,13 @@ void MainWindow::initializeStatusBar()
 
     mSizeLabel = new QLabel();
     mPosLabel = new QLabel();
-    mColorLabel = new QLabel();
+    mColorPreviewLabel = new QLabel();
+    mColorRGBLabel = new QLabel();
 
     mStatusBar->addPermanentWidget(mSizeLabel, -1);
     mStatusBar->addPermanentWidget(mPosLabel, 1);
-    mStatusBar->addPermanentWidget(mColorLabel, -1);
+    mStatusBar->addPermanentWidget(mColorPreviewLabel);
+    mStatusBar->addPermanentWidget(mColorRGBLabel, -1);
 }
 
 void MainWindow::initializeToolBar()
@@ -416,13 +419,21 @@ void MainWindow::setNewPosToPosLabel(const QPoint &pos)
 
 void MainWindow::setCurrentPipetteColor(const QColor &color)
 {
-    mColorLabel->setText(QString("RGB: %1,%2,%3").arg(color.red())
+    mColorRGBLabel->setText(QString("RGB: %1,%2,%3").arg(color.red())
                          .arg(color.green()).arg(color.blue()));
+
+    QPixmap statusColorPixmap = QPixmap(10, 10);
+    QPainter statusColorPainter;
+    statusColorPainter.begin(&statusColorPixmap);
+    statusColorPainter.fillRect(0, 0, 15, 15, color);
+    statusColorPainter.end();
+    mColorPreviewLabel->setPixmap(statusColorPixmap);
 }
 
 void MainWindow::clearStatusBarColor()
 {
-    mColorLabel->setText(NULL);
+    mColorPreviewLabel->clear();
+    mColorRGBLabel->clear();
 }
 
 void MainWindow::newAct()
