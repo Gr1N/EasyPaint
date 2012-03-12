@@ -70,6 +70,7 @@ private:
     
 signals:
     void sendInstrumentChecked(InstrumentsEnum);
+    void sendClearStatusBarColor();
 
 public slots:
     void setFirstColorView();

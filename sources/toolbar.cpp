@@ -167,7 +167,10 @@ void ToolBar::setAllButtonsUnchecked(QToolButton *button)
     if(button != mLineButton)
         mLineButton->setChecked(false);
     if(button != mPipetteButton)
+    {
         mPipetteButton->setChecked(false);
+        emit sendClearStatusBarColor();
+    }
     if(button != mLoupeButton)
         mLoupeButton->setChecked(false);
     if(button != mSprayButton)
@@ -399,4 +402,5 @@ void ToolBar::restorePreviousInstrument()
     DataSingleton::Instance()->setInstrument(DataSingleton::Instance()->getPreviousInstrument());
     emit sendInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
     prevInstrumentSetted = false;
+    emit sendClearStatusBarColor();
 }
