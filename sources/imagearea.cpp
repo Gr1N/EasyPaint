@@ -229,7 +229,10 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             {
             case NONE: case LOUPE:
                 break;
-            case PEN: case LASTIC: case PIPETTE: case SPRAY: case FILL:
+            case PIPETTE:
+                mIsPaint = true;
+                break;
+            case PEN: case LASTIC: case SPRAY: case FILL:
                 mPaintInstruments->setStartPoint(event->pos());
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
@@ -249,7 +252,10 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
         {
         case NONE: case LASTIC: case LOUPE:
             break;
-        case PEN: case PIPETTE: case SPRAY:  case FILL:
+        case PIPETTE:
+            mIsPaint = true;
+            break;
+        case PEN: case SPRAY:  case FILL:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
             mIsPaint = true;
@@ -282,10 +288,16 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
     {
         restoreCursor();
     }
-    if(event->pos().x() <= mImage->width() &&
-            event->pos().y() <= mImage->height())
+    if(event->pos().x() < mImage->width() &&
+            event->pos().y() < mImage->height())
     {
         emit sendCursorPos(event->pos());
+        if(DataSingleton::Instance()->getInstrument() == PIPETTE)
+        {
+            QRgb pixel(mImage->pixel(event->pos()));
+            QColor getColor(pixel);
+            emit sendColor(getColor);
+        }
     }
     if((event->buttons() & Qt::LeftButton) && mIsPaint)
     {
@@ -390,9 +402,12 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mIsPaint = false;
             break;
         case PIPETTE:
+            mPaintInstruments->setStartPoint(event->pos());
+            mPaintInstruments->setEndPoint(event->pos());
             mPaintInstruments->pipette(false);
             mIsPaint = false;
             emit sendFirstColorView();
+            emit sendRestorePreviousInstrument();
             break;
         case RECT:
             *mImage = mImageCopy;
@@ -431,9 +446,12 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mIsPaint = false;
             break;
         case PIPETTE:
+            mPaintInstruments->setStartPoint(event->pos());
+            mPaintInstruments->setEndPoint(event->pos());
             mPaintInstruments->pipette(true);
             mIsPaint = false;
             emit sendSecondColorView();
+            emit sendRestorePreviousInstrument();
             break;
         case RECT:
             *mImage = mImageCopy;

@@ -60,12 +60,13 @@ private:
      * @param iconPath Path to button icon.
      * @return QToolButton Created QToolButton.
      */
-    QToolButton* createToolButton(const char *name, const QString &iconPath);
+    QToolButton* createToolButton(const QString &name, const QString &iconPath);
 
     QToolButton *mCursorButton, *mLasticButton, *mPenButton, *mLineButton,
                 *mPipetteButton, *mLoupeButton, *mSprayButton, *mFillButton,
                 *mRectButton, *mEllipseButton;
     ColorChooser *mFColorChooser, *mSColorChooser;
+    bool prevInstrumentSetted;
     
 signals:
     void sendInstrumentChecked(InstrumentsEnum);
@@ -74,6 +75,7 @@ public slots:
     void setFirstColorView();
     void setSecondColorView();
     void setInstrumentChecked(InstrumentsEnum instrument);
+    void restorePreviousInstrument();
     
 private slots:
     void penValueChanged(const int &value);

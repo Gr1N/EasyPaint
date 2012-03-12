@@ -85,7 +85,7 @@ private:
     QStatusBar *mStatusBar;
     QTabWidget *mTabWidget;
     ToolBar *mToolbar;
-    QLabel *mSizeLabel, *mPosLabel;
+    QLabel *mSizeLabel, *mPosLabel, *mColorLabel;
 
     QAction *mCursorAction, *mLasticAction, *mPipetteAction, *mLoupeAction,
             *mPenAction, *mLineAction, *mSprayAction, *mFillAction,
@@ -98,6 +98,7 @@ private slots:
     void activateTab(const int &index);
     void setNewSizeToSizeLabel(const QSize &size);
     void setNewPosToPosLabel(const QPoint &pos);
+    void setCurrentPipetteColor(const QColor &color);
     void setInstrumentChecked(InstrumentsEnum instrument);
     void newAct();
     void openAct();
