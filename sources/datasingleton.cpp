@@ -35,6 +35,7 @@ DataSingleton::DataSingleton()
     mSecondColor = Qt::white;
     mPenSize = 1;
     mCurrentInstrument = NONE;
+    mPreviousInstrument = NONE;
     readSetting();
 }
 
