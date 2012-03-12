@@ -227,7 +227,7 @@ void ToolBar::setCursor(const bool &state)
     }
     else
     {
-        setAllButtonsUnchecked(new QToolButton());
+        setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -244,7 +244,7 @@ void ToolBar::setLastic(const bool &state)
     }
     else
     {
-        setAllButtonsUnchecked(new QToolButton());
+        setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -261,7 +261,7 @@ void ToolBar::setPen(const bool &state)
     }
     else
     {
-        setAllButtonsUnchecked(new QToolButton());
+        setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -278,7 +278,7 @@ void ToolBar::setLine(const bool &state)
     }
     else
     {
-        setAllButtonsUnchecked(new QToolButton());
+        setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -295,7 +295,7 @@ void ToolBar::setPipette(const bool &state)
     }
     else
     {
-        setAllButtonsUnchecked(new QToolButton());
+        setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -312,7 +312,7 @@ void ToolBar::setLoupe(const bool &state)
     }
     else
     {
-        setAllButtonsUnchecked(new QToolButton());
+        setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -329,7 +329,7 @@ void ToolBar::setSpray(const bool &state)
     }
     else
     {
-        setAllButtonsUnchecked(new QToolButton());
+        setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -346,7 +346,7 @@ void ToolBar::setFill(const bool &state)
     }
     else
     {
-        setAllButtonsUnchecked(new QToolButton());
+        setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -363,7 +363,7 @@ void ToolBar::setRect(const bool &state)
     }
     else
     {
-        setAllButtonsUnchecked(new QToolButton());
+        setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
@@ -380,7 +380,7 @@ void ToolBar::setEllipse(const bool &state)
     }
     else
     {
-        setAllButtonsUnchecked(new QToolButton());
+        setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }

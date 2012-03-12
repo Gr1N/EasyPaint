@@ -93,25 +93,8 @@ void ImageArea::initializeImage()
 
 void ImageArea::open()
 {
-    qDebug() << QImageWriter::supportedImageFormats();
-
-//    QString filters("All suported (*.bmp *gif *.jpg *.jpeg *.mng *.png *.pbm"
-//                    "*.pgm *.ppm *.tiff *.xbm *.xpm *.svg)\n"
-//                    "Windows Bitmap(*.bmp)\n"
-//                    "Graphic Interchange Format(*.gif)\n"
-//                    "Joint Photographic Experts Group(*.jpg *.jpeg)\n"
-//                    "Multiple-image Network Graphics(*.mng)\n"
-//                    "Portable Network Graphics(*.png)\n"
-//                    "Portable Bitmap(*.pbm)\n"
-//                    "Portable Graymap(*.pgm)\n"
-//                    "Portable Pixmap(*.ppm)\n"
-//                    "Tagged Image File Format(*.tiff)\n"
-//                    "X11 Bitmap(*.xbm)\n"
-//                    "X11 Pixmap(*.xpSm)\n"
-//                    "Scalable Vector Graphics(*.svg)\n"
-//                    "All Files(*.*)")/*  */;
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open image..."), "",
-                                                    openFilter, 0, /* no new operation! */
+                                                    openFilter, 0,
                                                     QFileDialog::DontUseNativeDialog);
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
