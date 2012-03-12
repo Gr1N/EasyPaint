@@ -141,6 +141,11 @@ private:
      *
      */
     void drawCursor();
+    /**
+     * @brief Creates filters' strings, which contain supported formats for reading & writing.
+     *
+     */
+    void makeFormatsFilters();
 
     QImage *mImage,  /**< Main image. */
            mImageCopy; /**< Copy of main image, need for events. */
@@ -148,6 +153,8 @@ private:
     AdditionalTools *mAdditionalTools;
     Effects *mEffects;
     QString mFilePath; /**< Path where located image. */
+    QString openFilter; /**< Supported open formats filter. */
+    QString saveFilter; /**< Supported save formats filter. */
     bool mIsEdited, mIsPaint, mIsResize;
     QPixmap *pixmap;
     QCursor *currentCursor;
