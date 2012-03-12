@@ -60,7 +60,7 @@ private:
      * @param iconPath Path to button icon.
      * @return QToolButton Created QToolButton.
      */
-    QToolButton* createToolButton(const char *name, const QString &iconPath);
+    QToolButton* createToolButton(const QString &name, const QString &iconPath);
 
     QToolButton *mCursorButton, *mLasticButton, *mPenButton, *mLineButton,
                 *mPipetteButton, *mLoupeButton, *mSprayButton, *mFillButton,

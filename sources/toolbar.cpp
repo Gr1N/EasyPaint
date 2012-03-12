@@ -39,47 +39,47 @@ ToolBar::ToolBar(QWidget *parent) :
     prevInstrumentSetted = false;
 }
 
-QToolButton* ToolBar::createToolButton(const char *name, const QString &iconPath)
+QToolButton* ToolBar::createToolButton(const QString &name, const QString &iconPath)
 {
     QToolButton *toolButton = new QToolButton();
     toolButton->setMinimumSize(QSize(30, 30));
     toolButton->setMaximumSize(QSize(30, 30));
     toolButton->setIcon(QPixmap(iconPath));
-    toolButton->setStatusTip(tr(name));
+    toolButton->setStatusTip(name);
     toolButton->setCheckable(true);
     return toolButton;
 }
 
 void ToolBar::initializeItems()
 {
-    mCursorButton = createToolButton("Cursor", ":/media/instruments-icons/cursor.png");
+    mCursorButton = createToolButton(tr("Cursor"), ":/media/instruments-icons/cursor.png");
     connect(mCursorButton, SIGNAL(toggled(bool)), this, SLOT(setCursor(bool)));
 
-    mLasticButton = createToolButton("Lastic", ":/media/instruments-icons/lastic.png");
+    mLasticButton = createToolButton(tr("Lastic"), ":/media/instruments-icons/lastic.png");
     connect(mLasticButton, SIGNAL(toggled(bool)), this, SLOT(setLastic(bool)));
 
-    mPenButton = createToolButton("Pen", ":/media/instruments-icons/pencil.png");
+    mPenButton = createToolButton(tr("Pen"), ":/media/instruments-icons/pencil.png");
     connect(mPenButton, SIGNAL(toggled(bool)), this, SLOT(setPen(bool)));
 
-    mLineButton = createToolButton("Line", ":/media/instruments-icons/line.png");
+    mLineButton = createToolButton(tr("Line"), ":/media/instruments-icons/line.png");
     connect(mLineButton, SIGNAL(toggled(bool)), this, SLOT(setLine(bool)));
 
-    mPipetteButton = createToolButton("Pipette", ":/media/instruments-icons/pipette.png");
+    mPipetteButton = createToolButton(tr("Pipette"), ":/media/instruments-icons/pipette.png");
     connect(mPipetteButton, SIGNAL(toggled(bool)), this, SLOT(setPipette(bool)));
 
-    mLoupeButton = createToolButton("Loupe", ":/media/instruments-icons/loupe.png");
+    mLoupeButton = createToolButton(tr("Loupe"), ":/media/instruments-icons/loupe.png");
     connect(mLoupeButton, SIGNAL(toggled(bool)), this, SLOT(setLoupe(bool)));
 
-    mSprayButton = createToolButton("Spray", ":/media/instruments-icons/spray.png");
+    mSprayButton = createToolButton(tr("Spray"), ":/media/instruments-icons/spray.png");
     connect(mSprayButton, SIGNAL(toggled(bool)), this, SLOT(setSpray(bool)));
 
-    mFillButton = createToolButton("Fill", ":/media/instruments-icons/fill.png");
+    mFillButton = createToolButton(tr("Fill"), ":/media/instruments-icons/fill.png");
     connect(mFillButton, SIGNAL(toggled(bool)), this, SLOT(setFill(bool)));
 
-    mRectButton = createToolButton("Rect", ":/media/instruments-icons/rectangle.png");
+    mRectButton = createToolButton(tr("Rect"), ":/media/instruments-icons/rectangle.png");
     connect(mRectButton, SIGNAL(toggled(bool)), this, SLOT(setRect(bool)));
 
-    mEllipseButton = createToolButton("Ellipse", ":/media/instruments-icons/ellipse.png");
+    mEllipseButton = createToolButton(tr("Ellipse"), ":/media/instruments-icons/ellipse.png");
     connect(mEllipseButton, SIGNAL(toggled(bool)), this, SLOT(setEllipse(bool)));
 
 
@@ -181,7 +181,7 @@ void ToolBar::setAllButtonsUnchecked(QToolButton *button)
 
 void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
 {
-    setAllButtonsUnchecked(new QToolButton());
+    setAllButtonsUnchecked(NULL);
     switch(instrument)
     {
     case NONE:
