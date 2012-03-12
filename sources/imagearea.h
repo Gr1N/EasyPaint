@@ -173,6 +173,11 @@ signals:
     void sendNewImageSize(const QSize&);
     void sendCursorPos(const QPoint&);
     void sendColor(const QColor&);
+    /**
+     * @brief Send signal to restore previous checked instrument for ToolBar.
+     *
+     */
+    void sendRestorePreviousInstrument();
     
 private slots:
     void autoSave();

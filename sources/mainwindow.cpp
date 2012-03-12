@@ -108,6 +108,7 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
 
         connect(imageArea, SIGNAL(sendFirstColorView()), mToolbar, SLOT(setFirstColorView()));
         connect(imageArea, SIGNAL(sendSecondColorView()), mToolbar, SLOT(setSecondColorView()));
+        connect(imageArea, SIGNAL(sendRestorePreviousInstrument()), mToolbar, SLOT(restorePreviousInstrument()));
         connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
         connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
         connect(imageArea, SIGNAL(sendColor(QColor)), this, SLOT(setCurrentPipetteColor(QColor)));

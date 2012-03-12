@@ -36,6 +36,7 @@ ToolBar::ToolBar(QWidget *parent) :
 {
     setMovable(false);
     initializeItems();
+    prevInstrumentSetted = false;
 }
 
 QToolButton* ToolBar::createToolButton(const char *name, const QString &iconPath)
@@ -288,6 +289,11 @@ void ToolBar::setPipette(const bool &state)
 {
     if(state)
     {
+        if (!prevInstrumentSetted)
+        {
+            DataSingleton::Instance()->setPreviousInstrument(DataSingleton::Instance()->getInstrument());
+            prevInstrumentSetted = true;
+        }
         setAllButtonsUnchecked(mPipetteButton);
         mPipetteButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(PIPETTE);
@@ -384,4 +390,12 @@ void ToolBar::setEllipse(const bool &state)
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
+}
+
+void ToolBar::restorePreviousInstrument()
+{
+    setInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
+    DataSingleton::Instance()->setInstrument(DataSingleton::Instance()->getPreviousInstrument());
+    emit sendInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
+    prevInstrumentSetted = false;
 }

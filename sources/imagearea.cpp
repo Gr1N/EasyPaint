@@ -288,8 +288,8 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
     {
         restoreCursor();
     }
-    if(event->pos().x() <= mImage->width() &&
-            event->pos().y() <= mImage->height())
+    if(event->pos().x() < mImage->width() &&
+            event->pos().y() < mImage->height())
     {
         emit sendCursorPos(event->pos());
         if(DataSingleton::Instance()->getInstrument() == PIPETTE)
@@ -407,6 +407,7 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->pipette(false);
             mIsPaint = false;
             emit sendFirstColorView();
+            emit sendRestorePreviousInstrument();
             break;
         case RECT:
             *mImage = mImageCopy;
@@ -450,6 +451,7 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->pipette(true);
             mIsPaint = false;
             emit sendSecondColorView();
+            emit sendRestorePreviousInstrument();
             break;
         case RECT:
             *mImage = mImageCopy;

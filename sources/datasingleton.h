@@ -52,6 +52,8 @@ public:
     inline void setPenSize(const int &size) { mPenSize = size; }
     inline InstrumentsEnum getInstrument() { return mCurrentInstrument; }
     inline void setInstrument(const InstrumentsEnum &instrument) { mCurrentInstrument = instrument; }
+    inline InstrumentsEnum getPreviousInstrument() { return mPreviousInstrument; }
+    inline void setPreviousInstrument(const InstrumentsEnum &instrument) { mPreviousInstrument = instrument; }
     inline QSize getBaseSize() { return mBaseSize; }
     inline void setBaseSize(const QSize &baseSize) { mBaseSize = baseSize; }
     inline bool getIsAutoSave() { return mIsAutoSave; }
@@ -74,7 +76,7 @@ private:
     QColor mFirstColor,
            mSecondColor;
     int mPenSize;
-    InstrumentsEnum mCurrentInstrument;
+    InstrumentsEnum mCurrentInstrument, mPreviousInstrument;
     QSize mBaseSize;
     bool mIsAutoSave;
     int mAutoSaveInterval, mHistoryDepth;
