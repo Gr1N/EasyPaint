@@ -368,6 +368,7 @@ void MainWindow::initializeToolBar()
     mToolbar = new ToolBar(this);
     addToolBar(Qt::LeftToolBarArea, mToolbar);
     connect(mToolbar, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), this, SLOT(setInstrumentChecked(InstrumentsEnum)));
+    connect(mToolbar, SIGNAL(sendClearStatusBarColor()), this, SLOT(clearStatusBarColor()));
     connect(this, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), mToolbar, SLOT(setInstrumentChecked(InstrumentsEnum)));
 }
 
@@ -417,6 +418,11 @@ void MainWindow::setCurrentPipetteColor(const QColor &color)
 {
     mColorLabel->setText(QString("RGB: %1,%2,%3").arg(color.red())
                          .arg(color.green()).arg(color.blue()));
+}
+
+void MainWindow::clearStatusBarColor()
+{
+    mColorLabel->setText(NULL);
 }
 
 void MainWindow::newAct()

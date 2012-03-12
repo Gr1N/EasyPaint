@@ -398,4 +398,5 @@ void ToolBar::restorePreviousInstrument()
     DataSingleton::Instance()->setInstrument(DataSingleton::Instance()->getPreviousInstrument());
     emit sendInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
     prevInstrumentSetted = false;
+    emit sendClearStatusBarColor();
 }

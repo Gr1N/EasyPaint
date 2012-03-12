@@ -99,6 +99,7 @@ private slots:
     void setNewSizeToSizeLabel(const QSize &size);
     void setNewPosToPosLabel(const QPoint &pos);
     void setCurrentPipetteColor(const QColor &color);
+    void clearStatusBarColor();
     void setInstrumentChecked(InstrumentsEnum instrument);
     void newAct();
     void openAct();
