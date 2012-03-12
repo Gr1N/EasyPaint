@@ -191,6 +191,7 @@ void MainWindow::initializeMainMenu()
     mUndoAction->setShortcut(QKeySequence::Undo);
     mUndoAction->setIcon(QIcon::fromTheme("edit-undo"/*, QIcon("")*/));
     mUndoAction->setIconVisibleInMenu(true);
+    mUndoAction->setEnabled(false);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(mUndoAction);
@@ -199,6 +200,7 @@ void MainWindow::initializeMainMenu()
     mRedoAction->setShortcut(QKeySequence::Redo);
     mRedoAction->setIcon(QIcon::fromTheme("edit-redo"/*, QIcon("")*/));
     mRedoAction->setIconVisibleInMenu(true);
+    mRedoAction->setEnabled(false);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(mRedoAction);
@@ -209,6 +211,7 @@ void MainWindow::initializeMainMenu()
     mCopyAction->setShortcut(QKeySequence::Copy);
     mCopyAction->setIcon(QIcon::fromTheme("edit-copy"/*, QIcon("")*/));
     mCopyAction->setIconVisibleInMenu(true);
+    mCopyAction->setEnabled(false);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(mCopyAction);
@@ -217,6 +220,7 @@ void MainWindow::initializeMainMenu()
     pasteAction->setShortcut(QKeySequence::Paste);
     pasteAction->setIcon(QIcon::fromTheme("edit-paste"/*, QIcon("")*/));
     pasteAction->setIconVisibleInMenu(true);
+    pasteAction->setEnabled(false);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(pasteAction);
@@ -225,6 +229,7 @@ void MainWindow::initializeMainMenu()
     mCutAction->setShortcut(QKeySequence::Cut);
     mCutAction->setIcon(QIcon::fromTheme("edit-cut"/*, QIcon("")*/));
     mCutAction->setIconVisibleInMenu(true);
+    mCutAction->setEnabled(false);
 //    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(mCutAction);
@@ -259,6 +264,7 @@ void MainWindow::initializeMainMenu()
     mLoupeAction = new QAction(tr("Loupe"), this);
     mLoupeAction->setCheckable(true);
     connect(mLoupeAction, SIGNAL(triggered(bool)), this, SLOT(loupeAct(bool)));
+    mLoupeAction->setEnabled(false);
     mInstrumentsMenu->addAction(mLoupeAction);
 
     mPenAction = new QAction(tr("Pen"), this);
@@ -812,10 +818,10 @@ void MainWindow::enableActions(int index)
     mSaveAsAction->setEnabled(isEnable);
     mCloseAction->setEnabled(isEnable);
     mPrintAction->setEnabled(isEnable);
-    mUndoAction->setEnabled(isEnable);
-    mRedoAction->setEnabled(isEnable);
-    mCopyAction->setEnabled(isEnable);
-    mCutAction->setEnabled(isEnable);
+//    mUndoAction->setEnabled(isEnable);
+//    mRedoAction->setEnabled(isEnable);
+//    mCopyAction->setEnabled(isEnable);
+//    mCutAction->setEnabled(isEnable);
 
     if(!isEnable)
     {
