@@ -39,7 +39,6 @@
 #include <QtGui/QTreeWidget>
 #include <QtGui/QLineEdit>
 #include <QtGui/QPushButton>
-#include <QtCore/QDebug>
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent)
@@ -141,7 +140,9 @@ void SettingsDialog::initializeGui()
     connect(mShortcutsTree, SIGNAL(itemSelectionChanged()),
             this, SLOT(itemSelectionChanged()));
 
-    createItemsGroup(tr("File"), DataSingleton::Instance()->getFileShortcuts());
+    createItemsGroup("File", DataSingleton::Instance()->getFileShortcuts());
+    createItemsGroup("Edit", DataSingleton::Instance()->getEditShortcuts());
+    createItemsGroup("Instruments", DataSingleton::Instance()->getInstrumentsShortcuts());
 
     vBox3->addWidget(mShortcutsTree);
 
@@ -152,12 +153,13 @@ void SettingsDialog::initializeGui()
     QLabel *label7 = new QLabel(tr("Key sequence:"));
     mShortcutEdit = new QLineEdit();
     mShortcutEdit->setEnabled(false);
-    QPushButton *resetButton = new QPushButton(tr("Reset"));
-    resetButton->setEnabled(false);
-//    connect();
+    connect(mShortcutEdit, SIGNAL(textChanged(QString)), this, SLOT(textChanged(QString)));
+    mResetButton = new QPushButton(tr("Reset"));
+    mResetButton->setEnabled(false);
+    connect(mResetButton, SIGNAL(clicked()), this, SLOT(reset()));
     hBox5->addWidget(label7);
     hBox5->addWidget(mShortcutEdit);
-    hBox5->addWidget(resetButton);
+    hBox5->addWidget(mResetButton);
 
     QVBoxLayout *vBox5 = new QVBoxLayout();
     vBox5->addWidget(groupBox3);
@@ -166,12 +168,7 @@ void SettingsDialog::initializeGui()
     QWidget *secondTabWidget = new QWidget();
     secondTabWidget->setLayout(vBox5);
 
-//    tabWidget->addTab(secondTabWidget, tr("Keyboard"));
-}
-
-void SettingsDialog::itemSelectionChanged()
-{
-    qDebug()<<mShortcutsTree->selectedItems().at(0)->text(1);
+    tabWidget->addTab(secondTabWidget, tr("Keyboard"));
 }
 
 int SettingsDialog::getLanguageIndex()
@@ -191,6 +188,30 @@ void SettingsDialog::sendSettingToSingleton()
     QStringList languages;
     languages<<"system"<<"easypaint_en_EN"<<"easypaint_cs_CZ"<<"easypaint_ru_RU";
     DataSingleton::Instance()->setAppLanguage(languages.at(mLanguageBox->currentIndex()));
+
+    QTreeWidgetItem *item;
+    for(int i(0); i < mShortcutsTree->topLevelItemCount(); i++)
+    {
+        item = mShortcutsTree->topLevelItem(i);
+        for(int y(0); y < item->childCount(); y++)
+        {
+            if(item->text(0) == "File")
+            {
+                DataSingleton::Instance()->setFileShortcutByKey(item->child(y)->text(0),
+                                                                item->child(y)->text(1));
+            }
+            else if(item->text(0) == "Edit")
+            {
+                DataSingleton::Instance()->setEditShortcutByKey(item->child(y)->text(0),
+                                                                item->child(y)->text(1));
+            }
+            else if(item->text(0) == "Instruments")
+            {
+                DataSingleton::Instance()->setInstrumentShortcutByKey(item->child(y)->text(0),
+                                                                      item->child(y)->text(1));
+            }
+        }
+    }
 }
 
 void SettingsDialog::createItemsGroup(const QString &name, const QMap<QString, QString> &shortcuts)
@@ -206,6 +227,31 @@ void SettingsDialog::createItemsGroup(const QString &name, const QMap<QString, Q
         QTreeWidgetItem *subLevel = new QTreeWidgetItem(topLevel);
         subLevel->setText(0, iterator.key());
         subLevel->setText(1, iterator.value());
-//        qDebug()<<subLevel->parent()->text(0);
     }
+}
+
+void SettingsDialog::itemSelectionChanged()
+{
+    if(mShortcutsTree->selectedItems().at(0)->text(1).isEmpty())
+    {
+        mShortcutEdit->setEnabled(false);
+        mResetButton->setEnabled(false);
+        mShortcutEdit->clear();
+    }
+    else
+    {
+        mShortcutEdit->setEnabled(true);
+        mResetButton->setEnabled(true);
+        mShortcutEdit->setText(mShortcutsTree->selectedItems().at(0)->text(1));
+    }
+}
+
+void SettingsDialog::textChanged(const QString &text)
+{
+    mShortcutsTree->selectedItems().at(0)->setText(1, text);
+}
+
+void SettingsDialog::reset()
+{
+    mShortcutEdit->clear();
 }
