@@ -32,6 +32,9 @@ QT_BEGIN_NAMESPACE
 class QComboBox;
 class QSpinBox;
 class QCheckBox;
+class QLineEdit;
+class QTreeWidget;
+class QTreeWidgetItem;
 QT_END_NAMESPACE
 
 class SettingsDialog : public QDialog
@@ -47,14 +50,18 @@ public:
 private:
     void initializeGui();
     int getLanguageIndex();
+    void createItemsGroup(const QString &name, const QMap<QString, QString> &shortcuts);
 
     QComboBox *mLanguageBox;
     QSpinBox *mWidth, *mHeight, *mHistoryDepth, *mAutoSaveInterval;
     QCheckBox *mIsAutoSave;
+    QLineEdit *mShortcutEdit;
+    QTreeWidget *mShortcutsTree;
     
 signals:
     
-public slots:
+private slots:
+    void itemSelectionChanged();
     
 };
 

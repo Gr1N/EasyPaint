@@ -36,6 +36,10 @@
 #include <QtGui/QGroupBox>
 #include <QtGui/QSpinBox>
 #include <QtGui/QCheckBox>
+#include <QtGui/QTreeWidget>
+#include <QtGui/QLineEdit>
+#include <QtGui/QPushButton>
+#include <QtCore/QDebug>
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent)
@@ -124,8 +128,50 @@ void SettingsDialog::initializeGui()
     QWidget *firstTabWidget = new QWidget();
     firstTabWidget->setLayout(vBox2);
 
-    tabWidget->addTab(firstTabWidget, tr("Main"));
+    tabWidget->addTab(firstTabWidget, tr("General"));
 
+    QGroupBox *groupBox3 = new QGroupBox(tr("Keyboard shortcuts"));
+    QVBoxLayout *vBox3 = new QVBoxLayout();
+    groupBox3->setLayout(vBox3);
+
+    mShortcutsTree = new QTreeWidget();
+    QStringList header;
+    header<<tr("Command")<<tr("Shortcut");
+    mShortcutsTree->setHeaderLabels(header);
+    connect(mShortcutsTree, SIGNAL(itemSelectionChanged()),
+            this, SLOT(itemSelectionChanged()));
+
+    createItemsGroup(tr("File"), DataSingleton::Instance()->getFileShortcuts());
+
+    vBox3->addWidget(mShortcutsTree);
+
+    QGroupBox *groupBox4 = new QGroupBox(tr("Shortcut"));
+    QHBoxLayout *hBox5 = new QHBoxLayout();
+    groupBox4->setLayout(hBox5);
+
+    QLabel *label7 = new QLabel(tr("Key sequence:"));
+    mShortcutEdit = new QLineEdit();
+    mShortcutEdit->setEnabled(false);
+    QPushButton *resetButton = new QPushButton(tr("Reset"));
+    resetButton->setEnabled(false);
+//    connect();
+    hBox5->addWidget(label7);
+    hBox5->addWidget(mShortcutEdit);
+    hBox5->addWidget(resetButton);
+
+    QVBoxLayout *vBox5 = new QVBoxLayout();
+    vBox5->addWidget(groupBox3);
+    vBox5->addWidget(groupBox4);
+
+    QWidget *secondTabWidget = new QWidget();
+    secondTabWidget->setLayout(vBox5);
+
+//    tabWidget->addTab(secondTabWidget, tr("Keyboard"));
+}
+
+void SettingsDialog::itemSelectionChanged()
+{
+    qDebug()<<mShortcutsTree->selectedItems().at(0)->text(1);
 }
 
 int SettingsDialog::getLanguageIndex()
@@ -145,4 +191,21 @@ void SettingsDialog::sendSettingToSingleton()
     QStringList languages;
     languages<<"system"<<"easypaint_en_EN"<<"easypaint_cs_CZ"<<"easypaint_ru_RU";
     DataSingleton::Instance()->setAppLanguage(languages.at(mLanguageBox->currentIndex()));
+}
+
+void SettingsDialog::createItemsGroup(const QString &name, const QMap<QString, QString> &shortcuts)
+{
+    QTreeWidgetItem *topLevel = new QTreeWidgetItem(mShortcutsTree);
+    mShortcutsTree->addTopLevelItem(topLevel);
+    topLevel->setText(0, name);
+    topLevel->setExpanded(true);
+    QMapIterator<QString, QString> iterator(shortcuts);
+    while(iterator.hasNext())
+    {
+        iterator.next();
+        QTreeWidgetItem *subLevel = new QTreeWidgetItem(topLevel);
+        subLevel->setText(0, iterator.key());
+        subLevel->setText(1, iterator.value());
+//        qDebug()<<subLevel->parent()->text(0);
+    }
 }

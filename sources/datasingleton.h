@@ -28,6 +28,9 @@
 
 #include <QtGui/QColor>
 #include <QtCore/QSize>
+#include <QtCore/QString>
+#include <QtCore/QMap>
+
 #include "easypaintenums.h"
 
 /**
@@ -64,6 +67,7 @@ public:
     inline void setHistoryDepth(const int &historyDepth) { mHistoryDepth = historyDepth; }
     inline QString getAppLanguage() { return mAppLanguage; }
     inline void setAppLanguage(const QString &appLanguage) { mAppLanguage = appLanguage; }
+    inline QMap<QString, QString> getFileShortcuts() { return mFileShortcuts; }
 
     void readSetting();
     void writeSettings();
@@ -81,6 +85,7 @@ private:
     bool mIsAutoSave;
     int mAutoSaveInterval, mHistoryDepth;
     QString mAppLanguage;
+    QMap<QString, QString> mFileShortcuts;
 
 };
 

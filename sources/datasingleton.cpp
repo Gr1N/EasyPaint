@@ -55,6 +55,10 @@ void DataSingleton::readSetting()
     mAutoSaveInterval = settings.value("/AutoSaveInterval", 300000).toInt();
     mHistoryDepth = settings.value("/HistoryDepth", 40).toInt();
     mAppLanguage = settings.value("/AppLanguage", "system").toString();
+
+    //read shortcuts for file menu
+    mFileShortcuts.insert("New", settings.value("/Shortcuts/File/New", "Ctrl+N").toString());
+    mFileShortcuts.insert("Open", settings.value("/Shortcuts/File/Open", "Ctrl+O").toString());
 }
 
 void DataSingleton::writeSettings()
