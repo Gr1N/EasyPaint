@@ -32,6 +32,8 @@
 #include <QtCore/QDebug>
 #include <QtGui/QDialogButtonBox>
 #include <QtGui/QCheckBox>
+#include <QtGui/QGroupBox>
+#include <QtGui/QVBoxLayout>
 
 ResizeDialog::ResizeDialog(const QSize &size, QWidget *parent) :
     QDialog(parent), mWidth(size.width()), mHeight(size.height()),
@@ -87,31 +89,42 @@ void ResizeDialog::initializeGui()
 
     mPreserveAspectBox = new QCheckBox(tr("Preserve Aspect Ratio"));
 
-    QGridLayout *gLayout = new QGridLayout();
-    gLayout->addWidget(label1, 0, 0);
-    gLayout->addWidget(label2, 0, 1);
-    gLayout->addWidget(label3, 1, 0);
-    gLayout->addWidget(mNewSizeLabel, 1, 1);
-    gLayout->addWidget(pixelButton, 2, 0);
-    gLayout->addWidget(label4, 2, 1);
-    gLayout->addWidget(mPixelWButton, 2, 2);
-    gLayout->addWidget(label5, 2, 3);
-    gLayout->addWidget(mPixelHButton, 2, 4);
-    gLayout->addWidget(percentButton, 3, 0);
-    gLayout->addWidget(label6, 3, 1);
-    gLayout->addWidget(mPercentWButton, 3, 2);
-    gLayout->addWidget(label7, 3, 3);
-    gLayout->addWidget(mPercentHButton, 3, 4);
-    gLayout->addWidget(label8, 3, 5);
-    gLayout->addWidget(mPreserveAspectBox, 4, 0, 1, 6);
+    QGridLayout *gLayout1 = new QGridLayout();
+    gLayout1->addWidget(label1, 0, 0);
+    gLayout1->addWidget(label2, 0, 1);
+    gLayout1->addWidget(label3, 1, 0);
+    gLayout1->addWidget(mNewSizeLabel, 1, 1);
+    QGridLayout *gLayout2 = new QGridLayout();
+    gLayout2->addWidget(pixelButton, 0, 0);
+    gLayout2->addWidget(label4, 0, 1);
+    gLayout2->addWidget(mPixelWButton, 0, 2);
+    gLayout2->addWidget(label5, 0, 3);
+    gLayout2->addWidget(mPixelHButton, 0, 4);
+    gLayout2->addWidget(percentButton, 1, 0);
+    gLayout2->addWidget(label6, 1, 1);
+    gLayout2->addWidget(mPercentWButton, 1, 2);
+    gLayout2->addWidget(label7, 1, 3);
+    gLayout2->addWidget(mPercentHButton, 1, 4);
+    gLayout2->addWidget(label8, 1, 5);
+    gLayout2->addWidget(mPreserveAspectBox, 2, 0, 1, 6);
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
                                                        QDialogButtonBox::Cancel);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    gLayout->addWidget(buttonBox, 5, 0, 1, 6);
 
-    setLayout(gLayout);
+    QGroupBox *groupBox1 = new QGroupBox();
+    groupBox1->setLayout(gLayout1);
+
+    QGroupBox *groupBox2 = new QGroupBox();
+    groupBox2->setLayout(gLayout2);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout();
+    mainLayout->addWidget(groupBox1);
+    mainLayout->addWidget(groupBox2);
+    mainLayout->addWidget(buttonBox);
+
+    setLayout(mainLayout);
 }
 
 void ResizeDialog::pixelsButtonClicked(bool flag)
