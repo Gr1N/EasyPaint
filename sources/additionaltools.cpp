@@ -102,3 +102,7 @@ void AdditionalTools::rotateImage(bool flag)
     mPImageArea->update();
     mPImageArea->setEdited(true);
 }
+
+void AdditionalTools::zoomImage(bool flag)
+{
+}

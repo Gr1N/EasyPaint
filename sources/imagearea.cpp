@@ -211,6 +211,11 @@ void ImageArea::rotateImage(bool flag)
     emit sendNewImageSize(mImage->size());
 }
 
+void ImageArea::zoomImage(bool flag)
+{
+    mAdditionalTools->zoomImage(flag);
+}
+
 void ImageArea::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)

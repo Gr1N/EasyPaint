@@ -340,6 +340,24 @@ void MainWindow::initializeMainMenu()
 
     mToolsMenu->addMenu(rotateMenu);
 
+    QMenu *zoomMenu = new QMenu(tr("Zoom"));
+
+    QAction *zoomInAction = new QAction(tr("Zoom In"), this);
+    zoomInAction->setIcon(QIcon::fromTheme("object-zoom-in"/*, QIcon("")*/));
+    zoomInAction->setIconVisibleInMenu(true);
+    zoomInAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
+    connect(zoomInAction, SIGNAL(triggered()), this, SLOT(zoomInAct()));
+    zoomMenu->addAction(zoomInAction);
+
+    QAction *zoomOutAction = new QAction(tr("Zoom Out"), this);
+    zoomOutAction->setIcon(QIcon::fromTheme("object-zoom-out"/*, QIcon("")*/));
+    zoomOutAction->setIconVisibleInMenu(true);
+    zoomOutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
+    connect(zoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOutAct()));
+    zoomMenu->addAction(zoomOutAction);
+
+    mToolsMenu->addMenu(zoomMenu);
+
     QMenu *aboutMenu = menuBar()->addMenu(tr("&About"));
 
     QAction *aboutAction = new QAction(tr("&About EasyPaint"), this);
@@ -507,6 +525,16 @@ void MainWindow::rotateLeftImageAct()
 void MainWindow::rotateRightImageAct()
 {
     getCurrentImageArea()->rotateImage(true);
+}
+
+void MainWindow::zoomInAct()
+{
+    getCurrentImageArea()->zoomImage(true);
+}
+
+void MainWindow::zoomOutAct()
+{
+    getCurrentImageArea()->zoomImage(false);
 }
 
 void MainWindow::closeTabAct()

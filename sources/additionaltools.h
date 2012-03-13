@@ -70,6 +70,12 @@ public:
      * @param flag Left or right
      */
     void rotateImage(bool flag);
+    /**
+     * @brief Zoom image
+     *
+     * @param flag Zoom in or zoom out
+     */
+    void zoomImage(bool flag);
     
 private:
     ImageArea *mPImageArea; /**< A pointer to ImageArea */

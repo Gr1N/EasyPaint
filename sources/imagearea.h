@@ -118,6 +118,12 @@ public:
      *
      */
     void restoreCursor();
+    /**
+     * @brief Change image scaling.
+     *
+     * @param flag Boolean flag, shows is image zoom in (true) or zoom out (false).
+     */
+    void zoomImage(bool flag);
     
 private:
     /**
