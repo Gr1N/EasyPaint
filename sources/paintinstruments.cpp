@@ -38,6 +38,7 @@ PaintInstruments::PaintInstruments(ImageArea *pImageArea, QObject *parent) :
     mPImageArea = pImageArea;
 }
 
+
 PaintInstruments::~PaintInstruments()
 {
 
@@ -71,19 +72,10 @@ void PaintInstruments::line(bool isSecondColor, bool isLastic)
     {
         painter.drawLine(mStartPoint, mEndPoint);
     }
-    if(DataSingleton::Instance()->getInstrument() == PEN && mStartPoint == mEndPoint)
+
+    if(mStartPoint == mEndPoint)
     {
-        if(DataSingleton::Instance()->getPenSize() > 1)
-        {
-            painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),
-                                round(DataSingleton::Instance()->getPenSize() / 2),
-                                Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            painter.drawRect(QRect(mStartPoint, mEndPoint));
-        }
-        else
-        {
-            painter.drawPoint(mStartPoint);
-        }
+        painter.drawPoint(mStartPoint);
     }
     mPImageArea->setEdited(true);
 //    int rad(DataSingleton::Instance()->getPenSize() + round(sqrt((mStartPoint.x() - mEndPoint.x()) *
