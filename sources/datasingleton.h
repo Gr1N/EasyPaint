@@ -93,7 +93,7 @@ private:
     bool mIsAutoSave;
     int mAutoSaveInterval, mHistoryDepth;
     QString mAppLanguage;
-    QMap<QString, QString> mFileShortcuts, mEditShortcuts, mInstrumentsShortcuts;
+    QMap<QString, QString> mFileShortcuts, mEditShortcuts, mInstrumentsShortcuts, mToolsShortcuts;
 
 };
 

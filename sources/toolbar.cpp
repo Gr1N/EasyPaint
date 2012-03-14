@@ -69,7 +69,6 @@ void ToolBar::initializeItems()
 
     mLoupeButton = createToolButton(tr("Loupe"), ":/media/instruments-icons/loupe.png");
     connect(mLoupeButton, SIGNAL(toggled(bool)), this, SLOT(setLoupe(bool)));
-    mLoupeButton->setEnabled(false);
 
     mSprayButton = createToolButton(tr("Spray"), ":/media/instruments-icons/spray.png");
     connect(mSprayButton, SIGNAL(toggled(bool)), this, SLOT(setSpray(bool)));

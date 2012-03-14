@@ -97,7 +97,7 @@ private:
             *mRectAction, *mEllipseAction,
             *mSaveAction, *mSaveAsAction, *mCloseAction, *mPrintAction,
             *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction,
-            *mNewAction, *mOpenAction, *mExitAction, *mPasteAction;
+            *mNewAction, *mOpenAction, *mExitAction, *mPasteAction, *mZoomInAction, *mZoomOutAction;
     QMenu *mInstrumentsMenu, *mEffectsMenu, *mToolsMenu;
 
 private slots:
@@ -120,6 +120,9 @@ private slots:
     void resizeCanvasAct();
     void rotateLeftImageAct();
     void rotateRightImageAct();
+    void zoomInAct();
+    void zoomOutAct();
+    void advancedZoomAct();
     void closeTabAct();
     void closeTab(int index);
     void setAllInstrumentsUnchecked(QAction *action);

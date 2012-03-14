@@ -39,6 +39,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QtEvents>
 #include <QtGui/QPainter>
+#include <QtGui/QInputDialog>
 
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)
@@ -253,7 +254,6 @@ void MainWindow::initializeMainMenu()
     mLoupeAction = new QAction(tr("Loupe"), this);
     mLoupeAction->setCheckable(true);
     connect(mLoupeAction, SIGNAL(triggered(bool)), this, SLOT(loupeAct(bool)));
-    mLoupeAction->setEnabled(false);
     mInstrumentsMenu->addAction(mLoupeAction);
 
     mPenAction = new QAction(tr("Pen"), this);
@@ -327,6 +327,28 @@ void MainWindow::initializeMainMenu()
     rotateMenu->addAction(rotateRAction);
 
     mToolsMenu->addMenu(rotateMenu);
+
+    QMenu *zoomMenu = new QMenu(tr("Zoom"));
+
+    mZoomInAction = new QAction(tr("Zoom In"), this);
+    mZoomInAction->setIcon(QIcon::fromTheme("object-zoom-in"/*, QIcon("")*/));
+    mZoomInAction->setIconVisibleInMenu(true);
+    connect(mZoomInAction, SIGNAL(triggered()), this, SLOT(zoomInAct()));
+    zoomMenu->addAction(mZoomInAction);
+
+    mZoomOutAction = new QAction(tr("Zoom Out"), this);
+    mZoomOutAction->setIcon(QIcon::fromTheme("object-zoom-out"/*, QIcon("")*/));
+    mZoomOutAction->setIconVisibleInMenu(true);
+    connect(mZoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOutAct()));
+    zoomMenu->addAction(mZoomOutAction);
+
+    QAction *advancedZoomAction = new QAction(tr("Advanced Zoom..."), this);
+    advancedZoomAction->setIcon(QIcon::fromTheme("object-advanced-zoom"/*, QIcon("")*/));
+    advancedZoomAction->setIconVisibleInMenu(true);
+    connect(advancedZoomAction, SIGNAL(triggered()), this, SLOT(advancedZoomAct()));
+    zoomMenu->addAction(advancedZoomAction);
+
+    mToolsMenu->addMenu(zoomMenu);
 
     QMenu *aboutMenu = menuBar()->addMenu(tr("&About"));
 
@@ -496,6 +518,9 @@ void MainWindow::updateShortcuts()
     mFillAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill")));
     mRectAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect")));
     mEllipseAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse")));
+
+    mZoomInAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Zoom In")));
+    mZoomOutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Zoom Out")));
 }
 
 void MainWindow::effectGrayAct()
@@ -528,6 +553,29 @@ void MainWindow::rotateRightImageAct()
     getCurrentImageArea()->rotateImage(true);
 }
 
+void MainWindow::zoomInAct()
+{
+    getCurrentImageArea()->zoomImage(2.0);
+    getCurrentImageArea()->setZoomFactor(2.0);
+}
+
+void MainWindow::zoomOutAct()
+{
+    getCurrentImageArea()->zoomImage(0.5);
+    getCurrentImageArea()->setZoomFactor(0.5);
+}
+
+void MainWindow::advancedZoomAct()
+{
+    bool ok;
+    qreal factor = QInputDialog::getDouble(this, tr("Enter zoom factor"), tr("Zoom factor:"), 2.5, 0, 1000, 5, &ok);
+    if (ok)
+    {
+        getCurrentImageArea()->zoomImage(factor);
+        getCurrentImageArea()->setZoomFactor(factor);
+    }
+}
+
 void MainWindow::closeTabAct()
 {
     closeTab(mTabWidget->currentIndex());
@@ -556,6 +604,10 @@ void MainWindow::closeTab(int index)
     QWidget *wid = mTabWidget->widget(index);
     mTabWidget->removeTab(index);
     delete wid;
+    if (mTabWidget->count() == 0)
+    {
+        setWindowTitle("Empty - EasyPaint");
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

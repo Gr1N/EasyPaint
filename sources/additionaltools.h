@@ -30,6 +30,7 @@
 
 QT_BEGIN_NAMESPACE
 class ImageArea;
+class QSize;
 QT_END_NAMESPACE
 
 /**
@@ -70,11 +71,18 @@ public:
      * @param flag Left or right
      */
     void rotateImage(bool flag);
+    /**
+     * @brief Zoom image
+     *
+     * @param factor Scale factor
+     */
+    void zoomImage(qreal factor);
     
 private:
     ImageArea *mPImageArea; /**< A pointer to ImageArea */
 
 signals:
+    void sendNewImageSize(const QSize&);
     
 public slots:
     
