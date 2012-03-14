@@ -44,6 +44,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
 {
     setMouseTracking(true);
 
+    mRightButtonPressed = false;
     mFilePath.clear();
     makeFormatsFilters();
     initializeImage();
@@ -245,6 +246,8 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
     }
     if(event->button() == Qt::RightButton)
     {
+        mRightButtonPressed = true;
+        restoreCursor();
         switch(DataSingleton::Instance()->getInstrument())
         {
         case NONE: case LASTIC: case LOUPE:
@@ -416,6 +419,8 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
     }
     if(event->button() == Qt::RightButton && mIsPaint)
     {
+        mRightButtonPressed = false;
+        restoreCursor();
         mPaintInstruments->setEndPoint(event->pos());
         switch(DataSingleton::Instance()->getInstrument())
         {
@@ -516,7 +521,15 @@ void ImageArea::drawCursor()
     QPainter painter;
     pixmap = new QPixmap(DataSingleton::Instance()->getPenSize() + 1,
                          DataSingleton::Instance()->getPenSize() + 1);
-    pixmap->fill(QColor(0, 0, 0, 0));
+    switch(DataSingleton::Instance()->getInstrument())
+    {
+    case NONE: case LINE: case PIPETTE: case LOUPE: case  SPRAY:
+    case FILL: case RECT: case ELLIPSE:
+        break;
+    case PEN: case LASTIC:
+        pixmap->fill(QColor(0, 0, 0, 0));
+        break;
+    }
     painter.begin(pixmap);
     switch(DataSingleton::Instance()->getInstrument())
     {
@@ -524,11 +537,16 @@ void ImageArea::drawCursor()
     case FILL: case RECT: case ELLIPSE:
         break;
     case PEN:
+        if(mRightButtonPressed)
+            painter.setBrush(QBrush(DataSingleton::Instance()->getSecondColor()));
+        else
+            painter.setBrush(QBrush(DataSingleton::Instance()->getFirstColor()));
         painter.drawEllipse(0, 0, DataSingleton::Instance()->getPenSize(),
                         DataSingleton::Instance()->getPenSize());
         break;
     case LASTIC:
-        painter.drawRect(0, 0, DataSingleton::Instance()->getPenSize(),
+        painter.setBrush(QBrush(Qt::white));
+        painter.drawEllipse(0, 0, DataSingleton::Instance()->getPenSize(),
                         DataSingleton::Instance()->getPenSize());
         break;
     }
