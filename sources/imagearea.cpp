@@ -559,6 +559,10 @@ void ImageArea::drawCursor()
     case FILL: case RECT: case ELLIPSE:
         break;
     case PEN:
+        if(DataSingleton::Instance()->getFirstColor().red() < 50
+                && DataSingleton::Instance()->getFirstColor().green() < 50
+                && DataSingleton::Instance()->getFirstColor().blue() < 50)
+            painter.setPen(QPen(Qt::white));
         if(mRightButtonPressed)
             painter.setBrush(QBrush(DataSingleton::Instance()->getSecondColor()));
         else
