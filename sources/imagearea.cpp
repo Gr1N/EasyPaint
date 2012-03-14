@@ -48,6 +48,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mFilePath.clear();
     makeFormatsFilters();
     initializeImage();
+    mZoomFactor = 1;
 
     mPaintInstruments = new PaintInstruments(this);
     mAdditionalTools = new AdditionalTools(this);
@@ -77,6 +78,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     QTimer *autoSaveTimer = new QTimer(this);
     autoSaveTimer->setInterval(DataSingleton::Instance()->getAutoSaveInterval());
     connect(autoSaveTimer, SIGNAL(timeout()), this, SLOT(autoSave()));
+    connect(mAdditionalTools, SIGNAL(sendNewImageSize(QSize)), this, SIGNAL(sendNewImageSize(QSize)));
 
     autoSaveTimer->start();
 }
@@ -212,6 +214,11 @@ void ImageArea::rotateImage(bool flag)
     emit sendNewImageSize(mImage->size());
 }
 
+void ImageArea::zoomImage(qreal factor)
+{
+    mAdditionalTools->zoomImage(factor);
+}
+
 void ImageArea::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
@@ -228,9 +235,9 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
         {
             switch(DataSingleton::Instance()->getInstrument())
             {
-            case NONE: case LOUPE:
+            case NONE:
                 break;
-            case PIPETTE:
+            case PIPETTE: case LOUPE:
                 mIsPaint = true;
                 break;
             case PEN: case LASTIC: case SPRAY: case FILL:
@@ -253,9 +260,9 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
         restoreCursor();
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LASTIC: case LOUPE:
+        case NONE: case LASTIC:
             break;
-        case PIPETTE:
+        case PIPETTE: case LOUPE:
             mIsPaint = true;
             break;
         case PEN: case SPRAY:  case FILL:
@@ -389,7 +396,11 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         mPaintInstruments->setEndPoint(event->pos());
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LOUPE:
+        case NONE:
+            break;
+        case LOUPE:
+            mAdditionalTools->zoomImage(2.0);
+            setZoomFactor(2.0);
             break;
         case PEN:
             mPaintInstruments->line(false);
@@ -439,7 +450,11 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         mPaintInstruments->setEndPoint(event->pos());
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LASTIC: case LOUPE:
+        case NONE: case LASTIC:
+            break;
+        case LOUPE:
+            mAdditionalTools->zoomImage(0.5);
+            setZoomFactor(0.5);
             break;
         case PEN:
             mPaintInstruments->line(true);

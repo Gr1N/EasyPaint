@@ -118,6 +118,14 @@ public:
      *
      */
     void restoreCursor();
+    /**
+     * @brief Zoom image
+     *
+     * @param factor Scale factor
+     */
+    void zoomImage(qreal factor);
+    inline void setZoomFactor(qreal factor) { mZoomFactor *= factor; }
+    inline qreal getZoomFactor() { return mZoomFactor; }
     
 private:
     /**
@@ -158,6 +166,7 @@ private:
     bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed;
     QPixmap *pixmap;
     QCursor *currentCursor;
+    qreal mZoomFactor;
 
 signals:
     /**

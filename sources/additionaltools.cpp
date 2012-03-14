@@ -31,6 +31,7 @@
 #include <QtGui/QPainter>
 #include <QtGui/QLabel>
 #include <QtGui/QTransform>
+#include <QSize>
 
 AdditionalTools::AdditionalTools(ImageArea *pImageArea, QObject *parent) :
     QObject(parent)
@@ -100,5 +101,13 @@ void AdditionalTools::rotateImage(bool flag)
     mPImageArea->resize(mPImageArea->getImage()->rect().right() + 6,
                         mPImageArea->getImage()->rect().bottom() + 6);
     mPImageArea->update();
+    mPImageArea->setEdited(true);
+}
+
+void AdditionalTools::zoomImage(qreal factor)
+{
+    mPImageArea->setImage(mPImageArea->getImage()->transformed(QTransform::fromScale(factor, factor)));
+    mPImageArea->resize((mPImageArea->rect().width())*factor, (mPImageArea->rect().height())*factor);
+    emit sendNewImageSize(mPImageArea->size());
     mPImageArea->setEdited(true);
 }
