@@ -174,7 +174,7 @@ void SettingsDialog::initializeGui()
 int SettingsDialog::getLanguageIndex()
 {
     QStringList languages;
-    languages<<"system"<<"easypaint_en_EN"<<"easypaint_cs_CZ"<<"easypaint_ru_RU";
+    languages<<"system"<<"easypaint_en_EN"<<"easypaint_cs_CZ"<<"easypaint_fr_FR"<<"easypaint_ru_RU";
     return languages.indexOf(DataSingleton::Instance()->getAppLanguage());
 }
 

@@ -40,8 +40,9 @@ HEADERS  += mainwindow.h \
     settingsdialog.h
 
 TRANSLATIONS += \
-    translations/easypaint_ru_RU.ts \
-    translations/easypaint_cs_CZ.ts
+    translations/easypaint_cs_CZ.ts \
+    translations/easypaint_fr_FR.ts \
+    translations/easypaint_ru_RU.ts
 
 RESOURCES += \
     resources.qrc
