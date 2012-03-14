@@ -601,6 +601,10 @@ void MainWindow::closeTab(int index)
     QWidget *wid = mTabWidget->widget(index);
     mTabWidget->removeTab(index);
     delete wid;
+    if (mTabWidget->count() == 0)
+    {
+        setWindowTitle("Empty - EasyPaint");
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
