@@ -14,5 +14,6 @@
         <file>media/instruments-icons/cursor_pipette.png</file>
         <file>media/instruments-icons/cursor_spray.png</file>
         <file>media/instruments-icons/cursor_fill.png</file>
+        <file>media/textures/transparent.jpg</file>
     </qresource>
 </RCC>

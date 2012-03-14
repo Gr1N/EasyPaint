@@ -161,7 +161,7 @@ private:
     QString mFilePath; /**< Path where located image. */
     QString openFilter; /**< Supported open formats filter. */
     QString saveFilter; /**< Supported save formats filter. */
-    bool mIsEdited, mIsPaint, mIsResize;
+    bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed;
     QPixmap *pixmap;
     QCursor *currentCursor;
 

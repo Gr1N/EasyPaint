@@ -126,24 +126,21 @@ void MainWindow::initializeMainMenu()
 {
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
 
-    QAction *newAction = new QAction(tr("&New"), this);
-    newAction->setShortcut(QKeySequence::New);
-    newAction->setIcon(QIcon::fromTheme("document-new"/*, QIcon("")*/));
-    newAction->setIconVisibleInMenu(true);
+    mNewAction = new QAction(tr("&New"), this);
+    mNewAction->setIcon(QIcon::fromTheme("document-new"/*, QIcon("")*/));
+    mNewAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
-    connect(newAction, SIGNAL(triggered()), this, SLOT(newAct()));
-    fileMenu->addAction(newAction);
+    connect(mNewAction, SIGNAL(triggered()), this, SLOT(newAct()));
+    fileMenu->addAction(mNewAction);
 
-    QAction *openAction = new QAction(tr("&Open"), this);
-    openAction->setShortcut(QKeySequence::Open);
-    openAction->setIcon(QIcon::fromTheme("document-open"/*, QIcon("")*/));
-    openAction->setIconVisibleInMenu(true);
+    mOpenAction = new QAction(tr("&Open"), this);
+    mOpenAction->setIcon(QIcon::fromTheme("document-open"/*, QIcon("")*/));
+    mOpenAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
-    connect(openAction, SIGNAL(triggered()), this, SLOT(openAct()));
-    fileMenu->addAction(openAction);
+    connect(mOpenAction, SIGNAL(triggered()), this, SLOT(openAct()));
+    fileMenu->addAction(mOpenAction);
 
     mSaveAction = new QAction(tr("&Save"), this);
-    mSaveAction->setShortcut(QKeySequence::Save);
     mSaveAction->setIcon(QIcon::fromTheme("document-save"/*, QIcon("")*/));
     mSaveAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
@@ -151,7 +148,6 @@ void MainWindow::initializeMainMenu()
     fileMenu->addAction(mSaveAction);
 
     mSaveAsAction = new QAction(tr("Save as..."), this);
-    mSaveAsAction->setShortcut(QKeySequence::SaveAs);
     mSaveAsAction->setIcon(QIcon::fromTheme("document-save-as"/*, QIcon("")*/));
     mSaveAsAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
@@ -159,7 +155,6 @@ void MainWindow::initializeMainMenu()
     fileMenu->addAction(mSaveAsAction);
 
     mCloseAction = new QAction(tr("&Close"), this);
-    mCloseAction->setShortcut(QKeySequence::Close);
     mCloseAction->setIcon(QIcon::fromTheme("window-close"/*, QIcon("")*/));
     mCloseAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
@@ -169,7 +164,6 @@ void MainWindow::initializeMainMenu()
     fileMenu->addSeparator();
 
     mPrintAction = new QAction(tr("&Print"), this);
-    mPrintAction->setShortcut(QKeySequence::Print);
     mPrintAction->setIcon(QIcon::fromTheme("document-print"/*, QIcon("")*/));
     mPrintAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
@@ -178,18 +172,16 @@ void MainWindow::initializeMainMenu()
 
     fileMenu->addSeparator();
 
-    QAction *exitAction = new QAction(tr("&Exit"), this);
-    exitAction->setShortcut(QKeySequence::Quit);
-    exitAction->setIcon(QIcon::fromTheme("application-exit"/*, QIcon("")*/));
-    exitAction->setIconVisibleInMenu(true);
+    mExitAction = new QAction(tr("&Exit"), this);
+    mExitAction->setIcon(QIcon::fromTheme("application-exit"/*, QIcon("")*/));
+    mExitAction->setIconVisibleInMenu(true);
 //    newAction->setStatusTip();
-    connect(exitAction, SIGNAL(triggered()), SLOT(close()));
-    fileMenu->addAction(exitAction);
+    connect(mExitAction, SIGNAL(triggered()), SLOT(close()));
+    fileMenu->addAction(mExitAction);
 
     QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
 
     mUndoAction = new QAction(tr("&Undo"), this);
-    mUndoAction->setShortcut(QKeySequence::Undo);
     mUndoAction->setIcon(QIcon::fromTheme("edit-undo"/*, QIcon("")*/));
     mUndoAction->setIconVisibleInMenu(true);
     mUndoAction->setEnabled(false);
@@ -198,7 +190,6 @@ void MainWindow::initializeMainMenu()
     editMenu->addAction(mUndoAction);
 
     mRedoAction = new QAction(tr("&Redo"), this);
-    mRedoAction->setShortcut(QKeySequence::Redo);
     mRedoAction->setIcon(QIcon::fromTheme("edit-redo"/*, QIcon("")*/));
     mRedoAction->setIconVisibleInMenu(true);
     mRedoAction->setEnabled(false);
@@ -209,7 +200,6 @@ void MainWindow::initializeMainMenu()
     editMenu->addSeparator();
 
     mCopyAction = new QAction(tr("&Copy"), this);
-    mCopyAction->setShortcut(QKeySequence::Copy);
     mCopyAction->setIcon(QIcon::fromTheme("edit-copy"/*, QIcon("")*/));
     mCopyAction->setIconVisibleInMenu(true);
     mCopyAction->setEnabled(false);
@@ -217,17 +207,15 @@ void MainWindow::initializeMainMenu()
 //    connect();
     editMenu->addAction(mCopyAction);
 
-    QAction *pasteAction = new QAction(tr("&Paste"), this);
-    pasteAction->setShortcut(QKeySequence::Paste);
-    pasteAction->setIcon(QIcon::fromTheme("edit-paste"/*, QIcon("")*/));
-    pasteAction->setIconVisibleInMenu(true);
-    pasteAction->setEnabled(false);
+    mPasteAction = new QAction(tr("&Paste"), this);
+    mPasteAction->setIcon(QIcon::fromTheme("edit-paste"/*, QIcon("")*/));
+    mPasteAction->setIconVisibleInMenu(true);
+    mPasteAction->setEnabled(false);
 //    newAction->setStatusTip();
 //    connect();
-    editMenu->addAction(pasteAction);
+    editMenu->addAction(mPasteAction);
 
     mCutAction = new QAction(tr("C&ut"), this);
-    mCutAction->setShortcut(QKeySequence::Cut);
     mCutAction->setIcon(QIcon::fromTheme("edit-cut"/*, QIcon("")*/));
     mCutAction->setIconVisibleInMenu(true);
     mCutAction->setEnabled(false);
@@ -372,6 +360,8 @@ void MainWindow::initializeMainMenu()
 //    newAction->setStatusTip();
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     aboutMenu->addAction(aboutQtAction);
+
+    updateShortcuts();
 }
 
 void MainWindow::initializeStatusBar()
@@ -494,7 +484,36 @@ void MainWindow::settingsAct()
     {
         settingsDialog.sendSettingToSingleton();
         DataSingleton::Instance()->writeSettings();
+        updateShortcuts();
     }
+}
+
+void MainWindow::updateShortcuts()
+{
+    mNewAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("New")));
+    mOpenAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("Open")));
+    mSaveAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("Save")));
+    mSaveAsAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("SaveAs")));
+    mCloseAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("Close")));
+    mPrintAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("Print")));
+    mExitAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("Exit")));
+
+    mUndoAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Undo")));
+    mRedoAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Redo")));
+    mCopyAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Copy")));
+    mPasteAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Paste")));
+    mCutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Cut")));
+
+    mCursorAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Cursor")));
+    mLasticAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic")));
+    mPipetteAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette")));
+    mLoupeAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe")));
+    mPenAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Pen")));
+    mLineAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Line")));
+    mSprayAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Spray")));
+    mFillAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill")));
+    mRectAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect")));
+    mEllipseAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse")));
 }
 
 void MainWindow::effectGrayAct()

@@ -32,8 +32,16 @@ QT_BEGIN_NAMESPACE
 class QComboBox;
 class QSpinBox;
 class QCheckBox;
+class QLineEdit;
+class QTreeWidget;
+class QTreeWidgetItem;
+class QPushButton;
 QT_END_NAMESPACE
 
+/**
+ * @brief Dialog for changing application settings.
+ *
+ */
 class SettingsDialog : public QDialog
 {
     Q_OBJECT
@@ -42,19 +50,36 @@ public:
     explicit SettingsDialog(QWidget *parent = 0);
     ~SettingsDialog();
 
+    /**
+     * @brief Get all settings from form and send it to data singleton.
+     *
+     */
     void sendSettingToSingleton();
 
 private:
     void initializeGui();
     int getLanguageIndex();
+    /**
+     * @brief Create top level item in tree widget and create children items with shortcuts.
+     *
+     * @param name Top level item name.
+     * @param QMap<QString, QString> Map with all shortcuts for this group.
+     */
+    void createItemsGroup(const QString &name, const QMap<QString, QString> &shortcuts);
 
     QComboBox *mLanguageBox;
     QSpinBox *mWidth, *mHeight, *mHistoryDepth, *mAutoSaveInterval;
     QCheckBox *mIsAutoSave;
+    QLineEdit *mShortcutEdit;
+    QTreeWidget *mShortcutsTree;
+    QPushButton *mResetButton;
     
 signals:
     
-public slots:
+private slots:
+    void itemSelectionChanged();
+    void textChanged(const QString &text);
+    void reset();
     
 };
 

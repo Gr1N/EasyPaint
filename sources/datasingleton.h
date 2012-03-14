@@ -28,6 +28,9 @@
 
 #include <QtGui/QColor>
 #include <QtCore/QSize>
+#include <QtCore/QString>
+#include <QtCore/QMap>
+
 #include "easypaintenums.h"
 
 /**
@@ -64,6 +67,15 @@ public:
     inline void setHistoryDepth(const int &historyDepth) { mHistoryDepth = historyDepth; }
     inline QString getAppLanguage() { return mAppLanguage; }
     inline void setAppLanguage(const QString &appLanguage) { mAppLanguage = appLanguage; }
+    inline QMap<QString, QString> getFileShortcuts() { return mFileShortcuts; }
+    inline QString getFileShortcutByKey(const QString &key) { return mFileShortcuts[key]; }
+    inline void setFileShortcutByKey(const QString &key, const QString &value) { mFileShortcuts[key] = value; }
+    inline QMap<QString, QString> getEditShortcuts() { return mEditShortcuts; }
+    inline QString getEditShortcutByKey(const QString &key) { return mEditShortcuts[key]; }
+    inline void setEditShortcutByKey(const QString &key, const QString &value) { mEditShortcuts[key] = value; }
+    inline QMap<QString, QString> getInstrumentsShortcuts() { return mInstrumentsShortcuts; }
+    inline QString getInstrumentShortcutByKey(const QString &key) { return mInstrumentsShortcuts[key]; }
+    inline void setInstrumentShortcutByKey(const QString &key, const QString &value) { mInstrumentsShortcuts[key] = value; }
 
     void readSetting();
     void writeSettings();
@@ -81,6 +93,7 @@ private:
     bool mIsAutoSave;
     int mAutoSaveInterval, mHistoryDepth;
     QString mAppLanguage;
+    QMap<QString, QString> mFileShortcuts, mEditShortcuts, mInstrumentsShortcuts;
 
 };
 

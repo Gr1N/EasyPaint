@@ -81,6 +81,11 @@ private:
     ImageArea* getImageAreaByIndex(int index);
     bool closeAllTabs();
     bool isSomethingModified();
+    /**
+     * @brief Update all shortcuts in menu bar.
+     *
+     */
+    void updateShortcuts();
 
     QStatusBar *mStatusBar;
     QTabWidget *mTabWidget;
@@ -91,7 +96,8 @@ private:
             *mPenAction, *mLineAction, *mSprayAction, *mFillAction,
             *mRectAction, *mEllipseAction,
             *mSaveAction, *mSaveAsAction, *mCloseAction, *mPrintAction,
-            *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction;
+            *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction,
+            *mNewAction, *mOpenAction, *mExitAction, *mPasteAction;
     QMenu *mInstrumentsMenu, *mEffectsMenu, *mToolsMenu;
 
 private slots:
