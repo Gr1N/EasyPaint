@@ -97,7 +97,7 @@ private:
             *mRectAction, *mEllipseAction,
             *mSaveAction, *mSaveAsAction, *mCloseAction, *mPrintAction,
             *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction,
-            *mNewAction, *mOpenAction, *mExitAction, *mPasteAction;
+            *mNewAction, *mOpenAction, *mExitAction, *mPasteAction, *mZoomInAction, *mZoomOutAction;
     QMenu *mInstrumentsMenu, *mEffectsMenu, *mToolsMenu;
 
 private slots:

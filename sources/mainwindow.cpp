@@ -330,19 +330,19 @@ void MainWindow::initializeMainMenu()
 
     QMenu *zoomMenu = new QMenu(tr("Zoom"));
 
-    QAction *zoomInAction = new QAction(tr("Zoom In"), this);
-    zoomInAction->setIcon(QIcon::fromTheme("object-zoom-in"/*, QIcon("")*/));
-    zoomInAction->setIconVisibleInMenu(true);
-    connect(zoomInAction, SIGNAL(triggered()), this, SLOT(zoomInAct()));
-    zoomMenu->addAction(zoomInAction);
+    mZoomInAction = new QAction(tr("Zoom In"), this);
+    mZoomInAction->setIcon(QIcon::fromTheme("object-zoom-in"/*, QIcon("")*/));
+    mZoomInAction->setIconVisibleInMenu(true);
+    connect(mZoomInAction, SIGNAL(triggered()), this, SLOT(zoomInAct()));
+    zoomMenu->addAction(mZoomInAction);
 
-    QAction *zoomOutAction = new QAction(tr("Zoom Out"), this);
-    zoomOutAction->setIcon(QIcon::fromTheme("object-zoom-out"/*, QIcon("")*/));
-    zoomOutAction->setIconVisibleInMenu(true);
-    connect(zoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOutAct()));
-    zoomMenu->addAction(zoomOutAction);
+    mZoomOutAction = new QAction(tr("Zoom Out"), this);
+    mZoomOutAction->setIcon(QIcon::fromTheme("object-zoom-out"/*, QIcon("")*/));
+    mZoomOutAction->setIconVisibleInMenu(true);
+    connect(mZoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOutAct()));
+    zoomMenu->addAction(mZoomOutAction);
 
-    QAction *advancedZoomAction = new QAction(tr("Advanced zoom..."), this);
+    QAction *advancedZoomAction = new QAction(tr("Advanced Zoom..."), this);
     advancedZoomAction->setIcon(QIcon::fromTheme("object-advanced-zoom"/*, QIcon("")*/));
     advancedZoomAction->setIconVisibleInMenu(true);
     connect(advancedZoomAction, SIGNAL(triggered()), this, SLOT(advancedZoomAct()));
@@ -518,6 +518,9 @@ void MainWindow::updateShortcuts()
     mFillAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill")));
     mRectAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect")));
     mEllipseAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse")));
+
+    mZoomInAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Zoom In")));
+    mZoomOutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Zoom Out")));
 }
 
 void MainWindow::effectGrayAct()
