@@ -121,10 +121,11 @@ public:
     /**
      * @brief Zoom image
      *
-     * @param dx Scale factor for horizontal
-     * @param dy Scale factor for vertical
+     * @param factor Scale factor
      */
-    void zoomImage(qreal dx, qreal dy);
+    void zoomImage(qreal factor);
+    inline void setZoomFactor(qreal factor) { mZoomFactor *= factor; }
+    inline qreal getZoomFactor() { return mZoomFactor; }
     
 private:
     /**
@@ -165,6 +166,7 @@ private:
     bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed;
     QPixmap *pixmap;
     QCursor *currentCursor;
+    qreal mZoomFactor;
 
 signals:
     /**

@@ -48,6 +48,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mFilePath.clear();
     makeFormatsFilters();
     initializeImage();
+    mZoomFactor = 1;
 
     mPaintInstruments = new PaintInstruments(this);
     mAdditionalTools = new AdditionalTools(this);
@@ -213,9 +214,9 @@ void ImageArea::rotateImage(bool flag)
     emit sendNewImageSize(mImage->size());
 }
 
-void ImageArea::zoomImage(qreal dx, qreal dy)
+void ImageArea::zoomImage(qreal factor)
 {
-    mAdditionalTools->zoomImage(dx, dy);
+    mAdditionalTools->zoomImage(factor);
 }
 
 void ImageArea::mousePressEvent(QMouseEvent *event)
@@ -398,7 +399,8 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         case NONE:
             break;
         case LOUPE:
-            mAdditionalTools->zoomImage(2.0, 2.0);
+            mAdditionalTools->zoomImage(2.0);
+            setZoomFactor(2.0);
             break;
         case PEN:
             mPaintInstruments->line(false);
@@ -451,7 +453,8 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         case NONE: case LASTIC:
             break;
         case LOUPE:
-            mAdditionalTools->zoomImage(0.5, 0.5);
+            mAdditionalTools->zoomImage(0.5);
+            setZoomFactor(0.5);
             break;
         case PEN:
             mPaintInstruments->line(true);

@@ -104,10 +104,10 @@ void AdditionalTools::rotateImage(bool flag)
     mPImageArea->setEdited(true);
 }
 
-void AdditionalTools::zoomImage(qreal dx, qreal dy)
+void AdditionalTools::zoomImage(qreal factor)
 {
-    mPImageArea->setImage(mPImageArea->getImage()->transformed(QTransform::fromScale(dx, dy)));
-    mPImageArea->resize((mPImageArea->rect().width())*dx, (mPImageArea->rect().height())*dy);
+    mPImageArea->setImage(mPImageArea->getImage()->transformed(QTransform::fromScale(factor, factor)));
+    mPImageArea->resize((mPImageArea->rect().width())*factor, (mPImageArea->rect().height())*factor);
     emit sendNewImageSize(mPImageArea->size());
     mPImageArea->setEdited(true);
 }

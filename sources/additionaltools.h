@@ -74,10 +74,9 @@ public:
     /**
      * @brief Zoom image
      *
-     * @param dx Scale factor for horizontal
-     * @param dy Scale factor for vertical
+     * @param factor Scale factor
      */
-    void zoomImage(qreal dx, qreal dy);
+    void zoomImage(qreal factor);
     
 private:
     ImageArea *mPImageArea; /**< A pointer to ImageArea */

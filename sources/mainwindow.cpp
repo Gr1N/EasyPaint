@@ -39,6 +39,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QtEvents>
 #include <QtGui/QPainter>
+#include <QtGui/QInputDialog>
 
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)
@@ -332,16 +333,20 @@ void MainWindow::initializeMainMenu()
     QAction *zoomInAction = new QAction(tr("Zoom In"), this);
     zoomInAction->setIcon(QIcon::fromTheme("object-zoom-in"/*, QIcon("")*/));
     zoomInAction->setIconVisibleInMenu(true);
-    zoomInAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
     connect(zoomInAction, SIGNAL(triggered()), this, SLOT(zoomInAct()));
     zoomMenu->addAction(zoomInAction);
 
     QAction *zoomOutAction = new QAction(tr("Zoom Out"), this);
     zoomOutAction->setIcon(QIcon::fromTheme("object-zoom-out"/*, QIcon("")*/));
     zoomOutAction->setIconVisibleInMenu(true);
-    zoomOutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
     connect(zoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOutAct()));
     zoomMenu->addAction(zoomOutAction);
+
+    QAction *advancedZoomAction = new QAction(tr("Advanced zoom..."), this);
+    advancedZoomAction->setIcon(QIcon::fromTheme("object-advanced-zoom"/*, QIcon("")*/));
+    advancedZoomAction->setIconVisibleInMenu(true);
+    connect(advancedZoomAction, SIGNAL(triggered()), this, SLOT(advancedZoomAct()));
+    zoomMenu->addAction(advancedZoomAction);
 
     mToolsMenu->addMenu(zoomMenu);
 
@@ -547,12 +552,25 @@ void MainWindow::rotateRightImageAct()
 
 void MainWindow::zoomInAct()
 {
-    getCurrentImageArea()->zoomImage(2.0, 2.0);
+    getCurrentImageArea()->zoomImage(2.0);
+    getCurrentImageArea()->setZoomFactor(2.0);
 }
 
 void MainWindow::zoomOutAct()
 {
-    getCurrentImageArea()->zoomImage(0.5, 0.5);
+    getCurrentImageArea()->zoomImage(0.5);
+    getCurrentImageArea()->setZoomFactor(0.5);
+}
+
+void MainWindow::advancedZoomAct()
+{
+    bool ok;
+    qreal factor = QInputDialog::getDouble(this, tr("Enter zoom factor"), tr("Zoom factor:"), 2.5, 0, 1000, 5, &ok);
+    if (ok)
+    {
+        getCurrentImageArea()->zoomImage(factor);
+        getCurrentImageArea()->setZoomFactor(factor);
+    }
 }
 
 void MainWindow::closeTabAct()

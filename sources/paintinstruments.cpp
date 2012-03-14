@@ -49,7 +49,7 @@ void PaintInstruments::line(bool isSecondColor, bool isLastic)
     QPainter painter(mPImageArea->getImage());
     if(isLastic)
     {
-        painter.setPen(QPen(Qt::white, DataSingleton::Instance()->getPenSize(),
+        painter.setPen(QPen(Qt::white, DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                             Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     }
     else
@@ -57,13 +57,13 @@ void PaintInstruments::line(bool isSecondColor, bool isLastic)
         if(isSecondColor)
         {
             painter.setPen(QPen(DataSingleton::Instance()->getSecondColor(),
-                                DataSingleton::Instance()->getPenSize(),
+                                DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                                 Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         }
         else
         {
             painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),
-                                DataSingleton::Instance()->getPenSize(),
+                                DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                                 Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         }
     }
@@ -113,7 +113,7 @@ void PaintInstruments::rect(bool isSecondColor)
 {
     QPainter painter(mPImageArea->getImage());
     painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),
-                        DataSingleton::Instance()->getPenSize(),
+                        DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                         Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     if(isSecondColor)
     {
@@ -137,7 +137,7 @@ void PaintInstruments::ellipse(bool isSecondColor)
 {
     QPainter painter(mPImageArea->getImage());
     painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),
-                        DataSingleton::Instance()->getPenSize(),
+                        DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                         Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     if(isSecondColor)
     {
@@ -163,13 +163,13 @@ void PaintInstruments::spray(bool isSecondColor)
     if(isSecondColor)
     {
         painter.setPen(QPen(DataSingleton::Instance()->getSecondColor(),
-                            sqrt(DataSingleton::Instance()->getPenSize()),
+                            sqrt(DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor()),
                             Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     }
     else
     {
         painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),
-                            sqrt(DataSingleton::Instance()->getPenSize()),
+                            sqrt(DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor()),
                             Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     }
 
@@ -179,21 +179,21 @@ void PaintInstruments::spray(bool isSecondColor)
         switch(i) {
         case 0: case 1: case 2: case 3:
             x = (qrand() % 5 - 2)
-                    * sqrt(DataSingleton::Instance()->getPenSize());
+                    * sqrt(DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor());
             y = (qrand() % 5 - 2)
-                    * sqrt(DataSingleton::Instance()->getPenSize());
+                    * sqrt(DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor());
             break;
         case 4: case 5: case 6: case 7:
             x = (qrand() % 10 - 4)
-                    * sqrt(DataSingleton::Instance()->getPenSize());
+                    * sqrt(DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor());
             y = (qrand() % 10 - 4)
-                    * sqrt(DataSingleton::Instance()->getPenSize());
+                    * sqrt(DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor());
             break;
         case 8: case 9: case 10: case 11:
             x = (qrand() % 15 - 7)
-                    * sqrt(DataSingleton::Instance()->getPenSize());
+                    * sqrt(DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor());
             y = (qrand() % 15 - 7)
-                    * sqrt(DataSingleton::Instance()->getPenSize());
+                    * sqrt(DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor());
             break;
         }
         painter.drawPoint(mEndPoint.x() + x,
