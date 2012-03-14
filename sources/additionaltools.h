@@ -30,6 +30,7 @@
 
 QT_BEGIN_NAMESPACE
 class ImageArea;
+class QSize;
 QT_END_NAMESPACE
 
 /**
@@ -73,14 +74,16 @@ public:
     /**
      * @brief Zoom image
      *
-     * @param flag Zoom in or zoom out
+     * @param dx Scale factor for horizontal
+     * @param dy Scale factor for vertical
      */
-    void zoomImage(bool flag);
+    void zoomImage(qreal dx, qreal dy);
     
 private:
     ImageArea *mPImageArea; /**< A pointer to ImageArea */
 
 signals:
+    void sendNewImageSize(const QSize&);
     
 public slots:
     

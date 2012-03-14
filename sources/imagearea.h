@@ -119,11 +119,12 @@ public:
      */
     void restoreCursor();
     /**
-     * @brief Change image scaling.
+     * @brief Zoom image
      *
-     * @param flag Boolean flag, shows is image zoom in (true) or zoom out (false).
+     * @param dx Scale factor for horizontal
+     * @param dy Scale factor for vertical
      */
-    void zoomImage(bool flag);
+    void zoomImage(qreal dx, qreal dy);
     
 private:
     /**

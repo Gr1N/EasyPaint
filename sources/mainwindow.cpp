@@ -253,7 +253,6 @@ void MainWindow::initializeMainMenu()
     mLoupeAction = new QAction(tr("Loupe"), this);
     mLoupeAction->setCheckable(true);
     connect(mLoupeAction, SIGNAL(triggered(bool)), this, SLOT(loupeAct(bool)));
-    mLoupeAction->setEnabled(false);
     mInstrumentsMenu->addAction(mLoupeAction);
 
     mPenAction = new QAction(tr("Pen"), this);
@@ -548,12 +547,12 @@ void MainWindow::rotateRightImageAct()
 
 void MainWindow::zoomInAct()
 {
-    getCurrentImageArea()->zoomImage(true);
+    getCurrentImageArea()->zoomImage(2.0, 2.0);
 }
 
 void MainWindow::zoomOutAct()
 {
-    getCurrentImageArea()->zoomImage(false);
+    getCurrentImageArea()->zoomImage(0.5, 0.5);
 }
 
 void MainWindow::closeTabAct()
