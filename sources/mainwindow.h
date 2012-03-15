@@ -35,6 +35,7 @@ class QAction;
 class QStatusBar;
 class QTabWidget;
 class ToolBar;
+class PaletteBar;
 class ImageArea;
 class QLabel;
 QT_END_NAMESPACE
@@ -58,6 +59,7 @@ private:
     void initializeMainMenu();
     void initializeStatusBar();
     void initializeToolBar();
+    void initializePaletteBar();
     void initializeTabWidget();
     /**
      * @brief Initialize new tab for tab bar with new ImageArea and connect all needed slots.
@@ -90,6 +92,7 @@ private:
     QStatusBar *mStatusBar;
     QTabWidget *mTabWidget;
     ToolBar *mToolbar;
+    PaletteBar *mPaletteBar;
     QLabel *mSizeLabel, *mPosLabel, *mColorPreviewLabel, *mColorRGBLabel;
 
     QAction *mCursorAction, *mLasticAction, *mPipetteAction, *mLoupeAction,
