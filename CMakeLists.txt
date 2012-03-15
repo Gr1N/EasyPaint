@@ -47,7 +47,8 @@ set (RESOURCES
 #------- languages -------
 set (TRANSLATIONS
     sources/translations/easypaint_ru_RU.ts
-    sources/translations/easypaint_cs_CZ.ts)
+    sources/translations/easypaint_cs_CZ.ts
+    sources/translations/easypaint_fr_FR.ts)
 
 project (${PROJECT})
  
