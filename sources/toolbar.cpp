@@ -188,6 +188,8 @@ void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
     switch(instrument)
     {
     case NONE:
+        break;
+    case CURSOR:
         mCursorButton->setChecked(true);
         break;
     case LASTIC:
@@ -226,8 +228,8 @@ void ToolBar::setCursor(const bool &state)
     {
         setAllButtonsUnchecked(mCursorButton);
         mCursorButton->setChecked(true);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
+        DataSingleton::Instance()->setInstrument(CURSOR);
+        emit sendInstrumentChecked(CURSOR);
     }
     else
     {

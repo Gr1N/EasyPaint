@@ -686,10 +686,12 @@ void MainWindow::setAllInstrumentsUnchecked(QAction *action)
 
 void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
 {
-    setAllInstrumentsUnchecked(new QAction(this));
+    setAllInstrumentsUnchecked(NULL);
     switch(instrument)
     {
     case NONE:
+        break;
+    case CURSOR:
         mCursorAction->setChecked(true);
         break;
     case LASTIC:
@@ -728,8 +730,8 @@ void MainWindow::cursorAct(const bool &state)
     {
         setAllInstrumentsUnchecked(mCursorAction);
         mCursorAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
+        DataSingleton::Instance()->setInstrument(CURSOR);
+        emit sendInstrumentChecked(CURSOR);
     }
     else
     {

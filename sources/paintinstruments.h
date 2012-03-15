@@ -93,6 +93,11 @@ public:
      * @param isSecondColor Flag which shows what color use: first or second.
      */
     void fill(bool isSecondColor);
+    /**
+     * @brief Draw selection border.
+     *
+     */
+    void selection();
     
 private:
     void fillRecurs(int x, int y, QColor switchColor, QColor oldColor, QImage& tempImage);

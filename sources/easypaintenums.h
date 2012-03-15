@@ -33,6 +33,7 @@
 typedef enum
 {
     NONE,
+    CURSOR,
     LASTIC,
     PEN,
     LINE,

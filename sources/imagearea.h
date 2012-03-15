@@ -163,10 +163,12 @@ private:
     QString mFilePath; /**< Path where located image. */
     QString openFilter; /**< Supported open formats filter. */
     QString saveFilter; /**< Supported save formats filter. */
-    bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed;
+    bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed, mIsSelectionExists, mIsSelectionMoving,
+            mIsSelectionResizing;
     QPixmap *pixmap;
     QCursor *currentCursor;
     qreal mZoomFactor;
+    QPoint mSelectionStartPoint, mSelectionEndPoint;
 
 signals:
     /**
@@ -190,6 +192,8 @@ signals:
     
 private slots:
     void autoSave();
+    inline void setSelectionStartPoint(const QPoint &point) { mSelectionStartPoint = point; }
+    inline void setSelectionEndPoint(const QPoint &point) { mSelectionEndPoint = point; }
 
 protected:
     void mousePressEvent(QMouseEvent *event);

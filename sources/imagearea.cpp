@@ -44,7 +44,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
 {
     setMouseTracking(true);
 
-    mRightButtonPressed = false;
+    mRightButtonPressed = mIsSelectionExists = mIsSelectionMoving = mIsSelectionResizing = false;
     mFilePath.clear();
     makeFormatsFilters();
     initializeImage();
@@ -221,6 +221,26 @@ void ImageArea::zoomImage(qreal factor)
 
 void ImageArea::mousePressEvent(QMouseEvent *event)
 {
+    if (mIsSelectionExists)
+    {
+        if (event->pos().x() > mSelectionStartPoint.x()
+                && event->pos().x() < mSelectionEndPoint.x()
+            && event->pos().y() > mSelectionStartPoint.y()
+                && event->pos().y() < mSelectionEndPoint.y())
+        {
+            mIsSelectionMoving = true;
+        }
+        else if (event->pos().x() > mSelectionEndPoint.x() && event->pos().x() < mSelectionEndPoint.x() + 6 &&
+                 event->pos().y() > mSelectionEndPoint.y() && event->pos().y() < mSelectionEndPoint.y() + 6)
+        {
+            mIsSelectionResizing = true;
+        }
+        else
+        {
+            *mImage = mImageCopy;
+            mIsSelectionExists = false;
+        }
+    }
     if(event->button() == Qt::LeftButton)
     {
         if(event->pos().x() < mImage->rect().right() + 6 &&
@@ -251,6 +271,14 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 mIsPaint = true;
                 mImageCopy = *mImage;
                 break;
+            case CURSOR:
+                mPaintInstruments->setStartPoint(event->pos());
+                mPaintInstruments->setEndPoint(event->pos());
+                mIsPaint = true;
+                mImageCopy = *mImage;
+                setSelectionStartPoint(event->pos());
+                setSelectionEndPoint(event->pos());
+                break;
             }
         }
     }
@@ -276,6 +304,14 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             mIsPaint = true;
             mImageCopy = *mImage;
             break;
+        case CURSOR:
+            mPaintInstruments->setStartPoint(event->pos());
+            mPaintInstruments->setEndPoint(event->pos());
+            mIsPaint = true;
+            mImageCopy = *mImage;
+            setSelectionStartPoint(event->pos());
+            setSelectionEndPoint(event->pos());
+            break;
         }
     }
 }
@@ -286,6 +322,26 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
     {
          mAdditionalTools->resizeCanvas(event->x(), event->y());
          emit sendNewImageSize(mImage->size());
+    }
+    else if (mIsSelectionExists)
+    {
+        if (event->pos().x() > mSelectionStartPoint.x()
+                && event->pos().x() < mSelectionEndPoint.x()
+                && event->pos().y() > mSelectionStartPoint.y()
+                && event->pos().y() < mSelectionEndPoint.y())
+        {
+            setCursor(Qt::SizeAllCursor);
+        }
+        else if (event->pos().x() > mSelectionEndPoint.x() && event->pos().x() < mSelectionEndPoint.x() + 6 &&
+                 event->pos().y() > mSelectionEndPoint.y() && event->pos().y() < mSelectionEndPoint.y() + 6)
+        {
+            setCursor(Qt::SizeFDiagCursor);
+        }
+        else
+        {
+            restoreCursor();
+            *mImage = mImageCopy;
+        }
     }
     else if(event->pos().x() < mImage->rect().right() + 6 &&
             event->pos().x() > mImage->rect().right() &&
@@ -309,6 +365,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             emit sendColor(getColor);
         }
     }
+
     if((event->buttons() & Qt::LeftButton) && mIsPaint)
     {
         switch(DataSingleton::Instance()->getInstrument())
@@ -335,6 +392,15 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             mPaintInstruments->setEndPoint(event->pos());
             *mImage = mImageCopy;
             mPaintInstruments->rect(false);
+            break;
+        case CURSOR:
+//            if(!mIsSelectionExists)
+//            {
+                mPaintInstruments->setEndPoint(event->pos());
+                setSelectionEndPoint(event->pos());
+                *mImage = mImageCopy;
+                mPaintInstruments->selection();
+//            }
             break;
         case ELLIPSE:
             mPaintInstruments->setEndPoint(event->pos());
@@ -369,6 +435,12 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             mPaintInstruments->setEndPoint(event->pos());
             *mImage = mImageCopy;
             mPaintInstruments->rect(true);
+            break;
+        case CURSOR:
+            mPaintInstruments->setEndPoint(event->pos());
+            setSelectionEndPoint(event->pos());
+            *mImage = mImageCopy;
+            mPaintInstruments->selection();
             break;
         case ELLIPSE:
             mPaintInstruments->setEndPoint(event->pos());
@@ -428,6 +500,12 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->rect(false);
             mIsPaint = false;
             break;
+        case CURSOR:
+            *mImage = mImageCopy;
+            mPaintInstruments->selection();
+            mIsPaint = false;
+            mIsSelectionExists = true;
+            break;
         case ELLIPSE:
             *mImage = mImageCopy;
             mPaintInstruments->ellipse(false);
@@ -478,6 +556,11 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->rect(true);
             mIsPaint = false;
             break;
+        case CURSOR:
+            *mImage = mImageCopy;
+            mPaintInstruments->selection();
+            mIsPaint = false;
+            break;
         case ELLIPSE:
             *mImage = mImageCopy;
             mPaintInstruments->ellipse(true);
@@ -522,7 +605,7 @@ void ImageArea::restoreCursor()
         currentCursor = new QCursor(*pixmap);
         setCursor(*currentCursor);
         break;
-    case NONE:
+    case NONE: case CURSOR:
         currentCursor = new QCursor(Qt::ArrowCursor);
         setCursor(*currentCursor);
         break;
@@ -561,7 +644,7 @@ void ImageArea::drawCursor()
     switch(DataSingleton::Instance()->getInstrument())
     {
     case NONE: case LINE: case PIPETTE: case LOUPE: case  SPRAY:
-    case FILL: case RECT: case ELLIPSE:
+    case FILL: case RECT: case ELLIPSE: case CURSOR:
         break;
     case PEN: case LASTIC:
         pixmap->fill(QColor(0, 0, 0, 0));
@@ -571,7 +654,7 @@ void ImageArea::drawCursor()
     switch(DataSingleton::Instance()->getInstrument())
     {
     case NONE: case LINE: case PIPETTE: case LOUPE: case  SPRAY:
-    case FILL: case RECT: case ELLIPSE:
+    case FILL: case RECT: case ELLIPSE: case CURSOR:
         break;
     case PEN:
         if(DataSingleton::Instance()->getFirstColor().red() < 50
