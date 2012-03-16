@@ -187,7 +187,7 @@ void MainWindow::initializeMainMenu()
     mUndoAction->setIconVisibleInMenu(true);
     mUndoAction->setEnabled(false);
 //    newAction->setStatusTip();
-//    connect();
+    connect(mUndoAction, SIGNAL(triggered()), this, SLOT(undoAct()));
     editMenu->addAction(mUndoAction);
 
     mRedoAction = new QAction(tr("&Redo"), this);
@@ -195,7 +195,7 @@ void MainWindow::initializeMainMenu()
     mRedoAction->setIconVisibleInMenu(true);
     mRedoAction->setEnabled(false);
 //    newAction->setStatusTip();
-//    connect();
+    connect(mUndoAction, SIGNAL(triggered()), this, SLOT(redoAct()));
     editMenu->addAction(mRedoAction);
 
     editMenu->addSeparator();
@@ -917,6 +917,24 @@ void MainWindow::enableActions(int index)
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
+}
+
+void MainWindow::undoAct()
+{
+    getCurrentImageArea()->undo();
+    checkUndoRedoEnable();
+}
+
+void MainWindow::redoAct()
+{
+    getCurrentImageArea()->redo();
+    checkUndoRedoEnable();
+}
+
+void MainWindow::checkUndoRedoEnable()
+{
+    mUndoAction->setEnabled(getCurrentImageArea()->canUndo());
+    mRedoAction->setEnabled(getCurrentImageArea()->canRedo());
 }
 
 void MainWindow::helpAct()

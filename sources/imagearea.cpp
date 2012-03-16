@@ -54,6 +54,8 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mAdditionalTools = new AdditionalTools(this);
     mEffects = new Effects(this);
 
+    mUndoStack = new QUndoStack(this);
+
     if(isOpen && filePath.isEmpty())
     {
         open();

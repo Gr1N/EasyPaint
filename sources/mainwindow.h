@@ -86,6 +86,7 @@ private:
      *
      */
     void updateShortcuts();
+    void checkUndoRedoEnable();
 
     QStatusBar *mStatusBar;
     QTabWidget *mTabWidget;
@@ -137,6 +138,8 @@ private slots:
     void rectAct(const bool &state);
     void ellipseAct(const bool &state);
     void enableActions(int index);
+    void undoAct();
+    void redoAct();
 
 signals:
     void sendInstrumentChecked(InstrumentsEnum);
