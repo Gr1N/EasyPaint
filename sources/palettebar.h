@@ -27,11 +27,9 @@
 #define PALETTEBAR_H
 
 #include "toolbar.h"
+#include "palettebutton.h"
 
 #include <QtGui/QToolBar>
-#include <QtGui/QToolButton>
-#include <QtGui/QGridLayout>
-#include <QSignalMapper>
 
 /**
   * @brief Toolbar with some number of differrent colors
@@ -57,14 +55,17 @@ private:
      * @param color Color of button
      * @return QToolButton Created QToolButton.
      */
-    QToolButton* createColorButton(const QString &name, const QColor &color);
+//    PaletteButton* createColorButton(const QString &name, const QColor &color);
 
-    QToolButton *mColorButton;
-    QSignalMapper *mSignalMapper;
+    PaletteButton *mColorButton;
     ToolBar *mToolBar;
+    bool mIsRightButtonCLicked;
 
 private slots:
-    void colorClicked(int);
+    void colorClicked();
+
+protected:
+    void contextMenuEvent(QContextMenuEvent *);
 };
 
 #endif // PALETTEBAR_H
