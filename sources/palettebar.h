@@ -55,7 +55,6 @@ private:
      * @param color Color of button
      * @return QToolButton Created QToolButton.
      */
-//    PaletteButton* createColorButton(const QString &name, const QColor &color);
 
     PaletteButton *mColorButton;
     ToolBar *mToolBar;
