@@ -26,6 +26,7 @@
 #include "imagearea.h"
 #include "paintinstruments.h"
 #include "datasingleton.h"
+#include "undocommand.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -231,7 +232,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 event->pos().y() < mImage->rect().bottom() + 6)
         {
             mIsResize = true;
-            setCursor(Qt::SizeFDiagCursor);
+            setCursor(Qt::SizeFDiagCursor);        
         }
         else
         {
@@ -246,12 +247,14 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 mPaintInstruments->setStartPoint(event->pos());
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
+                mUndoStack->push(new UndoCommand(mImage, *this, this));
                 break;
             case LINE: case RECT: case ELLIPSE:
                 mPaintInstruments->setStartPoint(event->pos());
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
                 mImageCopy = *mImage;
+                mUndoStack->push(new UndoCommand(mImage, *this, this));
                 break;
             }
         }
@@ -271,12 +274,14 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
             mIsPaint = true;
+            mUndoStack->push(new UndoCommand(mImage, *this, this));
             break;
         case LINE: case RECT: case ELLIPSE:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
             mIsPaint = true;
             mImageCopy = *mImage;
+            mUndoStack->push(new UndoCommand(mImage, *this, this));
             break;
         }
     }

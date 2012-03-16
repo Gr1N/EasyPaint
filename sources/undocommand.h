@@ -39,12 +39,13 @@
 class UndoCommand : public QUndoCommand
 {
 public:
-    UndoCommand(const QImage& img, const ImageArea& imgArea);
+    UndoCommand(const QImage* img, ImageArea &imgArea, QObject *parent);
 
     void undo();
     void redo();
 private:
-    QImage mSavedImage;
+    QImage mPrevImage;
+    QImage mCurrentImage;
     ImageArea& mImageArea;
 };
 

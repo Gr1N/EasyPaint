@@ -423,6 +423,7 @@ void MainWindow::activateTab(const int &index)
     {
         setWindowTitle(QString("%1 - EasyPaint").arg(tr("Untitled Image")));
     }
+    checkUndoRedoEnable();
 }
 
 void MainWindow::setNewSizeToSizeLabel(const QSize &size)
