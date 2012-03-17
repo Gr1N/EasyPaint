@@ -92,6 +92,9 @@ private slots:
     void setFill(const bool &state);
     void setRect(const bool &state);
     void setEllipse(const bool &state);
+
+protected:
+    void contextMenuEvent(QContextMenuEvent *);
     
 };
 

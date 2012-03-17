@@ -28,6 +28,7 @@
 #include "imagearea.h"
 #include "datasingleton.h"
 #include "settingsdialog.h"
+#include "palettebar.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QAction>
@@ -46,6 +47,7 @@ MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
 {
     initializeMainMenu();
     initializeToolBar();
+    initializePaletteBar();
     initializeStatusBar();
     initializeTabWidget();
 
@@ -391,6 +393,12 @@ void MainWindow::initializeToolBar()
     connect(mToolbar, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), this, SLOT(setInstrumentChecked(InstrumentsEnum)));
     connect(mToolbar, SIGNAL(sendClearStatusBarColor()), this, SLOT(clearStatusBarColor()));
     connect(this, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), mToolbar, SLOT(setInstrumentChecked(InstrumentsEnum)));
+}
+
+void MainWindow::initializePaletteBar()
+{
+    mPaletteBar = new PaletteBar(mToolbar);
+    addToolBar(Qt::BottomToolBarArea, mPaletteBar);
 }
 
 ImageArea* MainWindow::getCurrentImageArea()
@@ -903,6 +911,7 @@ void MainWindow::enableActions(int index)
     mEffectsMenu->setEnabled(isEnable);
     mInstrumentsMenu->setEnabled(isEnable);
     mToolbar->setEnabled(isEnable);
+    mPaletteBar->setEnabled(isEnable);
 
     mSaveAction->setEnabled(isEnable);
     mSaveAsAction->setEnabled(isEnable);

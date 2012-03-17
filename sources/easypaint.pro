@@ -25,7 +25,9 @@ SOURCES += main.cpp\
     additionaltools.cpp \
     effects.cpp \
     resizedialog.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    palettebar.cpp \
+    palettebutton.cpp
 
 HEADERS  += mainwindow.h \
     toolbar.h \
@@ -37,7 +39,9 @@ HEADERS  += mainwindow.h \
     additionaltools.h \
     effects.h \
     resizedialog.h \
-    settingsdialog.h
+    settingsdialog.h \
+    palettebar.h \
+    palettebutton.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \
