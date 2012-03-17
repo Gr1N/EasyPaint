@@ -25,18 +25,21 @@
 
 #include "undocommand.h"
 
-UndoCommand::UndoCommand(const QImage *img, ImageArea &imgArea, QObject *parent)
+UndoCommand::UndoCommand(const QImage *img, ImageArea &imgArea)
     : mPrevImage(*img), mImageArea(imgArea)
 {
 }
 
 void UndoCommand::undo()
 {
-    mCurrentImage = *(mImageArea.getImage());
+    QImage currentImage = *(mImageArea.getImage());
     mImageArea.setImage(mPrevImage);
+    mImageArea.update();
+    mPrevImage = currentImage;
 }
 
 void UndoCommand::redo()
 {
-    mImageArea.setImage(mCurrentImage);
+    mImageArea.setImage(mPrevImage);
+    mImageArea.update();
 }

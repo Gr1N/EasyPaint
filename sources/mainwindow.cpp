@@ -195,7 +195,7 @@ void MainWindow::initializeMainMenu()
     mRedoAction->setIconVisibleInMenu(true);
     mRedoAction->setEnabled(false);
 //    newAction->setStatusTip();
-    connect(mUndoAction, SIGNAL(triggered()), this, SLOT(redoAct()));
+    connect(mRedoAction, SIGNAL(triggered()), this, SLOT(redoAct()));
     editMenu->addAction(mRedoAction);
 
     editMenu->addSeparator();
