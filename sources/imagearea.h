@@ -32,10 +32,10 @@
 
 #include <QtGui/QWidget>
 #include <QtGui/QImage>
-#include <QtGui/QUndoStack>
 
 QT_BEGIN_NAMESPACE
 class PaintInstruments;
+class QUndoStack;
 QT_END_NAMESPACE
 
 /**
@@ -127,10 +127,7 @@ public:
     void zoomImage(qreal factor);
     inline void setZoomFactor(qreal factor) { mZoomFactor *= factor; }
     inline qreal getZoomFactor() { return mZoomFactor; }
-    inline void undo() { mUndoStack->undo(); }
-    inline void redo() { mUndoStack->redo(); }
-    inline bool canUndo() { return mUndoStack->canUndo(); }
-    inline bool canRedo() { return mUndoStack->canRedo(); }
+    inline QUndoStack* getUndoStack() { return mUndoStack; }
     
 private:
     /**
@@ -188,8 +185,6 @@ signals:
     void sendNewImageSize(const QSize&);
     void sendCursorPos(const QPoint&);
     void sendColor(const QColor&);
-    void setUndoEnabled(bool b);
-    void setRedoEnabled(bool b);
     /**
      * @brief Send signal to restore previous checked instrument for ToolBar.
      *

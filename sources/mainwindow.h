@@ -37,6 +37,7 @@ class QTabWidget;
 class ToolBar;
 class ImageArea;
 class QLabel;
+class QUndoGroup;
 QT_END_NAMESPACE
 
 /**
@@ -86,7 +87,6 @@ private:
      *
      */
     void updateShortcuts();
-    void checkUndoRedoEnable();
 
     QStatusBar *mStatusBar;
     QTabWidget *mTabWidget;
@@ -100,6 +100,7 @@ private:
             *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction,
             *mNewAction, *mOpenAction, *mExitAction, *mPasteAction, *mZoomInAction, *mZoomOutAction;
     QMenu *mInstrumentsMenu, *mEffectsMenu, *mToolsMenu;
+    QUndoGroup *mUndoStackGroup;
 
 private slots:
     void activateTab(const int &index);
@@ -138,8 +139,6 @@ private slots:
     void rectAct(const bool &state);
     void ellipseAct(const bool &state);
     void enableActions(int index);
-    void undoAct();
-    void redoAct();
 
 signals:
     void sendInstrumentChecked(InstrumentsEnum);

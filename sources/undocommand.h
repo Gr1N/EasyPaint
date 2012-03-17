@@ -39,12 +39,13 @@
 class UndoCommand : public QUndoCommand
 {
 public:
-    UndoCommand(const QImage* img, ImageArea &imgArea);
+    UndoCommand(const QImage* img, ImageArea &imgArea, QUndoCommand *parent = 0);
 
-    void undo();
-    void redo();
+    virtual void undo();
+    virtual void redo();
 private:
     QImage mPrevImage;
+    QImage mCurrImage;
     ImageArea& mImageArea;
 };
 
