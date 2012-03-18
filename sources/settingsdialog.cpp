@@ -144,6 +144,7 @@ void SettingsDialog::initializeGui()
     createItemsGroup("File", DataSingleton::Instance()->getFileShortcuts());
     createItemsGroup("Edit", DataSingleton::Instance()->getEditShortcuts());
     createItemsGroup("Instruments", DataSingleton::Instance()->getInstrumentsShortcuts());
+    createItemsGroup("Tools", DataSingleton::Instance()->getToolsShortcuts());
 
     vBox3->addWidget(mShortcutsTree);
 
@@ -210,6 +211,11 @@ void SettingsDialog::sendSettingToSingleton()
             {
                 DataSingleton::Instance()->setInstrumentShortcutByKey(item->child(y)->text(0),
                                                                       item->child(y)->text(1));
+            }
+            else if(item->text(0) == "Tools")
+            {
+                DataSingleton::Instance()->setToolShortcutByKey(item->child(y)->text(0),
+                                                                item->child(y)->text(1));
             }
         }
     }

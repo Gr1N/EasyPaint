@@ -530,8 +530,8 @@ void MainWindow::updateShortcuts()
     mRectAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect")));
     mEllipseAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse")));
 
-    mZoomInAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Zoom In")));
-    mZoomOutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Zoom Out")));
+    mZoomInAction->setShortcut(QKeySequence(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn")));
+    mZoomOutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getToolShortcutByKey("ZoomOut")));
 }
 
 void MainWindow::effectGrayAct()

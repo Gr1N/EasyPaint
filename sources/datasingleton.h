@@ -76,6 +76,9 @@ public:
     inline QMap<QString, QString> getInstrumentsShortcuts() { return mInstrumentsShortcuts; }
     inline QString getInstrumentShortcutByKey(const QString &key) { return mInstrumentsShortcuts[key]; }
     inline void setInstrumentShortcutByKey(const QString &key, const QString &value) { mInstrumentsShortcuts[key] = value; }
+    inline QMap<QString, QString> getToolsShortcuts() { return mToolsShortcuts; }
+    inline QString getToolShortcutByKey(const QString &key) { return mToolsShortcuts[key]; }
+    inline void setToolShortcutByKey(const QString &key, const QString &value) { mToolsShortcuts[key] = value; }
 
     void readSetting();
     void writeSettings();

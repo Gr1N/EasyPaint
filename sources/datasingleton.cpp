@@ -84,8 +84,9 @@ void DataSingleton::readSetting()
     mInstrumentsShortcuts.insert("Rect", settings.value("/Shortcuts/Instruments/Rect", "Ctrl+9").toString());
     mInstrumentsShortcuts.insert("Ellipse", settings.value("/Shortcuts/Instruments/Ellipse", "Ctrl+0").toString());
 
-    mToolsShortcuts.insert("Zoom In", settings.value("/Shortcuts/Tools/Zoom/Zoom In", "Ctrl+Plus").toString());
-    mToolsShortcuts.insert("Zoom Out", settings.value("/Shortcuts/Tools/Zoom/Zoom Out", "Ctrl+Minus").toString());
+    //read shortcuts for tools menu
+    mToolsShortcuts.insert("ZoomIn", settings.value("/Shortcuts/Tools/Zoom/ZoomIn", "Ctrl++").toString());
+    mToolsShortcuts.insert("ZoomOut", settings.value("/Shortcuts/Tools/Zoom/ZoomOut", "Ctrl+-").toString());
 }
 
 void DataSingleton::writeSettings()
@@ -126,6 +127,6 @@ void DataSingleton::writeSettings()
     settings.setValue("/Shortcuts/Instruments/Ellipse", mInstrumentsShortcuts["Ellipse"]);
 
     //write shortcuts for tools menu
-    settings.setValue("/Shortcuts/Tools/Zoom/Zoom In", mToolsShortcuts["Zoom In"]);
-    settings.setValue("/Shortcuts/Tools/Zoom/Zoom Out", mToolsShortcuts["Zoom out"]);
+    settings.setValue("/Shortcuts/Tools/Zoom/ZoomIn", mToolsShortcuts["ZoomIn"]);
+    settings.setValue("/Shortcuts/Tools/Zoom/ZoomOut", mToolsShortcuts["ZoomOut"]);
 }
