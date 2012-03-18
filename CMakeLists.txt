@@ -21,7 +21,10 @@ set (HEADERS
     sources/paintinstruments.h
     sources/resizedialog.h
     sources/toolbar.h
-    sources/settingsdialog.h)
+    sources/settingsdialog.h
+    sources/palettebar.h
+    sources/undocommand.h
+    sources/palettebutton.h)
 
 #------- sources --------
 set (SOURCES 
@@ -35,7 +38,9 @@ set (SOURCES
     sources/paintinstruments.cpp
     sources/resizedialog.cpp
     sources/toolbar.cpp
-    sources/settingsdialog.cpp)
+    sources/palettebar.cpp
+    sources/undocommand.cpp
+    sources/palettebutton.cpp)
  
 #------- resources -------
 set (RESOURCE_PATH 
