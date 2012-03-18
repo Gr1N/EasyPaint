@@ -125,9 +125,6 @@ void ToolBar::initializeItems()
     addWidget(bWidget);
     addSeparator();
     addWidget(tWidget);
-    addSeparator();
-
-    // add palette
 }
 
 void ToolBar::penValueChanged(const int &value)
@@ -402,4 +399,9 @@ void ToolBar::restorePreviousInstrument()
     emit sendInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
     prevInstrumentSetted = false;
     emit sendClearStatusBarColor();
+}
+
+void ToolBar::contextMenuEvent(QContextMenuEvent *)
+{
+
 }

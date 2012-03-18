@@ -913,6 +913,7 @@ void MainWindow::enableActions(int index)
     mEffectsMenu->setEnabled(isEnable);
     mInstrumentsMenu->setEnabled(isEnable);
     mToolbar->setEnabled(isEnable);
+    mPaletteBar->setEnabled(isEnable);
 
     mSaveAction->setEnabled(isEnable);
     mSaveAsAction->setEnabled(isEnable);
