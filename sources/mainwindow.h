@@ -38,6 +38,7 @@ class ToolBar;
 class PaletteBar;
 class ImageArea;
 class QLabel;
+class QUndoGroup;
 QT_END_NAMESPACE
 
 /**
@@ -102,6 +103,7 @@ private:
             *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction,
             *mNewAction, *mOpenAction, *mExitAction, *mPasteAction, *mZoomInAction, *mZoomOutAction;
     QMenu *mInstrumentsMenu, *mEffectsMenu, *mToolsMenu;
+    QUndoGroup *mUndoStackGroup;
 
 private slots:
     void activateTab(const int &index);

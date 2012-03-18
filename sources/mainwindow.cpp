@@ -41,10 +41,13 @@
 #include <QtGui/QtEvents>
 #include <QtGui/QPainter>
 #include <QtGui/QInputDialog>
+#include <QtGui/QUndoGroup>
 
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)
 {
+    mUndoStackGroup = new QUndoGroup(this);
+
     initializeMainMenu();
     initializeToolBar();
     initializePaletteBar();
@@ -110,6 +113,7 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
         mTabWidget->addTab(scrollArea, fileName);
         mTabWidget->setCurrentIndex(mTabWidget->count()-1);
 
+        mUndoStackGroup->addStack(imageArea->getUndoStack());
         connect(imageArea, SIGNAL(sendFirstColorView()), mToolbar, SLOT(setFirstColorView()));
         connect(imageArea, SIGNAL(sendSecondColorView()), mToolbar, SLOT(setSecondColorView()));
         connect(imageArea, SIGNAL(sendRestorePreviousInstrument()), mToolbar, SLOT(restorePreviousInstrument()));
@@ -184,20 +188,18 @@ void MainWindow::initializeMainMenu()
 
     QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
 
-    mUndoAction = new QAction(tr("&Undo"), this);
+    mUndoAction = mUndoStackGroup->createUndoAction(this, tr("&Undo"));
     mUndoAction->setIcon(QIcon::fromTheme("edit-undo"/*, QIcon("")*/));
     mUndoAction->setIconVisibleInMenu(true);
     mUndoAction->setEnabled(false);
 //    newAction->setStatusTip();
-//    connect();
     editMenu->addAction(mUndoAction);
 
-    mRedoAction = new QAction(tr("&Redo"), this);
+    mRedoAction = mUndoStackGroup->createRedoAction(this, tr("&Redo"));
     mRedoAction->setIcon(QIcon::fromTheme("edit-redo"/*, QIcon("")*/));
     mRedoAction->setIconVisibleInMenu(true);
     mRedoAction->setEnabled(false);
 //    newAction->setStatusTip();
-//    connect();
     editMenu->addAction(mRedoAction);
 
     editMenu->addSeparator();
@@ -431,6 +433,7 @@ void MainWindow::activateTab(const int &index)
     {
         setWindowTitle(QString("%1 - EasyPaint").arg(tr("Untitled Image")));
     }
+    mUndoStackGroup->setActiveStack(getCurrentImageArea()->getUndoStack());
 }
 
 void MainWindow::setNewSizeToSizeLabel(const QSize &size)
@@ -609,6 +612,7 @@ void MainWindow::closeTab(int index)
             return;
         }
     }
+    mUndoStackGroup->removeStack(ia->getUndoStack()); //for safety
     QWidget *wid = mTabWidget->widget(index);
     mTabWidget->removeTab(index);
     delete wid;
@@ -914,8 +918,6 @@ void MainWindow::enableActions(int index)
     mSaveAsAction->setEnabled(isEnable);
     mCloseAction->setEnabled(isEnable);
     mPrintAction->setEnabled(isEnable);
-//    mUndoAction->setEnabled(isEnable);
-//    mRedoAction->setEnabled(isEnable);
 //    mCopyAction->setEnabled(isEnable);
 //    mCutAction->setEnabled(isEnable);
 

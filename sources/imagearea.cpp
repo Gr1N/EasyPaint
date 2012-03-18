@@ -26,6 +26,7 @@
 #include "imagearea.h"
 #include "paintinstruments.h"
 #include "datasingleton.h"
+#include "undocommand.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -38,6 +39,7 @@
 #include <QtCore/QTimer>
 #include <QtGui/QImageReader>
 #include <QtGui/QImageWriter>
+#include <QtGui/QUndoStack>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
     QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false)
@@ -53,6 +55,8 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mPaintInstruments = new PaintInstruments(this);
     mAdditionalTools = new AdditionalTools(this);
     mEffects = new Effects(this);
+
+    mUndoStack = new QUndoStack(this);
 
     if(isOpen && filePath.isEmpty())
     {
@@ -229,7 +233,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 event->pos().y() < mImage->rect().bottom() + 6)
         {
             mIsResize = true;
-            setCursor(Qt::SizeFDiagCursor);
+            setCursor(Qt::SizeFDiagCursor);        
         }
         else
         {
@@ -244,12 +248,14 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 mPaintInstruments->setStartPoint(event->pos());
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
+                mUndoStack->push(new UndoCommand(mImage, *this));
                 break;
             case LINE: case RECT: case ELLIPSE:
                 mPaintInstruments->setStartPoint(event->pos());
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
                 mImageCopy = *mImage;
+                mUndoStack->push(new UndoCommand(mImage, *this));
                 break;
             }
         }
@@ -269,12 +275,14 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
             mIsPaint = true;
+            mUndoStack->push(new UndoCommand(mImage, *this));
             break;
         case LINE: case RECT: case ELLIPSE:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
             mIsPaint = true;
             mImageCopy = *mImage;
+            mUndoStack->push(new UndoCommand(mImage, *this));
             break;
         }
     }

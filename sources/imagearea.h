@@ -35,6 +35,7 @@
 
 QT_BEGIN_NAMESPACE
 class PaintInstruments;
+class QUndoStack;
 QT_END_NAMESPACE
 
 /**
@@ -126,6 +127,7 @@ public:
     void zoomImage(qreal factor);
     inline void setZoomFactor(qreal factor) { mZoomFactor *= factor; }
     inline qreal getZoomFactor() { return mZoomFactor; }
+    inline QUndoStack* getUndoStack() { return mUndoStack; }
     
 private:
     /**
@@ -167,6 +169,7 @@ private:
     QPixmap *pixmap;
     QCursor *currentCursor;
     qreal mZoomFactor;
+    QUndoStack *mUndoStack;
 
 signals:
     /**
