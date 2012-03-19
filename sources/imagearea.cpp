@@ -158,17 +158,27 @@ void ImageArea::saveAs()
                                                     QFileDialog::DontUseNativeDialog);
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
+    //parse file extension
     if(!filePath.isEmpty())
     {
-        for(int i(filter.size() - 1); i > 0; i--)
+        QString extension;
+        //we should test it on windows, because of different slashes
+        QString temp = filePath.split("/").last();
+        //if user entered some extension
+        if(temp.contains('.'))
         {
-            if(filter[i] != filePath[filePath.size() - filter.size() + i])
-            {
-                filePath += filter.mid(1);
-                break;
-            }
+            temp = temp.split('.').last();
+            if(QImageWriter::supportedImageFormats().contains(temp.toAscii()))
+                extension = temp;
+            else
+                extension = "png"; //if format is unknown, save it as png format, but with user extension
         }
-        mImage->save(filePath);
+        else
+        {
+            extension = filter.split('.').last().remove(')');
+            filePath += '.' + extension;
+        }
+        mImage->save(filePath, extension.toLatin1().data());
         mFilePath = filePath;
         mIsEdited = false;
     }
@@ -659,7 +669,7 @@ void ImageArea::makeFormatsFilters()
     if(ba.contains("ppm"))
         openFilter += "Portable Pixmap(*.ppm);;";
     if(ba.contains("tiff") || ba.contains("tif"))
-        openFilter += "Tagged Image File Format(*.tiff);;";
+        openFilter += "Tagged Image File Format(*.tiff, *tif);;";
     if(ba.contains("xbm"))
         openFilter += "X11 Bitmap(*.xbm);;";
     if(ba.contains("xpm"))
@@ -674,7 +684,7 @@ void ImageArea::makeFormatsFilters()
     if(ba.contains("bmp"))
         saveFilter += "Windows Bitmap(*.bmp)";
     if(ba.contains("jpg") || ba.contains("jpeg"))
-        saveFilter += ";;Joint Photographic Experts Group(*.jpg *.jpeg)";
+        saveFilter += ";;Joint Photographic Experts Group(*.jpg)";
     if(ba.contains("png"))
         saveFilter += ";;Portable Network Graphics(*.png)";
     if(ba.contains("ppm"))
