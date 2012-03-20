@@ -136,35 +136,30 @@ void MainWindow::initializeMainMenu()
     mNewAction = new QAction(tr("&New"), this);
     mNewAction->setIcon(QIcon::fromTheme("document-new"/*, QIcon("")*/));
     mNewAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mNewAction, SIGNAL(triggered()), this, SLOT(newAct()));
     fileMenu->addAction(mNewAction);
 
     mOpenAction = new QAction(tr("&Open"), this);
     mOpenAction->setIcon(QIcon::fromTheme("document-open"/*, QIcon("")*/));
     mOpenAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mOpenAction, SIGNAL(triggered()), this, SLOT(openAct()));
     fileMenu->addAction(mOpenAction);
 
     mSaveAction = new QAction(tr("&Save"), this);
     mSaveAction->setIcon(QIcon::fromTheme("document-save"/*, QIcon("")*/));
     mSaveAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mSaveAction, SIGNAL(triggered()), this, SLOT(saveAct()));
     fileMenu->addAction(mSaveAction);
 
     mSaveAsAction = new QAction(tr("Save as..."), this);
     mSaveAsAction->setIcon(QIcon::fromTheme("document-save-as"/*, QIcon("")*/));
     mSaveAsAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mSaveAsAction, SIGNAL(triggered()), this, SLOT(saveAsAct()));
     fileMenu->addAction(mSaveAsAction);
 
     mCloseAction = new QAction(tr("&Close"), this);
     mCloseAction->setIcon(QIcon::fromTheme("window-close"/*, QIcon("")*/));
     mCloseAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mCloseAction, SIGNAL(triggered()), this, SLOT(closeTabAct()));
     fileMenu->addAction(mCloseAction);
 
@@ -173,7 +168,6 @@ void MainWindow::initializeMainMenu()
     mPrintAction = new QAction(tr("&Print"), this);
     mPrintAction->setIcon(QIcon::fromTheme("document-print"/*, QIcon("")*/));
     mPrintAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mPrintAction, SIGNAL(triggered()), this, SLOT(printAct()));
     fileMenu->addAction(mPrintAction);
 
@@ -182,7 +176,6 @@ void MainWindow::initializeMainMenu()
     mExitAction = new QAction(tr("&Exit"), this);
     mExitAction->setIcon(QIcon::fromTheme("application-exit"/*, QIcon("")*/));
     mExitAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mExitAction, SIGNAL(triggered()), SLOT(close()));
     fileMenu->addAction(mExitAction);
 
@@ -192,14 +185,12 @@ void MainWindow::initializeMainMenu()
     mUndoAction->setIcon(QIcon::fromTheme("edit-undo"/*, QIcon("")*/));
     mUndoAction->setIconVisibleInMenu(true);
     mUndoAction->setEnabled(false);
-//    newAction->setStatusTip();
     editMenu->addAction(mUndoAction);
 
     mRedoAction = mUndoStackGroup->createRedoAction(this, tr("&Redo"));
     mRedoAction->setIcon(QIcon::fromTheme("edit-redo"/*, QIcon("")*/));
     mRedoAction->setIconVisibleInMenu(true);
     mRedoAction->setEnabled(false);
-//    newAction->setStatusTip();
     editMenu->addAction(mRedoAction);
 
     editMenu->addSeparator();
@@ -208,7 +199,6 @@ void MainWindow::initializeMainMenu()
     mCopyAction->setIcon(QIcon::fromTheme("edit-copy"/*, QIcon("")*/));
     mCopyAction->setIconVisibleInMenu(true);
     mCopyAction->setEnabled(false);
-//    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(mCopyAction);
 
@@ -216,7 +206,6 @@ void MainWindow::initializeMainMenu()
     mPasteAction->setIcon(QIcon::fromTheme("edit-paste"/*, QIcon("")*/));
     mPasteAction->setIconVisibleInMenu(true);
     mPasteAction->setEnabled(false);
-//    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(mPasteAction);
 
@@ -224,7 +213,6 @@ void MainWindow::initializeMainMenu()
     mCutAction->setIcon(QIcon::fromTheme("edit-cut"/*, QIcon("")*/));
     mCutAction->setIconVisibleInMenu(true);
     mCutAction->setEnabled(false);
-//    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(mCutAction);
 
@@ -234,13 +222,12 @@ void MainWindow::initializeMainMenu()
     settingsAction->setShortcut(QKeySequence::Preferences);
     settingsAction->setIcon(QIcon::fromTheme("document-properties"/*, QIcon("")*/));
     settingsAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(settingsAction, SIGNAL(triggered()), this, SLOT(settingsAct()));
     editMenu->addAction(settingsAction);
 
     mInstrumentsMenu = menuBar()->addMenu(tr("&Instruments"));
 
-    mCursorAction = new QAction(tr("Cursor"), this);
+    mCursorAction = new QAction(tr("Selection"), this);
     mCursorAction->setCheckable(true);
     connect(mCursorAction, SIGNAL(triggered(bool)), this, SLOT(cursorAct(bool)));
     mInstrumentsMenu->addAction(mCursorAction);
@@ -293,24 +280,20 @@ void MainWindow::initializeMainMenu()
     mEffectsMenu = menuBar()->addMenu(tr("E&ffects"));
 
     QAction *grayEfAction = new QAction(tr("Gray"), this);
-//    newAction->setStatusTip();
     connect(grayEfAction, SIGNAL(triggered()), this, SLOT(effectGrayAct()));
     mEffectsMenu->addAction(grayEfAction);
 
     QAction *negativeEfAction = new QAction(tr("Negative"), this);
-//    newAction->setStatusTip();
     connect(negativeEfAction, SIGNAL(triggered()), this, SLOT(effectNegativeAct()));
     mEffectsMenu->addAction(negativeEfAction);
 
     mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
     QAction *resizeImAction = new QAction(tr("Image size"), this);
-//    newAction->setStatusTip();
     connect(resizeImAction, SIGNAL(triggered()), this, SLOT(resizeImageAct()));
     mToolsMenu->addAction(resizeImAction);
 
     QAction *resizeCanAction = new QAction(tr("Canvas size"), this);
-//    newAction->setStatusTip();
     connect(resizeCanAction, SIGNAL(triggered()), this, SLOT(resizeCanvasAct()));
     mToolsMenu->addAction(resizeCanAction);
 
@@ -319,14 +302,12 @@ void MainWindow::initializeMainMenu()
     QAction *rotateLAction = new QAction(tr("Left"), this);
     rotateLAction->setIcon(QIcon::fromTheme("object-rotate-left"/*, QIcon("")*/));
     rotateLAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(rotateLAction, SIGNAL(triggered()), this, SLOT(rotateLeftImageAct()));
     rotateMenu->addAction(rotateLAction);
 
     QAction *rotateRAction = new QAction(tr("Right"), this);
     rotateRAction->setIcon(QIcon::fromTheme("object-rotate-right"/*, QIcon("")*/));
     rotateRAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(rotateRAction, SIGNAL(triggered()), this, SLOT(rotateRightImageAct()));
     rotateMenu->addAction(rotateRAction);
 
@@ -360,12 +341,10 @@ void MainWindow::initializeMainMenu()
     aboutAction->setShortcut(QKeySequence::HelpContents);
     aboutAction->setIcon(QIcon::fromTheme("help-browser"/*, QIcon("")*/));
     aboutAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(helpAct()));
     aboutMenu->addAction(aboutAction);
 
     QAction *aboutQtAction = new QAction(tr("About Qt"), this);
-//    newAction->setStatusTip();
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     aboutMenu->addAction(aboutQtAction);
 
@@ -594,8 +573,6 @@ void MainWindow::closeTabAct()
 
 void MainWindow::closeTab(int index)
 {
-    //ImageArea *ia = static_cast<ImageArea*>(static_cast<QScrollArea*>(mTabWidget->widget(index))->widget());
-
     ImageArea *ia = getImageAreaByIndex(index);
     if(ia->getEdited())
     {

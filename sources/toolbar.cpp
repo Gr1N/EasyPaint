@@ -52,7 +52,7 @@ QToolButton* ToolBar::createToolButton(const QString &name, const QString &iconP
 
 void ToolBar::initializeItems()
 {
-    mCursorButton = createToolButton(tr("Cursor"), ":/media/instruments-icons/cursor.png");
+    mCursorButton = createToolButton(tr("Selection"), ":/media/instruments-icons/cursor.png");
     connect(mCursorButton, SIGNAL(toggled(bool)), this, SLOT(setCursor(bool)));
 
     mEraserButton = createToolButton(tr("Eraser"), ":/media/instruments-icons/lastic.png");
