@@ -80,6 +80,7 @@ public:
     
 private:
     ImageArea *mPImageArea; /**< A pointer to ImageArea */
+    qreal zoomedFactor; /**< Difference between original and current image */
 
 signals:
     void sendNewImageSize(const QSize&);

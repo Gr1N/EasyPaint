@@ -37,6 +37,7 @@ AdditionalTools::AdditionalTools(ImageArea *pImageArea, QObject *parent) :
     QObject(parent)
 {
     mPImageArea = pImageArea;
+    zoomedFactor = 1;
 }
 
 AdditionalTools::~AdditionalTools()
@@ -106,8 +107,20 @@ void AdditionalTools::rotateImage(bool flag)
 
 void AdditionalTools::zoomImage(qreal factor)
 {
-    mPImageArea->setImage(mPImageArea->getImage()->transformed(QTransform::fromScale(factor, factor)));
-    mPImageArea->resize((mPImageArea->rect().width())*factor, (mPImageArea->rect().height())*factor);
-    emit sendNewImageSize(mPImageArea->size());
-    mPImageArea->setEdited(true);
+    zoomedFactor *= factor;
+    if(zoomedFactor < 0.25)
+    {
+        zoomedFactor = 0.25;
+    }
+    else if(zoomedFactor > 4)
+    {
+        zoomedFactor = 4;
+    }
+    else
+    {
+        mPImageArea->setImage(mPImageArea->getImage()->transformed(QTransform::fromScale(factor, factor)));
+        mPImageArea->resize((mPImageArea->rect().width())*factor, (mPImageArea->rect().height())*factor);
+        emit sendNewImageSize(mPImageArea->size());
+        mPImageArea->setEdited(true);
+    }
 }
