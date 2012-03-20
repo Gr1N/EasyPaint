@@ -251,16 +251,16 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             {
             case NONE:
                 break;
-            case PIPETTE: case LOUPE:
+            case COLORPICKER: case MAGNIFIER:
                 mIsPaint = true;
                 break;
-            case PEN: case LASTIC: case SPRAY: case FILL:
+            case PEN: case ERASER: case SPRAY: case FILL:
                 mPaintInstruments->setStartPoint(event->pos());
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
                 mUndoStack->push(new UndoCommand(mImage, *this));
                 break;
-            case LINE: case RECT: case ELLIPSE:
+            case LINE: case RECTANGLE: case ELLIPSE:
                 mPaintInstruments->setStartPoint(event->pos());
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
@@ -276,9 +276,9 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
         restoreCursor();
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LASTIC:
+        case NONE: case ERASER:
             break;
-        case PIPETTE: case LOUPE:
+        case COLORPICKER: case MAGNIFIER:
             mIsPaint = true;
             break;
         case PEN: case SPRAY:  case FILL:
@@ -287,7 +287,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             mIsPaint = true;
             mUndoStack->push(new UndoCommand(mImage, *this));
             break;
-        case LINE: case RECT: case ELLIPSE:
+        case LINE: case RECTANGLE: case ELLIPSE:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
             mIsPaint = true;
@@ -320,7 +320,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             event->pos().y() < mImage->height())
     {
         emit sendCursorPos(event->pos());
-        if(DataSingleton::Instance()->getInstrument() == PIPETTE)
+        if(DataSingleton::Instance()->getInstrument() == COLORPICKER)
         {
             QRgb pixel(mImage->pixel(event->pos()));
             QColor getColor(pixel);
@@ -331,7 +331,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
     {
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LOUPE: case PIPETTE:
+        case NONE: case MAGNIFIER: case COLORPICKER:
         case FILL:
             break;
         case PEN:
@@ -339,7 +339,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             mPaintInstruments->line(false);
             mPaintInstruments->setStartPoint(event->pos());
             break;
-        case LASTIC:
+        case ERASER:
             mPaintInstruments->setEndPoint(event->pos());
             mPaintInstruments->line(false, true);
             mPaintInstruments->setStartPoint(event->pos());
@@ -349,10 +349,10 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             *mImage = mImageCopy;
             mPaintInstruments->line(false);
             break;
-        case RECT:
+        case RECTANGLE:
             mPaintInstruments->setEndPoint(event->pos());
             *mImage = mImageCopy;
-            mPaintInstruments->rect(false);
+            mPaintInstruments->rectangle(false);
             break;
         case ELLIPSE:
             mPaintInstruments->setEndPoint(event->pos());
@@ -370,7 +370,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
     {
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LASTIC: case LOUPE: case PIPETTE:
+        case NONE: case ERASER: case MAGNIFIER: case COLORPICKER:
         case FILL:
             break;
         case PEN:
@@ -383,10 +383,10 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             *mImage = mImageCopy;
             mPaintInstruments->line(true);
             break;
-        case RECT:
+        case RECTANGLE:
             mPaintInstruments->setEndPoint(event->pos());
             *mImage = mImageCopy;
-            mPaintInstruments->rect(true);
+            mPaintInstruments->rectangle(true);
             break;
         case ELLIPSE:
             mPaintInstruments->setEndPoint(event->pos());
@@ -416,7 +416,7 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         {
         case NONE:
             break;
-        case LOUPE:
+        case MAGNIFIER:
             mAdditionalTools->zoomImage(2.0);
             setZoomFactor(2.0);
             break;
@@ -424,7 +424,7 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->line(false);
             mIsPaint = false;
             break;
-        case LASTIC:
+        case ERASER:
             mPaintInstruments->line(false, true);
             mIsPaint = false;
             break;
@@ -433,17 +433,17 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->line(false);
             mIsPaint = false;
             break;
-        case PIPETTE:
+        case COLORPICKER:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
-            mPaintInstruments->pipette(false);
+            mPaintInstruments->colorPicker(false);
             mIsPaint = false;
             emit sendFirstColorView();
             emit sendRestorePreviousInstrument();
             break;
-        case RECT:
+        case RECTANGLE:
             *mImage = mImageCopy;
-            mPaintInstruments->rect(false);
+            mPaintInstruments->rectangle(false);
             mIsPaint = false;
             break;
         case ELLIPSE:
@@ -468,9 +468,9 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         mPaintInstruments->setEndPoint(event->pos());
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LASTIC:
+        case NONE: case ERASER:
             break;
-        case LOUPE:
+        case MAGNIFIER:
             mAdditionalTools->zoomImage(0.5);
             setZoomFactor(0.5);
             break;
@@ -483,17 +483,17 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->line(true);
             mIsPaint = false;
             break;
-        case PIPETTE:
+        case COLORPICKER:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
-            mPaintInstruments->pipette(true);
+            mPaintInstruments->colorPicker(true);
             mIsPaint = false;
             emit sendSecondColorView();
             emit sendRestorePreviousInstrument();
             break;
-        case RECT:
+        case RECTANGLE:
             *mImage = mImageCopy;
-            mPaintInstruments->rect(true);
+            mPaintInstruments->rectangle(true);
             mIsPaint = false;
             break;
         case ELLIPSE:
@@ -535,7 +535,7 @@ void ImageArea::restoreCursor()
 {
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case LOUPE:
+    case MAGNIFIER:
         pixmap = new QPixmap(":/media/instruments-icons/cursor_loupe.png");
         currentCursor = new QCursor(*pixmap);
         setCursor(*currentCursor);
@@ -544,17 +544,17 @@ void ImageArea::restoreCursor()
         currentCursor = new QCursor(Qt::ArrowCursor);
         setCursor(*currentCursor);
         break;
-    case LASTIC: case PEN:
+    case ERASER: case PEN:
         ImageArea::drawCursor();
         currentCursor = new QCursor(*pixmap);
         setCursor(*currentCursor);
         break;
-    case PIPETTE:
+    case COLORPICKER:
         pixmap = new QPixmap(":/media/instruments-icons/cursor_pipette.png");
         currentCursor = new QCursor(*pixmap);
         setCursor(*currentCursor);
         break;
-    case RECT: case ELLIPSE: case LINE:
+    case RECTANGLE: case ELLIPSE: case LINE:
         currentCursor = new QCursor(Qt::CrossCursor);
         setCursor(*currentCursor);
         break;
@@ -578,10 +578,10 @@ void ImageArea::drawCursor()
     QPoint center(18, 18);
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case NONE: case LINE: case PIPETTE: case LOUPE: case  SPRAY:
-    case FILL: case RECT: case ELLIPSE:
+    case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
+    case FILL: case RECTANGLE: case ELLIPSE:
         break;
-    case PEN: case LASTIC:
+    case PEN: case ERASER:
         pixmap->fill(QColor(0, 0, 0, 0));
         break;
     }
@@ -607,8 +607,8 @@ void ImageArea::drawCursor()
     painter.setPen(Qt::black);
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case NONE: case LINE: case PIPETTE: case LOUPE: case  SPRAY:
-    case FILL: case RECT: case ELLIPSE:
+    case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
+    case FILL: case RECTANGLE: case ELLIPSE:
         break;
     case PEN:
         if(mRightButtonPressed)
@@ -632,7 +632,7 @@ void ImageArea::drawCursor()
         painter.drawEllipse(center, DataSingleton::Instance()->getPenSize(),
                         DataSingleton::Instance()->getPenSize());
         break;
-    case LASTIC:
+    case ERASER:
         painter.setBrush(QBrush(Qt::white));
         painter.drawEllipse(center, DataSingleton::Instance()->getPenSize(),
                         DataSingleton::Instance()->getPenSize());

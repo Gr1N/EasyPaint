@@ -245,20 +245,20 @@ void MainWindow::initializeMainMenu()
     connect(mCursorAction, SIGNAL(triggered(bool)), this, SLOT(cursorAct(bool)));
     mInstrumentsMenu->addAction(mCursorAction);
 
-    mLasticAction = new QAction(tr("Lastic"), this);
-    mLasticAction->setCheckable(true);
-    connect(mLasticAction, SIGNAL(triggered(bool)), this, SLOT(lasticAct(bool)));
-    mInstrumentsMenu->addAction(mLasticAction);
+    mEraserAction = new QAction(tr("Eraser"), this);
+    mEraserAction->setCheckable(true);
+    connect(mEraserAction, SIGNAL(triggered(bool)), this, SLOT(lasticAct(bool)));
+    mInstrumentsMenu->addAction(mEraserAction);
 
-    mPipetteAction = new QAction(tr("Pipette"), this);
-    mPipetteAction->setCheckable(true);
-    connect(mPipetteAction, SIGNAL(triggered(bool)), this, SLOT(pipetteAct(bool)));
-    mInstrumentsMenu->addAction(mPipetteAction);
+    mColorPickerAction = new QAction(tr("Color picker"), this);
+    mColorPickerAction->setCheckable(true);
+    connect(mColorPickerAction, SIGNAL(triggered(bool)), this, SLOT(pipetteAct(bool)));
+    mInstrumentsMenu->addAction(mColorPickerAction);
 
-    mLoupeAction = new QAction(tr("Loupe"), this);
-    mLoupeAction->setCheckable(true);
-    connect(mLoupeAction, SIGNAL(triggered(bool)), this, SLOT(loupeAct(bool)));
-    mInstrumentsMenu->addAction(mLoupeAction);
+    mMagnifierAction = new QAction(tr("Magnifier"), this);
+    mMagnifierAction->setCheckable(true);
+    connect(mMagnifierAction, SIGNAL(triggered(bool)), this, SLOT(loupeAct(bool)));
+    mInstrumentsMenu->addAction(mMagnifierAction);
 
     mPenAction = new QAction(tr("Pen"), this);
     mPenAction->setCheckable(true);
@@ -280,10 +280,10 @@ void MainWindow::initializeMainMenu()
     connect(mFillAction, SIGNAL(triggered(bool)), this, SLOT(fillAct(bool)));
     mInstrumentsMenu->addAction(mFillAction);
 
-    mRectAction = new QAction(tr("Rect"), this);
-    mRectAction->setCheckable(true);
-    connect(mRectAction, SIGNAL(triggered(bool)), this, SLOT(rectAct(bool)));
-    mInstrumentsMenu->addAction(mRectAction);
+    mRectangleAction = new QAction(tr("Rectangle"), this);
+    mRectangleAction->setCheckable(true);
+    connect(mRectangleAction, SIGNAL(triggered(bool)), this, SLOT(rectAct(bool)));
+    mInstrumentsMenu->addAction(mRectangleAction);
 
     mEllipseAction = new QAction(tr("Ellipse"), this);
     mEllipseAction->setCheckable(true);
@@ -520,14 +520,14 @@ void MainWindow::updateShortcuts()
     mCutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Cut")));
 
     mCursorAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Cursor")));
-    mLasticAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic")));
-    mPipetteAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette")));
-    mLoupeAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe")));
+    mEraserAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic")));
+    mColorPickerAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette")));
+    mMagnifierAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe")));
     mPenAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Pen")));
     mLineAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Line")));
     mSprayAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Spray")));
     mFillAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill")));
-    mRectAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect")));
+    mRectangleAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect")));
     mEllipseAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse")));
 
     mZoomInAction->setShortcut(QKeySequence(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn")));
@@ -676,12 +676,12 @@ void MainWindow::setAllInstrumentsUnchecked(QAction *action)
 {
     if(action != mCursorAction)
         mCursorAction->setChecked(false);
-    if(action != mLasticAction)
-        mLasticAction->setChecked(false);
-    if(action != mPipetteAction)
-        mPipetteAction->setChecked(false);
-    if(action != mLoupeAction)
-        mLoupeAction->setChecked(false);
+    if(action != mEraserAction)
+        mEraserAction->setChecked(false);
+    if(action != mColorPickerAction)
+        mColorPickerAction->setChecked(false);
+    if(action != mMagnifierAction)
+        mMagnifierAction->setChecked(false);
     if(action != mPenAction)
         mPenAction->setChecked(false);
     if(action != mLineAction)
@@ -690,8 +690,8 @@ void MainWindow::setAllInstrumentsUnchecked(QAction *action)
         mSprayAction->setChecked(false);
     if(action != mFillAction)
         mFillAction->setChecked(false);
-    if(action != mRectAction)
-        mRectAction->setChecked(false);
+    if(action != mRectangleAction)
+        mRectangleAction->setChecked(false);
     if(action != mEllipseAction)
         mEllipseAction->setChecked(false);
 }
@@ -704,14 +704,14 @@ void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
     case NONE:
         mCursorAction->setChecked(true);
         break;
-    case LASTIC:
-        mLasticAction->setChecked(true);
+    case ERASER:
+        mEraserAction->setChecked(true);
         break;
-    case PIPETTE:
-        mPipetteAction->setChecked(true);
+    case COLORPICKER:
+        mColorPickerAction->setChecked(true);
         break;
-    case LOUPE:
-        mLoupeAction->setChecked(true);
+    case MAGNIFIER:
+        mMagnifierAction->setChecked(true);
         break;
     case PEN:
         mPenAction->setChecked(true);
@@ -725,8 +725,8 @@ void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
     case FILL:
         mFillAction->setChecked(true);
         break;
-    case RECT:
-        mRectAction->setChecked(true);
+    case RECTANGLE:
+        mRectangleAction->setChecked(true);
         break;
     case ELLIPSE:
         mEllipseAction->setChecked(true);
@@ -755,10 +755,10 @@ void MainWindow::lasticAct(const bool &state)
 {
     if(state)
     {
-        setAllInstrumentsUnchecked(mLasticAction);
-        mLasticAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(LASTIC);
-        emit sendInstrumentChecked(LASTIC);
+        setAllInstrumentsUnchecked(mEraserAction);
+        mEraserAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(ERASER);
+        emit sendInstrumentChecked(ERASER);
     }
     else
     {
@@ -772,10 +772,10 @@ void MainWindow::pipetteAct(const bool &state)
 {
     if(state)
     {
-        setAllInstrumentsUnchecked(mPipetteAction);
-        mPipetteAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(PIPETTE);
-        emit sendInstrumentChecked(PIPETTE);
+        setAllInstrumentsUnchecked(mColorPickerAction);
+        mColorPickerAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(COLORPICKER);
+        emit sendInstrumentChecked(COLORPICKER);
     }
     else
     {
@@ -789,10 +789,10 @@ void MainWindow::loupeAct(const bool &state)
 {
     if(state)
     {
-        setAllInstrumentsUnchecked(mLoupeAction);
-        mLoupeAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(LOUPE);
-        emit sendInstrumentChecked(LOUPE);
+        setAllInstrumentsUnchecked(mMagnifierAction);
+        mMagnifierAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(MAGNIFIER);
+        emit sendInstrumentChecked(MAGNIFIER);
     }
     else
     {
@@ -858,7 +858,7 @@ void MainWindow::fillAct(const bool &state)
     if(state)
     {
         setAllInstrumentsUnchecked(mFillAction);
-        mLasticAction->setChecked(true);
+        mEraserAction->setChecked(true);
         DataSingleton::Instance()->setInstrument(FILL);
         emit sendInstrumentChecked(FILL);
     }
@@ -874,10 +874,10 @@ void MainWindow::rectAct(const bool &state)
 {
     if(state)
     {
-        setAllInstrumentsUnchecked(mRectAction);
-        mRectAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(RECT);
-        emit sendInstrumentChecked(RECT);
+        setAllInstrumentsUnchecked(mRectangleAction);
+        mRectangleAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(RECTANGLE);
+        emit sendInstrumentChecked(RECTANGLE);
     }
     else
     {

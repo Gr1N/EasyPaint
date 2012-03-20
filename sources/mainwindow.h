@@ -96,9 +96,9 @@ private:
     PaletteBar *mPaletteBar;
     QLabel *mSizeLabel, *mPosLabel, *mColorPreviewLabel, *mColorRGBLabel;
 
-    QAction *mCursorAction, *mLasticAction, *mPipetteAction, *mLoupeAction,
+    QAction *mCursorAction, *mEraserAction, *mColorPickerAction, *mMagnifierAction,
             *mPenAction, *mLineAction, *mSprayAction, *mFillAction,
-            *mRectAction, *mEllipseAction,
+            *mRectangleAction, *mEllipseAction,
             *mSaveAction, *mSaveAsAction, *mCloseAction, *mPrintAction,
             *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction,
             *mNewAction, *mOpenAction, *mExitAction, *mPasteAction, *mZoomInAction, *mZoomOutAction;
