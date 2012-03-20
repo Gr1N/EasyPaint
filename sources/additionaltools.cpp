@@ -37,7 +37,7 @@ AdditionalTools::AdditionalTools(ImageArea *pImageArea, QObject *parent) :
     QObject(parent)
 {
     mPImageArea = pImageArea;
-    zoomedFactor = 1;
+    mZoomedFactor = 1;
 }
 
 AdditionalTools::~AdditionalTools()
@@ -107,14 +107,14 @@ void AdditionalTools::rotateImage(bool flag)
 
 void AdditionalTools::zoomImage(qreal factor)
 {
-    zoomedFactor *= factor;
-    if(zoomedFactor < 0.25)
+    mZoomedFactor *= factor;
+    if(mZoomedFactor < 0.25)
     {
-        zoomedFactor = 0.25;
+        mZoomedFactor = 0.25;
     }
-    else if(zoomedFactor > 4)
+    else if(mZoomedFactor > 4)
     {
-        zoomedFactor = 4;
+        mZoomedFactor = 4;
     }
     else
     {

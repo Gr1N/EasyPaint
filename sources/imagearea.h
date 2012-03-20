@@ -163,11 +163,11 @@ private:
     AdditionalTools *mAdditionalTools;
     Effects *mEffects;
     QString mFilePath; /**< Path where located image. */
-    QString openFilter; /**< Supported open formats filter. */
-    QString saveFilter; /**< Supported save formats filter. */
+    QString mOpenFilter; /**< Supported open formats filter. */
+    QString mSaveFilter; /**< Supported save formats filter. */
     bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed;
-    QPixmap *pixmap;
-    QCursor *currentCursor;
+    QPixmap *mPixmap;
+    QCursor *mCurrentCursor;
     qreal mZoomFactor;
     QUndoStack *mUndoStack;
 

@@ -36,7 +36,7 @@ ToolBar::ToolBar(QWidget *parent) :
 {
     setMovable(false);
     initializeItems();
-    prevInstrumentSetted = false;
+    mPrevInstrumentSetted = false;
 }
 
 QToolButton* ToolBar::createToolButton(const QString &name, const QString &iconPath)
@@ -289,10 +289,10 @@ void ToolBar::setPipette(const bool &state)
 {
     if(state)
     {
-        if (!prevInstrumentSetted)
+        if (!mPrevInstrumentSetted)
         {
             DataSingleton::Instance()->setPreviousInstrument(DataSingleton::Instance()->getInstrument());
-            prevInstrumentSetted = true;
+            mPrevInstrumentSetted = true;
         }
         setAllButtonsUnchecked(mColorPickerButton);
         mColorPickerButton->setChecked(true);
@@ -397,7 +397,7 @@ void ToolBar::restorePreviousInstrument()
     setInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
     DataSingleton::Instance()->setInstrument(DataSingleton::Instance()->getPreviousInstrument());
     emit sendInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
-    prevInstrumentSetted = false;
+    mPrevInstrumentSetted = false;
     emit sendClearStatusBarColor();
 }
 

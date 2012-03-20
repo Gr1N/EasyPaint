@@ -101,7 +101,7 @@ void ImageArea::initializeImage()
 void ImageArea::open()
 {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open image..."), "",
-                                                    openFilter, 0,
+                                                    mOpenFilter, 0,
                                                     QFileDialog::DontUseNativeDialog);
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -152,7 +152,7 @@ void ImageArea::saveAs()
     {
         fileName = tr("Untitled image");
     }
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName, saveFilter
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName, mSaveFilter
                                                     /*tr("*.png;;*.jpg;;*.jpeg;;*.bmp;;*.xbm;;*.xpm")*/,
                                                     &filter,
                                                     QFileDialog::DontUseNativeDialog);
@@ -536,37 +536,37 @@ void ImageArea::restoreCursor()
     switch(DataSingleton::Instance()->getInstrument())
     {
     case MAGNIFIER:
-        pixmap = new QPixmap(":/media/instruments-icons/cursor_loupe.png");
-        currentCursor = new QCursor(*pixmap);
-        setCursor(*currentCursor);
+        mPixmap = new QPixmap(":/media/instruments-icons/cursor_loupe.png");
+        mCurrentCursor = new QCursor(*mPixmap);
+        setCursor(*mCurrentCursor);
         break;
     case NONE:
-        currentCursor = new QCursor(Qt::ArrowCursor);
-        setCursor(*currentCursor);
+        mCurrentCursor = new QCursor(Qt::ArrowCursor);
+        setCursor(*mCurrentCursor);
         break;
     case ERASER: case PEN:
         ImageArea::drawCursor();
-        currentCursor = new QCursor(*pixmap);
-        setCursor(*currentCursor);
+        mCurrentCursor = new QCursor(*mPixmap);
+        setCursor(*mCurrentCursor);
         break;
     case COLORPICKER:
-        pixmap = new QPixmap(":/media/instruments-icons/cursor_pipette.png");
-        currentCursor = new QCursor(*pixmap);
-        setCursor(*currentCursor);
+        mPixmap = new QPixmap(":/media/instruments-icons/cursor_pipette.png");
+        mCurrentCursor = new QCursor(*mPixmap);
+        setCursor(*mCurrentCursor);
         break;
     case RECTANGLE: case ELLIPSE: case LINE:
-        currentCursor = new QCursor(Qt::CrossCursor);
-        setCursor(*currentCursor);
+        mCurrentCursor = new QCursor(Qt::CrossCursor);
+        setCursor(*mCurrentCursor);
         break;
     case SPRAY:
-        pixmap = new QPixmap(":/media/instruments-icons/cursor_spray.png");
-        currentCursor = new QCursor(*pixmap);
-        setCursor(*currentCursor);
+        mPixmap = new QPixmap(":/media/instruments-icons/cursor_spray.png");
+        mCurrentCursor = new QCursor(*mPixmap);
+        setCursor(*mCurrentCursor);
         break;
     case FILL:
-        pixmap = new QPixmap(":/media/instruments-icons/cursor_fill.png");
-        currentCursor = new QCursor(*pixmap);
-        setCursor(*currentCursor);
+        mPixmap = new QPixmap(":/media/instruments-icons/cursor_fill.png");
+        mCurrentCursor = new QCursor(*mPixmap);
+        setCursor(*mCurrentCursor);
         break;
     }
 }
@@ -574,7 +574,7 @@ void ImageArea::restoreCursor()
 void ImageArea::drawCursor()
 {
     QPainter painter;
-    pixmap = new QPixmap(35, 35);
+    mPixmap = new QPixmap(35, 35);
     QPoint center(18, 18);
     switch(DataSingleton::Instance()->getInstrument())
     {
@@ -582,10 +582,10 @@ void ImageArea::drawCursor()
     case FILL: case RECTANGLE: case ELLIPSE:
         break;
     case PEN: case ERASER:
-        pixmap->fill(QColor(0, 0, 0, 0));
+        mPixmap->fill(QColor(0, 0, 0, 0));
         break;
     }
-    painter.begin(pixmap);
+    painter.begin(mPixmap);
     painter.setPen(Qt::black);
     painter.drawLine(18, 1, 18, 2);
     painter.drawLine(18, 5, 18, 6);
@@ -645,54 +645,54 @@ void ImageArea::makeFormatsFilters()
 {
     QList<QByteArray> ba = QImageReader::supportedImageFormats();
     //make "all supported" part
-    openFilter = "All supported (";
+    mOpenFilter = "All supported (";
     foreach (QByteArray temp, ba)
-        openFilter += "*." + temp + " ";
-    openFilter[openFilter.length() - 1] = ')'; //delete last space
-    openFilter += ";;";
+        mOpenFilter += "*." + temp + " ";
+    mOpenFilter[mOpenFilter.length() - 1] = ')'; //delete last space
+    mOpenFilter += ";;";
 
     //using ";;" as separator instead of "\n", because Qt's docs recomended it :)
     if(ba.contains("bmp"))
-        openFilter += "Windows Bitmap(*.bmp);;";
+        mOpenFilter += "Windows Bitmap(*.bmp);;";
     if(ba.contains("gif"))
-        openFilter += "Graphic Interchange Format(*.gif);;";
+        mOpenFilter += "Graphic Interchange Format(*.gif);;";
     if(ba.contains("jpg") || ba.contains("jpeg"))
-        openFilter += "Joint Photographic Experts Group(*.jpg *.jpeg);;";
+        mOpenFilter += "Joint Photographic Experts Group(*.jpg *.jpeg);;";
     if(ba.contains("mng"))
-        openFilter += "Multiple-image Network Graphics(*.mng);;";
+        mOpenFilter += "Multiple-image Network Graphics(*.mng);;";
     if(ba.contains("png"))
-        openFilter += "Portable Network Graphics(*.png);;";
+        mOpenFilter += "Portable Network Graphics(*.png);;";
     if(ba.contains("pbm"))
-        openFilter += "Portable Bitmap(*.pbm);;";
+        mOpenFilter += "Portable Bitmap(*.pbm);;";
     if(ba.contains("pgm"))
-        openFilter += "Portable Graymap(*.pgm);;";
+        mOpenFilter += "Portable Graymap(*.pgm);;";
     if(ba.contains("ppm"))
-        openFilter += "Portable Pixmap(*.ppm);;";
+        mOpenFilter += "Portable Pixmap(*.ppm);;";
     if(ba.contains("tiff") || ba.contains("tif"))
-        openFilter += "Tagged Image File Format(*.tiff, *tif);;";
+        mOpenFilter += "Tagged Image File Format(*.tiff, *tif);;";
     if(ba.contains("xbm"))
-        openFilter += "X11 Bitmap(*.xbm);;";
+        mOpenFilter += "X11 Bitmap(*.xbm);;";
     if(ba.contains("xpm"))
-        openFilter += "X11 Pixmap(*.xpm);;";
+        mOpenFilter += "X11 Pixmap(*.xpm);;";
     if(ba.contains("svg"))
-        openFilter += "Scalable Vector Graphics(*.svg);;";
+        mOpenFilter += "Scalable Vector Graphics(*.svg);;";
 
-    openFilter += "All Files(*.*)";
+    mOpenFilter += "All Files(*.*)";
 
     //make saveFilter
     ba = QImageWriter::supportedImageFormats();
     if(ba.contains("bmp"))
-        saveFilter += "Windows Bitmap(*.bmp)";
+        mSaveFilter += "Windows Bitmap(*.bmp)";
     if(ba.contains("jpg") || ba.contains("jpeg"))
-        saveFilter += ";;Joint Photographic Experts Group(*.jpg)";
+        mSaveFilter += ";;Joint Photographic Experts Group(*.jpg)";
     if(ba.contains("png"))
-        saveFilter += ";;Portable Network Graphics(*.png)";
+        mSaveFilter += ";;Portable Network Graphics(*.png)";
     if(ba.contains("ppm"))
-        saveFilter += ";;Portable Pixmap(*.ppm)";
+        mSaveFilter += ";;Portable Pixmap(*.ppm)";
     if(ba.contains("tiff") || ba.contains("tif"))
-        saveFilter += ";;Tagged Image File Format(*.tiff)";
+        mSaveFilter += ";;Tagged Image File Format(*.tiff)";
     if(ba.contains("xbm"))
-        saveFilter += ";;X11 Bitmap(*.xbm)";
+        mSaveFilter += ";;X11 Bitmap(*.xbm)";
     if(ba.contains("xpm"))
-        saveFilter += ";;X11 Pixmap(*.xpm)";
+        mSaveFilter += ";;X11 Pixmap(*.xpm)";
 }

@@ -66,7 +66,7 @@ private:
                 *mColorPickerButton, *mMagnifierButton, *mSprayButton, *mFillButton,
                 *mRectangleButton, *mEllipseButton;
     ColorChooser *mFColorChooser, *mSColorChooser;
-    bool prevInstrumentSetted;
+    bool mPrevInstrumentSetted;
     
 signals:
     void sendInstrumentChecked(InstrumentsEnum);
