@@ -76,9 +76,13 @@ void SettingsDialog::initializeGui()
     QHBoxLayout *hBox1 = new QHBoxLayout();
     hBox1->addWidget(label1);
     hBox1->addWidget(mLanguageBox);
+    QVBoxLayout *vBox1 = new QVBoxLayout();
+    vBox1->addLayout(hBox1);
+    QLabel *label4 = new QLabel(tr("Note: language changing requires application restart"));
+    vBox1->addWidget(label4);
 
     QGroupBox *groupBox1 = new QGroupBox(tr("User interface"));
-    groupBox1->setLayout(hBox1);
+    groupBox1->setLayout(vBox1);
 
     QLabel *label2 = new QLabel(tr("Base size:"));
     QLabel *label3 = new QLabel(" x ");
@@ -89,7 +93,6 @@ void SettingsDialog::initializeGui()
     mHeight->setRange(1, 9999);
     mHeight->setValue(DataSingleton::Instance()->getBaseSize().height());
     QHBoxLayout *hBox2 = new QHBoxLayout();
-    hBox2->addWidget(label2);
     hBox2->addWidget(mWidth);
     hBox2->addWidget(label3);
     hBox2->addWidget(mHeight);
@@ -98,28 +101,27 @@ void SettingsDialog::initializeGui()
     mHistoryDepth = new QSpinBox();
     mHistoryDepth->setRange(1, 99);
     mHistoryDepth->setValue(DataSingleton::Instance()->getHistoryDepth());
-    QHBoxLayout *hBox3 = new QHBoxLayout();
-    hBox3->addWidget(label5);
-    hBox3->addWidget(mHistoryDepth);
+    mHistoryDepth->setFixedWidth(80);
 
     mIsAutoSave = new QCheckBox(tr("Autosave"));
     mIsAutoSave->setChecked(DataSingleton::Instance()->getIsAutoSave());
-    QLabel *label6 = new QLabel(tr("Interval (msec):"));
+    QLabel *label6 = new QLabel(tr("Autosave interval (msec):"));
     mAutoSaveInterval = new QSpinBox();
     mAutoSaveInterval->setRange(1, 1000000);
     mAutoSaveInterval->setValue(DataSingleton::Instance()->getAutoSaveInterval());
-    QHBoxLayout *hBox4 = new QHBoxLayout();
-    hBox4->addWidget(mIsAutoSave);
-    hBox4->addWidget(label6);
-    hBox4->addWidget(mAutoSaveInterval);
+    mAutoSaveInterval->setFixedWidth(80);
 
-    QVBoxLayout *vBox1 = new QVBoxLayout();
-    vBox1->addLayout(hBox2);
-    vBox1->addLayout(hBox3);
-    vBox1->addLayout(hBox4);
+    QGridLayout *gLayout = new QGridLayout();
+    gLayout->addWidget(label2, 0, 0);
+    gLayout->addLayout(hBox2, 0, 1);
+    gLayout->addWidget(label5, 1, 0);
+    gLayout->addWidget(mHistoryDepth, 1, 1);
+    gLayout->addWidget(mIsAutoSave, 2, 0);
+    gLayout->addWidget(label6, 3, 0);
+    gLayout->addWidget(mAutoSaveInterval, 3, 1);
 
     QGroupBox *groupBox2 = new QGroupBox(tr("Image"));
-    groupBox2->setLayout(vBox1);
+    groupBox2->setLayout(gLayout);
 
     QVBoxLayout *vBox2 = new QVBoxLayout();
     vBox2->addWidget(groupBox1);
