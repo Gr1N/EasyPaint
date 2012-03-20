@@ -134,31 +134,31 @@ void MainWindow::initializeMainMenu()
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
 
     mNewAction = new QAction(tr("&New"), this);
-    mNewAction->setIcon(QIcon::fromTheme("document-new"/*, QIcon("")*/));
+    mNewAction->setIcon(QIcon::fromTheme("document-new", QIcon(":/media/actions-icons/document-new.png")));
     mNewAction->setIconVisibleInMenu(true);
     connect(mNewAction, SIGNAL(triggered()), this, SLOT(newAct()));
     fileMenu->addAction(mNewAction);
 
     mOpenAction = new QAction(tr("&Open"), this);
-    mOpenAction->setIcon(QIcon::fromTheme("document-open"/*, QIcon("")*/));
+    mOpenAction->setIcon(QIcon::fromTheme("document-open", QIcon(":/media/actions-icons/document-open.png")));
     mOpenAction->setIconVisibleInMenu(true);
     connect(mOpenAction, SIGNAL(triggered()), this, SLOT(openAct()));
     fileMenu->addAction(mOpenAction);
 
     mSaveAction = new QAction(tr("&Save"), this);
-    mSaveAction->setIcon(QIcon::fromTheme("document-save"/*, QIcon("")*/));
+    mSaveAction->setIcon(QIcon::fromTheme("document-save", QIcon(":/media/actions-icons/document-save.png")));
     mSaveAction->setIconVisibleInMenu(true);
     connect(mSaveAction, SIGNAL(triggered()), this, SLOT(saveAct()));
     fileMenu->addAction(mSaveAction);
 
     mSaveAsAction = new QAction(tr("Save as..."), this);
-    mSaveAsAction->setIcon(QIcon::fromTheme("document-save-as"/*, QIcon("")*/));
+    mSaveAsAction->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/media/actions-icons/document-save-as.png")));
     mSaveAsAction->setIconVisibleInMenu(true);
     connect(mSaveAsAction, SIGNAL(triggered()), this, SLOT(saveAsAct()));
     fileMenu->addAction(mSaveAsAction);
 
     mCloseAction = new QAction(tr("&Close"), this);
-    mCloseAction->setIcon(QIcon::fromTheme("window-close"/*, QIcon("")*/));
+    mCloseAction->setIcon(QIcon::fromTheme("window-close", QIcon(":/media/actions-icons/window-close.png")));
     mCloseAction->setIconVisibleInMenu(true);
     connect(mCloseAction, SIGNAL(triggered()), this, SLOT(closeTabAct()));
     fileMenu->addAction(mCloseAction);
@@ -166,7 +166,7 @@ void MainWindow::initializeMainMenu()
     fileMenu->addSeparator();
 
     mPrintAction = new QAction(tr("&Print"), this);
-    mPrintAction->setIcon(QIcon::fromTheme("document-print"/*, QIcon("")*/));
+    mPrintAction->setIcon(QIcon::fromTheme("document-print", QIcon(":/media/actions-icons/document-print.png")));
     mPrintAction->setIconVisibleInMenu(true);
     connect(mPrintAction, SIGNAL(triggered()), this, SLOT(printAct()));
     fileMenu->addAction(mPrintAction);
@@ -174,7 +174,7 @@ void MainWindow::initializeMainMenu()
     fileMenu->addSeparator();
 
     mExitAction = new QAction(tr("&Exit"), this);
-    mExitAction->setIcon(QIcon::fromTheme("application-exit"/*, QIcon("")*/));
+    mExitAction->setIcon(QIcon::fromTheme("application-exit", QIcon(":/media/actions-icons/application-exit.png")));
     mExitAction->setIconVisibleInMenu(true);
     connect(mExitAction, SIGNAL(triggered()), SLOT(close()));
     fileMenu->addAction(mExitAction);
@@ -182,13 +182,13 @@ void MainWindow::initializeMainMenu()
     QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
 
     mUndoAction = mUndoStackGroup->createUndoAction(this, tr("&Undo"));
-    mUndoAction->setIcon(QIcon::fromTheme("edit-undo"/*, QIcon("")*/));
+    mUndoAction->setIcon(QIcon::fromTheme("edit-undo", QIcon(":/media/actions-icons/edit-undo.png")));
     mUndoAction->setIconVisibleInMenu(true);
     mUndoAction->setEnabled(false);
     editMenu->addAction(mUndoAction);
 
     mRedoAction = mUndoStackGroup->createRedoAction(this, tr("&Redo"));
-    mRedoAction->setIcon(QIcon::fromTheme("edit-redo"/*, QIcon("")*/));
+    mRedoAction->setIcon(QIcon::fromTheme("edit-redo", QIcon(":/media/actions-icons/edit-redo.png")));
     mRedoAction->setIconVisibleInMenu(true);
     mRedoAction->setEnabled(false);
     editMenu->addAction(mRedoAction);
@@ -196,21 +196,21 @@ void MainWindow::initializeMainMenu()
     editMenu->addSeparator();
 
     mCopyAction = new QAction(tr("&Copy"), this);
-    mCopyAction->setIcon(QIcon::fromTheme("edit-copy"/*, QIcon("")*/));
+    mCopyAction->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/media/actions-icons/edit-copy.png")));
     mCopyAction->setIconVisibleInMenu(true);
     mCopyAction->setEnabled(false);
 //    connect();
     editMenu->addAction(mCopyAction);
 
     mPasteAction = new QAction(tr("&Paste"), this);
-    mPasteAction->setIcon(QIcon::fromTheme("edit-paste"/*, QIcon("")*/));
+    mPasteAction->setIcon(QIcon::fromTheme("edit-paste", QIcon(":/media/actions-icons/edit-paste.png")));
     mPasteAction->setIconVisibleInMenu(true);
     mPasteAction->setEnabled(false);
 //    connect();
     editMenu->addAction(mPasteAction);
 
     mCutAction = new QAction(tr("C&ut"), this);
-    mCutAction->setIcon(QIcon::fromTheme("edit-cut"/*, QIcon("")*/));
+    mCutAction->setIcon(QIcon::fromTheme("edit-cut", QIcon(":/media/actions-icons/edit-cut.png")));
     mCutAction->setIconVisibleInMenu(true);
     mCutAction->setEnabled(false);
 //    connect();
@@ -220,7 +220,7 @@ void MainWindow::initializeMainMenu()
 
     QAction *settingsAction = new QAction(tr("&Settings"), this);
     settingsAction->setShortcut(QKeySequence::Preferences);
-    settingsAction->setIcon(QIcon::fromTheme("document-properties"/*, QIcon("")*/));
+    settingsAction->setIcon(QIcon::fromTheme("document-properties", QIcon(":/media/actions-icons/document-properties.png")));
     settingsAction->setIconVisibleInMenu(true);
     connect(settingsAction, SIGNAL(triggered()), this, SLOT(settingsAct()));
     editMenu->addAction(settingsAction);
@@ -300,13 +300,13 @@ void MainWindow::initializeMainMenu()
     QMenu *rotateMenu = new QMenu(tr("Rotate"));
 
     QAction *rotateLAction = new QAction(tr("Left"), this);
-    rotateLAction->setIcon(QIcon::fromTheme("object-rotate-left"/*, QIcon("")*/));
+    rotateLAction->setIcon(QIcon::fromTheme("object-rotate-left", QIcon(":/media/actions-icons/object-rotate-left.png")));
     rotateLAction->setIconVisibleInMenu(true);
     connect(rotateLAction, SIGNAL(triggered()), this, SLOT(rotateLeftImageAct()));
     rotateMenu->addAction(rotateLAction);
 
     QAction *rotateRAction = new QAction(tr("Right"), this);
-    rotateRAction->setIcon(QIcon::fromTheme("object-rotate-right"/*, QIcon("")*/));
+    rotateRAction->setIcon(QIcon::fromTheme("object-rotate-right", QIcon(":/media/actions-icons/object-rotate-right.png")));
     rotateRAction->setIconVisibleInMenu(true);
     connect(rotateRAction, SIGNAL(triggered()), this, SLOT(rotateRightImageAct()));
     rotateMenu->addAction(rotateRAction);
@@ -316,19 +316,18 @@ void MainWindow::initializeMainMenu()
     QMenu *zoomMenu = new QMenu(tr("Zoom"));
 
     mZoomInAction = new QAction(tr("Zoom In"), this);
-    mZoomInAction->setIcon(QIcon::fromTheme("object-zoom-in"/*, QIcon("")*/));
+    mZoomInAction->setIcon(QIcon::fromTheme("zoom-in", QIcon(":/media/actions-icons/zoom-in.png")));
     mZoomInAction->setIconVisibleInMenu(true);
     connect(mZoomInAction, SIGNAL(triggered()), this, SLOT(zoomInAct()));
     zoomMenu->addAction(mZoomInAction);
 
     mZoomOutAction = new QAction(tr("Zoom Out"), this);
-    mZoomOutAction->setIcon(QIcon::fromTheme("object-zoom-out"/*, QIcon("")*/));
+    mZoomOutAction->setIcon(QIcon::fromTheme("zoom-out", QIcon(":/media/actions-icons/zoom-out.png")));
     mZoomOutAction->setIconVisibleInMenu(true);
     connect(mZoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOutAct()));
     zoomMenu->addAction(mZoomOutAction);
 
     QAction *advancedZoomAction = new QAction(tr("Advanced Zoom..."), this);
-    advancedZoomAction->setIcon(QIcon::fromTheme("object-advanced-zoom"/*, QIcon("")*/));
     advancedZoomAction->setIconVisibleInMenu(true);
     connect(advancedZoomAction, SIGNAL(triggered()), this, SLOT(advancedZoomAct()));
     zoomMenu->addAction(advancedZoomAction);
@@ -339,7 +338,7 @@ void MainWindow::initializeMainMenu()
 
     QAction *aboutAction = new QAction(tr("&About EasyPaint"), this);
     aboutAction->setShortcut(QKeySequence::HelpContents);
-    aboutAction->setIcon(QIcon::fromTheme("help-browser"/*, QIcon("")*/));
+    aboutAction->setIcon(QIcon::fromTheme("help-about", QIcon(":/media/actions-icons/help-about.png")));
     aboutAction->setIconVisibleInMenu(true);
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(helpAct()));
     aboutMenu->addAction(aboutAction);
