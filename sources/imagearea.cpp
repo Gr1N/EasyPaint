@@ -574,8 +574,8 @@ void ImageArea::restoreCursor()
 void ImageArea::drawCursor()
 {
     QPainter painter;
-    mPixmap = new QPixmap(35, 35);
-    QPoint center(18, 18);
+    mPixmap = new QPixmap(25, 25);
+    QPoint center(13, 13);
     switch(DataSingleton::Instance()->getInstrument())
     {
     case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
@@ -586,25 +586,6 @@ void ImageArea::drawCursor()
         break;
     }
     painter.begin(mPixmap);
-    painter.setPen(Qt::black);
-    painter.drawLine(18, 1, 18, 2);
-    painter.drawLine(18, 5, 18, 6);
-    painter.drawLine(1, 18, 2, 18);
-    painter.drawLine(5, 18, 6, 18);
-    painter.drawLine(18, 30, 18, 31);
-    painter.drawLine(18, 34, 18, 35);
-    painter.drawLine(30, 18, 31, 18);
-    painter.drawLine(34, 18, 35, 18);
-    painter.setPen(Qt::white);
-    painter.drawLine(18, 3, 18, 4);
-    painter.drawLine(18, 7, 18, 8);
-    painter.drawLine(3, 18, 4, 18);
-    painter.drawLine(7, 18, 8, 18);
-    painter.drawLine(18, 28, 18, 29);
-    painter.drawLine(18, 32, 18, 33);
-    painter.drawLine(28, 18, 29, 18);
-    painter.drawLine(32, 18, 33, 18);
-    painter.setPen(Qt::black);
     switch(DataSingleton::Instance()->getInstrument())
     {
     case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
@@ -613,31 +594,46 @@ void ImageArea::drawCursor()
     case PEN:
         if(mRightButtonPressed)
         {
-            if(DataSingleton::Instance()->getSecondColor().red() < 50
-                && DataSingleton::Instance()->getSecondColor().green() < 50
-                && DataSingleton::Instance()->getSecondColor().blue() < 50)
-                painter.setPen(QPen(Qt::white));
+            painter.setPen(QPen(DataSingleton::Instance()->getSecondColor()));
+            painter.setBrush(QBrush(DataSingleton::Instance()->getSecondColor()));
         }
         else
         {
-            if(DataSingleton::Instance()->getFirstColor().red() < 50
-                && DataSingleton::Instance()->getFirstColor().green() < 50
-                && DataSingleton::Instance()->getFirstColor().blue() < 50)
-                painter.setPen(QPen(Qt::white));
-        }
-        if(mRightButtonPressed)
-            painter.setBrush(QBrush(DataSingleton::Instance()->getSecondColor()));
-        else
+            painter.setPen(QPen(DataSingleton::Instance()->getFirstColor()));
             painter.setBrush(QBrush(DataSingleton::Instance()->getFirstColor()));
-        painter.drawEllipse(center, DataSingleton::Instance()->getPenSize(),
-                        DataSingleton::Instance()->getPenSize());
+        }
+        painter.drawEllipse(center, DataSingleton::Instance()->getPenSize()/2,
+                        DataSingleton::Instance()->getPenSize()/2);
         break;
     case ERASER:
         painter.setBrush(QBrush(Qt::white));
-        painter.drawEllipse(center, DataSingleton::Instance()->getPenSize(),
-                        DataSingleton::Instance()->getPenSize());
+        painter.drawEllipse(center, DataSingleton::Instance()->getPenSize()/2,
+                        DataSingleton::Instance()->getPenSize()/2);
         break;
     }
+    painter.setPen(Qt::black);
+    painter.drawPoint(13, 13);
+    painter.drawPoint(13, 3);
+    painter.drawPoint(13, 5);
+    painter.drawPoint(13, 21);
+    painter.drawPoint(13, 23);
+    painter.drawPoint(3, 13);
+    painter.drawPoint(5, 13);
+    painter.drawPoint(21, 13);
+    painter.drawPoint(23, 13);
+    painter.setPen(Qt::white);
+    painter.drawPoint(13, 12);
+    painter.drawPoint(13, 14);
+    painter.drawPoint(12, 13);
+    painter.drawPoint(14, 13);
+    painter.drawPoint(13, 4);
+    painter.drawPoint(13, 6);
+    painter.drawPoint(13, 20);
+    painter.drawPoint(13, 22);
+    painter.drawPoint(4, 13);
+    painter.drawPoint(6, 13);
+    painter.drawPoint(20, 13);
+    painter.drawPoint(22, 13);
     painter.end();
 }
 
