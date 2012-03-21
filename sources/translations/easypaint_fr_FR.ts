@@ -105,7 +105,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="232"/>
         <source>&amp;Settings</source>
-        <translation>&amp;Pr&acute;f&acute;rences</translation>
+        <translation>&amp;Pr&#201;f&#201;rences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="240"/>
@@ -175,7 +175,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="299"/>
         <source>Negative</source>
-        <translation>N&eacute;gatif</translation>
+        <translation>N&#201;gatif</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="304"/>
@@ -233,7 +233,7 @@
         <location filename="../mainwindow.cpp" line="540"/>
         <source>File has been modified
 Do you want to save changes?</source>
-        <translation>Le fichier a &eacute;t&eacute; modifi&eacute;
+        <translation>Le fichier a &#201;t&#201; modifi&#201;
 Voulez-vous sauvegarder les changements?</translation>
     </message>
     <message>
@@ -317,7 +317,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../resizedialog.cpp" line="88"/>
         <source>Preserve Aspect Ratio</source>
-        <translation>Pr&eacute;server le rapport d'aspect</translation>
+        <translation>Pr&#201;server le rapport d'aspect</translation>
     </message>
 </context>
 <context>
@@ -325,7 +325,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../settingsdialog.cpp" line="45"/>
         <source>Settings</source>
-        <translation>Pr&eacute;f&eacute;rences</translation>
+        <translation>Pr&#201;f&#201;rences</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="65"/>
@@ -335,7 +335,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../settingsdialog.cpp" line="67"/>
         <source>&lt;System&gt;</source>
-        <translation>&lt;Syst&egrave;me&gt;</translation>
+        <translation>&lt;Syst&#232;me&gt;</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="76"/>
