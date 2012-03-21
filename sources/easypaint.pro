@@ -57,9 +57,9 @@ target.path = /usr/bin
 translations.path = /usr/share/easypaint/translations
 translations.files = translations/*.qm
 desktop.path = /usr/share/applications
-desktop.files = media/EasyPaint.desktop
-;icon.path = /usr/share/pixmaps
-;icon.files = contrib/easypaint.png
+desktop.files = media/easypaint.desktop
+icon.path = /usr/share/pixmaps
+icon.files = media/logo/easypaint_small.png
 isEmpty(QMAKE_LRELEASE) {
  win32 {
   QMAKE_LRELEASE =   $$[QT_INSTALL_BINS]\\lrelease.exe
@@ -76,5 +76,4 @@ isEmpty(TS_DIR) {
 ;TSQM.CONFIG = no_link
 ;QMAKE_EXTRA_COMPILERS += TSQM
 ;PRE_TARGETDEPS += compiler_TSQM_make_all
-;INSTALLS += target translations desktop icon
-INSTALLS += target translations desktop
+INSTALLS += target translations desktop icon

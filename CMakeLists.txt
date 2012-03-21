@@ -83,10 +83,10 @@ if(UNIX AND NOT APPLE)
     INSTALL(TARGETS easypaint RUNTIME DESTINATION bin)
 
     # install desktop files
-    INSTALL(FILES "sources/media/EasyPaint.desktop" DESTINATION share/applications)
+    INSTALL(FILES "sources/media/easypaint.desktop" DESTINATION share/applications)
 
     # install pixmap
-    #~ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/img/easypaint.png" DESTINATION share/pixmaps)
+    INSTALL(FILES "sources/media/logo/easypaint.png" DESTINATION share/pixmaps)
 
     INSTALL(FILES ${TRANSLATIONS_QM} DESTINATION share/easypaint/translations)
 endif(UNIX AND NOT APPLE)

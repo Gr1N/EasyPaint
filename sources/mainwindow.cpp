@@ -46,6 +46,8 @@
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)
 {
+    setWindowIcon(QIcon(":/media/logo/easypaint_small.png"));
+
     mUndoStackGroup = new QUndoGroup(this);
 
     initializeMainMenu();
@@ -234,17 +236,17 @@ void MainWindow::initializeMainMenu()
 
     mEraserAction = new QAction(tr("Eraser"), this);
     mEraserAction->setCheckable(true);
-    connect(mEraserAction, SIGNAL(triggered(bool)), this, SLOT(lasticAct(bool)));
+    connect(mEraserAction, SIGNAL(triggered(bool)), this, SLOT(eraserAct(bool)));
     mInstrumentsMenu->addAction(mEraserAction);
 
     mColorPickerAction = new QAction(tr("Color picker"), this);
     mColorPickerAction->setCheckable(true);
-    connect(mColorPickerAction, SIGNAL(triggered(bool)), this, SLOT(pipetteAct(bool)));
+    connect(mColorPickerAction, SIGNAL(triggered(bool)), this, SLOT(colorPickerAct(bool)));
     mInstrumentsMenu->addAction(mColorPickerAction);
 
     mMagnifierAction = new QAction(tr("Magnifier"), this);
     mMagnifierAction->setCheckable(true);
-    connect(mMagnifierAction, SIGNAL(triggered(bool)), this, SLOT(loupeAct(bool)));
+    connect(mMagnifierAction, SIGNAL(triggered(bool)), this, SLOT(magnifierAct(bool)));
     mInstrumentsMenu->addAction(mMagnifierAction);
 
     mPenAction = new QAction(tr("Pen"), this);
@@ -269,7 +271,7 @@ void MainWindow::initializeMainMenu()
 
     mRectangleAction = new QAction(tr("Rectangle"), this);
     mRectangleAction->setCheckable(true);
-    connect(mRectangleAction, SIGNAL(triggered(bool)), this, SLOT(rectAct(bool)));
+    connect(mRectangleAction, SIGNAL(triggered(bool)), this, SLOT(rectangleAct(bool)));
     mInstrumentsMenu->addAction(mRectangleAction);
 
     mEllipseAction = new QAction(tr("Ellipse"), this);
@@ -727,7 +729,7 @@ void MainWindow::cursorAct(const bool &state)
     }
 }
 
-void MainWindow::lasticAct(const bool &state)
+void MainWindow::eraserAct(const bool &state)
 {
     if(state)
     {
@@ -744,7 +746,7 @@ void MainWindow::lasticAct(const bool &state)
     }
 }
 
-void MainWindow::pipetteAct(const bool &state)
+void MainWindow::colorPickerAct(const bool &state)
 {
     if(state)
     {
@@ -761,7 +763,7 @@ void MainWindow::pipetteAct(const bool &state)
     }
 }
 
-void MainWindow::loupeAct(const bool &state)
+void MainWindow::magnifierAct(const bool &state)
 {
     if(state)
     {
@@ -846,7 +848,7 @@ void MainWindow::fillAct(const bool &state)
     }
 }
 
-void MainWindow::rectAct(const bool &state)
+void MainWindow::rectangleAct(const bool &state)
 {
     if(state)
     {
