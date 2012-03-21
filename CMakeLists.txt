@@ -40,7 +40,8 @@ set (SOURCES
     sources/toolbar.cpp
     sources/palettebar.cpp
     sources/undocommand.cpp
-    sources/palettebutton.cpp)
+    sources/palettebutton.cpp
+    sources/settingsdialog.cpp)
  
 #------- resources -------
 set (RESOURCE_PATH 
