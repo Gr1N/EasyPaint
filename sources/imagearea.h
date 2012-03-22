@@ -128,7 +128,6 @@ public:
     inline void setZoomFactor(qreal factor) { mZoomFactor *= factor; }
     inline qreal getZoomFactor() { return mZoomFactor; }
     inline QUndoStack* getUndoStack() { return mUndoStack; }
-    inline QUndoStack* getUndoStack() { return mUndoStack; }
     inline void setSelectionRightBottomPoint(const QPoint &point)
     { mSelectionRightBottomPoint = point; }
     inline void setSelectionSize(int width, int height)
@@ -179,13 +178,6 @@ private:
     QPixmap *mPixmap;
     QCursor *mCurrentCursor;
     qreal mZoomFactor;
-    QString mOpenFilter; /**< Supported open formats filter. */
-    QString mSaveFilter; /**< Supported save formats filter. */
-    bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed;
-    QPixmap *mPixmap;
-    QCursor *mCurrentCursor;
-    qreal mZoomFactor;
-    QUndoStack *mUndoStack;
     QUndoStack *mUndoStack;
     QPoint mSelectionRightBottomPoint, mSelectionMoveDiffPoint;
     int mSelectionHeight, mSelectionWidth;
