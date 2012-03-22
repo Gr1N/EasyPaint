@@ -87,7 +87,7 @@ if(UNIX AND NOT APPLE)
     INSTALL(FILES "sources/media/easypaint.desktop" DESTINATION share/applications)
 
     # install pixmap
-    INSTALL(FILES "sources/media/logo/easypaint.png" DESTINATION share/pixmaps)
+    INSTALL(FILES "sources/media/logo/easypaint_small.png" DESTINATION share/pixmaps)
 
     INSTALL(FILES ${TRANSLATIONS_QM} DESTINATION share/easypaint/translations)
 endif(UNIX AND NOT APPLE)
