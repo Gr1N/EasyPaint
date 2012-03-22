@@ -33,6 +33,6 @@
         <file>media/actions-icons/window-close.png</file>
         <file>media/actions-icons/zoom-in.png</file>
         <file>media/actions-icons/zoom-out.png</file>
-        <file>media/logo/easypaint_small.png</file>
+        <file>media/logo/easypaint_64.png</file>
     </qresource>
 </RCC>
