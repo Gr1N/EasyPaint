@@ -62,11 +62,11 @@ private:
      */
     QToolButton* createToolButton(const QString &name, const QString &iconPath);
 
-    QToolButton *mCursorButton, *mLasticButton, *mPenButton, *mLineButton,
-                *mPipetteButton, *mLoupeButton, *mSprayButton, *mFillButton,
-                *mRectButton, *mEllipseButton;
+    QToolButton *mCursorButton, *mEraserButton, *mPenButton, *mLineButton,
+                *mColorPickerButton, *mMagnifierButton, *mSprayButton, *mFillButton,
+                *mRectangleButton, *mEllipseButton;
     ColorChooser *mFColorChooser, *mSColorChooser;
-    bool prevInstrumentSetted;
+    bool mPrevInstrumentSetted;
     
 signals:
     void sendInstrumentChecked(InstrumentsEnum);

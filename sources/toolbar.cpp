@@ -36,7 +36,7 @@ ToolBar::ToolBar(QWidget *parent) :
 {
     setMovable(false);
     initializeItems();
-    prevInstrumentSetted = false;
+    mPrevInstrumentSetted = false;
 }
 
 QToolButton* ToolBar::createToolButton(const QString &name, const QString &iconPath)
@@ -52,11 +52,11 @@ QToolButton* ToolBar::createToolButton(const QString &name, const QString &iconP
 
 void ToolBar::initializeItems()
 {
-    mCursorButton = createToolButton(tr("Cursor"), ":/media/instruments-icons/cursor.png");
+    mCursorButton = createToolButton(tr("Selection"), ":/media/instruments-icons/cursor.png");
     connect(mCursorButton, SIGNAL(toggled(bool)), this, SLOT(setCursor(bool)));
 
-    mLasticButton = createToolButton(tr("Lastic"), ":/media/instruments-icons/lastic.png");
-    connect(mLasticButton, SIGNAL(toggled(bool)), this, SLOT(setLastic(bool)));
+    mEraserButton = createToolButton(tr("Eraser"), ":/media/instruments-icons/lastic.png");
+    connect(mEraserButton, SIGNAL(toggled(bool)), this, SLOT(setLastic(bool)));
 
     mPenButton = createToolButton(tr("Pen"), ":/media/instruments-icons/pencil.png");
     connect(mPenButton, SIGNAL(toggled(bool)), this, SLOT(setPen(bool)));
@@ -64,11 +64,11 @@ void ToolBar::initializeItems()
     mLineButton = createToolButton(tr("Line"), ":/media/instruments-icons/line.png");
     connect(mLineButton, SIGNAL(toggled(bool)), this, SLOT(setLine(bool)));
 
-    mPipetteButton = createToolButton(tr("Pipette"), ":/media/instruments-icons/pipette.png");
-    connect(mPipetteButton, SIGNAL(toggled(bool)), this, SLOT(setPipette(bool)));
+    mColorPickerButton = createToolButton(tr("Color picker"), ":/media/instruments-icons/pipette.png");
+    connect(mColorPickerButton, SIGNAL(toggled(bool)), this, SLOT(setPipette(bool)));
 
-    mLoupeButton = createToolButton(tr("Loupe"), ":/media/instruments-icons/loupe.png");
-    connect(mLoupeButton, SIGNAL(toggled(bool)), this, SLOT(setLoupe(bool)));
+    mMagnifierButton = createToolButton(tr("Magnifier"), ":/media/instruments-icons/loupe.png");
+    connect(mMagnifierButton, SIGNAL(toggled(bool)), this, SLOT(setLoupe(bool)));
 
     mSprayButton = createToolButton(tr("Spray"), ":/media/instruments-icons/spray.png");
     connect(mSprayButton, SIGNAL(toggled(bool)), this, SLOT(setSpray(bool)));
@@ -76,8 +76,8 @@ void ToolBar::initializeItems()
     mFillButton = createToolButton(tr("Fill"), ":/media/instruments-icons/fill.png");
     connect(mFillButton, SIGNAL(toggled(bool)), this, SLOT(setFill(bool)));
 
-    mRectButton = createToolButton(tr("Rect"), ":/media/instruments-icons/rectangle.png");
-    connect(mRectButton, SIGNAL(toggled(bool)), this, SLOT(setRect(bool)));
+    mRectangleButton = createToolButton(tr("Rectangle"), ":/media/instruments-icons/rectangle.png");
+    connect(mRectangleButton, SIGNAL(toggled(bool)), this, SLOT(setRect(bool)));
 
     mEllipseButton = createToolButton(tr("Ellipse"), ":/media/instruments-icons/ellipse.png");
     connect(mEllipseButton, SIGNAL(toggled(bool)), this, SLOT(setEllipse(bool)));
@@ -86,14 +86,14 @@ void ToolBar::initializeItems()
     QGridLayout *bLayout = new QGridLayout();
     bLayout->setMargin(3);
     bLayout->addWidget(mCursorButton, 0, 0);
-    bLayout->addWidget(mLasticButton, 0, 1);
-    bLayout->addWidget(mPipetteButton, 1, 0);
-    bLayout->addWidget(mLoupeButton, 1, 1);
+    bLayout->addWidget(mEraserButton, 0, 1);
+    bLayout->addWidget(mColorPickerButton, 1, 0);
+    bLayout->addWidget(mMagnifierButton, 1, 1);
     bLayout->addWidget(mPenButton, 2, 0);
     bLayout->addWidget(mLineButton, 2, 1);
     bLayout->addWidget(mSprayButton, 3, 0);
     bLayout->addWidget(mFillButton, 3, 1);
-    bLayout->addWidget(mRectButton, 4, 0);
+    bLayout->addWidget(mRectangleButton, 4, 0);
     bLayout->addWidget(mEllipseButton, 4, 1);
 
     QWidget *bWidget = new QWidget();
@@ -156,25 +156,25 @@ void ToolBar::setAllButtonsUnchecked(QToolButton *button)
 {
     if(button != mCursorButton)
         mCursorButton->setChecked(false);
-    if(button != mLasticButton)
-        mLasticButton->setChecked(false);
+    if(button != mEraserButton)
+        mEraserButton->setChecked(false);
     if(button != mPenButton)
         mPenButton->setChecked(false);
     if(button != mLineButton)
         mLineButton->setChecked(false);
-    if(button != mPipetteButton)
+    if(button != mColorPickerButton)
     {
-        mPipetteButton->setChecked(false);
+        mColorPickerButton->setChecked(false);
         emit sendClearStatusBarColor();
     }
-    if(button != mLoupeButton)
-        mLoupeButton->setChecked(false);
+    if(button != mMagnifierButton)
+        mMagnifierButton->setChecked(false);
     if(button != mSprayButton)
         mSprayButton->setChecked(false);
     if(button != mFillButton)
         mFillButton->setChecked(false);
-    if(button != mRectButton)
-        mRectButton->setChecked(false);
+    if(button != mRectangleButton)
+        mRectangleButton->setChecked(false);
     if(button != mEllipseButton)
         mEllipseButton->setChecked(false);
 }
@@ -189,14 +189,14 @@ void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
     case CURSOR:
         mCursorButton->setChecked(true);
         break;
-    case LASTIC:
-        mLasticButton->setChecked(true);
+    case ERASER:
+        mEraserButton->setChecked(true);
         break;
-    case PIPETTE:
-        mPipetteButton->setChecked(true);
+    case COLORPICKER:
+        mColorPickerButton->setChecked(true);
         break;
-    case LOUPE:
-        mLoupeButton->setChecked(true);
+    case MAGNIFIER:
+        mMagnifierButton->setChecked(true);
         break;
     case PEN:
         mPenButton->setChecked(true);
@@ -210,8 +210,8 @@ void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
     case FILL:
         mFillButton->setChecked(true);
         break;
-    case RECT:
-        mRectButton->setChecked(true);
+    case RECTANGLE:
+        mRectangleButton->setChecked(true);
         break;
     case ELLIPSE:
         mEllipseButton->setChecked(true);
@@ -240,10 +240,10 @@ void ToolBar::setLastic(const bool &state)
 {
     if(state)
     {
-        setAllButtonsUnchecked(mLasticButton);
-        mLasticButton->setChecked(true);
-        DataSingleton::Instance()->setInstrument(LASTIC);
-        emit sendInstrumentChecked(LASTIC);
+        setAllButtonsUnchecked(mEraserButton);
+        mEraserButton->setChecked(true);
+        DataSingleton::Instance()->setInstrument(ERASER);
+        emit sendInstrumentChecked(ERASER);
     }
     else
     {
@@ -291,15 +291,15 @@ void ToolBar::setPipette(const bool &state)
 {
     if(state)
     {
-        if (!prevInstrumentSetted)
+        if (!mPrevInstrumentSetted)
         {
             DataSingleton::Instance()->setPreviousInstrument(DataSingleton::Instance()->getInstrument());
-            prevInstrumentSetted = true;
+            mPrevInstrumentSetted = true;
         }
-        setAllButtonsUnchecked(mPipetteButton);
-        mPipetteButton->setChecked(true);
-        DataSingleton::Instance()->setInstrument(PIPETTE);
-        emit sendInstrumentChecked(PIPETTE);
+        setAllButtonsUnchecked(mColorPickerButton);
+        mColorPickerButton->setChecked(true);
+        DataSingleton::Instance()->setInstrument(COLORPICKER);
+        emit sendInstrumentChecked(COLORPICKER);
     }
     else
     {
@@ -313,10 +313,10 @@ void ToolBar::setLoupe(const bool &state)
 {
     if(state)
     {
-        setAllButtonsUnchecked(mLoupeButton);
-        mLoupeButton->setChecked(true);
-        DataSingleton::Instance()->setInstrument(LOUPE);
-        emit sendInstrumentChecked(LOUPE);
+        setAllButtonsUnchecked(mMagnifierButton);
+        mMagnifierButton->setChecked(true);
+        DataSingleton::Instance()->setInstrument(MAGNIFIER);
+        emit sendInstrumentChecked(MAGNIFIER);
     }
     else
     {
@@ -364,10 +364,10 @@ void ToolBar::setRect(const bool &state)
 {
     if(state)
     {
-        setAllButtonsUnchecked(mRectButton);
-        mRectButton->setChecked(true);
-        DataSingleton::Instance()->setInstrument(RECT);
-        emit sendInstrumentChecked(RECT);
+        setAllButtonsUnchecked(mRectangleButton);
+        mRectangleButton->setChecked(true);
+        DataSingleton::Instance()->setInstrument(RECTANGLE);
+        emit sendInstrumentChecked(RECTANGLE);
     }
     else
     {
@@ -399,7 +399,7 @@ void ToolBar::restorePreviousInstrument()
     setInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
     DataSingleton::Instance()->setInstrument(DataSingleton::Instance()->getPreviousInstrument());
     emit sendInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
-    prevInstrumentSetted = false;
+    mPrevInstrumentSetted = false;
     emit sendClearStatusBarColor();
 }
 

@@ -34,14 +34,14 @@ typedef enum
 {
     NONE,
     CURSOR,
-    LASTIC,
+    ERASER,
     PEN,
     LINE,
-    PIPETTE,
-    LOUPE,
+    COLORPICKER,
+    MAGNIFIER,
     SPRAY,
     FILL,
-    RECT,
+    RECTANGLE,
     ELLIPSE
 } InstrumentsEnum;
 

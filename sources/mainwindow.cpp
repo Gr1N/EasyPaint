@@ -41,10 +41,15 @@
 #include <QtGui/QtEvents>
 #include <QtGui/QPainter>
 #include <QtGui/QInputDialog>
+#include <QtGui/QUndoGroup>
 
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)
 {
+    setWindowIcon(QIcon(":/media/logo/easypaint_small.png"));
+
+    mUndoStackGroup = new QUndoGroup(this);
+
     initializeMainMenu();
     initializeToolBar();
     initializePaletteBar();
@@ -110,6 +115,7 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
         mTabWidget->addTab(scrollArea, fileName);
         mTabWidget->setCurrentIndex(mTabWidget->count()-1);
 
+        mUndoStackGroup->addStack(imageArea->getUndoStack());
         connect(imageArea, SIGNAL(sendFirstColorView()), mToolbar, SLOT(setFirstColorView()));
         connect(imageArea, SIGNAL(sendSecondColorView()), mToolbar, SLOT(setSecondColorView()));
         connect(imageArea, SIGNAL(sendRestorePreviousInstrument()), mToolbar, SLOT(restorePreviousInstrument()));
@@ -130,99 +136,85 @@ void MainWindow::initializeMainMenu()
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
 
     mNewAction = new QAction(tr("&New"), this);
-    mNewAction->setIcon(QIcon::fromTheme("document-new"/*, QIcon("")*/));
+    mNewAction->setIcon(QIcon::fromTheme("document-new", QIcon(":/media/actions-icons/document-new.png")));
     mNewAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mNewAction, SIGNAL(triggered()), this, SLOT(newAct()));
     fileMenu->addAction(mNewAction);
 
     mOpenAction = new QAction(tr("&Open"), this);
-    mOpenAction->setIcon(QIcon::fromTheme("document-open"/*, QIcon("")*/));
+    mOpenAction->setIcon(QIcon::fromTheme("document-open", QIcon(":/media/actions-icons/document-open.png")));
     mOpenAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mOpenAction, SIGNAL(triggered()), this, SLOT(openAct()));
     fileMenu->addAction(mOpenAction);
 
     mSaveAction = new QAction(tr("&Save"), this);
-    mSaveAction->setIcon(QIcon::fromTheme("document-save"/*, QIcon("")*/));
+    mSaveAction->setIcon(QIcon::fromTheme("document-save", QIcon(":/media/actions-icons/document-save.png")));
     mSaveAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mSaveAction, SIGNAL(triggered()), this, SLOT(saveAct()));
     fileMenu->addAction(mSaveAction);
 
     mSaveAsAction = new QAction(tr("Save as..."), this);
-    mSaveAsAction->setIcon(QIcon::fromTheme("document-save-as"/*, QIcon("")*/));
+    mSaveAsAction->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/media/actions-icons/document-save-as.png")));
     mSaveAsAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mSaveAsAction, SIGNAL(triggered()), this, SLOT(saveAsAct()));
     fileMenu->addAction(mSaveAsAction);
 
     mCloseAction = new QAction(tr("&Close"), this);
-    mCloseAction->setIcon(QIcon::fromTheme("window-close"/*, QIcon("")*/));
+    mCloseAction->setIcon(QIcon::fromTheme("window-close", QIcon(":/media/actions-icons/window-close.png")));
     mCloseAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mCloseAction, SIGNAL(triggered()), this, SLOT(closeTabAct()));
     fileMenu->addAction(mCloseAction);
 
     fileMenu->addSeparator();
 
     mPrintAction = new QAction(tr("&Print"), this);
-    mPrintAction->setIcon(QIcon::fromTheme("document-print"/*, QIcon("")*/));
+    mPrintAction->setIcon(QIcon::fromTheme("document-print", QIcon(":/media/actions-icons/document-print.png")));
     mPrintAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mPrintAction, SIGNAL(triggered()), this, SLOT(printAct()));
     fileMenu->addAction(mPrintAction);
 
     fileMenu->addSeparator();
 
     mExitAction = new QAction(tr("&Exit"), this);
-    mExitAction->setIcon(QIcon::fromTheme("application-exit"/*, QIcon("")*/));
+    mExitAction->setIcon(QIcon::fromTheme("application-exit", QIcon(":/media/actions-icons/application-exit.png")));
     mExitAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(mExitAction, SIGNAL(triggered()), SLOT(close()));
     fileMenu->addAction(mExitAction);
 
     QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
 
-    mUndoAction = new QAction(tr("&Undo"), this);
-    mUndoAction->setIcon(QIcon::fromTheme("edit-undo"/*, QIcon("")*/));
+    mUndoAction = mUndoStackGroup->createUndoAction(this, tr("&Undo"));
+    mUndoAction->setIcon(QIcon::fromTheme("edit-undo", QIcon(":/media/actions-icons/edit-undo.png")));
     mUndoAction->setIconVisibleInMenu(true);
     mUndoAction->setEnabled(false);
-//    newAction->setStatusTip();
-//    connect();
     editMenu->addAction(mUndoAction);
 
-    mRedoAction = new QAction(tr("&Redo"), this);
-    mRedoAction->setIcon(QIcon::fromTheme("edit-redo"/*, QIcon("")*/));
+    mRedoAction = mUndoStackGroup->createRedoAction(this, tr("&Redo"));
+    mRedoAction->setIcon(QIcon::fromTheme("edit-redo", QIcon(":/media/actions-icons/edit-redo.png")));
     mRedoAction->setIconVisibleInMenu(true);
     mRedoAction->setEnabled(false);
-//    newAction->setStatusTip();
-//    connect();
     editMenu->addAction(mRedoAction);
 
     editMenu->addSeparator();
 
     mCopyAction = new QAction(tr("&Copy"), this);
-    mCopyAction->setIcon(QIcon::fromTheme("edit-copy"/*, QIcon("")*/));
+    mCopyAction->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/media/actions-icons/edit-copy.png")));
     mCopyAction->setIconVisibleInMenu(true);
     mCopyAction->setEnabled(false);
-//    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(mCopyAction);
 
     mPasteAction = new QAction(tr("&Paste"), this);
-    mPasteAction->setIcon(QIcon::fromTheme("edit-paste"/*, QIcon("")*/));
+    mPasteAction->setIcon(QIcon::fromTheme("edit-paste", QIcon(":/media/actions-icons/edit-paste.png")));
     mPasteAction->setIconVisibleInMenu(true);
     mPasteAction->setEnabled(false);
-//    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(mPasteAction);
 
     mCutAction = new QAction(tr("C&ut"), this);
-    mCutAction->setIcon(QIcon::fromTheme("edit-cut"/*, QIcon("")*/));
+    mCutAction->setIcon(QIcon::fromTheme("edit-cut", QIcon(":/media/actions-icons/edit-cut.png")));
     mCutAction->setIconVisibleInMenu(true);
     mCutAction->setEnabled(false);
-//    newAction->setStatusTip();
 //    connect();
     editMenu->addAction(mCutAction);
 
@@ -230,33 +222,32 @@ void MainWindow::initializeMainMenu()
 
     QAction *settingsAction = new QAction(tr("&Settings"), this);
     settingsAction->setShortcut(QKeySequence::Preferences);
-    settingsAction->setIcon(QIcon::fromTheme("document-properties"/*, QIcon("")*/));
+    settingsAction->setIcon(QIcon::fromTheme("document-properties", QIcon(":/media/actions-icons/document-properties.png")));
     settingsAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(settingsAction, SIGNAL(triggered()), this, SLOT(settingsAct()));
     editMenu->addAction(settingsAction);
 
     mInstrumentsMenu = menuBar()->addMenu(tr("&Instruments"));
 
-    mCursorAction = new QAction(tr("Cursor"), this);
+    mCursorAction = new QAction(tr("Selection"), this);
     mCursorAction->setCheckable(true);
     connect(mCursorAction, SIGNAL(triggered(bool)), this, SLOT(cursorAct(bool)));
     mInstrumentsMenu->addAction(mCursorAction);
 
-    mLasticAction = new QAction(tr("Lastic"), this);
-    mLasticAction->setCheckable(true);
-    connect(mLasticAction, SIGNAL(triggered(bool)), this, SLOT(lasticAct(bool)));
-    mInstrumentsMenu->addAction(mLasticAction);
+    mEraserAction = new QAction(tr("Eraser"), this);
+    mEraserAction->setCheckable(true);
+    connect(mEraserAction, SIGNAL(triggered(bool)), this, SLOT(eraserAct(bool)));
+    mInstrumentsMenu->addAction(mEraserAction);
 
-    mPipetteAction = new QAction(tr("Pipette"), this);
-    mPipetteAction->setCheckable(true);
-    connect(mPipetteAction, SIGNAL(triggered(bool)), this, SLOT(pipetteAct(bool)));
-    mInstrumentsMenu->addAction(mPipetteAction);
+    mColorPickerAction = new QAction(tr("Color picker"), this);
+    mColorPickerAction->setCheckable(true);
+    connect(mColorPickerAction, SIGNAL(triggered(bool)), this, SLOT(colorPickerAct(bool)));
+    mInstrumentsMenu->addAction(mColorPickerAction);
 
-    mLoupeAction = new QAction(tr("Loupe"), this);
-    mLoupeAction->setCheckable(true);
-    connect(mLoupeAction, SIGNAL(triggered(bool)), this, SLOT(loupeAct(bool)));
-    mInstrumentsMenu->addAction(mLoupeAction);
+    mMagnifierAction = new QAction(tr("Magnifier"), this);
+    mMagnifierAction->setCheckable(true);
+    connect(mMagnifierAction, SIGNAL(triggered(bool)), this, SLOT(magnifierAct(bool)));
+    mInstrumentsMenu->addAction(mMagnifierAction);
 
     mPenAction = new QAction(tr("Pen"), this);
     mPenAction->setCheckable(true);
@@ -278,10 +269,10 @@ void MainWindow::initializeMainMenu()
     connect(mFillAction, SIGNAL(triggered(bool)), this, SLOT(fillAct(bool)));
     mInstrumentsMenu->addAction(mFillAction);
 
-    mRectAction = new QAction(tr("Rect"), this);
-    mRectAction->setCheckable(true);
-    connect(mRectAction, SIGNAL(triggered(bool)), this, SLOT(rectAct(bool)));
-    mInstrumentsMenu->addAction(mRectAction);
+    mRectangleAction = new QAction(tr("Rectangle"), this);
+    mRectangleAction->setCheckable(true);
+    connect(mRectangleAction, SIGNAL(triggered(bool)), this, SLOT(rectangleAct(bool)));
+    mInstrumentsMenu->addAction(mRectangleAction);
 
     mEllipseAction = new QAction(tr("Ellipse"), this);
     mEllipseAction->setCheckable(true);
@@ -291,40 +282,34 @@ void MainWindow::initializeMainMenu()
     mEffectsMenu = menuBar()->addMenu(tr("E&ffects"));
 
     QAction *grayEfAction = new QAction(tr("Gray"), this);
-//    newAction->setStatusTip();
     connect(grayEfAction, SIGNAL(triggered()), this, SLOT(effectGrayAct()));
     mEffectsMenu->addAction(grayEfAction);
 
     QAction *negativeEfAction = new QAction(tr("Negative"), this);
-//    newAction->setStatusTip();
     connect(negativeEfAction, SIGNAL(triggered()), this, SLOT(effectNegativeAct()));
     mEffectsMenu->addAction(negativeEfAction);
 
     mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
     QAction *resizeImAction = new QAction(tr("Image size"), this);
-//    newAction->setStatusTip();
     connect(resizeImAction, SIGNAL(triggered()), this, SLOT(resizeImageAct()));
     mToolsMenu->addAction(resizeImAction);
 
     QAction *resizeCanAction = new QAction(tr("Canvas size"), this);
-//    newAction->setStatusTip();
     connect(resizeCanAction, SIGNAL(triggered()), this, SLOT(resizeCanvasAct()));
     mToolsMenu->addAction(resizeCanAction);
 
     QMenu *rotateMenu = new QMenu(tr("Rotate"));
 
     QAction *rotateLAction = new QAction(tr("Left"), this);
-    rotateLAction->setIcon(QIcon::fromTheme("object-rotate-left"/*, QIcon("")*/));
+    rotateLAction->setIcon(QIcon::fromTheme("object-rotate-left", QIcon(":/media/actions-icons/object-rotate-left.png")));
     rotateLAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(rotateLAction, SIGNAL(triggered()), this, SLOT(rotateLeftImageAct()));
     rotateMenu->addAction(rotateLAction);
 
     QAction *rotateRAction = new QAction(tr("Right"), this);
-    rotateRAction->setIcon(QIcon::fromTheme("object-rotate-right"/*, QIcon("")*/));
+    rotateRAction->setIcon(QIcon::fromTheme("object-rotate-right", QIcon(":/media/actions-icons/object-rotate-right.png")));
     rotateRAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(rotateRAction, SIGNAL(triggered()), this, SLOT(rotateRightImageAct()));
     rotateMenu->addAction(rotateRAction);
 
@@ -333,19 +318,18 @@ void MainWindow::initializeMainMenu()
     QMenu *zoomMenu = new QMenu(tr("Zoom"));
 
     mZoomInAction = new QAction(tr("Zoom In"), this);
-    mZoomInAction->setIcon(QIcon::fromTheme("object-zoom-in"/*, QIcon("")*/));
+    mZoomInAction->setIcon(QIcon::fromTheme("zoom-in", QIcon(":/media/actions-icons/zoom-in.png")));
     mZoomInAction->setIconVisibleInMenu(true);
     connect(mZoomInAction, SIGNAL(triggered()), this, SLOT(zoomInAct()));
     zoomMenu->addAction(mZoomInAction);
 
     mZoomOutAction = new QAction(tr("Zoom Out"), this);
-    mZoomOutAction->setIcon(QIcon::fromTheme("object-zoom-out"/*, QIcon("")*/));
+    mZoomOutAction->setIcon(QIcon::fromTheme("zoom-out", QIcon(":/media/actions-icons/zoom-out.png")));
     mZoomOutAction->setIconVisibleInMenu(true);
     connect(mZoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOutAct()));
     zoomMenu->addAction(mZoomOutAction);
 
     QAction *advancedZoomAction = new QAction(tr("Advanced Zoom..."), this);
-    advancedZoomAction->setIcon(QIcon::fromTheme("object-advanced-zoom"/*, QIcon("")*/));
     advancedZoomAction->setIconVisibleInMenu(true);
     connect(advancedZoomAction, SIGNAL(triggered()), this, SLOT(advancedZoomAct()));
     zoomMenu->addAction(advancedZoomAction);
@@ -356,14 +340,12 @@ void MainWindow::initializeMainMenu()
 
     QAction *aboutAction = new QAction(tr("&About EasyPaint"), this);
     aboutAction->setShortcut(QKeySequence::HelpContents);
-    aboutAction->setIcon(QIcon::fromTheme("help-browser"/*, QIcon("")*/));
+    aboutAction->setIcon(QIcon::fromTheme("help-about", QIcon(":/media/actions-icons/help-about.png")));
     aboutAction->setIconVisibleInMenu(true);
-//    newAction->setStatusTip();
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(helpAct()));
     aboutMenu->addAction(aboutAction);
 
     QAction *aboutQtAction = new QAction(tr("About Qt"), this);
-//    newAction->setStatusTip();
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     aboutMenu->addAction(aboutQtAction);
 
@@ -431,6 +413,7 @@ void MainWindow::activateTab(const int &index)
     {
         setWindowTitle(QString("%1 - EasyPaint").arg(tr("Untitled Image")));
     }
+    mUndoStackGroup->setActiveStack(getCurrentImageArea()->getUndoStack());
 }
 
 void MainWindow::setNewSizeToSizeLabel(const QSize &size)
@@ -517,18 +500,18 @@ void MainWindow::updateShortcuts()
     mCutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Cut")));
 
     mCursorAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Cursor")));
-    mLasticAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic")));
-    mPipetteAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette")));
-    mLoupeAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe")));
+    mEraserAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic")));
+    mColorPickerAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette")));
+    mMagnifierAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe")));
     mPenAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Pen")));
     mLineAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Line")));
     mSprayAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Spray")));
     mFillAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill")));
-    mRectAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect")));
+    mRectangleAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect")));
     mEllipseAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse")));
 
-    mZoomInAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Zoom In")));
-    mZoomOutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Zoom Out")));
+    mZoomInAction->setShortcut(QKeySequence(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn")));
+    mZoomOutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getToolShortcutByKey("ZoomOut")));
 }
 
 void MainWindow::effectGrayAct()
@@ -591,8 +574,6 @@ void MainWindow::closeTabAct()
 
 void MainWindow::closeTab(int index)
 {
-    //ImageArea *ia = static_cast<ImageArea*>(static_cast<QScrollArea*>(mTabWidget->widget(index))->widget());
-
     ImageArea *ia = getImageAreaByIndex(index);
     if(ia->getEdited())
     {
@@ -609,6 +590,7 @@ void MainWindow::closeTab(int index)
             return;
         }
     }
+    mUndoStackGroup->removeStack(ia->getUndoStack()); //for safety
     QWidget *wid = mTabWidget->widget(index);
     mTabWidget->removeTab(index);
     delete wid;
@@ -672,12 +654,12 @@ void MainWindow::setAllInstrumentsUnchecked(QAction *action)
 {
     if(action != mCursorAction)
         mCursorAction->setChecked(false);
-    if(action != mLasticAction)
-        mLasticAction->setChecked(false);
-    if(action != mPipetteAction)
-        mPipetteAction->setChecked(false);
-    if(action != mLoupeAction)
-        mLoupeAction->setChecked(false);
+    if(action != mEraserAction)
+        mEraserAction->setChecked(false);
+    if(action != mColorPickerAction)
+        mColorPickerAction->setChecked(false);
+    if(action != mMagnifierAction)
+        mMagnifierAction->setChecked(false);
     if(action != mPenAction)
         mPenAction->setChecked(false);
     if(action != mLineAction)
@@ -686,15 +668,15 @@ void MainWindow::setAllInstrumentsUnchecked(QAction *action)
         mSprayAction->setChecked(false);
     if(action != mFillAction)
         mFillAction->setChecked(false);
-    if(action != mRectAction)
-        mRectAction->setChecked(false);
+    if(action != mRectangleAction)
+        mRectangleAction->setChecked(false);
     if(action != mEllipseAction)
         mEllipseAction->setChecked(false);
 }
 
 void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
 {
-    setAllInstrumentsUnchecked(NULL);
+    setAllInstrumentsUnchecked(new QAction(this));
     switch(instrument)
     {
     case NONE:
@@ -702,14 +684,14 @@ void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
     case CURSOR:
         mCursorAction->setChecked(true);
         break;
-    case LASTIC:
-        mLasticAction->setChecked(true);
+    case ERASER:
+        mEraserAction->setChecked(true);
         break;
-    case PIPETTE:
-        mPipetteAction->setChecked(true);
+    case COLORPICKER:
+        mColorPickerAction->setChecked(true);
         break;
-    case LOUPE:
-        mLoupeAction->setChecked(true);
+    case MAGNIFIER:
+        mMagnifierAction->setChecked(true);
         break;
     case PEN:
         mPenAction->setChecked(true);
@@ -723,8 +705,8 @@ void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
     case FILL:
         mFillAction->setChecked(true);
         break;
-    case RECT:
-        mRectAction->setChecked(true);
+    case RECTANGLE:
+        mRectangleAction->setChecked(true);
         break;
     case ELLIPSE:
         mEllipseAction->setChecked(true);
@@ -738,8 +720,8 @@ void MainWindow::cursorAct(const bool &state)
     {
         setAllInstrumentsUnchecked(mCursorAction);
         mCursorAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(CURSOR);
-        emit sendInstrumentChecked(CURSOR);
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
     }
     else
     {
@@ -749,14 +731,14 @@ void MainWindow::cursorAct(const bool &state)
     }
 }
 
-void MainWindow::lasticAct(const bool &state)
+void MainWindow::eraserAct(const bool &state)
 {
     if(state)
     {
-        setAllInstrumentsUnchecked(mLasticAction);
-        mLasticAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(LASTIC);
-        emit sendInstrumentChecked(LASTIC);
+        setAllInstrumentsUnchecked(mEraserAction);
+        mEraserAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(ERASER);
+        emit sendInstrumentChecked(ERASER);
     }
     else
     {
@@ -766,14 +748,14 @@ void MainWindow::lasticAct(const bool &state)
     }
 }
 
-void MainWindow::pipetteAct(const bool &state)
+void MainWindow::colorPickerAct(const bool &state)
 {
     if(state)
     {
-        setAllInstrumentsUnchecked(mPipetteAction);
-        mPipetteAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(PIPETTE);
-        emit sendInstrumentChecked(PIPETTE);
+        setAllInstrumentsUnchecked(mColorPickerAction);
+        mColorPickerAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(COLORPICKER);
+        emit sendInstrumentChecked(COLORPICKER);
     }
     else
     {
@@ -783,14 +765,14 @@ void MainWindow::pipetteAct(const bool &state)
     }
 }
 
-void MainWindow::loupeAct(const bool &state)
+void MainWindow::magnifierAct(const bool &state)
 {
     if(state)
     {
-        setAllInstrumentsUnchecked(mLoupeAction);
-        mLoupeAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(LOUPE);
-        emit sendInstrumentChecked(LOUPE);
+        setAllInstrumentsUnchecked(mMagnifierAction);
+        mMagnifierAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(MAGNIFIER);
+        emit sendInstrumentChecked(MAGNIFIER);
     }
     else
     {
@@ -856,7 +838,7 @@ void MainWindow::fillAct(const bool &state)
     if(state)
     {
         setAllInstrumentsUnchecked(mFillAction);
-        mLasticAction->setChecked(true);
+        mEraserAction->setChecked(true);
         DataSingleton::Instance()->setInstrument(FILL);
         emit sendInstrumentChecked(FILL);
     }
@@ -868,14 +850,14 @@ void MainWindow::fillAct(const bool &state)
     }
 }
 
-void MainWindow::rectAct(const bool &state)
+void MainWindow::rectangleAct(const bool &state)
 {
     if(state)
     {
-        setAllInstrumentsUnchecked(mRectAction);
-        mRectAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(RECT);
-        emit sendInstrumentChecked(RECT);
+        setAllInstrumentsUnchecked(mRectangleAction);
+        mRectangleAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(RECTANGLE);
+        emit sendInstrumentChecked(RECTANGLE);
     }
     else
     {
@@ -917,8 +899,6 @@ void MainWindow::enableActions(int index)
     mSaveAsAction->setEnabled(isEnable);
     mCloseAction->setEnabled(isEnable);
     mPrintAction->setEnabled(isEnable);
-//    mUndoAction->setEnabled(isEnable);
-//    mRedoAction->setEnabled(isEnable);
 //    mCopyAction->setEnabled(isEnable);
 //    mCutAction->setEnabled(isEnable);
 
