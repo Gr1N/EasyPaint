@@ -223,17 +223,25 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
 {
     if (mIsSelectionExists)
     {
-        if (event->pos().x() > mSelectionStartPoint.x()
-                && event->pos().x() < mSelectionEndPoint.x()
-            && event->pos().y() > mSelectionStartPoint.y()
-                && event->pos().y() < mSelectionEndPoint.y())
+        if (event->pos().x() > mSelectionRightBottomPoint.x() - mSelectionWidth &&
+            event->pos().x() < mSelectionRightBottomPoint.x() &&
+            event->pos().y() > mSelectionRightBottomPoint.y() - mSelectionHeight &&
+            event->pos().y() < mSelectionRightBottomPoint.y())
         {
             mIsSelectionMoving = true;
+            mSelectionMoveDiffPoint = mSelectionRightBottomPoint - event->pos();
+            return;
         }
-        else if (event->pos().x() > mSelectionEndPoint.x() && event->pos().x() < mSelectionEndPoint.x() + 6 &&
-                 event->pos().y() > mSelectionEndPoint.y() && event->pos().y() < mSelectionEndPoint.y() + 6)
+        else if (event->pos().x() > mSelectionRightBottomPoint.x() &&
+                 event->pos().x() < mSelectionRightBottomPoint.x() + 6 &&
+                 event->pos().y() > mSelectionRightBottomPoint.y() &&
+                 event->pos().y() < mSelectionRightBottomPoint.y() + 6)
         {
+            mPaintInstruments->setEndPoint(mSelectionRightBottomPoint);
+            mPaintInstruments->setStartPoint(mSelectionRightBottomPoint -
+                                             QPoint(mSelectionWidth, mSelectionHeight));
             mIsSelectionResizing = true;
+            return;
         }
         else
         {
@@ -276,8 +284,6 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
                 mImageCopy = *mImage;
-                setSelectionStartPoint(event->pos());
-                setSelectionEndPoint(event->pos());
                 break;
             }
         }
@@ -309,8 +315,6 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             mPaintInstruments->setEndPoint(event->pos());
             mIsPaint = true;
             mImageCopy = *mImage;
-            setSelectionStartPoint(event->pos());
-            setSelectionEndPoint(event->pos());
             break;
         }
     }
@@ -323,23 +327,53 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
          mAdditionalTools->resizeCanvas(event->x(), event->y());
          emit sendNewImageSize(mImage->size());
     }
-    else if (mIsSelectionExists)
+    if (mIsSelectionExists)
     {
-        if (event->pos().x() > mSelectionStartPoint.x()
-                && event->pos().x() < mSelectionEndPoint.x()
-                && event->pos().y() > mSelectionStartPoint.y()
-                && event->pos().y() < mSelectionEndPoint.y())
+        if (event->pos().x() > mSelectionRightBottomPoint.x() - mSelectionWidth &&
+            event->pos().x() < mSelectionRightBottomPoint.x() &&
+            event->pos().y() > mSelectionRightBottomPoint.y() - mSelectionHeight &&
+            event->pos().y() < mSelectionRightBottomPoint.y())
         {
             setCursor(Qt::SizeAllCursor);
         }
-        else if (event->pos().x() > mSelectionEndPoint.x() && event->pos().x() < mSelectionEndPoint.x() + 6 &&
-                 event->pos().y() > mSelectionEndPoint.y() && event->pos().y() < mSelectionEndPoint.y() + 6)
+        else if (event->pos().x() > mSelectionRightBottomPoint.x() &&
+                 event->pos().x() < mSelectionRightBottomPoint.x() + 6 &&
+                 event->pos().y() > mSelectionRightBottomPoint.y() &&
+                 event->pos().y() < mSelectionRightBottomPoint.y() + 6)
         {
             setCursor(Qt::SizeFDiagCursor);
         }
         else
         {
             restoreCursor();
+        }
+
+        if (mIsSelectionMoving)
+        {
+
+            mIsPaint = false;
+            mPaintInstruments->setEndPoint(event->pos() +
+                                           mSelectionMoveDiffPoint);
+            mPaintInstruments->
+                    setStartPoint(event->pos() + mSelectionMoveDiffPoint -
+                                  QPoint(mSelectionWidth, mSelectionHeight));
+            *mImage = mImageCopy;
+            mPaintInstruments->selection();
+        }
+        else if (mIsSelectionResizing)
+        {
+            mIsPaint = false;
+            mSelectionWidth += event->pos().x() - mSelectionRightBottomPoint.x();
+            mSelectionHeight += event->pos().y() - mSelectionRightBottomPoint.y();
+            mSelectionRightBottomPoint = event->pos();
+            mPaintInstruments->setEndPoint(mSelectionRightBottomPoint);
+//            mPaintInstruments->setStartPoint(mSelectionRightBottomPoint -
+//                                             QPoint(mSelectionWidth, mSelectionHeight));
+            *mImage = mImageCopy;
+            mPaintInstruments->selection();
+        }
+        else
+        {
             *mImage = mImageCopy;
         }
     }
@@ -394,13 +428,9 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             mPaintInstruments->rect(false);
             break;
         case CURSOR:
-//            if(!mIsSelectionExists)
-//            {
-                mPaintInstruments->setEndPoint(event->pos());
-                setSelectionEndPoint(event->pos());
-                *mImage = mImageCopy;
-                mPaintInstruments->selection();
-//            }
+            mPaintInstruments->setEndPoint(event->pos());
+            *mImage = mImageCopy;
+            mPaintInstruments->selection();
             break;
         case ELLIPSE:
             mPaintInstruments->setEndPoint(event->pos());
@@ -438,7 +468,6 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             break;
         case CURSOR:
             mPaintInstruments->setEndPoint(event->pos());
-            setSelectionEndPoint(event->pos());
             *mImage = mImageCopy;
             mPaintInstruments->selection();
             break;
@@ -462,6 +491,23 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
     {
        mIsResize = false;
        restoreCursor();
+    }
+    if (mIsSelectionExists)
+    {
+        if(mIsSelectionMoving)
+        {
+            *mImage = mImageCopy;
+            mPaintInstruments->selection();
+            mIsPaint = false;
+            mIsSelectionMoving = false;
+        }
+        else if (mIsSelectionResizing)
+        {
+            *mImage = mImageCopy;
+            mPaintInstruments->selection();
+            mIsPaint = false;
+            mIsSelectionResizing = false;
+        }
     }
     if(event->button() == Qt::LeftButton && mIsPaint)
     {

@@ -235,20 +235,19 @@ void PaintInstruments::selection()
     QPainter painter(mPImageArea->getImage());
     painter.setPen(QPen(Qt::blue, 1 * mPImageArea->getZoomFactor(),
                         Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
-//    if(isSecondColor)
-//    {
-//        painter.setBrush(QBrush(DataSingleton::Instance()->getSecondColor()));
-//    }
+    int right = mStartPoint.x() > mEndPoint.x() ? mStartPoint.x() : mEndPoint.x();
+    int bottom = mStartPoint.y() > mEndPoint.y() ? mStartPoint.y() : mEndPoint.y();
+    int height = fabs(mStartPoint.y() - mEndPoint.y());
+    int width = fabs(mStartPoint.x() - mEndPoint.x());
+    mPImageArea->setSelectionRightBottomPoint(QPoint(right, bottom));
+    mPImageArea->setSelectionSize(width, height);
+
     if(mStartPoint != mEndPoint)
     {
         painter.drawRect(QRect(mStartPoint, mEndPoint));
     }
+
     mPImageArea->setEdited(true);
-//    int rad(DataSingleton::Instance()->getPenSize() + round(sqrt((mStartPoint.x() - mEndPoint.x()) *
-//                                                                 (mStartPoint.x() - mEndPoint.x()) +
-//                                                                 (mStartPoint.y() - mEndPoint.y()) *
-//                                                                 (mStartPoint.y() - mEndPoint.y()))));
-//    mPImageArea->update(QRect(mStartPoint, mEndPoint).normalized().adjusted(-rad, -rad, +rad, +rad));
     painter.end();
     mPImageArea->update();
 }

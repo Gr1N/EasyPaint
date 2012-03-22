@@ -126,6 +126,14 @@ public:
     void zoomImage(qreal factor);
     inline void setZoomFactor(qreal factor) { mZoomFactor *= factor; }
     inline qreal getZoomFactor() { return mZoomFactor; }
+    inline void setSelectionRightBottomPoint(const QPoint &point)
+    { mSelectionRightBottomPoint = point; }
+    inline void setSelectionSize(int width, int height)
+    { mSelectionWidth = width;  mSelectionHeight = height; }
+    inline QPoint getSelectionRightBottomPoint()
+    { return mSelectionRightBottomPoint; }
+    inline int getSelectionHeight() { return mSelectionHeight; }
+    inline int getSelectionWidth() { return mSelectionWidth; }
     
 private:
     /**
@@ -168,7 +176,8 @@ private:
     QPixmap *pixmap;
     QCursor *currentCursor;
     qreal mZoomFactor;
-    QPoint mSelectionStartPoint, mSelectionEndPoint;
+    QPoint mSelectionRightBottomPoint, mSelectionMoveDiffPoint;
+    int mSelectionHeight, mSelectionWidth;
 
 signals:
     /**
@@ -192,8 +201,8 @@ signals:
     
 private slots:
     void autoSave();
-    inline void setSelectionStartPoint(const QPoint &point) { mSelectionStartPoint = point; }
-    inline void setSelectionEndPoint(const QPoint &point) { mSelectionEndPoint = point; }
+//    inline void setSelectionStartPoint(const QPoint &point) { mSelectionStartPoint = point; }
+//    inline void setSelectionEndPoint(const QPoint &point) { mSelectionEndPoint = point; }
 
 protected:
     void mousePressEvent(QMouseEvent *event);
