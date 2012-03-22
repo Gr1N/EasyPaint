@@ -26,6 +26,7 @@
 #include "imagearea.h"
 #include "paintinstruments.h"
 #include "datasingleton.h"
+#include "undocommand.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -38,6 +39,7 @@
 #include <QtCore/QTimer>
 #include <QtGui/QImageReader>
 #include <QtGui/QImageWriter>
+#include <QtGui/QUndoStack>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
     QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false)
@@ -53,6 +55,8 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mPaintInstruments = new PaintInstruments(this);
     mAdditionalTools = new AdditionalTools(this);
     mEffects = new Effects(this);
+
+    mUndoStack = new QUndoStack(this);
 
     if(isOpen && filePath.isEmpty())
     {
@@ -97,7 +101,7 @@ void ImageArea::initializeImage()
 void ImageArea::open()
 {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open image..."), "",
-                                                    openFilter, 0,
+                                                    mOpenFilter, 0,
                                                     QFileDialog::DontUseNativeDialog);
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -148,23 +152,33 @@ void ImageArea::saveAs()
     {
         fileName = tr("Untitled image");
     }
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName, saveFilter
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName, mSaveFilter
                                                     /*tr("*.png;;*.jpg;;*.jpeg;;*.bmp;;*.xbm;;*.xpm")*/,
                                                     &filter,
                                                     QFileDialog::DontUseNativeDialog);
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
+    //parse file extension
     if(!filePath.isEmpty())
     {
-        for(int i(filter.size() - 1); i > 0; i--)
+        QString extension;
+        //we should test it on windows, because of different slashes
+        QString temp = filePath.split("/").last();
+        //if user entered some extension
+        if(temp.contains('.'))
         {
-            if(filter[i] != filePath[filePath.size() - filter.size() + i])
-            {
-                filePath += filter.mid(1);
-                break;
-            }
+            temp = temp.split('.').last();
+            if(QImageWriter::supportedImageFormats().contains(temp.toAscii()))
+                extension = temp;
+            else
+                extension = "png"; //if format is unknown, save it as png format, but with user extension
         }
-        mImage->save(filePath);
+        else
+        {
+            extension = filter.split('.').last().remove(')');
+            filePath += '.' + extension;
+        }
+        mImage->save(filePath, extension.toLatin1().data());
         mFilePath = filePath;
         mIsEdited = false;
     }
@@ -257,7 +271,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 event->pos().y() < mImage->rect().bottom() + 6)
         {
             mIsResize = true;
-            setCursor(Qt::SizeFDiagCursor);
+            setCursor(Qt::SizeFDiagCursor);        
         }
         else
         {
@@ -265,19 +279,21 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             {
             case NONE:
                 break;
-            case PIPETTE: case LOUPE:
+            case COLORPICKER: case MAGNIFIER:
                 mIsPaint = true;
                 break;
-            case PEN: case LASTIC: case SPRAY: case FILL:
+            case PEN: case ERASER: case SPRAY: case FILL:
                 mPaintInstruments->setStartPoint(event->pos());
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
+                mUndoStack->push(new UndoCommand(mImage, *this));
                 break;
-            case LINE: case RECT: case ELLIPSE:
+            case LINE: case RECTANGLE: case ELLIPSE:
                 mPaintInstruments->setStartPoint(event->pos());
                 mPaintInstruments->setEndPoint(event->pos());
                 mIsPaint = true;
                 mImageCopy = *mImage;
+                mUndoStack->push(new UndoCommand(mImage, *this));
                 break;
             case CURSOR:
                 mPaintInstruments->setStartPoint(event->pos());
@@ -294,21 +310,23 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
         restoreCursor();
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LASTIC:
+        case NONE: case ERASER:
             break;
-        case PIPETTE: case LOUPE:
+        case COLORPICKER: case MAGNIFIER:
             mIsPaint = true;
             break;
         case PEN: case SPRAY:  case FILL:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
             mIsPaint = true;
+            mUndoStack->push(new UndoCommand(mImage, *this));
             break;
-        case LINE: case RECT: case ELLIPSE:
+        case LINE: case RECTANGLE: case ELLIPSE:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
             mIsPaint = true;
             mImageCopy = *mImage;
+            mUndoStack->push(new UndoCommand(mImage, *this));
             break;
         case CURSOR:
             mPaintInstruments->setStartPoint(event->pos());
@@ -392,19 +410,18 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             event->pos().y() < mImage->height())
     {
         emit sendCursorPos(event->pos());
-        if(DataSingleton::Instance()->getInstrument() == PIPETTE)
+        if(DataSingleton::Instance()->getInstrument() == COLORPICKER)
         {
             QRgb pixel(mImage->pixel(event->pos()));
             QColor getColor(pixel);
             emit sendColor(getColor);
         }
     }
-
     if((event->buttons() & Qt::LeftButton) && mIsPaint)
     {
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LOUPE: case PIPETTE:
+        case NONE: case MAGNIFIER: case COLORPICKER:
         case FILL:
             break;
         case PEN:
@@ -412,7 +429,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             mPaintInstruments->line(false);
             mPaintInstruments->setStartPoint(event->pos());
             break;
-        case LASTIC:
+        case ERASER:
             mPaintInstruments->setEndPoint(event->pos());
             mPaintInstruments->line(false, true);
             mPaintInstruments->setStartPoint(event->pos());
@@ -422,10 +439,10 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             *mImage = mImageCopy;
             mPaintInstruments->line(false);
             break;
-        case RECT:
+        case RECTANGLE:
             mPaintInstruments->setEndPoint(event->pos());
             *mImage = mImageCopy;
-            mPaintInstruments->rect(false);
+            mPaintInstruments->rectangle(false);
             break;
         case CURSOR:
             mPaintInstruments->setEndPoint(event->pos());
@@ -448,7 +465,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
     {
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LASTIC: case LOUPE: case PIPETTE:
+        case NONE: case ERASER: case MAGNIFIER: case COLORPICKER:
         case FILL:
             break;
         case PEN:
@@ -461,10 +478,10 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             *mImage = mImageCopy;
             mPaintInstruments->line(true);
             break;
-        case RECT:
+        case RECTANGLE:
             mPaintInstruments->setEndPoint(event->pos());
             *mImage = mImageCopy;
-            mPaintInstruments->rect(true);
+            mPaintInstruments->rectangle(true);
             break;
         case CURSOR:
             mPaintInstruments->setEndPoint(event->pos());
@@ -516,7 +533,7 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         {
         case NONE:
             break;
-        case LOUPE:
+        case MAGNIFIER:
             mAdditionalTools->zoomImage(2.0);
             setZoomFactor(2.0);
             break;
@@ -524,7 +541,7 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->line(false);
             mIsPaint = false;
             break;
-        case LASTIC:
+        case ERASER:
             mPaintInstruments->line(false, true);
             mIsPaint = false;
             break;
@@ -533,17 +550,17 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->line(false);
             mIsPaint = false;
             break;
-        case PIPETTE:
+        case COLORPICKER:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
-            mPaintInstruments->pipette(false);
+            mPaintInstruments->colorPicker(false);
             mIsPaint = false;
             emit sendFirstColorView();
             emit sendRestorePreviousInstrument();
             break;
-        case RECT:
+        case RECTANGLE:
             *mImage = mImageCopy;
-            mPaintInstruments->rect(false);
+            mPaintInstruments->rectangle(false);
             mIsPaint = false;
             break;
         case CURSOR:
@@ -574,9 +591,9 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         mPaintInstruments->setEndPoint(event->pos());
         switch(DataSingleton::Instance()->getInstrument())
         {
-        case NONE: case LASTIC:
+        case NONE: case ERASER:
             break;
-        case LOUPE:
+        case MAGNIFIER:
             mAdditionalTools->zoomImage(0.5);
             setZoomFactor(0.5);
             break;
@@ -589,17 +606,17 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->line(true);
             mIsPaint = false;
             break;
-        case PIPETTE:
+        case COLORPICKER:
             mPaintInstruments->setStartPoint(event->pos());
             mPaintInstruments->setEndPoint(event->pos());
-            mPaintInstruments->pipette(true);
+            mPaintInstruments->colorPicker(true);
             mIsPaint = false;
             emit sendSecondColorView();
             emit sendRestorePreviousInstrument();
             break;
-        case RECT:
+        case RECTANGLE:
             *mImage = mImageCopy;
-            mPaintInstruments->rect(true);
+            mPaintInstruments->rectangle(true);
             mIsPaint = false;
             break;
         case CURSOR:
@@ -646,38 +663,38 @@ void ImageArea::restoreCursor()
 {
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case LOUPE:
-        pixmap = new QPixmap(":/media/instruments-icons/cursor_loupe.png");
-        currentCursor = new QCursor(*pixmap);
-        setCursor(*currentCursor);
+    case MAGNIFIER:
+        mPixmap = new QPixmap(":/media/instruments-icons/cursor_loupe.png");
+        mCurrentCursor = new QCursor(*mPixmap);
+        setCursor(*mCurrentCursor);
         break;
     case NONE: case CURSOR:
-        currentCursor = new QCursor(Qt::ArrowCursor);
-        setCursor(*currentCursor);
+        mCurrentCursor = new QCursor(Qt::ArrowCursor);
+        setCursor(*mCurrentCursor);
         break;
-    case LASTIC: case PEN:
+    case ERASER: case PEN:
         ImageArea::drawCursor();
-        currentCursor = new QCursor(*pixmap);
-        setCursor(*currentCursor);
+        mCurrentCursor = new QCursor(*mPixmap);
+        setCursor(*mCurrentCursor);
         break;
-    case PIPETTE:
-        pixmap = new QPixmap(":/media/instruments-icons/cursor_pipette.png");
-        currentCursor = new QCursor(*pixmap);
-        setCursor(*currentCursor);
+    case COLORPICKER:
+        mPixmap = new QPixmap(":/media/instruments-icons/cursor_pipette.png");
+        mCurrentCursor = new QCursor(*mPixmap);
+        setCursor(*mCurrentCursor);
         break;
-    case RECT: case ELLIPSE: case LINE:
-        currentCursor = new QCursor(Qt::CrossCursor);
-        setCursor(*currentCursor);
+    case RECTANGLE: case ELLIPSE: case LINE:
+        mCurrentCursor = new QCursor(Qt::CrossCursor);
+        setCursor(*mCurrentCursor);
         break;
     case SPRAY:
-        pixmap = new QPixmap(":/media/instruments-icons/cursor_spray.png");
-        currentCursor = new QCursor(*pixmap);
-        setCursor(*currentCursor);
+        mPixmap = new QPixmap(":/media/instruments-icons/cursor_spray.png");
+        mCurrentCursor = new QCursor(*mPixmap);
+        setCursor(*mCurrentCursor);
         break;
     case FILL:
-        pixmap = new QPixmap(":/media/instruments-icons/cursor_fill.png");
-        currentCursor = new QCursor(*pixmap);
-        setCursor(*currentCursor);
+        mPixmap = new QPixmap(":/media/instruments-icons/cursor_fill.png");
+        mCurrentCursor = new QCursor(*mPixmap);
+        setCursor(*mCurrentCursor);
         break;
     }
 }
@@ -685,41 +702,66 @@ void ImageArea::restoreCursor()
 void ImageArea::drawCursor()
 {
     QPainter painter;
-    pixmap = new QPixmap(DataSingleton::Instance()->getPenSize() + 1,
-                         DataSingleton::Instance()->getPenSize() + 1);
+    mPixmap = new QPixmap(25, 25);
+    QPoint center(13, 13);
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case NONE: case LINE: case PIPETTE: case LOUPE: case  SPRAY:
-    case FILL: case RECT: case ELLIPSE: case CURSOR:
+    case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
+    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR:
         break;
-    case PEN: case LASTIC:
-        pixmap->fill(QColor(0, 0, 0, 0));
+    case PEN: case ERASER:
+        mPixmap->fill(QColor(0, 0, 0, 0));
         break;
     }
-    painter.begin(pixmap);
+    painter.begin(mPixmap);
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case NONE: case LINE: case PIPETTE: case LOUPE: case  SPRAY:
-    case FILL: case RECT: case ELLIPSE: case CURSOR:
+    case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
+    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR:
         break;
     case PEN:
-        if(DataSingleton::Instance()->getFirstColor().red() < 50
-                && DataSingleton::Instance()->getFirstColor().green() < 50
-                && DataSingleton::Instance()->getFirstColor().blue() < 50)
-            painter.setPen(QPen(Qt::white));
         if(mRightButtonPressed)
+        {
+            painter.setPen(QPen(DataSingleton::Instance()->getSecondColor()));
             painter.setBrush(QBrush(DataSingleton::Instance()->getSecondColor()));
+        }
         else
+        {
+            painter.setPen(QPen(DataSingleton::Instance()->getFirstColor()));
             painter.setBrush(QBrush(DataSingleton::Instance()->getFirstColor()));
-        painter.drawEllipse(0, 0, DataSingleton::Instance()->getPenSize(),
-                        DataSingleton::Instance()->getPenSize());
+        }
+        painter.drawEllipse(center, DataSingleton::Instance()->getPenSize()/2,
+                        DataSingleton::Instance()->getPenSize()/2);
         break;
-    case LASTIC:
+    case ERASER:
         painter.setBrush(QBrush(Qt::white));
-        painter.drawEllipse(0, 0, DataSingleton::Instance()->getPenSize(),
-                        DataSingleton::Instance()->getPenSize());
+        painter.drawEllipse(center, DataSingleton::Instance()->getPenSize()/2,
+                        DataSingleton::Instance()->getPenSize()/2);
         break;
     }
+    painter.setPen(Qt::black);
+    painter.drawPoint(13, 13);
+    painter.drawPoint(13, 3);
+    painter.drawPoint(13, 5);
+    painter.drawPoint(13, 21);
+    painter.drawPoint(13, 23);
+    painter.drawPoint(3, 13);
+    painter.drawPoint(5, 13);
+    painter.drawPoint(21, 13);
+    painter.drawPoint(23, 13);
+    painter.setPen(Qt::white);
+    painter.drawPoint(13, 12);
+    painter.drawPoint(13, 14);
+    painter.drawPoint(12, 13);
+    painter.drawPoint(14, 13);
+    painter.drawPoint(13, 4);
+    painter.drawPoint(13, 6);
+    painter.drawPoint(13, 20);
+    painter.drawPoint(13, 22);
+    painter.drawPoint(4, 13);
+    painter.drawPoint(6, 13);
+    painter.drawPoint(20, 13);
+    painter.drawPoint(22, 13);
     painter.end();
 }
 
@@ -727,54 +769,54 @@ void ImageArea::makeFormatsFilters()
 {
     QList<QByteArray> ba = QImageReader::supportedImageFormats();
     //make "all supported" part
-    openFilter = "All supported (";
+    mOpenFilter = "All supported (";
     foreach (QByteArray temp, ba)
-        openFilter += "*." + temp + " ";
-    openFilter[openFilter.length() - 1] = ')'; //delete last space
-    openFilter += ";;";
+        mOpenFilter += "*." + temp + " ";
+    mOpenFilter[mOpenFilter.length() - 1] = ')'; //delete last space
+    mOpenFilter += ";;";
 
     //using ";;" as separator instead of "\n", because Qt's docs recomended it :)
     if(ba.contains("bmp"))
-        openFilter += "Windows Bitmap(*.bmp);;";
+        mOpenFilter += "Windows Bitmap(*.bmp);;";
     if(ba.contains("gif"))
-        openFilter += "Graphic Interchange Format(*.gif);;";
+        mOpenFilter += "Graphic Interchange Format(*.gif);;";
     if(ba.contains("jpg") || ba.contains("jpeg"))
-        openFilter += "Joint Photographic Experts Group(*.jpg *.jpeg);;";
+        mOpenFilter += "Joint Photographic Experts Group(*.jpg *.jpeg);;";
     if(ba.contains("mng"))
-        openFilter += "Multiple-image Network Graphics(*.mng);;";
+        mOpenFilter += "Multiple-image Network Graphics(*.mng);;";
     if(ba.contains("png"))
-        openFilter += "Portable Network Graphics(*.png);;";
+        mOpenFilter += "Portable Network Graphics(*.png);;";
     if(ba.contains("pbm"))
-        openFilter += "Portable Bitmap(*.pbm);;";
+        mOpenFilter += "Portable Bitmap(*.pbm);;";
     if(ba.contains("pgm"))
-        openFilter += "Portable Graymap(*.pgm);;";
+        mOpenFilter += "Portable Graymap(*.pgm);;";
     if(ba.contains("ppm"))
-        openFilter += "Portable Pixmap(*.ppm);;";
+        mOpenFilter += "Portable Pixmap(*.ppm);;";
     if(ba.contains("tiff") || ba.contains("tif"))
-        openFilter += "Tagged Image File Format(*.tiff);;";
+        mOpenFilter += "Tagged Image File Format(*.tiff, *tif);;";
     if(ba.contains("xbm"))
-        openFilter += "X11 Bitmap(*.xbm);;";
+        mOpenFilter += "X11 Bitmap(*.xbm);;";
     if(ba.contains("xpm"))
-        openFilter += "X11 Pixmap(*.xpm);;";
+        mOpenFilter += "X11 Pixmap(*.xpm);;";
     if(ba.contains("svg"))
-        openFilter += "Scalable Vector Graphics(*.svg);;";
+        mOpenFilter += "Scalable Vector Graphics(*.svg);;";
 
-    openFilter += "All Files(*.*)";
+    mOpenFilter += "All Files(*.*)";
 
     //make saveFilter
     ba = QImageWriter::supportedImageFormats();
     if(ba.contains("bmp"))
-        saveFilter += "Windows Bitmap(*.bmp)";
+        mSaveFilter += "Windows Bitmap(*.bmp)";
     if(ba.contains("jpg") || ba.contains("jpeg"))
-        saveFilter += ";;Joint Photographic Experts Group(*.jpg *.jpeg)";
+        mSaveFilter += ";;Joint Photographic Experts Group(*.jpg)";
     if(ba.contains("png"))
-        saveFilter += ";;Portable Network Graphics(*.png)";
+        mSaveFilter += ";;Portable Network Graphics(*.png)";
     if(ba.contains("ppm"))
-        saveFilter += ";;Portable Pixmap(*.ppm)";
+        mSaveFilter += ";;Portable Pixmap(*.ppm)";
     if(ba.contains("tiff") || ba.contains("tif"))
-        saveFilter += ";;Tagged Image File Format(*.tiff)";
+        mSaveFilter += ";;Tagged Image File Format(*.tiff)";
     if(ba.contains("xbm"))
-        saveFilter += ";;X11 Bitmap(*.xbm)";
+        mSaveFilter += ";;X11 Bitmap(*.xbm)";
     if(ba.contains("xpm"))
-        saveFilter += ";;X11 Pixmap(*.xpm)";
+        mSaveFilter += ";;X11 Pixmap(*.xpm)";
 }

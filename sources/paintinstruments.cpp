@@ -44,10 +44,10 @@ PaintInstruments::~PaintInstruments()
 
 }
 
-void PaintInstruments::line(bool isSecondColor, bool isLastic)
+void PaintInstruments::line(bool isSecondColor, bool isEraser)
 {
     QPainter painter(mPImageArea->getImage());
-    if(isLastic)
+    if(isEraser)
     {
         painter.setPen(QPen(Qt::white, DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                             Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
@@ -87,7 +87,7 @@ void PaintInstruments::line(bool isSecondColor, bool isLastic)
     mPImageArea->update();
 }
 
-void PaintInstruments::pipette(bool isSecondColor)
+void PaintInstruments::colorPicker(bool isSecondColor)
 {
     bool inArea(true);
     if(mStartPoint.x() < 0 || mStartPoint.y() < 0
@@ -109,7 +109,7 @@ void PaintInstruments::pipette(bool isSecondColor)
     }
 }
 
-void PaintInstruments::rect(bool isSecondColor)
+void PaintInstruments::rectangle(bool isSecondColor)
 {
     QPainter painter(mPImageArea->getImage());
     painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),

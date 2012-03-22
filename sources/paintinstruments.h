@@ -68,13 +68,13 @@ public:
      *
      * @param isSecondColor Flag which shows what color use: first or second.
      */
-    void pipette(bool isSecondColor);
+    void colorPicker(bool isSecondColor);
     /**
      * @brief Rect instrument.
      *
      * @param isSecondColor Flag which shows paint whit brush or not.
      */
-    void rect(bool isSecondColor);
+    void rectangle(bool isSecondColor);
     /**
      * @brief Ellipse instrument.
      *
