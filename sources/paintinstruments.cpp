@@ -44,10 +44,10 @@ PaintInstruments::~PaintInstruments()
 
 }
 
-void PaintInstruments::line(bool isSecondColor, bool isLastic)
+void PaintInstruments::line(bool isSecondColor, bool isEraser)
 {
     QPainter painter(mPImageArea->getImage());
-    if(isLastic)
+    if(isEraser)
     {
         painter.setPen(QPen(Qt::white, DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                             Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
@@ -87,7 +87,7 @@ void PaintInstruments::line(bool isSecondColor, bool isLastic)
     mPImageArea->update();
 }
 
-void PaintInstruments::pipette(bool isSecondColor)
+void PaintInstruments::colorPicker(bool isSecondColor)
 {
     bool inArea(true);
     if(mStartPoint.x() < 0 || mStartPoint.y() < 0
@@ -109,7 +109,7 @@ void PaintInstruments::pipette(bool isSecondColor)
     }
 }
 
-void PaintInstruments::rect(bool isSecondColor)
+void PaintInstruments::rectangle(bool isSecondColor)
 {
     QPainter painter(mPImageArea->getImage());
     painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),
@@ -235,20 +235,19 @@ void PaintInstruments::selection()
     QPainter painter(mPImageArea->getImage());
     painter.setPen(QPen(Qt::blue, 1 * mPImageArea->getZoomFactor(),
                         Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
-//    if(isSecondColor)
-//    {
-//        painter.setBrush(QBrush(DataSingleton::Instance()->getSecondColor()));
-//    }
+    int right = mStartPoint.x() > mEndPoint.x() ? mStartPoint.x() : mEndPoint.x();
+    int bottom = mStartPoint.y() > mEndPoint.y() ? mStartPoint.y() : mEndPoint.y();
+    int height = fabs(mStartPoint.y() - mEndPoint.y());
+    int width = fabs(mStartPoint.x() - mEndPoint.x());
+    mPImageArea->setSelectionRightBottomPoint(QPoint(right, bottom));
+    mPImageArea->setSelectionSize(width, height);
+
     if(mStartPoint != mEndPoint)
     {
         painter.drawRect(QRect(mStartPoint, mEndPoint));
     }
+
     mPImageArea->setEdited(true);
-//    int rad(DataSingleton::Instance()->getPenSize() + round(sqrt((mStartPoint.x() - mEndPoint.x()) *
-//                                                                 (mStartPoint.x() - mEndPoint.x()) +
-//                                                                 (mStartPoint.y() - mEndPoint.y()) *
-//                                                                 (mStartPoint.y() - mEndPoint.y()))));
-//    mPImageArea->update(QRect(mStartPoint, mEndPoint).normalized().adjusted(-rad, -rad, +rad, +rad));
     painter.end();
     mPImageArea->update();
 }

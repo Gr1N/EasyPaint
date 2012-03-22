@@ -35,6 +35,7 @@
 
 QT_BEGIN_NAMESPACE
 class PaintInstruments;
+class QUndoStack;
 QT_END_NAMESPACE
 
 /**
@@ -126,6 +127,15 @@ public:
     void zoomImage(qreal factor);
     inline void setZoomFactor(qreal factor) { mZoomFactor *= factor; }
     inline qreal getZoomFactor() { return mZoomFactor; }
+    inline QUndoStack* getUndoStack() { return mUndoStack; }
+    inline void setSelectionRightBottomPoint(const QPoint &point)
+    { mSelectionRightBottomPoint = point; }
+    inline void setSelectionSize(int width, int height)
+    { mSelectionWidth = width;  mSelectionHeight = height; }
+    inline QPoint getSelectionRightBottomPoint()
+    { return mSelectionRightBottomPoint; }
+    inline int getSelectionHeight() { return mSelectionHeight; }
+    inline int getSelectionWidth() { return mSelectionWidth; }
     
 private:
     /**
@@ -161,14 +171,17 @@ private:
     AdditionalTools *mAdditionalTools;
     Effects *mEffects;
     QString mFilePath; /**< Path where located image. */
-    QString openFilter; /**< Supported open formats filter. */
-    QString saveFilter; /**< Supported save formats filter. */
+    QString mOpenFilter; /**< Supported open formats filter. */
+    QString mSaveFilter; /**< Supported save formats filter. */
     bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed, mIsSelectionExists, mIsSelectionMoving,
             mIsSelectionResizing;
-    QPixmap *pixmap;
-    QCursor *currentCursor;
+    QPixmap *mPixmap;
+    QCursor *mCurrentCursor;
     qreal mZoomFactor;
-    QPoint mSelectionStartPoint, mSelectionEndPoint;
+    QUndoStack *mUndoStack;
+    QPoint mSelectionRightBottomPoint, mSelectionMoveDiffPoint;
+    int mSelectionHeight, mSelectionWidth;
+
 
 signals:
     /**
@@ -192,8 +205,6 @@ signals:
     
 private slots:
     void autoSave();
-    inline void setSelectionStartPoint(const QPoint &point) { mSelectionStartPoint = point; }
-    inline void setSelectionEndPoint(const QPoint &point) { mSelectionEndPoint = point; }
 
 protected:
     void mousePressEvent(QMouseEvent *event);
