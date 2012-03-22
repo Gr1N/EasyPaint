@@ -27,6 +27,7 @@
 #include "paintinstruments.h"
 #include "datasingleton.h"
 //#include "undocommand.h"
+#include "undocommand.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -174,10 +175,27 @@ void ImageArea::saveAs()
                 extension = "png"; //if format is unknown, save it as png format, but with user extension
             }
         else
+        QString extension;
+        //we should test it on windows, because of different slashes
+        QString temp = filePath.split("/").last();
+        //if user entered some extension
+        if(temp.contains('.'))
+        {
+            temp = temp.split('.').last();
+            if(QImageWriter::supportedImageFormats().contains(temp.toAscii()))
+                extension = temp;
+            else
+                extension = "png"; //if format is unknown, save it as png format, but with user extension
         {
             extension = filter.split('.').last().remove(')');
             filePath += '.' + extension;
         }
+        else
+        {
+            extension = filter.split('.').last().remove(')');
+            filePath += '.' + extension;
+        }
+        mImage->save(filePath, extension.toLatin1().data());
         mImage->save(filePath, extension.toLatin1().data());
         mFilePath = filePath;
         mIsEdited = false;
@@ -271,7 +289,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 event->pos().y() < mImage->rect().bottom() + 6)
         {
             mIsResize = true;
-            setCursor(Qt::SizeFDiagCursor);
+            setCursor(Qt::SizeFDiagCursor);        
         }
         else
         {
@@ -671,6 +689,9 @@ void ImageArea::restoreCursor()
     case NONE: case CURSOR:
         mCurrentCursor = new QCursor(Qt::ArrowCursor);
         setCursor(*mCurrentCursor);
+    case NONE:
+        mCurrentCursor = new QCursor(Qt::ArrowCursor);
+        setCursor(*mCurrentCursor);
         break;
     case ERASER: case PEN:
         ImageArea::drawCursor();
@@ -708,6 +729,8 @@ void ImageArea::drawCursor()
     {
     case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
     case FILL: case RECTANGLE: case ELLIPSE: case CURSOR:
+    case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
+    case FILL: case RECTANGLE: case ELLIPSE:
         break;
     case PEN: case ERASER:
         mPixmap->fill(QColor(0, 0, 0, 0));
@@ -718,6 +741,8 @@ void ImageArea::drawCursor()
     {
     case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
     case FILL: case RECTANGLE: case ELLIPSE: case CURSOR:
+    case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
+    case FILL: case RECTANGLE: case ELLIPSE:
         break;
     case PEN:
         if(mRightButtonPressed)

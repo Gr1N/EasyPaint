@@ -35,6 +35,7 @@ typedef enum
     NONE,
     CURSOR,
     ERASER,
+    ERASER,
     PEN,
     LINE,
     COLORPICKER,
