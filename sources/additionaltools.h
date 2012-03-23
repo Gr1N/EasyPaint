@@ -75,8 +75,9 @@ public:
      * @brief Zoom image
      *
      * @param factor Scale factor
+     * @return returns true in case of success
      */
-    void zoomImage(qreal factor);
+    bool zoomImage(qreal factor);
     
 private:
     ImageArea *mPImageArea; /**< A pointer to ImageArea */

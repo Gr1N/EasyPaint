@@ -417,8 +417,10 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         case NONE:
             break;
         case LOUPE:
-            mAdditionalTools->zoomImage(2.0);
-            setZoomFactor(2.0);
+            if(mAdditionalTools->zoomImage(2.0))
+            {
+                setZoomFactor(2.0);
+            }
             break;
         case PEN:
             mPaintInstruments->line(false);
@@ -471,8 +473,10 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         case NONE: case LASTIC:
             break;
         case LOUPE:
-            mAdditionalTools->zoomImage(0.5);
-            setZoomFactor(0.5);
+            if(mAdditionalTools->zoomImage(0.5))
+            {
+                setZoomFactor(0.5);
+            }
             break;
         case PEN:
             mPaintInstruments->line(true);
