@@ -173,15 +173,15 @@ private:
 
 signals:
     /**
-     * @brief Send first color for ToolBar.
+     * @brief Send primary color for ToolBar.
      *
      */
-    void sendFirstColorView();
+    void sendPrimaryColorView();
     /**
-     * @brief Send second color for ToolBar.
+     * @brief Send secondary color for ToolBar.
      *
      */
-    void sendSecondColorView();
+    void sendSecondaryColorView();
     void sendNewImageSize(const QSize&);
     void sendCursorPos(const QPoint&);
     void sendColor(const QColor&);

@@ -99,8 +99,8 @@ void PaletteBar::initializeItems()
 
 void PaletteBar::colorClicked()
 {
-    mToolBar->setFirstColorView();
-    mToolBar->setSecondColorView();
+    mToolBar->setPrimaryColorView();
+    mToolBar->setSecondaryColorView();
 }
 
 void PaletteBar::contextMenuEvent(QContextMenuEvent *) { }

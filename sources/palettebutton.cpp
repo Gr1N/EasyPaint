@@ -17,11 +17,11 @@ void PaletteButton::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
-        DataSingleton::Instance()->setFirstColor(mColor);
+        DataSingleton::Instance()->setPrimaryColor(mColor);
     }
     if(event->button() == Qt::RightButton)
     {
-        DataSingleton::Instance()->setSecondColor(mColor);
+        DataSingleton::Instance()->setSecondaryColor(mColor);
     }
     colorPicked();
 }

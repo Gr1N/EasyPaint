@@ -65,7 +65,7 @@ private:
     QToolButton *mCursorButton, *mEraserButton, *mPenButton, *mLineButton,
                 *mColorPickerButton, *mMagnifierButton, *mSprayButton, *mFillButton,
                 *mRectangleButton, *mEllipseButton;
-    ColorChooser *mFColorChooser, *mSColorChooser;
+    ColorChooser *mPColorChooser, *mSColorChooser;
     bool mPrevInstrumentSetted;
     
 signals:
@@ -73,15 +73,15 @@ signals:
     void sendClearStatusBarColor();
 
 public slots:
-    void setFirstColorView();
-    void setSecondColorView();
+    void setPrimaryColorView();
+    void setSecondaryColorView();
     void setInstrumentChecked(InstrumentsEnum instrument);
     void restorePreviousInstrument();
     
 private slots:
     void penValueChanged(const int &value);
-    void firstColorChanged(const QColor &color);
-    void secondColorChanged(const QColor &color);
+    void primaryColorChanged(const QColor &color);
+    void secondaryColorChanged(const QColor &color);
     void setCursor(const bool &state);
     void setLastic(const bool &state);
     void setPen(const bool &state);

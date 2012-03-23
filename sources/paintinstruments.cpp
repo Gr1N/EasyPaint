@@ -56,13 +56,13 @@ void PaintInstruments::line(bool isSecondColor, bool isEraser)
     {
         if(isSecondColor)
         {
-            painter.setPen(QPen(DataSingleton::Instance()->getSecondColor(),
+            painter.setPen(QPen(DataSingleton::Instance()->getSecondaryColor(),
                                 DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                                 Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         }
         else
         {
-            painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),
+            painter.setPen(QPen(DataSingleton::Instance()->getPrimaryColor(),
                                 DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                                 Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         }
@@ -99,25 +99,25 @@ void PaintInstruments::colorPicker(bool isSecondColor)
     {
         QRgb pixel(mPImageArea->getImage()->pixel(mStartPoint));
         QColor getColor(pixel);
-        DataSingleton::Instance()->setSecondColor(getColor);
+        DataSingleton::Instance()->setSecondaryColor(getColor);
     }
     if(inArea)
     {
         QRgb pixel(mPImageArea->getImage()->pixel(mStartPoint));
         QColor getColor(pixel);
-        DataSingleton::Instance()->setFirstColor(getColor);
+        DataSingleton::Instance()->setPrimaryColor(getColor);
     }
 }
 
 void PaintInstruments::rectangle(bool isSecondColor)
 {
     QPainter painter(mPImageArea->getImage());
-    painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),
+    painter.setPen(QPen(DataSingleton::Instance()->getPrimaryColor(),
                         DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                         Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     if(isSecondColor)
     {
-        painter.setBrush(QBrush(DataSingleton::Instance()->getSecondColor()));
+        painter.setBrush(QBrush(DataSingleton::Instance()->getSecondaryColor()));
     }
     if(mStartPoint != mEndPoint)
     {
@@ -136,12 +136,12 @@ void PaintInstruments::rectangle(bool isSecondColor)
 void PaintInstruments::ellipse(bool isSecondColor)
 {
     QPainter painter(mPImageArea->getImage());
-    painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),
+    painter.setPen(QPen(DataSingleton::Instance()->getPrimaryColor(),
                         DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor(),
                         Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     if(isSecondColor)
     {
-        painter.setBrush(QBrush(DataSingleton::Instance()->getSecondColor()));
+        painter.setBrush(QBrush(DataSingleton::Instance()->getSecondaryColor()));
     }
     if(mStartPoint != mEndPoint)
     {
@@ -162,13 +162,13 @@ void PaintInstruments::spray(bool isSecondColor)
     QPainter painter(mPImageArea->getImage());
     if(isSecondColor)
     {
-        painter.setPen(QPen(DataSingleton::Instance()->getSecondColor(),
+        painter.setPen(QPen(DataSingleton::Instance()->getSecondaryColor(),
                             sqrt(DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor()),
                             Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     }
     else
     {
-        painter.setPen(QPen(DataSingleton::Instance()->getFirstColor(),
+        painter.setPen(QPen(DataSingleton::Instance()->getPrimaryColor(),
                             sqrt(DataSingleton::Instance()->getPenSize() * mPImageArea->getZoomFactor()),
                             Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     }
@@ -209,11 +209,11 @@ void PaintInstruments::fill(bool isSecondColor)
     QColor switchColor;
     if(!isSecondColor)
     {
-        switchColor = DataSingleton::Instance()->getFirstColor();
+        switchColor = DataSingleton::Instance()->getPrimaryColor();
     }
     else
     {
-        switchColor = DataSingleton::Instance()->getSecondColor();
+        switchColor = DataSingleton::Instance()->getSecondaryColor();
     }
 
     QRgb pixel(mPImageArea->getImage()->pixel(mStartPoint));

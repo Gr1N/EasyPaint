@@ -99,13 +99,13 @@ void ToolBar::initializeItems()
     QWidget *bWidget = new QWidget();
     bWidget->setLayout(bLayout);
 
-    mFColorChooser = new ColorChooser(0, 0, 0, this);
-    mFColorChooser->setStatusTip(tr("First color"));
-    connect(mFColorChooser, SIGNAL(sendColor(QColor)), this, SLOT(firstColorChanged(QColor)));
+    mPColorChooser = new ColorChooser(0, 0, 0, this);
+    mPColorChooser->setStatusTip(tr("Primary color"));
+    connect(mPColorChooser, SIGNAL(sendColor(QColor)), this, SLOT(primaryColorChanged(QColor)));
 
     mSColorChooser = new ColorChooser(255, 255, 255, this);
-    mSColorChooser->setStatusTip(tr("Second color"));
-    connect(mSColorChooser, SIGNAL(sendColor(QColor)), this, SLOT(secondColorChanged(QColor)));
+    mSColorChooser->setStatusTip(tr("Secondary color"));
+    connect(mSColorChooser, SIGNAL(sendColor(QColor)), this, SLOT(secondaryColorChanged(QColor)));
 
     QSpinBox *penSizeSpin = new QSpinBox();
     penSizeSpin->setRange(1, 20);
@@ -115,7 +115,7 @@ void ToolBar::initializeItems()
 
     QGridLayout *tLayout = new QGridLayout();
     tLayout->setMargin(3);
-    tLayout->addWidget(mFColorChooser, 0, 0);
+    tLayout->addWidget(mPColorChooser, 0, 0);
     tLayout->addWidget(mSColorChooser, 0, 1);
     tLayout->addWidget(penSizeSpin, 1, 0, 1, 2);
 
@@ -132,24 +132,24 @@ void ToolBar::penValueChanged(const int &value)
     DataSingleton::Instance()->setPenSize(value);
 }
 
-void ToolBar::firstColorChanged(const QColor &color)
+void ToolBar::primaryColorChanged(const QColor &color)
 {
-    DataSingleton::Instance()->setFirstColor(color);
+    DataSingleton::Instance()->setPrimaryColor(color);
 }
 
-void ToolBar::secondColorChanged(const QColor &color)
+void ToolBar::secondaryColorChanged(const QColor &color)
 {
-    DataSingleton::Instance()->setSecondColor(color);
+    DataSingleton::Instance()->setSecondaryColor(color);
 }
 
-void ToolBar::setFirstColorView()
+void ToolBar::setPrimaryColorView()
 {
-    mFColorChooser->setColor(DataSingleton::Instance()->getFirstColor());
+    mPColorChooser->setColor(DataSingleton::Instance()->getPrimaryColor());
 }
 
-void ToolBar::setSecondColorView()
+void ToolBar::setSecondaryColorView()
 {
-    mSColorChooser->setColor(DataSingleton::Instance()->getSecondColor());
+    mSColorChooser->setColor(DataSingleton::Instance()->getSecondaryColor());
 }
 
 void ToolBar::setAllButtonsUnchecked(QToolButton *button)

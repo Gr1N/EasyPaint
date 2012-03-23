@@ -438,7 +438,7 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->setEndPoint(event->pos());
             mPaintInstruments->colorPicker(false);
             mIsPaint = false;
-            emit sendFirstColorView();
+            emit sendPrimaryColorView();
             emit sendRestorePreviousInstrument();
             break;
         case RECTANGLE:
@@ -488,7 +488,7 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             mPaintInstruments->setEndPoint(event->pos());
             mPaintInstruments->colorPicker(true);
             mIsPaint = false;
-            emit sendSecondColorView();
+            emit sendSecondaryColorView();
             emit sendRestorePreviousInstrument();
             break;
         case RECTANGLE:
@@ -594,13 +594,13 @@ void ImageArea::drawCursor()
     case PEN:
         if(mRightButtonPressed)
         {
-            painter.setPen(QPen(DataSingleton::Instance()->getSecondColor()));
-            painter.setBrush(QBrush(DataSingleton::Instance()->getSecondColor()));
+            painter.setPen(QPen(DataSingleton::Instance()->getSecondaryColor()));
+            painter.setBrush(QBrush(DataSingleton::Instance()->getSecondaryColor()));
         }
         else
         {
-            painter.setPen(QPen(DataSingleton::Instance()->getFirstColor()));
-            painter.setBrush(QBrush(DataSingleton::Instance()->getFirstColor()));
+            painter.setPen(QPen(DataSingleton::Instance()->getPrimaryColor()));
+            painter.setBrush(QBrush(DataSingleton::Instance()->getPrimaryColor()));
         }
         painter.drawEllipse(center, DataSingleton::Instance()->getPenSize()/2,
                         DataSingleton::Instance()->getPenSize()/2);
