@@ -46,6 +46,7 @@ QToolButton* ToolBar::createToolButton(const QString &name, const QString &iconP
     toolButton->setMaximumSize(QSize(30, 30));
     toolButton->setIcon(QPixmap(iconPath));
     toolButton->setStatusTip(name);
+    toolButton->setToolTip(name);
     toolButton->setCheckable(true);
     return toolButton;
 }
@@ -101,16 +102,19 @@ void ToolBar::initializeItems()
 
     mPColorChooser = new ColorChooser(0, 0, 0, this);
     mPColorChooser->setStatusTip(tr("Primary color"));
+    mPColorChooser->setToolTip(tr("Primary color"));
     connect(mPColorChooser, SIGNAL(sendColor(QColor)), this, SLOT(primaryColorChanged(QColor)));
 
     mSColorChooser = new ColorChooser(255, 255, 255, this);
     mSColorChooser->setStatusTip(tr("Secondary color"));
+    mSColorChooser->setToolTip(tr("Secondary color"));
     connect(mSColorChooser, SIGNAL(sendColor(QColor)), this, SLOT(secondaryColorChanged(QColor)));
 
     QSpinBox *penSizeSpin = new QSpinBox();
     penSizeSpin->setRange(1, 20);
     penSizeSpin->setValue(1);
     penSizeSpin->setStatusTip(tr("Pen size"));
+    penSizeSpin->setToolTip(tr("Pen size"));
     connect(penSizeSpin, SIGNAL(valueChanged(int)), this, SLOT(penValueChanged(int)));
 
     QGridLayout *tLayout = new QGridLayout();
