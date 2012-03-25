@@ -3,10 +3,7 @@ EasyPaint
 
 EasyPaint is a simple graphics painting program
 
-Here's a screenshot:
-![EasyPaint](http://qt-apps.org/CONTENT/content-pre3/140877-3.png)
-
-You may watch more screenshots [here](http://qt-apps.org/content/show.php?content=140877).
+You may watch screenshots [here](http://qt-apps.org/content/show.php?content=140877).
 
 Installing
 ----------
