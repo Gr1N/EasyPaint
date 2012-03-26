@@ -96,8 +96,11 @@ public:
     /**
      * @brief Draw selection border.
      *
+     * @param isSelected Flag shows is background image attached to selection area.
+     *
+     * @param isDrawBorders Flag shows is selection borders are need to be shown.
      */
-    void selection();
+    void selection(bool isSelected, bool isDrawBorders);
     
 private:
     void fillRecurs(int x, int y, QColor switchColor, QColor oldColor, QImage& tempImage);

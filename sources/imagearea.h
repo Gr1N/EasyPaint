@@ -128,12 +128,24 @@ public:
     inline void setZoomFactor(qreal factor) { mZoomFactor *= factor; }
     inline qreal getZoomFactor() { return mZoomFactor; }
     inline QUndoStack* getUndoStack() { return mUndoStack; }
-    inline void setSelectionRightBottomPoint(const QPoint &point)
-    { mSelectionRightBottomPoint = point; }
+    inline void setSelectionBottomRightPoint(const QPoint &point)
+    { mSelectionBottomRightPoint = point; }
+    inline void setSelectionTopLeftPoint(const QPoint &point)
+    { mSelectionTopLeftPoint = point; }
+    inline void setSelectedBottomRightPoint(const QPoint &point)
+    { mSelectedBottomRightPoint = point; }
+    inline void setSelectedTopLeftPoint(const QPoint &point)
+    { mSelectedTopLeftPoint = point; }
     inline void setSelectionSize(int width, int height)
     { mSelectionWidth = width;  mSelectionHeight = height; }
-    inline QPoint getSelectionRightBottomPoint()
-    { return mSelectionRightBottomPoint; }
+    inline QPoint getSelectionBottomRightPoint()
+    { return mSelectionBottomRightPoint; }
+    inline QPoint getSelectionTopLeftPoint()
+    { return mSelectionTopLeftPoint; }
+    inline QPoint getSelectedBottomRightPoint()
+    { return mSelectedBottomRightPoint; }
+    inline QPoint getSelectedTopLeftPoint()
+    { return mSelectedTopLeftPoint; }
     inline int getSelectionHeight() { return mSelectionHeight; }
     inline int getSelectionWidth() { return mSelectionWidth; }
     
@@ -179,7 +191,8 @@ private:
     QCursor *mCurrentCursor;
     qreal mZoomFactor;
     QUndoStack *mUndoStack;
-    QPoint mSelectionRightBottomPoint, mSelectionMoveDiffPoint;
+    QPoint mSelectionBottomRightPoint, mSelectionTopLeftPoint, mSelectionMoveDiffPoint,
+            mSelectedTopLeftPoint, mSelectedBottomRightPoint;
     int mSelectionHeight, mSelectionWidth;
 
 

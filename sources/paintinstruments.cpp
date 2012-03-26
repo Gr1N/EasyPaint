@@ -230,26 +230,47 @@ void PaintInstruments::fill(bool isSecondColor)
     mPImageArea->update();
 }
 
-void PaintInstruments::selection()
+void PaintInstruments::selection(bool isSelected, bool isDrawBorders)
 {
-    QPainter painter(mPImageArea->getImage());
-    painter.setPen(QPen(Qt::blue, 1 * mPImageArea->getZoomFactor(),
-                        Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
     int right = mStartPoint.x() > mEndPoint.x() ? mStartPoint.x() : mEndPoint.x();
     int bottom = mStartPoint.y() > mEndPoint.y() ? mStartPoint.y() : mEndPoint.y();
+    int left = mStartPoint.x() < mEndPoint.x() ? mStartPoint.x() : mEndPoint.x();
+    int top = mStartPoint.y() < mEndPoint.y() ? mStartPoint.y() : mEndPoint.y();
     int height = fabs(mStartPoint.y() - mEndPoint.y());
     int width = fabs(mStartPoint.x() - mEndPoint.x());
-    mPImageArea->setSelectionRightBottomPoint(QPoint(right, bottom));
+    mPImageArea->setSelectionBottomRightPoint(QPoint(right, bottom));
     mPImageArea->setSelectionSize(width, height);
+    mPImageArea->setSelectionTopLeftPoint(QPoint(left, top));
 
-    if(mStartPoint != mEndPoint)
+    if (isDrawBorders)
     {
-        painter.drawRect(QRect(mStartPoint, mEndPoint));
-    }
+        QPainter painter(mPImageArea->getImage());
+        painter.setPen(QPen(Qt::blue, 1 * mPImageArea->getZoomFactor(),
+                            Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
+        painter.setBackgroundMode(Qt::TransparentMode);
 
-    mPImageArea->setEdited(true);
-    painter.end();
-    mPImageArea->update();
+        if(mStartPoint != mEndPoint)
+        {
+            painter.drawRect(QRect(mStartPoint, mEndPoint));
+        }
+
+        mPImageArea->setEdited(true);
+        painter.end();
+        mPImageArea->update();
+    }
+    if (isSelected)
+    {
+        QPainter painter(mPImageArea->getImage());
+        if(mStartPoint != mEndPoint)
+        {
+            QRect source(mPImageArea->getSelectedTopLeftPoint(), mPImageArea->getSelectedBottomRightPoint());
+            QRect target(mPImageArea->getSelectionTopLeftPoint(), mPImageArea->getSelectionBottomRightPoint());
+            painter.drawImage(target, *(mPImageArea->getImage()), source);
+        }
+        mPImageArea->setEdited(true);
+        painter.end();
+        mPImageArea->update();
+    }
 }
 
 void PaintInstruments::fillRecurs(int x, int y, QColor switchColor, QColor oldColor, QImage &tempImage)

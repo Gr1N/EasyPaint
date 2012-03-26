@@ -124,3 +124,9 @@ void AdditionalTools::zoomImage(qreal factor)
         mPImageArea->setEdited(true);
     }
 }
+
+void AdditionalTools::copyImage()
+{
+//    mPImageArea->getImage()->copy(mPImageArea->getSelectionRightBottomPoint().x() - mPImageArea->getSelectionWidth(),
+//                                  )
+}

@@ -77,6 +77,8 @@ public:
      * @param factor Scale factor
      */
     void zoomImage(qreal factor);
+
+    void copyImage();
     
 private:
     ImageArea *mPImageArea; /**< A pointer to ImageArea */
