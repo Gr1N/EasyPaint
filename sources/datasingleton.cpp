@@ -31,8 +31,8 @@ DataSingleton* DataSingleton::m_pInstance = 0;
 
 DataSingleton::DataSingleton()
 {
-    mFirstColor = Qt::black;
-    mSecondColor = Qt::white;
+    mPrimaryColor = Qt::black;
+    mSecondaryColor = Qt::white;
     mPenSize = 1;
     mCurrentInstrument = NONE;
     mPreviousInstrument = NONE;

@@ -46,7 +46,7 @@
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)
 {
-    setWindowIcon(QIcon(":/media/logo/easypaint_small.png"));
+    setWindowIcon(QIcon(":/media/logo/easypaint_64.png"));
 
     mUndoStackGroup = new QUndoGroup(this);
 
@@ -116,8 +116,8 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
         mTabWidget->setCurrentIndex(mTabWidget->count()-1);
 
         mUndoStackGroup->addStack(imageArea->getUndoStack());
-        connect(imageArea, SIGNAL(sendFirstColorView()), mToolbar, SLOT(setFirstColorView()));
-        connect(imageArea, SIGNAL(sendSecondColorView()), mToolbar, SLOT(setSecondColorView()));
+        connect(imageArea, SIGNAL(sendPrimaryColorView()), mToolbar, SLOT(setPrimaryColorView()));
+        connect(imageArea, SIGNAL(sendSecondaryColorView()), mToolbar, SLOT(setSecondaryColorView()));
         connect(imageArea, SIGNAL(sendRestorePreviousInstrument()), mToolbar, SLOT(restorePreviousInstrument()));
         connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
         connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
@@ -915,12 +915,14 @@ void MainWindow::helpAct()
     QMessageBox::about(this, tr("About EasyPaint"),
                        QString("<b>EasyPaint</b> %1: %2 <br> <br> %3: "
                                "<a href=\"https://github.com/Gr1N/EasyPaint/\">https://github.com/Gr1N/EasyPaint/</a>"
-                               "<br> <br>%4 (c) 2012"
-                               "<br> <br>%5:<ul>"
-                               "<li>Nikita Grishko (Gr1N)</li>"
-                               "<li>Artem Stepanyuk (faulknercs)</li>"
-                               "<li>Denis Klimenko (DenisKlimenko)</li>"
-                               "<li>BahdanSiamionau (Bahdan)</li>"
-                               "</ul>")
-                       .arg(tr("version")).arg("0.0.1").arg(tr("Site")).arg(tr("Copyright")).arg(tr("Authors")));
+                               "<br> <br>Copyright (c) 2012 EasyPaint team"
+                               "<br> <br>%4:<ul>"
+                               "<li><a href=\"mailto:grin.minsk@gmail.com\">Nikita Grishko</a> (Gr1N)</li>"
+                               "<li><a href=\"mailto:faulknercs@yandex.ru\">Artem Stepanyuk</a> (faulknercs)</li>"
+                               "<li><a href=\"mailto:denis.klimenko.92@gmail.com\">Denis Klimenko</a> (DenisKlimenko)</li>"
+                               "<li><a href=\"mailto:bahdan.siamionau@gmail.com\">Bahdan Siamionau</a> (Bahdan)</li>"
+                               "</ul>"
+                               "<br> %5")
+                       .arg(tr("version")).arg("0.0.1").arg(tr("Site")).arg(tr("Authors"))
+                       .arg(tr("If you like <b>EasyPaint</b> and you want to share your opinion, or send a bug report, or want to suggest new features, we are waiting for you on our <a href=\"https://github.com/Gr1N/EasyPaint/issues?milestone=&sort=created&direction=desc&state=open\">tracker</a>.")));
 }

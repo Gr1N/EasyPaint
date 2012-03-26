@@ -21,7 +21,10 @@ set (HEADERS
     sources/paintinstruments.h
     sources/resizedialog.h
     sources/toolbar.h
-    sources/settingsdialog.h)
+    sources/settingsdialog.h
+    sources/palettebar.h
+    sources/undocommand.h
+    sources/palettebutton.h)
 
 #------- sources --------
 set (SOURCES 
@@ -35,6 +38,9 @@ set (SOURCES
     sources/paintinstruments.cpp
     sources/resizedialog.cpp
     sources/toolbar.cpp
+    sources/palettebar.cpp
+    sources/undocommand.cpp
+    sources/palettebutton.cpp
     sources/settingsdialog.cpp)
  
 #------- resources -------
@@ -81,7 +87,7 @@ if(UNIX AND NOT APPLE)
     INSTALL(FILES "sources/media/EasyPaint.desktop" DESTINATION share/applications)
 
     # install pixmap
-    #~ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/img/easypaint.png" DESTINATION share/pixmaps)
+    INSTALL(FILES "sources/media/logo/easypaint_64.png" DESTINATION share/pixmaps)
 
     INSTALL(FILES ${TRANSLATIONS_QM} DESTINATION share/easypaint/translations)
 endif(UNIX AND NOT APPLE)

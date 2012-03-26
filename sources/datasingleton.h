@@ -47,10 +47,10 @@ public:
      */
     static DataSingleton* Instance();
 
-    inline QColor getFirstColor() { return mFirstColor; }
-    inline void setFirstColor(const QColor &color) { mFirstColor = color; }
-    inline QColor getSecondColor() { return mSecondColor; }
-    inline void setSecondColor(const QColor &color) { mSecondColor = color; }
+    inline QColor getPrimaryColor() { return mPrimaryColor; }
+    inline void setPrimaryColor(const QColor &color) { mPrimaryColor = color; }
+    inline QColor getSecondaryColor() { return mSecondaryColor; }
+    inline void setSecondaryColor(const QColor &color) { mSecondaryColor = color; }
     inline int getPenSize() { return mPenSize; }
     inline void setPenSize(const int &size) { mPenSize = size; }
     inline InstrumentsEnum getInstrument() { return mCurrentInstrument; }
@@ -88,8 +88,8 @@ private:
     DataSingleton(DataSingleton const&){}
 
     static DataSingleton* m_pInstance;
-    QColor mFirstColor,
-           mSecondColor;
+    QColor mPrimaryColor,
+           mSecondaryColor;
     int mPenSize;
     InstrumentsEnum mCurrentInstrument, mPreviousInstrument;
     QSize mBaseSize;

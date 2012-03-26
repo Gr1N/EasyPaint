@@ -59,7 +59,7 @@ translations.files = translations/*.qm
 desktop.path = /usr/share/applications
 desktop.files = media/easypaint.desktop
 icon.path = /usr/share/pixmaps
-icon.files = media/logo/easypaint_small.png
+icon.files = media/logo/easypaint_64.png
 isEmpty(QMAKE_LRELEASE) {
  win32 {
   QMAKE_LRELEASE =   $$[QT_INSTALL_BINS]\\lrelease.exe
