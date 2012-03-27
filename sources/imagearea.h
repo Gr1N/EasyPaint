@@ -143,6 +143,26 @@ public:
     inline int getSelectionHeight() { return mSelectionHeight; }
     inline int getSelectionWidth() { return mSelectionWidth; }
     inline QImage getSelectedImage() { return mSelectedImage; }
+    /**
+     * @brief Copying image to the clipboard.
+     *
+     */
+    void copyImage();
+    /**
+     * @brief Paste image from the clipboard.
+     *
+     */
+    void pasteImage();
+    /**
+     * @brief Cut image to the clipboard.
+     *
+     */
+    void cutImage();
+    /**
+     * @brief Clears background image at selection area.
+     *
+     */
+    void clearSelectionBackground();
     
 private:
     /**
@@ -174,7 +194,8 @@ private:
 
     QImage *mImage,  /**< Main image. */
            mImageCopy, /**< Copy of main image, need for events. */
-           mSelectedImage; /**< Copy of selected image. */
+           mSelectedImage, /**< Copy of selected image. */
+           mPreviousCopiedImage; /**< Previously copied image. */
     PaintInstruments *mPaintInstruments;
     AdditionalTools *mAdditionalTools;
     Effects *mEffects;
@@ -182,7 +203,7 @@ private:
     QString mOpenFilter; /**< Supported open formats filter. */
     QString mSaveFilter; /**< Supported save formats filter. */
     bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed, mIsSelectionExists,
-         mIsSelectionMoving, mIsSelectionResizing, mIsImageSelected;
+         mIsSelectionMoving, mIsSelectionResizing, mIsImageSelected, mIsPasteImage;
     QPixmap *mPixmap;
     QCursor *mCurrentCursor;
     qreal mZoomFactor;

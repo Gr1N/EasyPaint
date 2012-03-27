@@ -118,6 +118,9 @@ private slots:
     void saveAct();
     void saveAsAct();
     void printAct();
+    void copyAct();
+    void pasteAct();
+    void cutAct();
     void settingsAct();
     void effectGrayAct();
     void effectNegativeAct();

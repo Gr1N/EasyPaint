@@ -200,22 +200,19 @@ void MainWindow::initializeMainMenu()
     mCopyAction = new QAction(tr("&Copy"), this);
     mCopyAction->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/media/actions-icons/edit-copy.png")));
     mCopyAction->setIconVisibleInMenu(true);
-    mCopyAction->setEnabled(false);
-//    connect();
+    connect(mCopyAction, SIGNAL(triggered()), this, SLOT(copyAct()));
     editMenu->addAction(mCopyAction);
 
     mPasteAction = new QAction(tr("&Paste"), this);
     mPasteAction->setIcon(QIcon::fromTheme("edit-paste", QIcon(":/media/actions-icons/edit-paste.png")));
     mPasteAction->setIconVisibleInMenu(true);
-    mPasteAction->setEnabled(false);
-//    connect();
+    connect(mPasteAction, SIGNAL(triggered()), this, SLOT(pasteAct()));
     editMenu->addAction(mPasteAction);
 
     mCutAction = new QAction(tr("C&ut"), this);
     mCutAction->setIcon(QIcon::fromTheme("edit-cut", QIcon(":/media/actions-icons/edit-cut.png")));
     mCutAction->setIconVisibleInMenu(true);
-    mCutAction->setEnabled(false);
-//    connect();
+    connect(mCutAction, SIGNAL(triggered()), this, SLOT(cutAct()));
     editMenu->addAction(mCutAction);
 
     editMenu->addSeparator();
@@ -481,6 +478,21 @@ void MainWindow::settingsAct()
         DataSingleton::Instance()->writeSettings();
         updateShortcuts();
     }
+}
+
+void MainWindow::copyAct()
+{
+    getCurrentImageArea()->copyImage();
+}
+
+void MainWindow::pasteAct()
+{
+    getCurrentImageArea()->pasteImage();
+}
+
+void MainWindow::cutAct()
+{
+    getCurrentImageArea()->cutImage();
 }
 
 void MainWindow::updateShortcuts()

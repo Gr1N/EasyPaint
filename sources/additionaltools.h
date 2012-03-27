@@ -31,6 +31,7 @@
 QT_BEGIN_NAMESPACE
 class ImageArea;
 class QSize;
+class QImage;
 QT_END_NAMESPACE
 
 /**
@@ -78,7 +79,16 @@ public:
      */
     void zoomImage(qreal factor);
 
+    /**
+     * @brief Copying image to the clipboard
+     *
+     */
     void copyImage();
+    /**
+     * @brief Returns the clipboard image, or returns a null image if the clipboard does not contain an image or if it contains an image in an unsupported image format.
+     *
+     */
+    QImage getPasteImage();
     
 private:
     ImageArea *mPImageArea; /**< A pointer to ImageArea */

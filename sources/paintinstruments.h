@@ -100,7 +100,7 @@ public:
      *
      * @param isDrawBorders Flag shows is selection borders are need to be shown.
      */
-    void selection(bool isSelected, bool isDrawBorders);
+    void selection(bool isSelected, bool isDrawBorders, const QImage &image = QImage());
     
 private:
     void fillRecurs(int x, int y, QColor switchColor, QColor oldColor, QImage& tempImage);

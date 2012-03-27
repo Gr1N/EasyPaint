@@ -32,6 +32,9 @@
 #include <QtGui/QLabel>
 #include <QtGui/QTransform>
 #include <QSize>
+#include <QClipboard>
+#include <QApplication>
+#include <QImage>
 
 AdditionalTools::AdditionalTools(ImageArea *pImageArea, QObject *parent) :
     QObject(parent)
@@ -127,6 +130,16 @@ void AdditionalTools::zoomImage(qreal factor)
 
 void AdditionalTools::copyImage()
 {
-//    mPImageArea->getImage()->copy(mPImageArea->getSelectionRightBottomPoint().x() - mPImageArea->getSelectionWidth(),
-//                                  )
+    QClipboard *globalClipboard = QApplication::clipboard();
+    globalClipboard->setImage(mPImageArea->getImage()->copy(mPImageArea->getSelectionTopLeftPoint().x(),
+                                                            mPImageArea->getSelectionTopLeftPoint().y(),
+                                                            mPImageArea->getSelectionWidth(),
+                                                            mPImageArea->getSelectionHeight()),
+                              QClipboard::Clipboard);
+}
+
+QImage AdditionalTools::getPasteImage()
+{
+    QClipboard *globalClipboard = QApplication::clipboard();
+    return globalClipboard->image();
 }
