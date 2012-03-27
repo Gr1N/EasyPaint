@@ -46,7 +46,8 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
 {
     setMouseTracking(true);
 
-    mRightButtonPressed = mIsSelectionExists = mIsSelectionMoving = mIsSelectionResizing = false;
+    mRightButtonPressed = mIsSelectionExists = mIsSelectionMoving =
+            mIsSelectionResizing = mIsImageSelected = false;
     mFilePath.clear();
     makeFormatsFilters();
     initializeImage();
@@ -243,8 +244,13 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             event->pos().y() < mSelectionBottomRightPoint.y())
         {
             mIsSelectionMoving = true;
-            mSelectedTopLeftPoint = mSelectionTopLeftPoint;
-            mSelectedBottomRightPoint = mSelectionBottomRightPoint;
+            if(!mIsImageSelected)
+            {
+                mSelectedImage = getImage()->copy(mSelectionTopLeftPoint.x(),
+                                                  mSelectionTopLeftPoint.y(),
+                                                  mSelectionWidth, mSelectionHeight);
+                mIsImageSelected = true;
+            }
             mSelectionMoveDiffPoint = mSelectionBottomRightPoint - event->pos();
             return;
         }
@@ -261,6 +267,12 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
         else
         {
             *mImage = mImageCopy;
+            if(mIsImageSelected)
+            {
+                mPaintInstruments->selection(true, false);
+                mIsImageSelected = false;
+            }
+            mImageCopy = *mImage;
             mIsSelectionExists = false;
         }
     }
@@ -386,10 +398,8 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             mSelectionHeight += event->pos().y() - mSelectionBottomRightPoint.y();
             mSelectionBottomRightPoint = event->pos();
             mPaintInstruments->setEndPoint(mSelectionBottomRightPoint);
-//            mPaintInstruments->setStartPoint(mSelectionRightBottomPoint -
-//                                             QPoint(mSelectionWidth, mSelectionHeight));
             *mImage = mImageCopy;
-            mPaintInstruments->selection(false, true);
+            mPaintInstruments->selection(true, true);
         }
         else
         {
@@ -522,7 +532,7 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         else if (mIsSelectionResizing)
         {
             *mImage = mImageCopy;
-            mPaintInstruments->selection(false, true);
+            mPaintInstruments->selection(true, true);
             mIsPaint = false;
             mIsSelectionResizing = false;
         }

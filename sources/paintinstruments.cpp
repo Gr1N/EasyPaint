@@ -251,7 +251,7 @@ void PaintInstruments::selection(bool isSelected, bool isDrawBorders)
 
         if(mStartPoint != mEndPoint)
         {
-            painter.drawRect(QRect(mStartPoint, mEndPoint));
+            painter.drawRect(QRect(mStartPoint - QPoint(1, 1), mEndPoint));
         }
 
         mPImageArea->setEdited(true);
@@ -263,9 +263,9 @@ void PaintInstruments::selection(bool isSelected, bool isDrawBorders)
         QPainter painter(mPImageArea->getImage());
         if(mStartPoint != mEndPoint)
         {
-            QRect source(mPImageArea->getSelectedTopLeftPoint(), mPImageArea->getSelectedBottomRightPoint());
+            QRect source(0, 0, mPImageArea->getSelectedImage().width(), mPImageArea->getSelectedImage().height());
             QRect target(mPImageArea->getSelectionTopLeftPoint(), mPImageArea->getSelectionBottomRightPoint());
-            painter.drawImage(target, *(mPImageArea->getImage()), source);
+            painter.drawImage(target, mPImageArea->getSelectedImage(), source);
         }
         mPImageArea->setEdited(true);
         painter.end();

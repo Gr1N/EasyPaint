@@ -132,22 +132,17 @@ public:
     { mSelectionBottomRightPoint = point; }
     inline void setSelectionTopLeftPoint(const QPoint &point)
     { mSelectionTopLeftPoint = point; }
-    inline void setSelectedBottomRightPoint(const QPoint &point)
-    { mSelectedBottomRightPoint = point; }
-    inline void setSelectedTopLeftPoint(const QPoint &point)
-    { mSelectedTopLeftPoint = point; }
     inline void setSelectionSize(int width, int height)
     { mSelectionWidth = width;  mSelectionHeight = height; }
+    inline void setSelectedImage(const QImage &image)
+    { mSelectedImage = image; }
     inline QPoint getSelectionBottomRightPoint()
     { return mSelectionBottomRightPoint; }
     inline QPoint getSelectionTopLeftPoint()
     { return mSelectionTopLeftPoint; }
-    inline QPoint getSelectedBottomRightPoint()
-    { return mSelectedBottomRightPoint; }
-    inline QPoint getSelectedTopLeftPoint()
-    { return mSelectedTopLeftPoint; }
     inline int getSelectionHeight() { return mSelectionHeight; }
     inline int getSelectionWidth() { return mSelectionWidth; }
+    inline QImage getSelectedImage() { return mSelectedImage; }
     
 private:
     /**
@@ -178,21 +173,21 @@ private:
     void makeFormatsFilters();
 
     QImage *mImage,  /**< Main image. */
-           mImageCopy; /**< Copy of main image, need for events. */
+           mImageCopy, /**< Copy of main image, need for events. */
+           mSelectedImage; /**< Copy of selected image. */
     PaintInstruments *mPaintInstruments;
     AdditionalTools *mAdditionalTools;
     Effects *mEffects;
     QString mFilePath; /**< Path where located image. */
     QString mOpenFilter; /**< Supported open formats filter. */
     QString mSaveFilter; /**< Supported save formats filter. */
-    bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed, mIsSelectionExists, mIsSelectionMoving,
-            mIsSelectionResizing;
+    bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed, mIsSelectionExists,
+         mIsSelectionMoving, mIsSelectionResizing, mIsImageSelected;
     QPixmap *mPixmap;
     QCursor *mCurrentCursor;
     qreal mZoomFactor;
     QUndoStack *mUndoStack;
-    QPoint mSelectionBottomRightPoint, mSelectionTopLeftPoint, mSelectionMoveDiffPoint,
-            mSelectedTopLeftPoint, mSelectedBottomRightPoint;
+    QPoint mSelectionBottomRightPoint, mSelectionTopLeftPoint, mSelectionMoveDiffPoint;
     int mSelectionHeight, mSelectionWidth;
 
 
