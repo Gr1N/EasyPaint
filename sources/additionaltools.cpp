@@ -105,16 +105,18 @@ void AdditionalTools::rotateImage(bool flag)
     mPImageArea->setEdited(true);
 }
 
-void AdditionalTools::zoomImage(qreal factor)
+bool AdditionalTools::zoomImage(qreal factor)
 {
     mZoomedFactor *= factor;
     if(mZoomedFactor < 0.25)
     {
         mZoomedFactor = 0.25;
+        return false;
     }
     else if(mZoomedFactor > 4)
     {
         mZoomedFactor = 4;
+        return false;
     }
     else
     {
@@ -122,5 +124,6 @@ void AdditionalTools::zoomImage(qreal factor)
         mPImageArea->resize((mPImageArea->rect().width())*factor, (mPImageArea->rect().height())*factor);
         emit sendNewImageSize(mPImageArea->size());
         mPImageArea->setEdited(true);
+        return true;
     }
 }
