@@ -100,13 +100,20 @@ public:
      *
      * @param isDrawBorders Flag shows is selection borders are need to be shown.
      */
-    void selection(bool isSelected, bool isDrawBorders, const QImage &image = QImage());
+    void selection(bool isSelected, bool isDrawBorders);
+    /**
+     * @brief Set selection image.
+     *
+     * @param image New selection image.
+     */
+    inline void setSelectionImage(const QImage &image) { mSelectionImage = image; }
     
 private:
     void fillRecurs(int x, int y, QColor switchColor, QColor oldColor, QImage& tempImage);
 
     ImageArea *mPImageArea; /**< A pointer to ImageArea. */
     QPoint mStartPoint, mEndPoint;
+    QImage mSelectionImage;
 
 signals:
     

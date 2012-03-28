@@ -230,7 +230,7 @@ void PaintInstruments::fill(bool isSecondColor)
     mPImageArea->update();
 }
 
-void PaintInstruments::selection(bool isSelected, bool isDrawBorders, const QImage &image)
+void PaintInstruments::selection(bool isSelected, bool isDrawBorders)
 {
     int right = mStartPoint.x() > mEndPoint.x() ? mStartPoint.x() : mEndPoint.x();
     int bottom = mStartPoint.y() > mEndPoint.y() ? mStartPoint.y() : mEndPoint.y();
@@ -265,13 +265,13 @@ void PaintInstruments::selection(bool isSelected, bool isDrawBorders, const QIma
         {
             QRect source(0, 0, mPImageArea->getSelectedImage().width(), mPImageArea->getSelectedImage().height());
             QRect target(mPImageArea->getSelectionTopLeftPoint(), mPImageArea->getSelectionBottomRightPoint());
-            if(image.isNull())
+            if(mSelectionImage.isNull())
             {
                 painter.drawImage(target, mPImageArea->getSelectedImage(), source);
             }
             else
             {
-                painter.drawImage(target, image, source);
+                painter.drawImage(target, mSelectionImage, source);
             }
         }
         mPImageArea->setEdited(true);
