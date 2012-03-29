@@ -51,10 +51,12 @@ set (RESOURCES
     ${RESOURCE_PATH}/resources.qrc)
  
 #------- languages -------
-set (TRANSLATIONS
-    sources/translations/easypaint_ru_RU.ts
-    sources/translations/easypaint_cs_CZ.ts
-    sources/translations/easypaint_fr_FR.ts)
+if(NOT NO_TRANSLATIONS)
+    set (TRANSLATIONS
+        sources/translations/easypaint_ru_RU.ts
+        sources/translations/easypaint_cs_CZ.ts
+        sources/translations/easypaint_fr_FR.ts)
+endif(NOT NO_TRANSLATIONS)
 
 project (${PROJECT})
  
