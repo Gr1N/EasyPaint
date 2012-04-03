@@ -6,6 +6,7 @@ SRC_DIR="../.."
 TYPE='-b'
 SIGN='-uc -us'
 VER=""
+OUT_DIR=""
 
 function help
 {
@@ -15,7 +16,7 @@ By default path-to-sources is ${SRC_DIR}
 
 Options:
     -h|--help			display help message
-    -o|--outdir=DIR		write result to DIR
+    -o|--outdir=DIR		write result to DIR, by default it's home dir
     -v|--version=VERSION	easypaint version
     -s				make source package, if ommited make binary package
 
@@ -47,6 +48,10 @@ while [ ! -z "$1" ]; do
     esac
 done
 
+if [ -z "$OUT_DIR" ]; then
+    OUT_DIR="${HOME}/${NAME}_${VER}_deb"
+fi
+
 #Check, if there is correct source directory
 if [ ! -f ${SRC_DIR}/CMakeLists.txt ]; then
     echo "There is no CMakeLists.txt in \"${SRC_DIR}\""
@@ -57,8 +62,6 @@ fi
 if [ -z "$VER" ]; then
     VER=`awk -F'[)( ]' '/set\s*\(EASYPAINT_VERSION / {print($3)}' ${SRC_DIR}/CMakeLists.txt`
 fi
-
-OUT_DIR="${HOME}/${NAME}_${VER}_deb"
 
 # TODO: write some messages.
 echo Build ${NAME} package...
