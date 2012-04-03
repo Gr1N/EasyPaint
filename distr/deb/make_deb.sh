@@ -10,12 +10,14 @@ VER=""
 function help
 {
     cat  << EOF
-Usage: make_deb.sh [options] <path-to-source>
+Usage: make_deb.sh [options] <path-to-sources>
+By default path-to-sources is ${SRC_DIR}
 
 Options:
     -h|--help			display help message
     -o|--outdir=DIR		write result to DIR
     -v|--version=VERSION	easypaint version
+    -s				make source package, if ommited make binary package
 
 EOF
 }
@@ -28,14 +30,19 @@ while [ ! -z "$1" ]; do
 	;;
 	-o|--outdir)
             OUT_DIR=$2
-	    shift 
+	    shift 2
 	;;
 	-v|--version)
             VER=$2
+	    shift 2
+	;;
+	-s)
+	    TYPE='-S'
 	    shift
 	;;
 	*)
-	    break;
+	    SRC_DIR=$1
+	    break
 	;;
     esac
 done
@@ -54,7 +61,12 @@ fi
 OUT_DIR="${HOME}/${NAME}_${VER}_deb"
 
 # TODO: write some messages.
+echo Build ${NAME} package...
+echo Src dir: ${SRC_DIR}
+echo Out dir: ${OUT_DIR}
+echo ........................
 
+OUT_DIR=`readlink -m ${OUT_DIR}`
 mkdir -p ${OUT_DIR} || exit 2
 DIR=${OUT_DIR}/${NAME}-${VER}
 rm -rf ${DIR}
@@ -69,3 +81,9 @@ cp -r ${SRC_DIR}/distr/deb/debian ${DIR}
 #Build package
 cd ${DIR}/.. && tar cjf ${NAME}_${VER}.orig.tar.bz2 ${NAME}-${VER}
 cd ${DIR} && dpkg-buildpackage ${TYPE}
+
+#clean OUT_DIR
+rm -rf ${DIR}
+rm ../${NAME}_${VER}.orig.tar.bz2
+
+echo Now you can find deb package at ${OUT_DIR}
