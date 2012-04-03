@@ -95,10 +95,12 @@ public:
     void fill(bool isSecondColor);
     
 private:
-    void fillRecurs(int x, int y, QColor switchColor, QColor oldColor, QImage& tempImage);
+    void fillRecurs(int x, int y, QColor &switchColor, QColor &oldColor, QImage& tempImage);
 
     ImageArea *mPImageArea; /**< A pointer to ImageArea. */
     QPoint mStartPoint, mEndPoint;
+
+    QImage tempImage; //
 
 signals:
     
