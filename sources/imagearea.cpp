@@ -27,6 +27,7 @@
 #include "paintinstruments.h"
 #include "datasingleton.h"
 #include "undocommand.h"
+#include "undoselection.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -334,6 +335,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             *mImage = mImageCopy;
             if(mIsImageSelected)
             {
+                mUndoStack->push(new UndoCommand(mImage, *this));
                 mPaintInstruments->selection(true, false);
                 mIsImageSelected = false;
             }
@@ -379,6 +381,11 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 mPaintInstruments->setSelectionImage(QImage());
                 mIsPaint = true;
                 mImageCopy = *mImage;
+                mUndoStack->push(new UndoCommand(mImage, *this));
+//                mUndoStack->push(new UndoSelection
+//                                 (mSelectionTopLeftPoint, mSelectionBottomRightPoint,
+//                                  mSelectedImage, *this));
+
                 break;
             }
         }
@@ -413,6 +420,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             mPaintInstruments->setSelectionImage(QImage());
             mIsPaint = true;
             mImageCopy = *mImage;
+            mUndoStack->push(new UndoCommand(mImage, *this));
             break;
         }
     }
@@ -591,6 +599,9 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
     {
         if(mIsSelectionMoving)
         {
+            mUndoStack->push(new UndoSelection
+                             (mSelectionTopLeftPoint, mSelectionBottomRightPoint,
+                              mSelectedImage, *this));
             *mImage = mImageCopy;
             mPaintInstruments->selection(true, true);
             mIsPaint = false;
@@ -598,6 +609,9 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         }
         else if (mIsSelectionResizing)
         {
+            mUndoStack->push(new UndoSelection
+                             (mSelectionTopLeftPoint, mSelectionBottomRightPoint,
+                              mSelectedImage, *this));
             *mImage = mImageCopy;
             mPaintInstruments->selection(true, true);
             mIsPaint = false;
@@ -908,4 +922,9 @@ void ImageArea::clearSelectionBackground()
     blankPainter.drawRect(QRect(mSelectionTopLeftPoint - QPoint(1, 1), mSelectionBottomRightPoint));
     blankPainter.end();
     mImageCopy = *mImage;
+}
+
+void ImageArea::clearImageChanges()
+{
+    *mImage = mImageCopy;
 }

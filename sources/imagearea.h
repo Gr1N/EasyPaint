@@ -136,13 +136,16 @@ public:
     { mSelectionWidth = width;  mSelectionHeight = height; }
     inline void setSelectedImage(const QImage &image)
     { mSelectedImage = image; }
-    inline QPoint getSelectionBottomRightPoint()
-    { return mSelectionBottomRightPoint; }
-    inline QPoint getSelectionTopLeftPoint()
-    { return mSelectionTopLeftPoint; }
+    inline void setIsSelectonExists(bool selection)
+    { mIsSelectionExists = selection; }
+    inline void setIsImageSelected(bool selected)
+    { mIsImageSelected = selected; }
+    inline QPoint getSelectionBottomRightPoint() { return mSelectionBottomRightPoint; }
+    inline QPoint getSelectionTopLeftPoint() { return mSelectionTopLeftPoint; }
     inline int getSelectionHeight() { return mSelectionHeight; }
     inline int getSelectionWidth() { return mSelectionWidth; }
     inline QImage getSelectedImage() { return mSelectedImage; }
+    inline PaintInstruments* getPaintInstruments() { return mPaintInstruments; }
 
     /**
      * @brief Copying image to the clipboard.
@@ -164,6 +167,11 @@ public:
      *
      */
     void clearSelectionBackground();
+    /**
+     * @brief Roll back all image changes to image copy.
+     *
+     */
+    void clearImageChanges();
     
 private:
     /**

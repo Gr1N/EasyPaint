@@ -31,6 +31,7 @@
 #include <QtGui/QPainter>
 #include <QtGui/QLabel>
 #include <math.h>
+#include <QDebug>
 
 PaintInstruments::PaintInstruments(ImageArea *pImageArea, QObject *parent) :
     QObject(parent)
@@ -268,10 +269,16 @@ void PaintInstruments::selection(bool isSelected, bool isDrawBorders)
             if(mSelectionImage.isNull())
             {
                 painter.drawImage(target, mPImageArea->getSelectedImage(), source);
+                mPImageArea->setSelectedImage(mPImageArea->getSelectedImage().
+                                              scaled(width, height));
             }
             else
             {
                 painter.drawImage(target, mSelectionImage, source);
+                mPImageArea->setSelectedImage(
+                            mSelectionImage.scaled(QSize(width, height)));
+                qDebug() << mPImageArea->getSelectedImage().width() <<
+                            mPImageArea->getSelectedImage().height();
             }
         }
         mPImageArea->setEdited(true);
