@@ -1,0 +1,14 @@
+Source: easypaint
+Section: graphics
+Priority: optional
+Maintainer: Artem Stepanyuk <faulknercs@yandex.ru>
+Build-Depends: debhelper (>= 8.0.0), cmake, gcc, make, libqt4-dev
+Standards-Version: 3.9.2
+Homepage: https://github.com/Gr1N/EasyPaint/
+Vcs-Git: git://github.com/Gr1N/EasyPaint.git
+
+Package: easypaint
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqtcore4, libqtgui4
+Description: EasyPaint is a simple graphics painting program.
+ EasyPaint is a simple graphics painting program written with Qt.

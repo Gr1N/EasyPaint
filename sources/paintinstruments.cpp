@@ -208,13 +208,9 @@ void PaintInstruments::fill(bool isSecondColor)
 {
     QColor switchColor;
     if(!isSecondColor)
-    {
         switchColor = DataSingleton::Instance()->getPrimaryColor();
-    }
     else
-    {
         switchColor = DataSingleton::Instance()->getSecondaryColor();
-    }
 
     QRgb pixel(mPImageArea->getImage()->pixel(mStartPoint));
     QColor oldColor(pixel);
@@ -230,10 +226,10 @@ void PaintInstruments::fill(bool isSecondColor)
     mPImageArea->update();
 }
 
-void PaintInstruments::fillRecurs(int x, int y, QColor switchColor, QColor oldColor, QImage &tempImage)
+void PaintInstruments::fillRecurs(int x, int y, QColor& switchColor, QColor& oldColor, QImage &tempImage)
 {
     int temp_x(x), left_x(0);
-    while(1)
+    while(true)
     {
         QRgb pixsel(tempImage.pixel(temp_x, y));
         QColor currentColor;
@@ -253,7 +249,7 @@ void PaintInstruments::fillRecurs(int x, int y, QColor switchColor, QColor oldCo
 
     int right_x(0);
     temp_x = x + 1;
-    while(1)
+    while(true)
     {
         QRgb pixsel(tempImage.pixel(temp_x, y));
         QColor currentColor;

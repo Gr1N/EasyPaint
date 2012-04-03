@@ -7,7 +7,7 @@ message(STATUS "System: " ${CMAKE_HOST_SYSTEM_NAME} " " ${CMAKE_HOST_SYSTEM_VERS
 message(STATUS "Processor: " ${CMAKE_HOST_SYSTEM_PROCESSOR})
 
 # add version define
-set(EASYPAINT_VERSION "0.0.1")
+set(EASYPAINT_VERSION 0.0.1)
 
 #------- headers --------
 set (HEADERS 
