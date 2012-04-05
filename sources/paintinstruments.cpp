@@ -31,8 +31,7 @@
 #include <QtGui/QPainter>
 #include <QtGui/QLabel>
 #include <math.h>
-#include <QDebug>
-#include<QTime>
+
 PaintInstruments::PaintInstruments(ImageArea *pImageArea, QObject *parent) :
     QObject(parent)
 {
@@ -207,7 +206,6 @@ void PaintInstruments::spray(bool isSecondColor)
 
 void PaintInstruments::fill(bool isSecondColor)
 {
-    QTime a=QTime::currentTime();
     QColor switchColor;
     if(!isSecondColor)
         switchColor = DataSingleton::Instance()->getPrimaryColor();
@@ -223,7 +221,6 @@ void PaintInstruments::fill(bool isSecondColor)
                        switchColor.rgb(), oldColor.rgb(),
                        *mPImageArea->getImage());
     }
-qDebug()<< a.msecsTo(QTime::currentTime());
     mPImageArea->setEdited(true);
     mPImageArea->update();
 }

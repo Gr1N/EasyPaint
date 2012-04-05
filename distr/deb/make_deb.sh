@@ -19,6 +19,7 @@ Options:
     -o|--outdir=DIR		write result to DIR, by default it's home dir
     -v|--version=VERSION	easypaint version
     -s				make source package, if ommited make binary package
+    -S|--sign			sign package
 
 EOF
 }
@@ -39,6 +40,10 @@ while [ ! -z "$1" ]; do
 	;;
 	-s)
 	    TYPE='-S'
+	    shift
+	;;
+	-S|--sign)
+            SIGN=''
 	    shift
 	;;
 	*)
