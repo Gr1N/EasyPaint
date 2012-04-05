@@ -88,7 +88,7 @@ cp -r ${SRC_DIR}/distr/deb/debian ${DIR}
 
 #Build package
 cd ${DIR}/.. && tar cjf ${NAME}_${VER}.orig.tar.bz2 ${NAME}-${VER}
-cd ${DIR} && dpkg-buildpackage ${TYPE}
+cd ${DIR} && dpkg-buildpackage ${TYPE} ${SIGN}
 
 #clean OUT_DIR
 rm -rf ${DIR}
