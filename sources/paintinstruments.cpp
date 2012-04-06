@@ -218,29 +218,24 @@ void PaintInstruments::fill(bool isSecondColor)
     if(switchColor != oldColor)
     {
         fillRecurs(mStartPoint.x(), mStartPoint.y(),
-                       switchColor, oldColor,
+                       switchColor.rgb(), oldColor.rgb(),
                        *mPImageArea->getImage());
     }
-
     mPImageArea->setEdited(true);
     mPImageArea->update();
 }
 
-void PaintInstruments::fillRecurs(int x, int y, QColor& switchColor, QColor& oldColor, QImage &tempImage)
+void PaintInstruments::fillRecurs(int x/*, int x2*/, int y, QRgb switchColor, QRgb oldColor, QImage &tempImage)
 {
     int temp_x(x), left_x(0);
     while(true)
     {
-        QRgb pixsel(tempImage.pixel(temp_x, y));
-        QColor currentColor;
-        currentColor.setRgb(pixsel);
-        if(currentColor != oldColor)
+        if(tempImage.pixel(temp_x, y) != oldColor)
             break;
-        pixsel = switchColor.rgb();
-        tempImage.setPixel(temp_x, y, pixsel);
+        tempImage.setPixel(temp_x, y, switchColor);
         if(temp_x > 0)
         {
-            temp_x--;
+            --temp_x;
             left_x = temp_x;
         }
         else
@@ -251,13 +246,9 @@ void PaintInstruments::fillRecurs(int x, int y, QColor& switchColor, QColor& old
     temp_x = x + 1;
     while(true)
     {
-        QRgb pixsel(tempImage.pixel(temp_x, y));
-        QColor currentColor;
-        currentColor.setRgb(pixsel);
-        if(currentColor != oldColor)
+        if(tempImage.pixel(temp_x, y) != oldColor)
             break;
-        pixsel = switchColor.rgb();
-        tempImage.setPixel(temp_x, y, pixsel);
+        tempImage.setPixel(temp_x, y, switchColor);
         if(temp_x < tempImage.width() - 1)
         {
             temp_x++;
@@ -267,27 +258,16 @@ void PaintInstruments::fillRecurs(int x, int y, QColor& switchColor, QColor& old
             break;
     }
 
-    for(int x_(left_x+1); x_ < right_x; x_++)
+    for(int x_(left_x+1); x_ < right_x; ++x_)
     {
-        if(y < 1)
+        if(y < 1 || y >= tempImage.height() - 1)
             break;
         if(right_x > tempImage.width())
             break;
-        QRgb pixsel(tempImage.pixel(x_, y-1));
-        QColor currentColor;
-        currentColor.setRgb(pixsel);
+        QRgb currentColor = tempImage.pixel(x_, y-1);
         if(currentColor == oldColor && currentColor != switchColor)
             fillRecurs(x_, y-1, switchColor, oldColor, tempImage);
-    }
-    for(int x_(left_x+1); x_ < right_x; x_++)
-    {
-        if(y >= tempImage.height() - 1)
-            break;
-        if(right_x > tempImage.width())
-            break;
-        QRgb pixsel(tempImage.pixel(x_, y+1));
-        QColor currentColor;
-        currentColor.setRgb(pixsel);
+        currentColor = tempImage.pixel(x_, y+1);
         if(currentColor == oldColor && currentColor != switchColor)
             fillRecurs(x_, y+1, switchColor, oldColor, tempImage);
     }
