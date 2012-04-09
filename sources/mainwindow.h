@@ -145,6 +145,8 @@ private slots:
     void rectangleAct(const bool &state);
     void ellipseAct(const bool &state);
     void enableActions(int index);
+    void enableCopyCutActions(bool enable);
+    void clearImageSelection();
 
 signals:
     void sendInstrumentChecked(InstrumentsEnum);

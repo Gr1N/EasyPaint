@@ -172,6 +172,16 @@ public:
      *
      */
     void clearImageChanges();
+    /**
+     * @brief Save all image changes to image copy.
+     *
+     */
+    void saveImageChanges();
+    /**
+     * @brief Removes selection borders from image and clears all selection varaibles to default.
+     *
+     */
+    void clearSelection();
     
 private:
     /**
@@ -240,6 +250,11 @@ signals:
      *
      */
     void sendRestorePreviousInstrument();
+    /**
+     * @brief Send signal to enable copy cut actions in menu.
+     *
+     */
+    void sendEnableCopyCutActions(bool enable);
     
 private slots:
     void autoSave();

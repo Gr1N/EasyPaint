@@ -27,7 +27,6 @@
 #include "paintinstruments.h"
 #include "datasingleton.h"
 #include "undocommand.h"
-#include "undoselection.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -138,8 +137,7 @@ void ImageArea::save()
 {
     if (mIsSelectionExists && mIsImageSelected)
     {
-        mPaintInstruments->selection(true, false);
-        mIsSelectionExists = mIsImageSelected = false;
+        clearSelection();
     }
     if(mFilePath.isEmpty())
     {
@@ -275,6 +273,7 @@ void ImageArea::pasteImage()
         mPaintInstruments->selection(true, true);
         mIsImageSelected = mIsSelectionExists = true;
         setSelectedImage(mPasteImage);
+        emit sendEnableCopyCutActions(true);
     }
 }
 
@@ -296,6 +295,7 @@ void ImageArea::cutImage()
         mImageCopy = *mImage;
         update();
         mIsSelectionExists = false;
+        emit sendEnableCopyCutActions(false);
     }
 }
 
@@ -311,6 +311,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             mIsSelectionMoving = true;
             if(!mIsImageSelected)
             {
+                mUndoStack->push(new UndoCommand(mImage, *this));
                 mSelectedImage = getImage()->copy(mSelectionTopLeftPoint.x(),
                                                   mSelectionTopLeftPoint.y(),
                                                   mSelectionWidth, mSelectionHeight);
@@ -335,12 +336,12 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
             *mImage = mImageCopy;
             if(mIsImageSelected)
             {
-                mUndoStack->push(new UndoCommand(mImage, *this));
                 mPaintInstruments->selection(true, false);
                 mIsImageSelected = false;
             }
             mImageCopy = *mImage;
             mIsSelectionExists = false;
+            emit sendEnableCopyCutActions(false);
         }
     }
     if(event->button() == Qt::LeftButton)
@@ -381,11 +382,6 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
                 mPaintInstruments->setSelectionImage(QImage());
                 mIsPaint = true;
                 mImageCopy = *mImage;
-                mUndoStack->push(new UndoCommand(mImage, *this));
-//                mUndoStack->push(new UndoSelection
-//                                 (mSelectionTopLeftPoint, mSelectionBottomRightPoint,
-//                                  mSelectedImage, *this));
-
                 break;
             }
         }
@@ -599,9 +595,6 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
     {
         if(mIsSelectionMoving)
         {
-            mUndoStack->push(new UndoSelection
-                             (mSelectionTopLeftPoint, mSelectionBottomRightPoint,
-                              mSelectedImage, *this));
             *mImage = mImageCopy;
             mPaintInstruments->selection(true, true);
             mIsPaint = false;
@@ -609,9 +602,6 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
         }
         else if (mIsSelectionResizing)
         {
-            mUndoStack->push(new UndoSelection
-                             (mSelectionTopLeftPoint, mSelectionBottomRightPoint,
-                              mSelectedImage, *this));
             *mImage = mImageCopy;
             mPaintInstruments->selection(true, true);
             mIsPaint = false;
@@ -659,7 +649,11 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             *mImage = mImageCopy;
             mPaintInstruments->selection(false, true);
             mIsPaint = false;
-            mIsSelectionExists = true;
+            if (mSelectionTopLeftPoint != mSelectionBottomRightPoint)
+            {
+                mIsSelectionExists = true;
+                emit sendEnableCopyCutActions(true);
+            }
             break;
         case ELLIPSE:
             *mImage = mImageCopy;
@@ -715,6 +709,11 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
             *mImage = mImageCopy;
             mPaintInstruments->selection(false, true);
             mIsPaint = false;
+            if (mSelectionTopLeftPoint != mSelectionBottomRightPoint)
+            {
+                mIsSelectionExists = true;
+                emit sendEnableCopyCutActions(true);
+            }
             break;
         case ELLIPSE:
             *mImage = mImageCopy;
@@ -927,4 +926,25 @@ void ImageArea::clearSelectionBackground()
 void ImageArea::clearImageChanges()
 {
     *mImage = mImageCopy;
+}
+
+void ImageArea::saveImageChanges()
+{
+    mImageCopy = *mImage;
+}
+
+void ImageArea::clearSelection()
+{
+    if (mIsSelectionExists)
+    {
+        clearImageChanges();
+        mPaintInstruments->selection(mIsImageSelected, false);
+        saveImageChanges();
+//        mPaintInstruments->setStartPoint(QPoint(0, 0));
+//        mPaintInstruments->setEndPoint(QPoint(0, 0));
+        mIsSelectionExists = mIsSelectionMoving
+                = mIsSelectionResizing = mIsImageSelected = false;
+        update();
+        emit sendEnableCopyCutActions(false);
+    }
 }

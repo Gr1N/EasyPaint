@@ -36,10 +36,12 @@ void UndoCommand::undo()
     mCurrImage = *(mImageArea.getImage());
     mImageArea.setImage(mPrevImage);
     mImageArea.update();
+    mImageArea.saveImageChanges();
 }
 
 void UndoCommand::redo()
 {
     mImageArea.setImage(mCurrImage);
     mImageArea.update();
+    mImageArea.saveImageChanges();
 }

@@ -122,6 +122,7 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
         connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
         connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
         connect(imageArea, SIGNAL(sendColor(QColor)), this, SLOT(setCurrentPipetteColor(QColor)));
+        connect(imageArea, SIGNAL(sendEnableCopyCutActions(bool)), this, SLOT(enableCopyCutActions(bool)));
 
         setWindowTitle(QString("%1 - EasyPaint").arg(fileName));
     }
@@ -200,6 +201,7 @@ void MainWindow::initializeMainMenu()
     mCopyAction = new QAction(tr("&Copy"), this);
     mCopyAction->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/media/actions-icons/edit-copy.png")));
     mCopyAction->setIconVisibleInMenu(true);
+    mCopyAction->setEnabled(false);
     connect(mCopyAction, SIGNAL(triggered()), this, SLOT(copyAct()));
     editMenu->addAction(mCopyAction);
 
@@ -212,6 +214,7 @@ void MainWindow::initializeMainMenu()
     mCutAction = new QAction(tr("C&ut"), this);
     mCutAction->setIcon(QIcon::fromTheme("edit-cut", QIcon(":/media/actions-icons/edit-cut.png")));
     mCutAction->setIconVisibleInMenu(true);
+    mCutAction->setEnabled(false);
     connect(mCutAction, SIGNAL(triggered()), this, SLOT(cutAct()));
     editMenu->addAction(mCutAction);
 
@@ -372,6 +375,7 @@ void MainWindow::initializeToolBar()
     connect(mToolbar, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), this, SLOT(setInstrumentChecked(InstrumentsEnum)));
     connect(mToolbar, SIGNAL(sendClearStatusBarColor()), this, SLOT(clearStatusBarColor()));
     connect(this, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), mToolbar, SLOT(setInstrumentChecked(InstrumentsEnum)));
+    connect(mToolbar, SIGNAL(sendClearImageSelection()), this, SLOT(clearImageSelection()));
 }
 
 void MainWindow::initializePaletteBar()
@@ -665,7 +669,13 @@ bool MainWindow::closeAllTabs()
 void MainWindow::setAllInstrumentsUnchecked(QAction *action)
 {
     if(action != mCursorAction)
+    {
         mCursorAction->setChecked(false);
+        if (DataSingleton::Instance()->getPreviousInstrument() == CURSOR)
+        {
+            clearImageSelection();
+        }
+    }
     if(action != mEraserAction)
         mEraserAction->setChecked(false);
     if(action != mColorPickerAction)
@@ -732,8 +742,9 @@ void MainWindow::cursorAct(const bool &state)
     {
         setAllInstrumentsUnchecked(mCursorAction);
         mCursorAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
+        DataSingleton::Instance()->setInstrument(CURSOR);
+        emit sendInstrumentChecked(CURSOR);
+        DataSingleton::Instance()->setPreviousInstrument(CURSOR);
     }
     else
     {
@@ -920,6 +931,18 @@ void MainWindow::enableActions(int index)
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
+}
+
+void MainWindow::enableCopyCutActions(bool enable)
+{
+    mCopyAction->setEnabled(enable);
+    mCutAction->setEnabled(enable);
+}
+
+void MainWindow::clearImageSelection()
+{
+    getCurrentImageArea()->clearSelection();
+    DataSingleton::Instance()->setPreviousInstrument(NONE);
 }
 
 void MainWindow::helpAct()

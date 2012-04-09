@@ -277,8 +277,6 @@ void PaintInstruments::selection(bool isSelected, bool isDrawBorders)
                 painter.drawImage(target, mSelectionImage, source);
                 mPImageArea->setSelectedImage(
                             mSelectionImage.scaled(QSize(width, height)));
-                qDebug() << mPImageArea->getSelectedImage().width() <<
-                            mPImageArea->getSelectedImage().height();
             }
         }
         mPImageArea->setEdited(true);

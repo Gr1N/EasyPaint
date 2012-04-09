@@ -28,8 +28,7 @@ SOURCES += main.cpp\
     settingsdialog.cpp \
     palettebar.cpp \
     undocommand.cpp \
-    palettebutton.cpp \
-    undoselection.cpp
+    palettebutton.cpp
 
 HEADERS  += mainwindow.h \
     toolbar.h \
@@ -44,8 +43,7 @@ HEADERS  += mainwindow.h \
     settingsdialog.h \
     palettebar.h \
     undocommand.h \
-    palettebutton.h \
-    undoselection.h
+    palettebutton.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \
@@ -79,5 +77,7 @@ isEmpty(TS_DIR) {
 ;QMAKE_EXTRA_COMPILERS += TSQM
 ;PRE_TARGETDEPS += compiler_TSQM_make_all
 INSTALLS += target translations desktop icon
+
+
 
 
