@@ -62,7 +62,7 @@ public:
      * @param isSecondColor Flag which shows what color use: first or second.
      * @param isLastic Flag which show that instrument is lastic.
      */
-    void line(bool isSecondColor, bool isEraser = false);
+    void line(bool isSecondColor, bool isLastic = false);
     /**
      * @brief Pipette instrument.
      *
@@ -93,12 +93,27 @@ public:
      * @param isSecondColor Flag which shows what color use: first or second.
      */
     void fill(bool isSecondColor);
+    /**
+     * @brief Draw selection border.
+     *
+     * @param isSelected Flag shows is background image attached to selection area.
+     *
+     * @param isDrawBorders Flag shows is selection borders are need to be shown.
+     */
+    void selection(bool isSelected, bool isDrawBorders);
+    /**
+     * @brief Set selection image.
+     *
+     * @param image New selection image.
+     */
+    inline void setSelectionImage(const QImage &image) { mSelectionImage = image; }
     
 private:
     void fillRecurs(int x, int y, QRgb switchColor, QRgb oldColor, QImage &tempImage);
 
     ImageArea *mPImageArea; /**< A pointer to ImageArea. */
     QPoint mStartPoint, mEndPoint;
+    QImage mSelectionImage;
 
 signals:
     

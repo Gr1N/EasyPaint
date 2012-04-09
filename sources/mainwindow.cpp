@@ -122,6 +122,7 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
         connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
         connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
         connect(imageArea, SIGNAL(sendColor(QColor)), this, SLOT(setCurrentPipetteColor(QColor)));
+        connect(imageArea, SIGNAL(sendEnableCopyCutActions(bool)), this, SLOT(enableCopyCutActions(bool)));
 
         setWindowTitle(QString("%1 - EasyPaint").arg(fileName));
     }
@@ -201,21 +202,20 @@ void MainWindow::initializeMainMenu()
     mCopyAction->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/media/actions-icons/edit-copy.png")));
     mCopyAction->setIconVisibleInMenu(true);
     mCopyAction->setEnabled(false);
-//    connect();
+    connect(mCopyAction, SIGNAL(triggered()), this, SLOT(copyAct()));
     editMenu->addAction(mCopyAction);
 
     mPasteAction = new QAction(tr("&Paste"), this);
     mPasteAction->setIcon(QIcon::fromTheme("edit-paste", QIcon(":/media/actions-icons/edit-paste.png")));
     mPasteAction->setIconVisibleInMenu(true);
-    mPasteAction->setEnabled(false);
-//    connect();
+    connect(mPasteAction, SIGNAL(triggered()), this, SLOT(pasteAct()));
     editMenu->addAction(mPasteAction);
 
     mCutAction = new QAction(tr("C&ut"), this);
     mCutAction->setIcon(QIcon::fromTheme("edit-cut", QIcon(":/media/actions-icons/edit-cut.png")));
     mCutAction->setIconVisibleInMenu(true);
     mCutAction->setEnabled(false);
-//    connect();
+    connect(mCutAction, SIGNAL(triggered()), this, SLOT(cutAct()));
     editMenu->addAction(mCutAction);
 
     editMenu->addSeparator();
@@ -375,6 +375,7 @@ void MainWindow::initializeToolBar()
     connect(mToolbar, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), this, SLOT(setInstrumentChecked(InstrumentsEnum)));
     connect(mToolbar, SIGNAL(sendClearStatusBarColor()), this, SLOT(clearStatusBarColor()));
     connect(this, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), mToolbar, SLOT(setInstrumentChecked(InstrumentsEnum)));
+    connect(mToolbar, SIGNAL(sendClearImageSelection()), this, SLOT(clearImageSelection()));
 }
 
 void MainWindow::initializePaletteBar()
@@ -481,6 +482,21 @@ void MainWindow::settingsAct()
         DataSingleton::Instance()->writeSettings();
         updateShortcuts();
     }
+}
+
+void MainWindow::copyAct()
+{
+    getCurrentImageArea()->copyImage();
+}
+
+void MainWindow::pasteAct()
+{
+    getCurrentImageArea()->pasteImage();
+}
+
+void MainWindow::cutAct()
+{
+    getCurrentImageArea()->cutImage();
 }
 
 void MainWindow::updateShortcuts()
@@ -653,7 +669,13 @@ bool MainWindow::closeAllTabs()
 void MainWindow::setAllInstrumentsUnchecked(QAction *action)
 {
     if(action != mCursorAction)
+    {
         mCursorAction->setChecked(false);
+        if (DataSingleton::Instance()->getPreviousInstrument() == CURSOR)
+        {
+            clearImageSelection();
+        }
+    }
     if(action != mEraserAction)
         mEraserAction->setChecked(false);
     if(action != mColorPickerAction)
@@ -680,6 +702,8 @@ void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
     switch(instrument)
     {
     case NONE:
+        break;
+    case CURSOR:
         mCursorAction->setChecked(true);
         break;
     case ERASER:
@@ -718,8 +742,9 @@ void MainWindow::cursorAct(const bool &state)
     {
         setAllInstrumentsUnchecked(mCursorAction);
         mCursorAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
+        DataSingleton::Instance()->setInstrument(CURSOR);
+        emit sendInstrumentChecked(CURSOR);
+        DataSingleton::Instance()->setPreviousInstrument(CURSOR);
     }
     else
     {
@@ -906,6 +931,18 @@ void MainWindow::enableActions(int index)
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
     }
+}
+
+void MainWindow::enableCopyCutActions(bool enable)
+{
+    mCopyAction->setEnabled(enable);
+    mCutAction->setEnabled(enable);
+}
+
+void MainWindow::clearImageSelection()
+{
+    getCurrentImageArea()->clearSelection();
+    DataSingleton::Instance()->setPreviousInstrument(NONE);
 }
 
 void MainWindow::helpAct()

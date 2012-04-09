@@ -159,7 +159,13 @@ void ToolBar::setSecondaryColorView()
 void ToolBar::setAllButtonsUnchecked(QToolButton *button)
 {
     if(button != mCursorButton)
+    {
         mCursorButton->setChecked(false);
+        if (DataSingleton::Instance()->getPreviousInstrument() == CURSOR)
+        {
+            emit sendClearImageSelection();
+        }
+    }
     if(button != mEraserButton)
         mEraserButton->setChecked(false);
     if(button != mPenButton)
@@ -189,6 +195,8 @@ void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
     switch(instrument)
     {
     case NONE:
+        break;
+    case CURSOR:
         mCursorButton->setChecked(true);
         break;
     case ERASER:
@@ -227,8 +235,9 @@ void ToolBar::setCursor(const bool &state)
     {
         setAllButtonsUnchecked(mCursorButton);
         mCursorButton->setChecked(true);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
+        DataSingleton::Instance()->setInstrument(CURSOR);
+        emit sendInstrumentChecked(CURSOR);
+        DataSingleton::Instance()->setPreviousInstrument(CURSOR);
     }
     else
     {

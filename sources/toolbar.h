@@ -71,6 +71,7 @@ private:
 signals:
     void sendInstrumentChecked(InstrumentsEnum);
     void sendClearStatusBarColor();
+    void sendClearImageSelection();
 
 public slots:
     void setPrimaryColorView();

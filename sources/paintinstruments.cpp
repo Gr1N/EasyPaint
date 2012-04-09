@@ -31,6 +31,7 @@
 #include <QtGui/QPainter>
 #include <QtGui/QLabel>
 #include <math.h>
+#include <QDebug>
 
 PaintInstruments::PaintInstruments(ImageArea *pImageArea, QObject *parent) :
     QObject(parent)
@@ -225,7 +226,61 @@ void PaintInstruments::fill(bool isSecondColor)
     mPImageArea->update();
 }
 
-void PaintInstruments::fillRecurs(int x/*, int x2*/, int y, QRgb switchColor, QRgb oldColor, QImage &tempImage)
+void PaintInstruments::selection(bool isSelected, bool isDrawBorders)
+{
+    int right = mStartPoint.x() > mEndPoint.x() ? mStartPoint.x() : mEndPoint.x();
+    int bottom = mStartPoint.y() > mEndPoint.y() ? mStartPoint.y() : mEndPoint.y();
+    int left = mStartPoint.x() < mEndPoint.x() ? mStartPoint.x() : mEndPoint.x();
+    int top = mStartPoint.y() < mEndPoint.y() ? mStartPoint.y() : mEndPoint.y();
+    int height = fabs(mStartPoint.y() - mEndPoint.y());
+    int width = fabs(mStartPoint.x() - mEndPoint.x());
+    mPImageArea->setSelectionBottomRightPoint(QPoint(right, bottom));
+    mPImageArea->setSelectionSize(width, height);
+    mPImageArea->setSelectionTopLeftPoint(QPoint(left, top));
+
+    if (isDrawBorders)
+    {
+        QPainter painter(mPImageArea->getImage());
+        painter.setPen(QPen(Qt::blue, 1 * mPImageArea->getZoomFactor(),
+                            Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
+        painter.setBackgroundMode(Qt::TransparentMode);
+
+        if(mStartPoint != mEndPoint)
+        {
+            painter.drawRect(QRect(mStartPoint - QPoint(1, 1), mEndPoint));
+        }
+
+        mPImageArea->setEdited(true);
+        painter.end();
+        mPImageArea->update();
+    }
+    if (isSelected)
+    {
+        QPainter painter(mPImageArea->getImage());
+        if(mStartPoint != mEndPoint)
+        {
+            QRect source(0, 0, mPImageArea->getSelectedImage().width(), mPImageArea->getSelectedImage().height());
+            QRect target(mPImageArea->getSelectionTopLeftPoint(), mPImageArea->getSelectionBottomRightPoint());
+            if(mSelectionImage.isNull())
+            {
+                painter.drawImage(target, mPImageArea->getSelectedImage(), source);
+                mPImageArea->setSelectedImage(mPImageArea->getSelectedImage().
+                                              scaled(width, height));
+            }
+            else
+            {
+                painter.drawImage(target, mSelectionImage, source);
+                mPImageArea->setSelectedImage(
+                            mSelectionImage.scaled(QSize(width, height)));
+            }
+        }
+        mPImageArea->setEdited(true);
+        painter.end();
+        mPImageArea->update();
+    }
+}
+
+void PaintInstruments::fillRecurs(int x, int y, QRgb switchColor, QRgb oldColor, QImage &tempImage)
 {
     int temp_x(x), left_x(0);
     while(true)

@@ -118,6 +118,9 @@ private slots:
     void saveAct();
     void saveAsAct();
     void printAct();
+    void copyAct();
+    void pasteAct();
+    void cutAct();
     void settingsAct();
     void effectGrayAct();
     void effectNegativeAct();
@@ -142,6 +145,8 @@ private slots:
     void rectangleAct(const bool &state);
     void ellipseAct(const bool &state);
     void enableActions(int index);
+    void enableCopyCutActions(bool enable);
+    void clearImageSelection();
 
 signals:
     void sendInstrumentChecked(InstrumentsEnum);

@@ -32,6 +32,8 @@
 #include <QtGui/QLabel>
 #include <QtGui/QTransform>
 #include <QSize>
+#include <QClipboard>
+#include <QApplication>
 
 AdditionalTools::AdditionalTools(ImageArea *pImageArea, QObject *parent) :
     QObject(parent)
