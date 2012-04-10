@@ -42,6 +42,7 @@
 #include <QtGui/QPainter>
 #include <QtGui/QInputDialog>
 #include <QtGui/QUndoGroup>
+#include <QTimer>
 
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)
@@ -375,7 +376,7 @@ void MainWindow::initializeToolBar()
     connect(mToolbar, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), this, SLOT(setInstrumentChecked(InstrumentsEnum)));
     connect(mToolbar, SIGNAL(sendClearStatusBarColor()), this, SLOT(clearStatusBarColor()));
     connect(this, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), mToolbar, SLOT(setInstrumentChecked(InstrumentsEnum)));
-    connect(mToolbar, SIGNAL(sendClearImageSelection()), this, SLOT(clearImageSelection()));
+    connect(mToolbar, SIGNAL(sendClearImageSelection()), this, SLOT(clearImageSelectionSingleShot()));
 }
 
 void MainWindow::initializePaletteBar()
@@ -673,7 +674,7 @@ void MainWindow::setAllInstrumentsUnchecked(QAction *action)
         mCursorAction->setChecked(false);
         if (DataSingleton::Instance()->getPreviousInstrument() == CURSOR)
         {
-            clearImageSelection();
+            clearImageSelectionSingleShot();
         }
     }
     if(action != mEraserAction)
@@ -937,6 +938,11 @@ void MainWindow::enableCopyCutActions(bool enable)
 {
     mCopyAction->setEnabled(enable);
     mCutAction->setEnabled(enable);
+}
+
+void MainWindow::clearImageSelectionSingleShot()
+{
+    QTimer::singleShot(50, this, SLOT(clearImageSelection()));
 }
 
 void MainWindow::clearImageSelection()
