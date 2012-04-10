@@ -1,7 +1,7 @@
 # norootforbuild
 
 Name:		easypaint
-Version:	0.0.1
+Version:	0.1.0
 Release:	0
 License:	MIT
 Vendor:		Nikita Grishko <grin.minsk@gmail.com>
@@ -47,5 +47,7 @@ popd
 %{_datadir}/pixmaps/%{name}_64.png
 
 %changelog
+* Thu Apr 10 2012 Gr1N <grin.minsk@gmail.com>
+- 0.1.0, first release
 * Fri Apr 15 2011 TI_Eugene <ti.eugene@gmail.com>
 - 0.0.1, initial OBS release
