@@ -182,7 +182,7 @@ int SettingsDialog::getLanguageIndex()
     return languages.indexOf(DataSingleton::Instance()->getAppLanguage());
 }
 
-void SettingsDialog::sendSettingToSingleton()
+void SettingsDialog::sendSettingsToSingleton()
 {
     DataSingleton::Instance()->setBaseSize(QSize(mWidth->value(), mHeight->value()));
     DataSingleton::Instance()->setHistoryDepth(mHistoryDepth->value());

@@ -54,7 +54,7 @@ public:
      * @brief Get all settings from form and send it to data singleton.
      *
      */
-    void sendSettingToSingleton();
+    void sendSettingsToSingleton();
 
 private:
     void initializeGui();

@@ -479,7 +479,7 @@ void MainWindow::settingsAct()
     SettingsDialog settingsDialog;
     if(settingsDialog.exec() == QDialog::Accepted)
     {
-        settingsDialog.sendSettingToSingleton();
+        settingsDialog.sendSettingsToSingleton();
         DataSingleton::Instance()->writeSettings();
         updateShortcuts();
     }
