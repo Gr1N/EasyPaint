@@ -146,6 +146,7 @@ private slots:
     void ellipseAct(const bool &state);
     void enableActions(int index);
     void enableCopyCutActions(bool enable);
+    void clearImageSelectionSingleShot();
     void clearImageSelection();
 
 signals:
