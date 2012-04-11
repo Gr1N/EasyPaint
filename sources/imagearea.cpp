@@ -763,8 +763,12 @@ void ImageArea::restoreCursor()
         mCurrentCursor = new QCursor(*mPixmap);
         setCursor(*mCurrentCursor);
         break;
-    case NONE: case CURSOR:
+    case NONE:
         mCurrentCursor = new QCursor(Qt::ArrowCursor);
+        setCursor(*mCurrentCursor);
+        break;
+    case CURSOR:
+        mCurrentCursor = new QCursor(Qt::CrossCursor);
         setCursor(*mCurrentCursor);
         break;
     case ERASER: case PEN:
