@@ -964,6 +964,6 @@ void MainWindow::helpAct()
                                "<li><a href=\"mailto:bahdan.siamionau@gmail.com\">Bahdan Siamionau</a> (Bahdan)</li>"
                                "</ul>"
                                "<br> %5")
-                       .arg(tr("version")).arg("0.0.1").arg(tr("Site")).arg(tr("Authors"))
+                       .arg(tr("version")).arg("0.1.0").arg(tr("Site")).arg(tr("Authors"))
                        .arg(tr("If you like <b>EasyPaint</b> and you want to share your opinion, or send a bug report, or want to suggest new features, we are waiting for you on our <a href=\"https://github.com/Gr1N/EasyPaint/issues?milestone=&sort=created&direction=desc&state=open\">tracker</a>.")));
 }

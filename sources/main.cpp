@@ -43,7 +43,7 @@ void printHelpMessage()
 
 void printVersion()
 {
-    qDebug()<<"0.0.1";
+    qDebug()<<"0.1.0";
 }
 
 int main(int argc, char *argv[])
