@@ -40,7 +40,7 @@ public:
     explicit ShortcutEdit(QWidget *parent = 0);
     
 protected:
-    void keyPressEvent(QKeyEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event);
 
 };
 

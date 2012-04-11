@@ -38,6 +38,8 @@ class QTreeWidgetItem;
 class QPushButton;
 QT_END_NAMESPACE
 
+class ShortcutEdit;
+
 /**
  * @brief Dialog for changing application settings.
  *
@@ -70,7 +72,7 @@ private:
     QComboBox *mLanguageBox;
     QSpinBox *mWidth, *mHeight, *mHistoryDepth, *mAutoSaveInterval;
     QCheckBox *mIsAutoSave;
-    QLineEdit *mShortcutEdit;
+    ShortcutEdit *mShortcutEdit;
     QTreeWidget *mShortcutsTree;
     QPushButton *mResetButton;
     

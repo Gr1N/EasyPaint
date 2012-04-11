@@ -25,6 +25,7 @@
 
 #include "settingsdialog.h"
 #include "datasingleton.h"
+#include "shortcutedit.h"
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>
@@ -155,7 +156,7 @@ void SettingsDialog::initializeGui()
     groupBox4->setLayout(hBox5);
 
     QLabel *label7 = new QLabel(tr("Key sequence:"));
-    mShortcutEdit = new QLineEdit();
+    mShortcutEdit = new ShortcutEdit();
     mShortcutEdit->setEnabled(false);
     connect(mShortcutEdit, SIGNAL(textChanged(QString)), this, SLOT(textChanged(QString)));
     mResetButton = new QPushButton(tr("Reset"));
@@ -253,6 +254,7 @@ void SettingsDialog::itemSelectionChanged()
         mResetButton->setEnabled(true);
         mShortcutEdit->setText(mShortcutsTree->selectedItems().at(0)->text(1));
     }
+    mShortcutEdit->setFocus();
 }
 
 void SettingsDialog::textChanged(const QString &text)

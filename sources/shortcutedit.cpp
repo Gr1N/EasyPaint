@@ -30,10 +30,13 @@
 ShortcutEdit::ShortcutEdit(QWidget *parent) :
     QLineEdit(parent)
 {
+    setReadOnly(true);
 }
 
 void ShortcutEdit::keyPressEvent(QKeyEvent *event)
 {
-    qDebug() << event->text();
+    if(event->isAutoRepeat())
+        return;
+    qDebug() << event->text() << event->key();
     setText(event->text());
 }
