@@ -203,46 +203,46 @@ void SettingsDialog::sendSettingsToSingleton()
             if(item->text(0) == "File")
             {
                 DataSingleton::Instance()->setFileShortcutByKey(item->child(y)->text(0),
-                                                                item->child(y)->text(1));
+                                                                item->child(y)->data(1, Qt::DisplayRole).value<QKeySequence>());
             }
             else if(item->text(0) == "Edit")
             {
                 DataSingleton::Instance()->setEditShortcutByKey(item->child(y)->text(0),
-                                                                item->child(y)->text(1));
+                                                                item->child(y)->data(1, Qt::DisplayRole).value<QKeySequence>());
             }
             else if(item->text(0) == "Instruments")
             {
                 DataSingleton::Instance()->setInstrumentShortcutByKey(item->child(y)->text(0),
-                                                                      item->child(y)->text(1));
+                                                                item->child(y)->data(1, Qt::DisplayRole).value<QKeySequence>());
             }
             else if(item->text(0) == "Tools")
             {
                 DataSingleton::Instance()->setToolShortcutByKey(item->child(y)->text(0),
-                                                                item->child(y)->text(1));
+                                                                item->child(y)->data(1, Qt::DisplayRole).value<QKeySequence>());
             }
         }
     }
 }
 
-void SettingsDialog::createItemsGroup(const QString &name, const QMap<QString, QString> &shortcuts)
+void SettingsDialog::createItemsGroup(const QString &name, const QMap<QString, QKeySequence> &shortcuts)
 {
     QTreeWidgetItem *topLevel = new QTreeWidgetItem(mShortcutsTree);
     mShortcutsTree->addTopLevelItem(topLevel);
     topLevel->setText(0, name);
     topLevel->setExpanded(true);
-    QMapIterator<QString, QString> iterator(shortcuts);
+    QMapIterator<QString, QKeySequence> iterator(shortcuts);
     while(iterator.hasNext())
     {
         iterator.next();
         QTreeWidgetItem *subLevel = new QTreeWidgetItem(topLevel);
         subLevel->setText(0, iterator.key());
-        subLevel->setText(1, iterator.value());
+        subLevel->setData(1, Qt::DisplayRole, iterator.value());
     }
 }
 
 void SettingsDialog::itemSelectionChanged()
 {
-    if(mShortcutsTree->selectedItems().at(0)->text(1).isEmpty())
+    if(mShortcutsTree->selectedItems().at(0)->childCount() != 0)
     {
         mShortcutEdit->setEnabled(false);
         mResetButton->setEnabled(false);
@@ -259,7 +259,7 @@ void SettingsDialog::itemSelectionChanged()
 
 void SettingsDialog::textChanged(const QString &text)
 {
-    mShortcutsTree->selectedItems().at(0)->setText(1, text);
+    mShortcutsTree->selectedItems().at(0)->setData(1, Qt::DisplayRole, text);
 }
 
 void SettingsDialog::reset()

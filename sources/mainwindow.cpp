@@ -504,33 +504,33 @@ void MainWindow::cutAct()
 
 void MainWindow::updateShortcuts()
 {
-    mNewAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("New")));
-    mOpenAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("Open")));
-    mSaveAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("Save")));
-    mSaveAsAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("SaveAs")));
-    mCloseAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("Close")));
-    mPrintAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("Print")));
-    mExitAction->setShortcut(QKeySequence(DataSingleton::Instance()->getFileShortcutByKey("Exit")));
+    mNewAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("New"));
+    mOpenAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Open"));
+    mSaveAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Save"));
+    mSaveAsAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("SaveAs"));
+    mCloseAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Close"));
+    mPrintAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Print"));
+    mExitAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Exit"));
 
-    mUndoAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Undo")));
-    mRedoAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Redo")));
-    mCopyAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Copy")));
-    mPasteAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Paste")));
-    mCutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getEditShortcutByKey("Cut")));
+    mUndoAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Undo"));
+    mRedoAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Redo"));
+    mCopyAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Copy"));
+    mPasteAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Paste"));
+    mCutAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Cut"));
 
-    mCursorAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Cursor")));
-    mEraserAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic")));
-    mColorPickerAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette")));
-    mMagnifierAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe")));
-    mPenAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Pen")));
-    mLineAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Line")));
-    mSprayAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Spray")));
-    mFillAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill")));
-    mRectangleAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect")));
-    mEllipseAction->setShortcut(QKeySequence(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse")));
+    mCursorAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Cursor"));
+    mEraserAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic"));
+    mColorPickerAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette"));
+    mMagnifierAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe"));
+    mPenAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pen"));
+    mLineAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Line"));
+    mSprayAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Spray"));
+    mFillAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill"));
+    mRectangleAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect"));
+    mEllipseAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse"));
 
-    mZoomInAction->setShortcut(QKeySequence(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn")));
-    mZoomOutAction->setShortcut(QKeySequence(DataSingleton::Instance()->getToolShortcutByKey("ZoomOut")));
+    mZoomInAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn"));
+    mZoomOutAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomOut"));
 }
 
 void MainWindow::effectGrayAct()
