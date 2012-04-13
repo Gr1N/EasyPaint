@@ -25,6 +25,7 @@
 
 #include "settingsdialog.h"
 #include "datasingleton.h"
+#include "shortcutedit.h"
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>
@@ -155,7 +156,7 @@ void SettingsDialog::initializeGui()
     groupBox4->setLayout(hBox5);
 
     QLabel *label7 = new QLabel(tr("Key sequence:"));
-    mShortcutEdit = new QLineEdit();
+    mShortcutEdit = new ShortcutEdit();
     mShortcutEdit->setEnabled(false);
     connect(mShortcutEdit, SIGNAL(textChanged(QString)), this, SLOT(textChanged(QString)));
     mResetButton = new QPushButton(tr("Reset"));
@@ -182,7 +183,7 @@ int SettingsDialog::getLanguageIndex()
     return languages.indexOf(DataSingleton::Instance()->getAppLanguage());
 }
 
-void SettingsDialog::sendSettingToSingleton()
+void SettingsDialog::sendSettingsToSingleton()
 {
     DataSingleton::Instance()->setBaseSize(QSize(mWidth->value(), mHeight->value()));
     DataSingleton::Instance()->setHistoryDepth(mHistoryDepth->value());
@@ -202,46 +203,46 @@ void SettingsDialog::sendSettingToSingleton()
             if(item->text(0) == "File")
             {
                 DataSingleton::Instance()->setFileShortcutByKey(item->child(y)->text(0),
-                                                                item->child(y)->text(1));
+                                                                item->child(y)->data(1, Qt::DisplayRole).value<QKeySequence>());
             }
             else if(item->text(0) == "Edit")
             {
                 DataSingleton::Instance()->setEditShortcutByKey(item->child(y)->text(0),
-                                                                item->child(y)->text(1));
+                                                                item->child(y)->data(1, Qt::DisplayRole).value<QKeySequence>());
             }
             else if(item->text(0) == "Instruments")
             {
                 DataSingleton::Instance()->setInstrumentShortcutByKey(item->child(y)->text(0),
-                                                                      item->child(y)->text(1));
+                                                                item->child(y)->data(1, Qt::DisplayRole).value<QKeySequence>());
             }
             else if(item->text(0) == "Tools")
             {
                 DataSingleton::Instance()->setToolShortcutByKey(item->child(y)->text(0),
-                                                                item->child(y)->text(1));
+                                                                item->child(y)->data(1, Qt::DisplayRole).value<QKeySequence>());
             }
         }
     }
 }
 
-void SettingsDialog::createItemsGroup(const QString &name, const QMap<QString, QString> &shortcuts)
+void SettingsDialog::createItemsGroup(const QString &name, const QMap<QString, QKeySequence> &shortcuts)
 {
     QTreeWidgetItem *topLevel = new QTreeWidgetItem(mShortcutsTree);
     mShortcutsTree->addTopLevelItem(topLevel);
     topLevel->setText(0, name);
     topLevel->setExpanded(true);
-    QMapIterator<QString, QString> iterator(shortcuts);
+    QMapIterator<QString, QKeySequence> iterator(shortcuts);
     while(iterator.hasNext())
     {
         iterator.next();
         QTreeWidgetItem *subLevel = new QTreeWidgetItem(topLevel);
         subLevel->setText(0, iterator.key());
-        subLevel->setText(1, iterator.value());
+        subLevel->setData(1, Qt::DisplayRole, iterator.value());
     }
 }
 
 void SettingsDialog::itemSelectionChanged()
 {
-    if(mShortcutsTree->selectedItems().at(0)->text(1).isEmpty())
+    if(mShortcutsTree->selectedItems().at(0)->childCount() != 0)
     {
         mShortcutEdit->setEnabled(false);
         mResetButton->setEnabled(false);
@@ -253,11 +254,12 @@ void SettingsDialog::itemSelectionChanged()
         mResetButton->setEnabled(true);
         mShortcutEdit->setText(mShortcutsTree->selectedItems().at(0)->text(1));
     }
+    mShortcutEdit->setFocus();
 }
 
 void SettingsDialog::textChanged(const QString &text)
 {
-    mShortcutsTree->selectedItems().at(0)->setText(1, text);
+    mShortcutsTree->selectedItems().at(0)->setData(1, Qt::DisplayRole, text);
 }
 
 void SettingsDialog::reset()
