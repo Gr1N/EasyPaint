@@ -42,6 +42,9 @@ public:
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
 
+private:
+    bool isModifier(int key);
+
 };
 
 #endif // SHORTCUTEDIT_H

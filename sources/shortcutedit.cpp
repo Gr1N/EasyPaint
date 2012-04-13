@@ -25,6 +25,7 @@
 
 #include "shortcutedit.h"
 #include <QtGui/QKeyEvent>
+#include <QtGui/QKeySequence>
 #include <QDebug>
 
 ShortcutEdit::ShortcutEdit(QWidget *parent) :
@@ -35,8 +36,17 @@ ShortcutEdit::ShortcutEdit(QWidget *parent) :
 
 void ShortcutEdit::keyPressEvent(QKeyEvent *event)
 {
-    if(event->isAutoRepeat())
+    if(event->isAutoRepeat() || isModifier(event->key()))
         return;
-    qDebug() << event->text() << event->key();
-    setText(event->text());
+
+    QKeySequence keySeq(event->modifiers() + event->key());
+    setText(keySeq.toString());
+}
+
+bool ShortcutEdit::isModifier(int key)
+{
+    if(key == Qt::Key_Control || key == Qt::Key_Meta || key == Qt::Key_Alt
+            || key == Qt::Key_AltGr || key == Qt::Key_Shift)
+        return true;
+    return false;
 }
