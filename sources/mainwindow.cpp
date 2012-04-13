@@ -42,7 +42,7 @@
 #include <QtGui/QPainter>
 #include <QtGui/QInputDialog>
 #include <QtGui/QUndoGroup>
-#include <QTimer>
+#include <QtCore/QTimer>
 
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent)

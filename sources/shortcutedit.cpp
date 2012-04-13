@@ -26,7 +26,6 @@
 #include "shortcutedit.h"
 #include <QtGui/QKeyEvent>
 #include <QtGui/QKeySequence>
-#include <QDebug>
 
 ShortcutEdit::ShortcutEdit(QWidget *parent) :
     QLineEdit(parent)
