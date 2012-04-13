@@ -36,7 +36,10 @@ class QLineEdit;
 class QTreeWidget;
 class QTreeWidgetItem;
 class QPushButton;
+class QKeySequence;
 QT_END_NAMESPACE
+
+class ShortcutEdit;
 
 /**
  * @brief Dialog for changing application settings.
@@ -54,7 +57,7 @@ public:
      * @brief Get all settings from form and send it to data singleton.
      *
      */
-    void sendSettingToSingleton();
+    void sendSettingsToSingleton();
 
 private:
     void initializeGui();
@@ -65,12 +68,12 @@ private:
      * @param name Top level item name.
      * @param QMap<QString, QString> Map with all shortcuts for this group.
      */
-    void createItemsGroup(const QString &name, const QMap<QString, QString> &shortcuts);
+    void createItemsGroup(const QString &name, const QMap<QString, QKeySequence> &shortcuts);
 
     QComboBox *mLanguageBox;
     QSpinBox *mWidth, *mHeight, *mHistoryDepth, *mAutoSaveInterval;
     QCheckBox *mIsAutoSave;
-    QLineEdit *mShortcutEdit;
+    ShortcutEdit *mShortcutEdit;
     QTreeWidget *mShortcutsTree;
     QPushButton *mResetButton;
     

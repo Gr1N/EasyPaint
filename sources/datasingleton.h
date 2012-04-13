@@ -30,6 +30,7 @@
 #include <QtCore/QSize>
 #include <QtCore/QString>
 #include <QtCore/QMap>
+#include <QtGui/QKeySequence>
 
 #include "easypaintenums.h"
 
@@ -67,18 +68,18 @@ public:
     inline void setHistoryDepth(const int &historyDepth) { mHistoryDepth = historyDepth; }
     inline QString getAppLanguage() { return mAppLanguage; }
     inline void setAppLanguage(const QString &appLanguage) { mAppLanguage = appLanguage; }
-    inline QMap<QString, QString> getFileShortcuts() { return mFileShortcuts; }
-    inline QString getFileShortcutByKey(const QString &key) { return mFileShortcuts[key]; }
-    inline void setFileShortcutByKey(const QString &key, const QString &value) { mFileShortcuts[key] = value; }
-    inline QMap<QString, QString> getEditShortcuts() { return mEditShortcuts; }
-    inline QString getEditShortcutByKey(const QString &key) { return mEditShortcuts[key]; }
-    inline void setEditShortcutByKey(const QString &key, const QString &value) { mEditShortcuts[key] = value; }
-    inline QMap<QString, QString> getInstrumentsShortcuts() { return mInstrumentsShortcuts; }
-    inline QString getInstrumentShortcutByKey(const QString &key) { return mInstrumentsShortcuts[key]; }
-    inline void setInstrumentShortcutByKey(const QString &key, const QString &value) { mInstrumentsShortcuts[key] = value; }
-    inline QMap<QString, QString> getToolsShortcuts() { return mToolsShortcuts; }
-    inline QString getToolShortcutByKey(const QString &key) { return mToolsShortcuts[key]; }
-    inline void setToolShortcutByKey(const QString &key, const QString &value) { mToolsShortcuts[key] = value; }
+    inline QMap<QString, QKeySequence> getFileShortcuts() { return mFileShortcuts; }
+    inline QKeySequence getFileShortcutByKey(const QString &key) { return mFileShortcuts[key]; }
+    inline void setFileShortcutByKey(const QString &key, const QKeySequence &value) { mFileShortcuts[key] = value; }
+    inline QMap<QString, QKeySequence> getEditShortcuts() { return mEditShortcuts; }
+    inline QKeySequence getEditShortcutByKey(const QString &key) { return mEditShortcuts[key]; }
+    inline void setEditShortcutByKey(const QString &key, const QKeySequence &value) { mEditShortcuts[key] = value; }
+    inline QMap<QString, QKeySequence> getInstrumentsShortcuts() { return mInstrumentsShortcuts; }
+    inline QKeySequence getInstrumentShortcutByKey(const QString &key) { return mInstrumentsShortcuts[key]; }
+    inline void setInstrumentShortcutByKey(const QString &key, const QKeySequence &value) { mInstrumentsShortcuts[key] = value; }
+    inline QMap<QString, QKeySequence> getToolsShortcuts() { return mToolsShortcuts; }
+    inline QKeySequence getToolShortcutByKey(const QString &key) { return mToolsShortcuts[key]; }
+    inline void setToolShortcutByKey(const QString &key, const QKeySequence &value) { mToolsShortcuts[key] = value; }
 
     void readSetting();
     void writeSettings();
@@ -96,7 +97,7 @@ private:
     bool mIsAutoSave;
     int mAutoSaveInterval, mHistoryDepth;
     QString mAppLanguage;
-    QMap<QString, QString> mFileShortcuts, mEditShortcuts, mInstrumentsShortcuts, mToolsShortcuts;
+    QMap<QString, QKeySequence> mFileShortcuts, mEditShortcuts, mInstrumentsShortcuts, mToolsShortcuts;
 
 };
 

@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     settingsdialog.cpp \
     palettebar.cpp \
     undocommand.cpp \
-    palettebutton.cpp
+    palettebutton.cpp \
+    shortcutedit.cpp
 
 HEADERS  += mainwindow.h \
     toolbar.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     settingsdialog.h \
     palettebar.h \
     undocommand.h \
-    palettebutton.h
+    palettebutton.h \
+    shortcutedit.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

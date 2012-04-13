@@ -57,36 +57,36 @@ void DataSingleton::readSetting()
     mAppLanguage = settings.value("/Settings/AppLanguage", "system").toString();
 
     //read shortcuts for file menu
-    mFileShortcuts.insert("New", settings.value("/Shortcuts/File/New", "Ctrl+N").toString());
-    mFileShortcuts.insert("Open", settings.value("/Shortcuts/File/Open", "Ctrl+O").toString());
-    mFileShortcuts.insert("Save", settings.value("/Shortcuts/File/Save", "Ctrl+S").toString());
-    mFileShortcuts.insert("SaveAs", settings.value("/Shortcuts/File/SaveAs", "Ctrl+Shift+S").toString());
-    mFileShortcuts.insert("Close", settings.value("/Shortcuts/File/Close", "Ctrl+W").toString());
-    mFileShortcuts.insert("Print", settings.value("/Shortcuts/File/Print", "Ctrl+P").toString());
-    mFileShortcuts.insert("Exit", settings.value("/Shortcuts/File/Exit", "Ctrl+Q").toString());
+    mFileShortcuts.insert("New", settings.value("/Shortcuts/File/New", QKeySequence(QKeySequence::New)).value<QKeySequence>());
+    mFileShortcuts.insert("Open", settings.value("/Shortcuts/File/Open", QKeySequence(QKeySequence::Open)).value<QKeySequence>());
+    mFileShortcuts.insert("Save", settings.value("/Shortcuts/File/Save", QKeySequence(QKeySequence::Save)).value<QKeySequence>());
+    mFileShortcuts.insert("SaveAs", settings.value("/Shortcuts/File/SaveAs", QKeySequence(QKeySequence::SaveAs)).value<QKeySequence>());
+    mFileShortcuts.insert("Close", settings.value("/Shortcuts/File/Close", QKeySequence(QKeySequence::Close)).value<QKeySequence>());
+    mFileShortcuts.insert("Print", settings.value("/Shortcuts/File/Print", QKeySequence(QKeySequence::Print)).value<QKeySequence>());
+    mFileShortcuts.insert("Exit", settings.value("/Shortcuts/File/Exit", QKeySequence(QKeySequence::Quit)).value<QKeySequence>());
 
     //read shortcuts for edit menu
-    mEditShortcuts.insert("Undo", settings.value("/Shortcuts/Edit/Undo", "Ctrl+Z").toString());
-    mEditShortcuts.insert("Redo", settings.value("/Shortcuts/Edit/Redo", "Ctrl+Shift+Z").toString());
-    mEditShortcuts.insert("Copy", settings.value("/Shortcuts/Edit/Copy", "Ctrl+C").toString());
-    mEditShortcuts.insert("Paste", settings.value("/Shortcuts/Edit/Paste", "Ctrl+V").toString());
-    mEditShortcuts.insert("Cut", settings.value("/Shortcuts/Edit/Cut", "Ctrl+X").toString());
+    mEditShortcuts.insert("Undo", settings.value("/Shortcuts/Edit/Undo", QKeySequence(QKeySequence::Undo)).value<QKeySequence>());
+    mEditShortcuts.insert("Redo", settings.value("/Shortcuts/Edit/Redo", QKeySequence(QKeySequence::Redo)).value<QKeySequence>());
+    mEditShortcuts.insert("Copy", settings.value("/Shortcuts/Edit/Copy", QKeySequence(QKeySequence::Copy)).value<QKeySequence>());
+    mEditShortcuts.insert("Paste", settings.value("/Shortcuts/Edit/Paste", QKeySequence(QKeySequence::Paste)).value<QKeySequence>());
+    mEditShortcuts.insert("Cut", settings.value("/Shortcuts/Edit/Cut", QKeySequence(QKeySequence::Cut)).value<QKeySequence>());
 
     //read shortcuts for instruments menu
-    mInstrumentsShortcuts.insert("Cursor", settings.value("/Shortcuts/Instruments/Cursor", "Ctrl+1").toString());
-    mInstrumentsShortcuts.insert("Lastic", settings.value("/Shortcuts/Instruments/Lastic", "Ctrl+2").toString());
-    mInstrumentsShortcuts.insert("Pipette", settings.value("/Shortcuts/Instruments/Pipette", "Ctrl+3").toString());
-    mInstrumentsShortcuts.insert("Loupe", settings.value("/Shortcuts/Instruments/Loupe", "Ctrl+4").toString());
-    mInstrumentsShortcuts.insert("Pen", settings.value("/Shortcuts/Instruments/Pen", "Ctrl+5").toString());
-    mInstrumentsShortcuts.insert("Line", settings.value("/Shortcuts/Instruments/Line", "Ctrl+6").toString());
-    mInstrumentsShortcuts.insert("Spray", settings.value("/Shortcuts/Instruments/Spray", "Ctrl+7").toString());
-    mInstrumentsShortcuts.insert("Fill", settings.value("/Shortcuts/Instruments/Fill", "Ctrl+8").toString());
-    mInstrumentsShortcuts.insert("Rect", settings.value("/Shortcuts/Instruments/Rect", "Ctrl+9").toString());
-    mInstrumentsShortcuts.insert("Ellipse", settings.value("/Shortcuts/Instruments/Ellipse", "Ctrl+0").toString());
+    mInstrumentsShortcuts.insert("Cursor", settings.value("/Shortcuts/Instruments/Cursor", "Ctrl+1").value<QKeySequence>());
+    mInstrumentsShortcuts.insert("Lastic", settings.value("/Shortcuts/Instruments/Lastic", "Ctrl+2").value<QKeySequence>());
+    mInstrumentsShortcuts.insert("Pipette", settings.value("/Shortcuts/Instruments/Pipette", "Ctrl+3").value<QKeySequence>());
+    mInstrumentsShortcuts.insert("Loupe", settings.value("/Shortcuts/Instruments/Loupe", "Ctrl+4").value<QKeySequence>());
+    mInstrumentsShortcuts.insert("Pen", settings.value("/Shortcuts/Instruments/Pen", "Ctrl+5").value<QKeySequence>());
+    mInstrumentsShortcuts.insert("Line", settings.value("/Shortcuts/Instruments/Line", "Ctrl+6").value<QKeySequence>());
+    mInstrumentsShortcuts.insert("Spray", settings.value("/Shortcuts/Instruments/Spray", "Ctrl+7").value<QKeySequence>());
+    mInstrumentsShortcuts.insert("Fill", settings.value("/Shortcuts/Instruments/Fill", "Ctrl+8").value<QKeySequence>());
+    mInstrumentsShortcuts.insert("Rect", settings.value("/Shortcuts/Instruments/Rect", "Ctrl+9").value<QKeySequence>());
+    mInstrumentsShortcuts.insert("Ellipse", settings.value("/Shortcuts/Instruments/Ellipse", "Ctrl+0").value<QKeySequence>());
 
     //read shortcuts for tools menu
-    mToolsShortcuts.insert("ZoomIn", settings.value("/Shortcuts/Tools/Zoom/ZoomIn", "Ctrl++").toString());
-    mToolsShortcuts.insert("ZoomOut", settings.value("/Shortcuts/Tools/Zoom/ZoomOut", "Ctrl+-").toString());
+    mToolsShortcuts.insert("ZoomIn", settings.value("/Shortcuts/Tools/Zoom/ZoomIn", QKeySequence(QKeySequence::ZoomIn)).value<QKeySequence>());
+    mToolsShortcuts.insert("ZoomOut", settings.value("/Shortcuts/Tools/Zoom/ZoomOut", QKeySequence(QKeySequence::ZoomOut)).value<QKeySequence>());
 }
 
 void DataSingleton::writeSettings()

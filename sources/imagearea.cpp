@@ -158,8 +158,7 @@ void ImageArea::saveAs()
     {
         fileName = tr("Untitled image");
     }
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName, mSaveFilter
-                                                    /*tr("*.png;;*.jpg;;*.jpeg;;*.bmp;;*.xbm;;*.xpm")*/,
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName, mSaveFilter,
                                                     &filter,
                                                     QFileDialog::DontUseNativeDialog);
 
@@ -875,6 +874,8 @@ void ImageArea::makeFormatsFilters()
     mOpenFilter += ";;";
 
     //using ";;" as separator instead of "\n", because Qt's docs recomended it :)
+    if(ba.contains("png"))
+        mOpenFilter += "Portable Network Graphics(*.png);;";
     if(ba.contains("bmp"))
         mOpenFilter += "Windows Bitmap(*.bmp);;";
     if(ba.contains("gif"))
@@ -883,8 +884,6 @@ void ImageArea::makeFormatsFilters()
         mOpenFilter += "Joint Photographic Experts Group(*.jpg *.jpeg);;";
     if(ba.contains("mng"))
         mOpenFilter += "Multiple-image Network Graphics(*.mng);;";
-    if(ba.contains("png"))
-        mOpenFilter += "Portable Network Graphics(*.png);;";
     if(ba.contains("pbm"))
         mOpenFilter += "Portable Bitmap(*.pbm);;";
     if(ba.contains("pgm"))
@@ -904,12 +903,12 @@ void ImageArea::makeFormatsFilters()
 
     //make saveFilter
     ba = QImageWriter::supportedImageFormats();
+    if(ba.contains("png"))
+        mSaveFilter += "Portable Network Graphics(*.png)";
     if(ba.contains("bmp"))
-        mSaveFilter += "Windows Bitmap(*.bmp)";
+        mSaveFilter += ";;Windows Bitmap(*.bmp)";
     if(ba.contains("jpg") || ba.contains("jpeg"))
         mSaveFilter += ";;Joint Photographic Experts Group(*.jpg)";
-    if(ba.contains("png"))
-        mSaveFilter += ";;Portable Network Graphics(*.png)";
     if(ba.contains("ppm"))
         mSaveFilter += ";;Portable Pixmap(*.ppm)";
     if(ba.contains("tiff") || ba.contains("tif"))
