@@ -24,7 +24,8 @@ set (HEADERS
     sources/settingsdialog.h
     sources/palettebar.h
     sources/undocommand.h
-    sources/palettebutton.h)
+    sources/palettebutton.h
+    sources/shortcutedit.h)
 
 #------- sources --------
 set (SOURCES 
@@ -41,7 +42,8 @@ set (SOURCES
     sources/palettebar.cpp
     sources/undocommand.cpp
     sources/palettebutton.cpp
-    sources/settingsdialog.cpp)
+    sources/settingsdialog.cpp
+    sources/shortcutedit.cpp)
  
 #------- resources -------
 set (RESOURCE_PATH 
