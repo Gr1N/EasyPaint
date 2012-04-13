@@ -460,13 +460,15 @@ void MainWindow::openAct()
 void MainWindow::saveAct()
 {
     getCurrentImageArea()->save();
-    mTabWidget->setTabText(mTabWidget->currentIndex(), getCurrentImageArea()->getFileName());
+    mTabWidget->setTabText(mTabWidget->currentIndex(), getCurrentImageArea()->getFileName().isEmpty() ?
+                               tr("Untitled Image") : getCurrentImageArea()->getFileName() );
 }
 
 void MainWindow::saveAsAct()
 {
     getCurrentImageArea()->saveAs();
-    mTabWidget->setTabText(mTabWidget->currentIndex(), getCurrentImageArea()->getFileName());
+    mTabWidget->setTabText(mTabWidget->currentIndex(), getCurrentImageArea()->getFileName().isEmpty() ?
+                               tr("Untitled Image") : getCurrentImageArea()->getFileName() );
 }
 
 void MainWindow::printAct()
