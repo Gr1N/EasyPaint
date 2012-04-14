@@ -24,11 +24,11 @@
  */
 
 #include "mainwindow.h"
-#include "toolbar.h"
+#include "widgets/toolbar.h"
 #include "imagearea.h"
 #include "datasingleton.h"
-#include "settingsdialog.h"
-#include "palettebar.h"
+#include "dialogs/settingsdialog.h"
+#include "widgets/palettebar.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QAction>

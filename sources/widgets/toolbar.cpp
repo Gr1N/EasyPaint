@@ -25,7 +25,7 @@
 
 #include "toolbar.h"
 #include "colorchooser.h"
-#include "datasingleton.h"
+#include "../datasingleton.h"
 
 #include <QtGui/QToolButton>
 #include <QtGui/QGridLayout>

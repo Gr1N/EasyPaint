@@ -25,7 +25,7 @@
 
 #include "additionaltools.h"
 #include "imagearea.h"
-#include "resizedialog.h"
+#include "dialogs/resizedialog.h"
 
 #include <QtGui/QImage>
 #include <QtGui/QPainter>

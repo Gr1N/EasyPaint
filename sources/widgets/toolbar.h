@@ -26,7 +26,7 @@
 #ifndef TOOLBAR_H
 #define TOOLBAR_H
 
-#include "easypaintenums.h"
+#include "../easypaintenums.h"
 
 #include <QtGui/QToolBar>
 
