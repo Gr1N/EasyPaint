@@ -32,7 +32,7 @@
  */
 typedef enum
 {
-    NONE,
+    NONE = 0,
     CURSOR,
     ERASER,
     PEN,
@@ -42,7 +42,10 @@ typedef enum
     SPRAY,
     FILL,
     RECTANGLE,
-    ELLIPSE
+    ELLIPSE,
+
+    // Don't use it. (Used to know count of current instrument)
+    COUNT
 } InstrumentsEnum;
 
 #endif // EASYPAINTENUMS_H

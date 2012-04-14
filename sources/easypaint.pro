@@ -29,7 +29,9 @@ SOURCES += main.cpp\
     palettebar.cpp \
     undocommand.cpp \
     palettebutton.cpp \
-    shortcutedit.cpp
+    shortcutedit.cpp \
+    instruments/abstractinstrument.cpp \
+    instruments/pencilinstrument.cpp
 
 HEADERS  += mainwindow.h \
     toolbar.h \
@@ -45,7 +47,9 @@ HEADERS  += mainwindow.h \
     palettebar.h \
     undocommand.h \
     palettebutton.h \
-    shortcutedit.h
+    shortcutedit.h \
+    instruments/abstractinstrument.h \
+    instruments/pencilinstrument.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

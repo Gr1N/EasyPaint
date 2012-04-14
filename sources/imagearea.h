@@ -36,6 +36,7 @@
 QT_BEGIN_NAMESPACE
 class PaintInstruments;
 class QUndoStack;
+class AbstractInstrument;
 QT_END_NAMESPACE
 
 /**
@@ -229,6 +230,10 @@ private:
     QUndoStack *mUndoStack;
     QPoint mSelectionBottomRightPoint, mSelectionTopLeftPoint, mSelectionMoveDiffPoint;
     int mSelectionHeight, mSelectionWidth;
+
+    ////NEW
+    QVector<AbstractInstrument*> mInstrumentsHandlers;
+    AbstractInstrument *mInstrumentHandler;
 
 
 signals:
