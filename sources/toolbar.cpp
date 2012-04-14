@@ -194,7 +194,7 @@ void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
     setAllButtonsUnchecked(NULL);
     switch(instrument)
     {
-    case NONE:
+    case NONE: case COUNT:
         break;
     case CURSOR:
         mCursorButton->setChecked(true);

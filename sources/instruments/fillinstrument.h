@@ -1,28 +1,30 @@
-#ifndef PENCILINSTRUMENT_H
-#define PENCILINSTRUMENT_H
+#ifndef FILLINSTRUMENT_H
+#define FILLINSTRUMENT_H
 
 #include "abstractinstrument.h"
 
 #include <QtCore/QObject>
 
 /**
- * @brief Pencil instrument class.
+ * @brief Fill instrument class.
  *
  */
-class PencilInstrument : public AbstractInstrument
+class FillInstrument : public AbstractInstrument
 {
     Q_OBJECT
-
 public:
-    explicit PencilInstrument(QObject *parent = 0);
-
+    explicit FillInstrument(QObject *parent = 0);
+    
     void mousePressEvent(QMouseEvent *event, ImageArea &imageArea);
     void mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea);
     void mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea);
-    
+
 protected:
     void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
+
+private:
+    void fillRecurs(int x, int y, QRgb switchColor, QRgb oldColor, QImage &tempImage);
     
 };
 
-#endif // PENCILINSTRUMENT_H
+#endif // FILLINSTRUMENT_H

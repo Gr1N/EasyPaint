@@ -125,7 +125,7 @@ public:
      *
      * @param factor Scale factor
      */
-    void zoomImage(qreal factor);
+    bool zoomImage(qreal factor);
     inline void setZoomFactor(qreal factor) { mZoomFactor *= factor; }
     inline qreal getZoomFactor() { return mZoomFactor; }
     inline QUndoStack* getUndoStack() { return mUndoStack; }
@@ -140,9 +140,12 @@ public:
     inline int getSelectionHeight() { return mSelectionHeight; }
     inline int getSelectionWidth() { return mSelectionWidth; }
     inline QImage getSelectedImage() { return mSelectedImage; }
-    ///NEW
     inline void setIsPaint(bool isPaint) { mIsPaint = isPaint; }
     inline bool isPaint() { return mIsPaint; }
+    inline void emitPrimaryColorView() { emit sendPrimaryColorView(); }
+    inline void emitSecondaryColorView() { emit sendSecondaryColorView(); }
+    inline void emitColor(QColor &color) { emit sendColor(color); }
+    inline void emitRestorePreviousInstrument() { emit sendRestorePreviousInstrument(); }
 
     /**
      * @brief Copying image to the clipboard.
@@ -179,6 +182,11 @@ public:
      *
      */
     void clearSelection();
+    /**
+     * @brief Push current image to undo stack.
+     *
+     */
+    void pushUndoCommand();
     
 private:
     /**
@@ -209,7 +217,7 @@ private:
     void makeFormatsFilters();
 
     QImage *mImage,  /**< Main image. */
-           mImageCopy, /**< Copy of main image, need for events. */
+           mImageCopy, /**< Copy of main image, need for events. */ // ?????????????
            mSelectedImage, /**< Copy of selected image. */
            mPasteImage; /**< Image to paste */
     PaintInstruments *mPaintInstruments;
@@ -226,8 +234,6 @@ private:
     QUndoStack *mUndoStack;
     QPoint mSelectionBottomRightPoint, mSelectionTopLeftPoint, mSelectionMoveDiffPoint;
     int mSelectionHeight, mSelectionWidth;
-
-    ////NEW
     QVector<AbstractInstrument*> mInstrumentsHandlers;
     AbstractInstrument *mInstrumentHandler;
 

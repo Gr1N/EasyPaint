@@ -1,30 +1,32 @@
-#include "pencilinstrument.h"
+#include "lineinstrument.h"
 #include "../imagearea.h"
 #include "../datasingleton.h"
 
 #include <QtGui/QPen>
 #include <QtGui/QPainter>
 
-PencilInstrument::PencilInstrument(QObject *parent) :
+LineInstrument::LineInstrument(QObject *parent) :
     AbstractInstrument(parent)
 {
 }
 
-void PencilInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
+void LineInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     if(event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
     {
         mStartPoint = mEndPoint = event->pos();
         imageArea.setIsPaint(true);
+        mImageCopy = *imageArea.getImage();
         imageArea.pushUndoCommand();
     }
 }
 
-void PencilInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
+void LineInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     if(imageArea.isPaint())
     {
         mEndPoint = event->pos();
+        imageArea.setImage(mImageCopy);
         if(event->buttons() & Qt::LeftButton)
         {
             paint(imageArea, false);
@@ -33,15 +35,14 @@ void PencilInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
         {
             paint(imageArea, true);
         }
-        mStartPoint = event->pos();
     }
 }
 
-void PencilInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
+void LineInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     if(imageArea.isPaint())
     {
-        mEndPoint = event->pos();
+        imageArea.setImage(mImageCopy);
         if(event->button() == Qt::LeftButton)
         {
             paint(imageArea, false);
@@ -54,7 +55,7 @@ void PencilInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageAre
     }
 }
 
-void PencilInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
+void LineInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
 {
     QPainter painter(imageArea.getImage());
     if(isSecondaryColor)

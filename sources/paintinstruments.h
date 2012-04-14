@@ -57,43 +57,6 @@ public:
     inline void setEndPoint(const QPoint &point) { mEndPoint = point; }
 
     /**
-     * @brief Pencil, line and lastic instruments.
-     *
-     * @param isSecondColor Flag which shows what color use: first or second.
-     * @param isLastic Flag which show that instrument is lastic.
-     */
-    void line(bool isSecondColor, bool isLastic = false);
-    /**
-     * @brief Pipette instrument.
-     *
-     * @param isSecondColor Flag which shows what color use: first or second.
-     */
-    void colorPicker(bool isSecondColor);
-    /**
-     * @brief Rect instrument.
-     *
-     * @param isSecondColor Flag which shows paint whit brush or not.
-     */
-    void rectangle(bool isSecondColor);
-    /**
-     * @brief Ellipse instrument.
-     *
-     * @param isSecondColor Flag which shows paint whit brush or not.
-     */
-    void ellipse(bool isSecondColor);
-    /**
-     * @brief Spray instrument.
-     *
-     * @param isSecondColor Flag which shows what color use: first or second.
-     */
-    void spray(bool isSecondColor);
-    /**
-     * @brief Fill instrument.
-     *
-     * @param isSecondColor Flag which shows what color use: first or second.
-     */
-    void fill(bool isSecondColor);
-    /**
      * @brief Draw selection border.
      *
      * @param isSelected Flag shows is background image attached to selection area.
@@ -109,8 +72,6 @@ public:
     inline void setSelectionImage(const QImage &image) { mSelectionImage = image; }
     
 private:
-    void fillRecurs(int x, int y, QRgb switchColor, QRgb oldColor, QImage &tempImage);
-
     ImageArea *mPImageArea; /**< A pointer to ImageArea. */
     QPoint mStartPoint, mEndPoint;
     QImage mSelectionImage;

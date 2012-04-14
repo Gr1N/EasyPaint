@@ -704,7 +704,7 @@ void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
     setAllInstrumentsUnchecked(new QAction(this));
     switch(instrument)
     {
-    case NONE:
+    case NONE: case COUNT:
         break;
     case CURSOR:
         mCursorAction->setChecked(true);

@@ -31,7 +31,15 @@ SOURCES += main.cpp\
     palettebutton.cpp \
     shortcutedit.cpp \
     instruments/abstractinstrument.cpp \
-    instruments/pencilinstrument.cpp
+    instruments/pencilinstrument.cpp \
+    instruments/lineinstrument.cpp \
+    instruments/eraserinstrument.cpp \
+    instruments/rectangleinstrument.cpp \
+    instruments/ellipseinstrument.cpp \
+    instruments/fillinstrument.cpp \
+    instruments/sprayinstrument.cpp \
+    instruments/magnifierinstrument.cpp \
+    instruments/colorpickerinstrument.cpp
 
 HEADERS  += mainwindow.h \
     toolbar.h \
@@ -49,7 +57,15 @@ HEADERS  += mainwindow.h \
     palettebutton.h \
     shortcutedit.h \
     instruments/abstractinstrument.h \
-    instruments/pencilinstrument.h
+    instruments/pencilinstrument.h \
+    instruments/lineinstrument.h \
+    instruments/eraserinstrument.h \
+    instruments/rectangleinstrument.h \
+    instruments/ellipseinstrument.h \
+    instruments/fillinstrument.h \
+    instruments/sprayinstrument.h \
+    instruments/magnifierinstrument.h \
+    instruments/colorpickerinstrument.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

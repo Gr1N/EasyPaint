@@ -1,16 +1,16 @@
-#include "pencilinstrument.h"
+#include "eraserinstrument.h"
 #include "../imagearea.h"
 #include "../datasingleton.h"
 
 #include <QtGui/QPen>
 #include <QtGui/QPainter>
 
-PencilInstrument::PencilInstrument(QObject *parent) :
+EraserInstrument::EraserInstrument(QObject *parent) :
     AbstractInstrument(parent)
 {
 }
 
-void PencilInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
+void EraserInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     if(event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
     {
@@ -20,55 +20,32 @@ void PencilInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
     }
 }
 
-void PencilInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
+void EraserInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     if(imageArea.isPaint())
     {
         mEndPoint = event->pos();
-        if(event->buttons() & Qt::LeftButton)
-        {
-            paint(imageArea, false);
-        }
-        else if(event->buttons() & Qt::RightButton)
-        {
-            paint(imageArea, true);
-        }
+        paint(imageArea, false);
         mStartPoint = event->pos();
     }
 }
 
-void PencilInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
+void EraserInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     if(imageArea.isPaint())
     {
         mEndPoint = event->pos();
-        if(event->button() == Qt::LeftButton)
-        {
-            paint(imageArea, false);
-        }
-        else if(event->button() == Qt::RightButton)
-        {
-            paint(imageArea, true);
-        }
+        paint(imageArea);
         imageArea.setIsPaint(false);
     }
 }
 
-void PencilInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
+void EraserInstrument::paint(ImageArea &imageArea, bool, bool)
 {
     QPainter painter(imageArea.getImage());
-    if(isSecondaryColor)
-    {
-        painter.setPen(QPen(DataSingleton::Instance()->getSecondaryColor(),
-                            DataSingleton::Instance()->getPenSize() * imageArea.getZoomFactor(),
-                            Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    }
-    else
-    {
-        painter.setPen(QPen(DataSingleton::Instance()->getPrimaryColor(),
-                            DataSingleton::Instance()->getPenSize() * imageArea.getZoomFactor(),
-                            Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    }
+    painter.setPen(QPen(Qt::white,
+                        DataSingleton::Instance()->getPenSize() * imageArea.getZoomFactor(),
+                        Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
     if(mStartPoint != mEndPoint)
     {

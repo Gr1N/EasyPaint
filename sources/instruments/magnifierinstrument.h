@@ -1,28 +1,27 @@
-#ifndef PENCILINSTRUMENT_H
-#define PENCILINSTRUMENT_H
+#ifndef MAGNIFIERINSTRUMENT_H
+#define MAGNIFIERINSTRUMENT_H
 
 #include "abstractinstrument.h"
 
 #include <QtCore/QObject>
 
 /**
- * @brief Pencil instrument class.
+ * @brief Magnifier instrument class.
  *
  */
-class PencilInstrument : public AbstractInstrument
+class MagnifierInstrument : public AbstractInstrument
 {
     Q_OBJECT
-
 public:
-    explicit PencilInstrument(QObject *parent = 0);
-
+    explicit MagnifierInstrument(QObject *parent = 0);
+    
     void mousePressEvent(QMouseEvent *event, ImageArea &imageArea);
     void mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea);
     void mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea);
-    
+
 protected:
     void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
     
 };
 
-#endif // PENCILINSTRUMENT_H
+#endif // MAGNIFIERINSTRUMENT_H
