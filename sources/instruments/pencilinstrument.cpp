@@ -9,25 +9,41 @@ PencilInstrument::PencilInstrument(QObject *parent) :
 {
 }
 
-void PencilInstrument::mousePressEvent(QMouseEvent *event)
+void PencilInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     mStartPoint = mEndPoint = event->pos();
+    imageArea.setIsPaint(true);
 }
 
 void PencilInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     mEndPoint = event->pos();
-    paint(imageArea, false);
+    if(event->buttons() & Qt::LeftButton)
+    {
+        paint(imageArea, false);
+    }
+    else if(event->buttons() & Qt::RightButton)
+    {
+        paint(imageArea, true);
+    }
     mStartPoint = event->pos();
 }
 
 void PencilInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     mEndPoint = event->pos();
-    paint(imageArea, false);
+    if(event->button() == Qt::LeftButton)
+    {
+        paint(imageArea, false);
+    }
+    else if(event->button() == Qt::RightButton)
+    {
+        paint(imageArea, true);
+    }
+    imageArea.setIsPaint(false);
 }
 
-void PencilInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool additionalFlag)
+void PencilInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
 {
     QPainter painter(imageArea.getImage());
     if(isSecondaryColor)

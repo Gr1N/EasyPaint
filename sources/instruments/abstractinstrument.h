@@ -16,7 +16,7 @@ public:
     explicit AbstractInstrument(QObject *parent = 0);
     virtual ~AbstractInstrument(){}
 
-    virtual void mousePressEvent(QMouseEvent *event)=0;
+    virtual void mousePressEvent(QMouseEvent *event, ImageArea &imageArea)=0;
     virtual void mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)=0;
     virtual void mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)=0;
     

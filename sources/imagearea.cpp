@@ -94,7 +94,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     ///NEW
     mInstrumentsHandlers.fill(0, (int)COUNT);
     mInstrumentsHandlers[PEN] = new PencilInstrument(this);
-
+//    mInstrumentHandler = mInstrumentsHandlers.at(NONE);
 }
 
 ImageArea::~ImageArea()
@@ -351,19 +351,19 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
 //            emit sendEnableCopyCutActions(false);
 //        }
 //    }
-    if(event->button() == Qt::LeftButton)
+    if(event->button() == Qt::LeftButton &&
+            event->pos().x() < mImage->rect().right() + 6 &&
+            event->pos().x() > mImage->rect().right() &&
+            event->pos().y() > mImage->rect().bottom() &&
+            event->pos().y() < mImage->rect().bottom() + 6)
+    {
+        mIsResize = true;
+//        setCursor(Qt::SizeFDiagCursor);
+    }
+    else if(event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
     {
         mInstrumentHandler = mInstrumentsHandlers.at(DataSingleton::Instance()->getInstrument());
-        mInstrumentHandler->mousePressEvent(event);
-        mIsPaint = true;
-//        if(event->pos().x() < mImage->rect().right() + 6 &&
-//                event->pos().x() > mImage->rect().right() &&
-//                event->pos().y() > mImage->rect().bottom() &&
-//                event->pos().y() < mImage->rect().bottom() + 6)
-//        {
-//            mIsResize = true;
-//            setCursor(Qt::SizeFDiagCursor);
-//        }
+        mInstrumentHandler->mousePressEvent(event, *this);
 //        else
 //        {
 //            switch(DataSingleton::Instance()->getInstrument())
@@ -373,7 +373,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
 //            case COLORPICKER: case MAGNIFIER:
 //                mIsPaint = true;
 //                break;
-//            case PEN: case ERASER: case SPRAY: case FILL:
+//            case ERASER: case SPRAY: case FILL:
 //                mPaintInstruments->setStartPoint(event->pos());
 //                mPaintInstruments->setEndPoint(event->pos());
 //                mIsPaint = true;
@@ -407,7 +407,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
 //        case COLORPICKER: case MAGNIFIER:
 //            mIsPaint = true;
 //            break;
-//        case PEN: case SPRAY:  case FILL:
+//        case SPRAY:  case FILL:
 //            mPaintInstruments->setStartPoint(event->pos());
 //            mPaintInstruments->setEndPoint(event->pos());
 //            mIsPaint = true;
@@ -434,11 +434,11 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
 
 void ImageArea::mouseMoveEvent(QMouseEvent *event)
 {
-//    if(mIsResize)
-//    {
-//         mAdditionalTools->resizeCanvas(event->x(), event->y());
-//         emit sendNewImageSize(mImage->size());
-//    }
+    if(mIsResize)
+    {
+         mAdditionalTools->resizeCanvas(event->x(), event->y());
+         emit sendNewImageSize(mImage->size());
+    }
 //    if (mIsSelectionExists)
 //    {
 //        if (event->pos().x() > mSelectionTopLeftPoint.x() &&
@@ -509,7 +509,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
 //            emit sendColor(getColor);
 //        }
 //    }
-    if((event->buttons() & Qt::LeftButton) && mIsPaint)
+    else if((event->buttons() & Qt::LeftButton || event->buttons() & Qt::RightButton) && mIsPaint)
     {
         mInstrumentHandler = mInstrumentsHandlers.at(DataSingleton::Instance()->getInstrument());
         mInstrumentHandler->mouseMoveEvent(event, *this);
@@ -517,11 +517,6 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
 //        {
 //        case NONE: case MAGNIFIER: case COLORPICKER:
 //        case FILL:
-//            break;
-//        case PEN:
-//            mPaintInstruments->setEndPoint(event->pos());
-//            mPaintInstruments->line(false);
-//            mPaintInstruments->setStartPoint(event->pos());
 //            break;
 //        case ERASER:
 //            mPaintInstruments->setEndPoint(event->pos());
@@ -562,11 +557,6 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
 //        case NONE: case ERASER: case MAGNIFIER: case COLORPICKER:
 //        case FILL:
 //            break;
-//        case PEN:
-//            mPaintInstruments->setEndPoint(event->pos());
-//            mPaintInstruments->line(true);
-//            mPaintInstruments->setStartPoint(event->pos());
-//            break;
 //        case LINE:
 //            mPaintInstruments->setEndPoint(event->pos());
 //            *mImage = mImageCopy;
@@ -598,11 +588,11 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
 
 void ImageArea::mouseReleaseEvent(QMouseEvent *event)
 {
-//    if(mIsResize)
-//    {
-//       mIsResize = false;
+    if(mIsResize)
+    {
+       mIsResize = false;
 //       restoreCursor();
-//    }
+    }
 //    if (mIsSelectionExists)
 //    {
 //        if(mIsSelectionMoving)
@@ -620,11 +610,10 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
 //            mIsSelectionResizing = false;
 //        }
 //    }
-    if(event->button() == Qt::LeftButton && mIsPaint)
+    else if(event->button() == Qt::LeftButton || event->button() == Qt::RightButton && mIsPaint)
     {
         mInstrumentHandler = mInstrumentsHandlers.at(DataSingleton::Instance()->getInstrument());
         mInstrumentHandler->mouseReleaseEvent(event, *this);
-        mIsPaint = false;
 //        mPaintInstruments->setEndPoint(event->pos());
 //        switch(DataSingleton::Instance()->getInstrument())
 //        {
@@ -635,10 +624,6 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
 //            {
 //                setZoomFactor(2.0);
 //            }
-//            break;
-//        case PEN:
-//            mPaintInstruments->line(false);
-//            mIsPaint = false;
 //            break;
 //        case ERASER:
 //            mPaintInstruments->line(false, true);
@@ -701,10 +686,6 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
 //            {
 //                setZoomFactor(0.5);
 //            }
-//            break;
-//        case PEN:
-//            mPaintInstruments->line(true);
-//            mIsPaint = false;
 //            break;
 //        case LINE:
 //            *mImage = mImageCopy;

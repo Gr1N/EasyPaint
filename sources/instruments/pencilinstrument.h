@@ -11,7 +11,7 @@ class PencilInstrument : public AbstractInstrument
 public:
     explicit PencilInstrument(QObject *parent = 0);
 
-    void mousePressEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event, ImageArea &imageArea);
     void mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea);
     void mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea);
     
