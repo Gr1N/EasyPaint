@@ -23,29 +23,50 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "magnifierinstrument.h"
+#include "../imagearea.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+MagnifierInstrument::MagnifierInstrument(QObject *parent) :
+    AbstractInstrument(parent)
 {
-    NONE = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
+}
 
-    // Don't use it. (Used to know count of current instrument)
-    COUNT
-} InstrumentsEnum;
+void MagnifierInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
+{
+    if(event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
+    {
+        imageArea.setIsPaint(true);
+    }
+}
 
-#endif // EASYPAINTENUMS_H
+void MagnifierInstrument::mouseMoveEvent(QMouseEvent *, ImageArea &)
+{
+
+}
+
+void MagnifierInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
+{
+    if(imageArea.isPaint())
+    {
+        if(event->button() == Qt::LeftButton)
+        {
+            if(imageArea.zoomImage(2.0))
+            {
+                imageArea.setZoomFactor(2.0);
+            }
+        }
+        else if(event->button() == Qt::RightButton)
+        {
+            if(imageArea.zoomImage(0.5))
+            {
+                imageArea.setZoomFactor(0.5);
+            }
+        }
+        imageArea.setIsPaint(false);
+    }
+}
+
+void MagnifierInstrument::paint(ImageArea &, bool, bool)
+{
+
+}

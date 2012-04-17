@@ -23,29 +23,31 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#ifndef LINEINSTRUMENT_H
+#define LINEINSTRUMENT_H
+
+#include "abstractinstrument.h"
+
+#include <QtCore/QObject>
 
 /**
- * @brief Enum with instruments names
+ * @brief Line instrument class.
  *
  */
-typedef enum
+class LineInstrument : public AbstractInstrument
 {
-    NONE = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
+    Q_OBJECT
 
-    // Don't use it. (Used to know count of current instrument)
-    COUNT
-} InstrumentsEnum;
+public:
+    explicit LineInstrument(QObject *parent = 0);
+    
+    void mousePressEvent(QMouseEvent *event, ImageArea &imageArea);
+    void mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea);
+    void mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea);
 
-#endif // EASYPAINTENUMS_H
+protected:
+    void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
+    
+};
+
+#endif // LINEINSTRUMENT_H

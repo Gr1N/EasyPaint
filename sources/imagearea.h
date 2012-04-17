@@ -34,8 +34,8 @@
 #include <QtGui/QImage>
 
 QT_BEGIN_NAMESPACE
-class PaintInstruments;
 class QUndoStack;
+class AbstractInstrument;
 QT_END_NAMESPACE
 
 /**
@@ -124,28 +124,16 @@ public:
      *
      * @param factor Scale factor
      */
-    void zoomImage(qreal factor);
+    bool zoomImage(qreal factor);
     inline void setZoomFactor(qreal factor) { mZoomFactor *= factor; }
     inline qreal getZoomFactor() { return mZoomFactor; }
     inline QUndoStack* getUndoStack() { return mUndoStack; }
-    inline void setSelectionBottomRightPoint(const QPoint &point)
-    { mSelectionBottomRightPoint = point; }
-    inline void setSelectionTopLeftPoint(const QPoint &point)
-    { mSelectionTopLeftPoint = point; }
-    inline void setSelectionSize(int width, int height)
-    { mSelectionWidth = width;  mSelectionHeight = height; }
-    inline void setSelectedImage(const QImage &image)
-    { mSelectedImage = image; }
-    inline void setIsSelectonExists(bool selection)
-    { mIsSelectionExists = selection; }
-    inline void setIsImageSelected(bool selected)
-    { mIsImageSelected = selected; }
-    inline QPoint getSelectionBottomRightPoint() { return mSelectionBottomRightPoint; }
-    inline QPoint getSelectionTopLeftPoint() { return mSelectionTopLeftPoint; }
-    inline int getSelectionHeight() { return mSelectionHeight; }
-    inline int getSelectionWidth() { return mSelectionWidth; }
-    inline QImage getSelectedImage() { return mSelectedImage; }
-    inline PaintInstruments* getPaintInstruments() { return mPaintInstruments; }
+    inline void setIsPaint(bool isPaint) { mIsPaint = isPaint; }
+    inline bool isPaint() { return mIsPaint; }
+    inline void emitPrimaryColorView() { emit sendPrimaryColorView(); }
+    inline void emitSecondaryColorView() { emit sendSecondaryColorView(); }
+    inline void emitColor(QColor &color) { emit sendColor(color); }
+    inline void emitRestorePreviousInstrument() { emit sendRestorePreviousInstrument(); }
 
     /**
      * @brief Copying image to the clipboard.
@@ -163,16 +151,6 @@ public:
      */
     void cutImage();
     /**
-     * @brief Clears background image at selection area.
-     *
-     */
-    void clearSelectionBackground();
-    /**
-     * @brief Roll back all image changes to image copy.
-     *
-     */
-    void clearImageChanges();
-    /**
      * @brief Save all image changes to image copy.
      *
      */
@@ -182,6 +160,11 @@ public:
      *
      */
     void clearSelection();
+    /**
+     * @brief Push current image to undo stack.
+     *
+     */
+    void pushUndoCommand();
     
 private:
     /**
@@ -212,23 +195,24 @@ private:
     void makeFormatsFilters();
 
     QImage *mImage,  /**< Main image. */
-           mImageCopy, /**< Copy of main image, need for events. */
-           mSelectedImage, /**< Copy of selected image. */
-           mPasteImage; /**< Image to paste */
-    PaintInstruments *mPaintInstruments;
+           mImageCopy; /**< Copy of main image, need for events. */ // ?????????????
+//           mSelectedImage, /**< Copy of selected image. */
+//           mPasteImage; /**< Image to paste */
     AdditionalTools *mAdditionalTools;
     Effects *mEffects;
     QString mFilePath; /**< Path where located image. */
     QString mOpenFilter; /**< Supported open formats filter. */
     QString mSaveFilter; /**< Supported save formats filter. */
-    bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed, mIsSelectionExists,
-         mIsSelectionMoving, mIsSelectionResizing, mIsImageSelected;
+    bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed; /*mIsSelectionExists,
+         mIsSelectionMoving, mIsSelectionResizing, mIsImageSelected;*/
     QPixmap *mPixmap;
     QCursor *mCurrentCursor;
     qreal mZoomFactor;
     QUndoStack *mUndoStack;
-    QPoint mSelectionBottomRightPoint, mSelectionTopLeftPoint, mSelectionMoveDiffPoint;
-    int mSelectionHeight, mSelectionWidth;
+//    QPoint mSelectionBottomRightPoint, mSelectionTopLeftPoint, mSelectionMoveDiffPoint;
+//    int mSelectionHeight, mSelectionWidth;
+    QVector<AbstractInstrument*> mInstrumentsHandlers;
+    AbstractInstrument *mInstrumentHandler;
 
 
 signals:
@@ -255,6 +239,11 @@ signals:
      *
      */
     void sendEnableCopyCutActions(bool enable);
+    /**
+     * @brief Send signal to selection instrument.
+     *
+     */
+    void sendEnableSelectionInstrument(bool enable);
     
 private slots:
     void autoSave();

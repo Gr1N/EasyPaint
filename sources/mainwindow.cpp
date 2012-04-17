@@ -24,11 +24,11 @@
  */
 
 #include "mainwindow.h"
-#include "toolbar.h"
+#include "widgets/toolbar.h"
 #include "imagearea.h"
 #include "datasingleton.h"
-#include "settingsdialog.h"
-#include "palettebar.h"
+#include "dialogs/settingsdialog.h"
+#include "widgets/palettebar.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QAction>
@@ -124,6 +124,7 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
         connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
         connect(imageArea, SIGNAL(sendColor(QColor)), this, SLOT(setCurrentPipetteColor(QColor)));
         connect(imageArea, SIGNAL(sendEnableCopyCutActions(bool)), this, SLOT(enableCopyCutActions(bool)));
+        connect(imageArea, SIGNAL(sendEnableSelectionInstrument(bool)), this, SLOT(cursorAct(bool)));
 
         setWindowTitle(QString("%1 - EasyPaint").arg(fileName));
     }
@@ -704,7 +705,7 @@ void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
     setAllInstrumentsUnchecked(new QAction(this));
     switch(instrument)
     {
-    case NONE:
+    case NONE: case COUNT:
         break;
     case CURSOR:
         mCursorAction->setChecked(true);
@@ -747,13 +748,13 @@ void MainWindow::cursorAct(const bool &state)
         mCursorAction->setChecked(true);
         DataSingleton::Instance()->setInstrument(CURSOR);
         emit sendInstrumentChecked(CURSOR);
-        DataSingleton::Instance()->setPreviousInstrument(CURSOR);
     }
     else
     {
         setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
+        DataSingleton::Instance()->setPreviousInstrument(CURSOR);
     }
 }
 

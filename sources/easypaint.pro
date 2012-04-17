@@ -17,35 +17,55 @@ UI_DIR = build
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    toolbar.cpp \
-    colorchooser.cpp \
     imagearea.cpp \
-    paintinstruments.cpp \
     datasingleton.cpp \
     additionaltools.cpp \
     effects.cpp \
-    resizedialog.cpp \
-    settingsdialog.cpp \
-    palettebar.cpp \
     undocommand.cpp \
-    palettebutton.cpp \
-    shortcutedit.cpp
+    widgets/toolbar.cpp \
+    widgets/colorchooser.cpp \
+    widgets/palettebar.cpp \
+    widgets/palettebutton.cpp \
+    widgets/shortcutedit.cpp \
+    dialogs/resizedialog.cpp \
+    dialogs/settingsdialog.cpp \
+    instruments/abstractinstrument.cpp \
+    instruments/pencilinstrument.cpp \
+    instruments/lineinstrument.cpp \
+    instruments/eraserinstrument.cpp \
+    instruments/rectangleinstrument.cpp \
+    instruments/ellipseinstrument.cpp \
+    instruments/fillinstrument.cpp \
+    instruments/sprayinstrument.cpp \
+    instruments/magnifierinstrument.cpp \
+    instruments/colorpickerinstrument.cpp \
+    instruments/selectioninstrument.cpp
 
 HEADERS  += mainwindow.h \
-    toolbar.h \
     easypaintenums.h \
-    colorchooser.h \
     imagearea.h \
-    paintinstruments.h \
     datasingleton.h \
     additionaltools.h \
     effects.h \
-    resizedialog.h \
-    settingsdialog.h \
-    palettebar.h \
     undocommand.h \
-    palettebutton.h \
-    shortcutedit.h
+    widgets/toolbar.h \
+    widgets/colorchooser.h \
+    widgets/palettebar.h \
+    widgets/palettebutton.h \
+    widgets/shortcutedit.h \
+    dialogs/resizedialog.h \
+    dialogs/settingsdialog.h \
+    instruments/abstractinstrument.h \
+    instruments/pencilinstrument.h \
+    instruments/lineinstrument.h \
+    instruments/eraserinstrument.h \
+    instruments/rectangleinstrument.h \
+    instruments/ellipseinstrument.h \
+    instruments/fillinstrument.h \
+    instruments/sprayinstrument.h \
+    instruments/magnifierinstrument.h \
+    instruments/colorpickerinstrument.h \
+    instruments/selectioninstrument.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \
@@ -79,6 +99,10 @@ isEmpty(TS_DIR) {
 ;QMAKE_EXTRA_COMPILERS += TSQM
 ;PRE_TARGETDEPS += compiler_TSQM_make_all
 INSTALLS += target translations desktop icon
+
+
+
+
 
 
 

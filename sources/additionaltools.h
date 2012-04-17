@@ -27,12 +27,12 @@
 #define ADDITIONALTOOLS_H
 
 #include <QtCore/QObject>
+#include <QtGui/QImage>
 
 QT_BEGIN_NAMESPACE
 class ImageArea;
 class QSize;
 QT_END_NAMESPACE
-#include <QtGui/QImage>
 
 /**
  * @brief Class for implementation of additional tools which changing state of image.

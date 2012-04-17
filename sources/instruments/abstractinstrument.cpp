@@ -23,29 +23,10 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "abstractinstrument.h"
+#include "../imagearea.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+AbstractInstrument::AbstractInstrument(QObject *parent) :
+    QObject(parent)
 {
-    NONE = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-
-    // Don't use it. (Used to know count of current instrument)
-    COUNT
-} InstrumentsEnum;
-
-#endif // EASYPAINTENUMS_H
+}
