@@ -307,10 +307,6 @@ void SelectionInstrument::pasteImage(ImageArea &imageArea)
         paint(imageArea, true, true);
         mIsImageSelected = mIsSelectionExists = true;
         emit sendEnableCopyCutActions(true);
-        if (DataSingleton::Instance()->getInstrument() != CURSOR)
-        {
-            emit sendEnableSelectionInstrument(true);
-        }
     }
 }
 
@@ -319,7 +315,10 @@ void SelectionInstrument::clearSelection(ImageArea &imageArea)
     if (mIsSelectionExists)
     {
         *imageArea.getImage() = mImageCopy;
-        paint(imageArea, mIsImageSelected, false);
+        if (mIsImageSelected)
+        {
+            paint(imageArea, mIsImageSelected, false);
+        }
         mImageCopy = *imageArea.getImage();
         mIsSelectionExists = mIsSelectionMoving
                 = mIsSelectionResizing = mIsImageSelected = false;

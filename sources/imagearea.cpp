@@ -159,10 +159,9 @@ void ImageArea::open(const QString &filePath)
 
 void ImageArea::save()
 {
-//    if (mIsSelectionExists && mIsImageSelected)
-//    {
-//        clearSelection();
-//    }
+    SelectionInstrument *instrument = static_cast <SelectionInstrument*> (mInstrumentsHandlers.at(CURSOR));
+    instrument->clearSelection(*this);
+
     if(mFilePath.isEmpty())
     {
         saveAs();
