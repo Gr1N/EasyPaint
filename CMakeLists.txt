@@ -11,39 +11,59 @@ set(EASYPAINT_VERSION 0.1.0)
 
 #------- headers --------
 set (HEADERS 
-    sources/additionaltools.h
-    sources/colorchooser.h
-    sources/datasingleton.h
-    sources/easypaintenums.h
-    sources/effects.h
-    sources/imagearea.h
     sources/mainwindow.h
-    sources/paintinstruments.h
-    sources/resizedialog.h
-    sources/toolbar.h
-    sources/settingsdialog.h
-    sources/palettebar.h
+    sources/easypaintenums.h
+    sources/imagearea.h
+    sources/datasingleton.h
+    sources/additionaltools.h
+    sources/effects.h
     sources/undocommand.h
-    sources/palettebutton.h
-    sources/shortcutedit.h)
+    sources/widgets/toolbar.h
+    sources/widgets/colorchooser.h
+    sources/widgets/palettebar.h
+    sources/widgets/palettebutton.h
+    sources/widgets/shortcutedit.h
+    sources/dialogs/resizedialog.h
+    sources/dialogs/settingsdialog.h
+    sources/instruments/abstractinstrument.h
+    sources/instruments/selectioninstrument.h
+    sources/instruments/pencilinstrument.h
+    sources/instruments/lineinstrument.h
+    sources/instruments/eraserinstrument.h
+    sources/instruments/rectangleinstrument.h
+    sources/instruments/ellipseinstrument.h
+    sources/instruments/fillinstrument.h
+    sources/instruments/sprayinstrument.h
+    sources/instruments/magnifierinstrument.h
+    sources/instruments/colorpickerinstrument.h)
 
 #------- sources --------
 set (SOURCES 
-    sources/additionaltools.cpp
-    sources/colorchooser.cpp
-    sources/datasingleton.cpp
-    sources/effects.cpp
-    sources/imagearea.cpp
     sources/main.cpp
     sources/mainwindow.cpp
-    sources/paintinstruments.cpp
-    sources/resizedialog.cpp
-    sources/toolbar.cpp
-    sources/palettebar.cpp
+    sources/imagearea.cpp
+    sources/datasingleton.cpp
+    sources/additionaltools.cpp
+    sources/effects.cpp
     sources/undocommand.cpp
-    sources/palettebutton.cpp
-    sources/settingsdialog.cpp
-    sources/shortcutedit.cpp)
+    sources/widgets/toolbar.cpp
+    sources/widgets/colorchooser.cpp
+    sources/widgets/palettebar.cpp
+    sources/widgets/palettebutton.cpp
+    sources/widgets/shortcutedit.cpp
+    sources/dialogs/resizedialog.cpp
+    sources/dialogs/settingsdialog.cpp
+    sources/instruments/abstractinstrument.cpp
+    sources/instruments/selectioninstrument.cpp
+    sources/instruments/pencilinstrument.cpp
+    sources/instruments/lineinstrument.cpp
+    sources/instruments/eraserinstrument.cpp
+    sources/instruments/rectangleinstrument.cpp
+    sources/instruments/ellipseinstrument.cpp
+    sources/instruments/fillinstrument.cpp
+    sources/instruments/sprayinstrument.cpp
+    sources/instruments/magnifierinstrument.cpp
+    sources/instruments/colorpickerinstrument.cpp)
  
 #------- resources -------
 set (RESOURCE_PATH 

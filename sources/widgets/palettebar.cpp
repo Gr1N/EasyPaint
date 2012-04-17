@@ -24,7 +24,7 @@
  */
 
 #include "palettebar.h"
-#include "datasingleton.h"
+#include "../datasingleton.h"
 
 PaletteBar::PaletteBar(ToolBar *toolbar) :
     QToolBar(tr("Colors"))

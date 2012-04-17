@@ -25,7 +25,7 @@
 
 #include "toolbar.h"
 #include "colorchooser.h"
-#include "datasingleton.h"
+#include "../datasingleton.h"
 
 #include <QtGui/QToolButton>
 #include <QtGui/QGridLayout>
@@ -194,7 +194,7 @@ void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
     setAllButtonsUnchecked(NULL);
     switch(instrument)
     {
-    case NONE:
+    case NONE: case COUNT:
         break;
     case CURSOR:
         mCursorButton->setChecked(true);
@@ -237,13 +237,13 @@ void ToolBar::setCursor(const bool &state)
         mCursorButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(CURSOR);
         emit sendInstrumentChecked(CURSOR);
-        DataSingleton::Instance()->setPreviousInstrument(CURSOR);
     }
     else
     {
         setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
+        DataSingleton::Instance()->setPreviousInstrument(CURSOR);
     }
 }
 

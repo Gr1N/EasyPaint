@@ -24,8 +24,8 @@
  */
 
 #include "settingsdialog.h"
-#include "datasingleton.h"
-#include "shortcutedit.h"
+#include "../datasingleton.h"
+#include "../widgets/shortcutedit.h"
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>
