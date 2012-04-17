@@ -14,7 +14,6 @@ set (HEADERS
     sources/mainwindow.h
     sources/easypaintenums.h
     sources/imagearea.h
-    sources/paintinstruments.h
     sources/datasingleton.h
     sources/additionaltools.h
     sources/effects.h
@@ -27,6 +26,7 @@ set (HEADERS
     sources/dialogs/resizedialog.h
     sources/dialogs/settingsdialog.h
     sources/instruments/abstractinstrument.h
+    sources/instruments/selectioninstrument.h
     sources/instruments/pencilinstrument.h
     sources/instruments/lineinstrument.h
     sources/instruments/eraserinstrument.h
@@ -42,7 +42,6 @@ set (SOURCES
     sources/main.cpp
     sources/mainwindow.cpp
     sources/imagearea.cpp
-    sources/paintinstruments.cpp
     sources/datasingleton.cpp
     sources/additionaltools.cpp
     sources/effects.cpp
@@ -55,6 +54,7 @@ set (SOURCES
     sources/dialogs/resizedialog.cpp
     sources/dialogs/settingsdialog.cpp
     sources/instruments/abstractinstrument.cpp
+    sources/instruments/selectioninstrument.cpp
     sources/instruments/pencilinstrument.cpp
     sources/instruments/lineinstrument.cpp
     sources/instruments/eraserinstrument.cpp
