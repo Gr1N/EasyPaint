@@ -237,13 +237,13 @@ void ToolBar::setCursor(const bool &state)
         mCursorButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(CURSOR);
         emit sendInstrumentChecked(CURSOR);
-        DataSingleton::Instance()->setPreviousInstrument(CURSOR);
     }
     else
     {
         setAllButtonsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
+        DataSingleton::Instance()->setPreviousInstrument(CURSOR);
     }
 }
 
