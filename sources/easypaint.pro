@@ -18,7 +18,6 @@ UI_DIR = build
 SOURCES += main.cpp\
         mainwindow.cpp \
     imagearea.cpp \
-    paintinstruments.cpp \
     datasingleton.cpp \
     additionaltools.cpp \
     effects.cpp \
@@ -39,12 +38,12 @@ SOURCES += main.cpp\
     instruments/fillinstrument.cpp \
     instruments/sprayinstrument.cpp \
     instruments/magnifierinstrument.cpp \
-    instruments/colorpickerinstrument.cpp
+    instruments/colorpickerinstrument.cpp \
+    instruments/selectioninstrument.cpp
 
 HEADERS  += mainwindow.h \
     easypaintenums.h \
     imagearea.h \
-    paintinstruments.h \
     datasingleton.h \
     additionaltools.h \
     effects.h \
@@ -65,7 +64,8 @@ HEADERS  += mainwindow.h \
     instruments/fillinstrument.h \
     instruments/sprayinstrument.h \
     instruments/magnifierinstrument.h \
-    instruments/colorpickerinstrument.h
+    instruments/colorpickerinstrument.h \
+    instruments/selectioninstrument.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \
@@ -99,6 +99,10 @@ isEmpty(TS_DIR) {
 ;QMAKE_EXTRA_COMPILERS += TSQM
 ;PRE_TARGETDEPS += compiler_TSQM_make_all
 INSTALLS += target translations desktop icon
+
+
+
+
 
 
 
