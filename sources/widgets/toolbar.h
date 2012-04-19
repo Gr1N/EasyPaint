@@ -64,7 +64,7 @@ private:
 
     QToolButton *mCursorButton, *mEraserButton, *mPenButton, *mLineButton,
                 *mColorPickerButton, *mMagnifierButton, *mSprayButton, *mFillButton,
-                *mRectangleButton, *mEllipseButton;
+                *mRectangleButton, *mEllipseButton, *mCurveButton;
     ColorChooser *mPColorChooser, *mSColorChooser;
     bool mPrevInstrumentSetted;
     
@@ -93,6 +93,7 @@ private slots:
     void setFill(const bool &state);
     void setRect(const bool &state);
     void setEllipse(const bool &state);
+    void setCurve(bool state);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *);

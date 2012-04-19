@@ -67,6 +67,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mEffects = new Effects(this);
 
     mUndoStack = new QUndoStack(this);
+    mUndoStack->setUndoLimit(DataSingleton::Instance()->getHistoryDepth());
 
     if(isOpen && filePath.isEmpty())
     {

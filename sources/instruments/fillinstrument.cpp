@@ -126,11 +126,11 @@ void FillInstrument::fillRecurs(int x, int y, QRgb switchColor, QRgb oldColor, Q
             break;
         if(right_x > tempImage.width())
             break;
-        QRgb currentColor = tempImage.pixel(x_, y-1);
+        QRgb currentColor = tempImage.pixel(x_, y - 1);
         if(currentColor == oldColor && currentColor != switchColor)
-            fillRecurs(x_, y-1, switchColor, oldColor, tempImage);
-        currentColor = tempImage.pixel(x_, y+1);
+            fillRecurs(x_, y - 1, switchColor, oldColor, tempImage);
+        currentColor = tempImage.pixel(x_, y + 1);
         if(currentColor == oldColor && currentColor != switchColor)
-            fillRecurs(x_, y+1, switchColor, oldColor, tempImage);
+            fillRecurs(x_, y + 1, switchColor, oldColor, tempImage);
     }
 }

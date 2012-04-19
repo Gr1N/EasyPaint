@@ -702,7 +702,7 @@ void MainWindow::setAllInstrumentsUnchecked(QAction *action)
 
 void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
 {
-    setAllInstrumentsUnchecked(new QAction(this));
+    setAllInstrumentsUnchecked(NULL);
     switch(instrument)
     {
     case NONE: case COUNT:

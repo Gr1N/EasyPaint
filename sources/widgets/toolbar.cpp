@@ -83,6 +83,8 @@ void ToolBar::initializeItems()
     mEllipseButton = createToolButton(tr("Ellipse"), ":/media/instruments-icons/ellipse.png");
     connect(mEllipseButton, SIGNAL(toggled(bool)), this, SLOT(setEllipse(bool)));
 
+    mCurveButton = createToolButton(tr("Curve"), ":media/instruments-icons/curve.png");
+    //connect(mCurveButton, SIGNAL(toggled(bool)), this, SLOT(setCurve(bool)));
 
     QGridLayout *bLayout = new QGridLayout();
     bLayout->setMargin(3);
@@ -96,6 +98,7 @@ void ToolBar::initializeItems()
     bLayout->addWidget(mFillButton, 3, 1);
     bLayout->addWidget(mRectangleButton, 4, 0);
     bLayout->addWidget(mEllipseButton, 4, 1);
+    bLayout->addWidget(mCurveButton, 5, 0);
 
     QWidget *bWidget = new QWidget();
     bWidget->setLayout(bLayout);
@@ -187,6 +190,8 @@ void ToolBar::setAllButtonsUnchecked(QToolButton *button)
         mRectangleButton->setChecked(false);
     if(button != mEllipseButton)
         mEllipseButton->setChecked(false);
+    if(button != mCurveButton)
+        mCurveButton->setChecked(false);
 }
 
 void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
@@ -396,6 +401,23 @@ void ToolBar::setEllipse(const bool &state)
         mEllipseButton->setChecked(true);
         DataSingleton::Instance()->setInstrument(ELLIPSE);
         emit sendInstrumentChecked(ELLIPSE);
+    }
+    else
+    {
+        setAllButtonsUnchecked(NULL);
+        DataSingleton::Instance()->setInstrument(NONE);
+        emit sendInstrumentChecked(NONE);
+    }
+}
+
+void ToolBar::setCurve(bool state)
+{
+    if(state)
+    {
+        setAllButtonsUnchecked(mCurveButton);
+        mCurveButton->setChecked(true);
+        DataSingleton::Instance()->setInstrument(CURVELINE);
+        emit sendInstrumentChecked(CURVELINE);
     }
     else
     {

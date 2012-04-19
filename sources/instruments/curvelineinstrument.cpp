@@ -23,30 +23,9 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "curvelineinstrument.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+CurveLineInstrument::CurveLineInstrument(QObject *parent) :
+    AbstractInstrument(parent)
 {
-    NONE = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
-
-    // Don't use it. (Used to know count of current instrument)
-    COUNT
-} InstrumentsEnum;
-
-#endif // EASYPAINTENUMS_H
+}

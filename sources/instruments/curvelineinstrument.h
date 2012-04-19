@@ -23,30 +23,23 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#ifndef CURVELINEINSTRUMENT_H
+#define CURVELINEINSTRUMENT_H
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+#include "abstractinstrument.h"
+
+#include <QtCore/QObject>
+
+class CurveLineInstrument : public AbstractInstrument
 {
-    NONE = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
+    Q_OBJECT
+public:
+    explicit CurveLineInstrument(QObject *parent = 0);
+    
+signals:
+    
+private:
 
-    // Don't use it. (Used to know count of current instrument)
-    COUNT
-} InstrumentsEnum;
+};
 
-#endif // EASYPAINTENUMS_H
+#endif // CURVELINEINSTRUMENT_H
