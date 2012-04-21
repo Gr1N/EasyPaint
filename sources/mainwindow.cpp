@@ -43,9 +43,10 @@
 #include <QtGui/QInputDialog>
 #include <QtGui/QUndoGroup>
 #include <QtCore/QTimer>
+#include <QtCore/QMap>
 
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent), mPrevInstrumentSetted(false)
 {
     setWindowIcon(QIcon(":/media/logo/easypaint_64.png"));
 
@@ -119,12 +120,12 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
         mUndoStackGroup->addStack(imageArea->getUndoStack());
         connect(imageArea, SIGNAL(sendPrimaryColorView()), mToolbar, SLOT(setPrimaryColorView()));
         connect(imageArea, SIGNAL(sendSecondaryColorView()), mToolbar, SLOT(setSecondaryColorView()));
-        connect(imageArea, SIGNAL(sendRestorePreviousInstrument()), mToolbar, SLOT(restorePreviousInstrument()));
+        connect(imageArea, SIGNAL(sendRestorePreviousInstrument()), this, SLOT(restorePreviousInstrument()));
         connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
         connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
         connect(imageArea, SIGNAL(sendColor(QColor)), this, SLOT(setCurrentPipetteColor(QColor)));
         connect(imageArea, SIGNAL(sendEnableCopyCutActions(bool)), this, SLOT(enableCopyCutActions(bool)));
-        connect(imageArea, SIGNAL(sendEnableSelectionInstrument(bool)), this, SLOT(cursorAct(bool)));
+        connect(imageArea, SIGNAL(sendEnableSelectionInstrument(bool)), this, SLOT(instumentsAct(bool)));
 
         setWindowTitle(QString("%1 - EasyPaint").arg(fileName));
     }
@@ -231,55 +232,83 @@ void MainWindow::initializeMainMenu()
 
     mInstrumentsMenu = menuBar()->addMenu(tr("&Instruments"));
 
-    mCursorAction = new QAction(tr("Selection"), this);
+    QAction *mCursorAction = new QAction(tr("Selection"), this);
     mCursorAction->setCheckable(true);
-    connect(mCursorAction, SIGNAL(triggered(bool)), this, SLOT(cursorAct(bool)));
+    mCursorAction->setIcon(QIcon(":/media/instruments-icons/cursor.png"));
+    connect(mCursorAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mCursorAction);
+    mInstrumentsActMap.insert(CURSOR, mCursorAction);
 
-    mEraserAction = new QAction(tr("Eraser"), this);
+    QAction *mEraserAction = new QAction(tr("Eraser"), this);
     mEraserAction->setCheckable(true);
-    connect(mEraserAction, SIGNAL(triggered(bool)), this, SLOT(eraserAct(bool)));
+    mEraserAction->setIcon(QIcon(":/media/instruments-icons/lastic.png"));
+    connect(mEraserAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mEraserAction);
+    mInstrumentsActMap.insert(ERASER, mEraserAction);
 
-    mColorPickerAction = new QAction(tr("Color picker"), this);
+    QAction *mColorPickerAction = new QAction(tr("Color picker"), this);
     mColorPickerAction->setCheckable(true);
-    connect(mColorPickerAction, SIGNAL(triggered(bool)), this, SLOT(colorPickerAct(bool)));
+    mColorPickerAction->setIcon(QIcon(":/media/instruments-icons/pipette.png"));
+    connect(mColorPickerAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mColorPickerAction);
+    mInstrumentsActMap.insert(COLORPICKER, mColorPickerAction);
 
-    mMagnifierAction = new QAction(tr("Magnifier"), this);
+    QAction *mMagnifierAction = new QAction(tr("Magnifier"), this);
     mMagnifierAction->setCheckable(true);
-    connect(mMagnifierAction, SIGNAL(triggered(bool)), this, SLOT(magnifierAct(bool)));
+    mMagnifierAction->setIcon(QIcon(":/media/instruments-icons/loupe.png"));
+    connect(mMagnifierAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mMagnifierAction);
+    mInstrumentsActMap.insert(MAGNIFIER, mMagnifierAction);
 
-    mPenAction = new QAction(tr("Pen"), this);
+    QAction *mPenAction = new QAction(tr("Pen"), this);
     mPenAction->setCheckable(true);
-    connect(mPenAction, SIGNAL(triggered(bool)), this, SLOT(penAct(bool)));
+    mPenAction->setIcon(QIcon(":/media/instruments-icons/pencil.png"));
+    connect(mPenAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mPenAction);
+    mInstrumentsActMap.insert(PEN, mPenAction);
 
-    mLineAction = new QAction(tr("Line"), this);
+    QAction *mLineAction = new QAction(tr("Line"), this);
     mLineAction->setCheckable(true);
-    connect(mLineAction, SIGNAL(triggered(bool)), this, SLOT(lineAct(bool)));
+    mLineAction->setIcon(QIcon(":/media/instruments-icons/line.png"));
+    connect(mLineAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mLineAction);
+    mInstrumentsActMap.insert(LINE, mLineAction);
 
-    mSprayAction = new QAction(tr("Spray"), this);
+    QAction *mSprayAction = new QAction(tr("Spray"), this);
     mSprayAction->setCheckable(true);
-    connect(mSprayAction, SIGNAL(triggered(bool)), this, SLOT(sprayAct(bool)));
+    mSprayAction->setIcon(QIcon(":/media/instruments-icons/spray.png"));
+    connect(mSprayAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mSprayAction);
+    mInstrumentsActMap.insert(SPRAY, mSprayAction);
 
-    mFillAction = new QAction(tr("Fill"), this);
+    QAction *mFillAction = new QAction(tr("Fill"), this);
     mFillAction->setCheckable(true);
-    connect(mFillAction, SIGNAL(triggered(bool)), this, SLOT(fillAct(bool)));
+    mFillAction->setIcon(QIcon(":/media/instruments-icons/fill.png"));
+    connect(mFillAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mFillAction);
+    mInstrumentsActMap.insert(FILL, mFillAction);
 
-    mRectangleAction = new QAction(tr("Rectangle"), this);
+    QAction *mRectangleAction = new QAction(tr("Rectangle"), this);
     mRectangleAction->setCheckable(true);
-    connect(mRectangleAction, SIGNAL(triggered(bool)), this, SLOT(rectangleAct(bool)));
+    mRectangleAction->setIcon(QIcon(":/media/instruments-icons/rectangle.png"));
+    connect(mRectangleAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mRectangleAction);
+    mInstrumentsActMap.insert(RECTANGLE, mRectangleAction);
 
-    mEllipseAction = new QAction(tr("Ellipse"), this);
+    QAction *mEllipseAction = new QAction(tr("Ellipse"), this);
     mEllipseAction->setCheckable(true);
-    connect(mEllipseAction, SIGNAL(triggered(bool)), this, SLOT(ellipseAct(bool)));
+    mEllipseAction->setIcon(QIcon(":/media/instruments-icons/ellipse.png"));
+    connect(mEllipseAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mEllipseAction);
+    mInstrumentsActMap.insert(ELLIPSE, mEllipseAction);
+
+    QAction *curveLineAction = new QAction(tr("Curve"), this);
+    curveLineAction->setCheckable(true);
+    curveLineAction->setIcon(QIcon(":/media/instruments-icons/curve.png"));
+    connect(curveLineAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
+    mInstrumentsMenu->addAction(curveLineAction);
+    mInstrumentsActMap.insert(CURVELINE, curveLineAction);
+    // TODO: Add new instrument action here
 
     mEffectsMenu = menuBar()->addMenu(tr("E&ffects"));
 
@@ -372,7 +401,7 @@ void MainWindow::initializeStatusBar()
 
 void MainWindow::initializeToolBar()
 {
-    mToolbar = new ToolBar(this);
+    mToolbar = new ToolBar(mInstrumentsActMap, this);
     addToolBar(Qt::LeftToolBarArea, mToolbar);
     connect(mToolbar, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), this, SLOT(setInstrumentChecked(InstrumentsEnum)));
     connect(mToolbar, SIGNAL(sendClearStatusBarColor()), this, SLOT(clearStatusBarColor()));
@@ -519,16 +548,18 @@ void MainWindow::updateShortcuts()
     mPasteAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Paste"));
     mCutAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Cut"));
 
-    mCursorAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Cursor"));
-    mEraserAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic"));
-    mColorPickerAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette"));
-    mMagnifierAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe"));
-    mPenAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pen"));
-    mLineAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Line"));
-    mSprayAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Spray"));
-    mFillAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill"));
-    mRectangleAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect"));
-    mEllipseAction->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse"));
+    mInstrumentsActMap[CURSOR]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Cursor"));
+    mInstrumentsActMap[ERASER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic"));
+    mInstrumentsActMap[COLORPICKER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette"));
+    mInstrumentsActMap[MAGNIFIER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe"));
+    mInstrumentsActMap[PEN]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pen"));
+    mInstrumentsActMap[LINE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Line"));
+    mInstrumentsActMap[SPRAY]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Spray"));
+    mInstrumentsActMap[FILL]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill"));
+    mInstrumentsActMap[RECTANGLE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect"));
+    mInstrumentsActMap[ELLIPSE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse"));
+    mInstrumentsActMap[CURVELINE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Curve"));
+    // TODO: Add new instruments' shorcuts here
 
     mZoomInAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn"));
     mZoomOutAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomOut"));
@@ -672,242 +703,52 @@ bool MainWindow::closeAllTabs()
 
 void MainWindow::setAllInstrumentsUnchecked(QAction *action)
 {
-    if(action != mCursorAction)
+    if(action != mInstrumentsActMap[CURSOR])
     {
-        mCursorAction->setChecked(false);
+        mInstrumentsActMap[CURSOR]->setChecked(false);
         if (DataSingleton::Instance()->getPreviousInstrument() == CURSOR)
         {
             clearImageSelectionSingleShot();
         }
     }
-    if(action != mEraserAction)
-        mEraserAction->setChecked(false);
-    if(action != mColorPickerAction)
-        mColorPickerAction->setChecked(false);
-    if(action != mMagnifierAction)
-        mMagnifierAction->setChecked(false);
-    if(action != mPenAction)
-        mPenAction->setChecked(false);
-    if(action != mLineAction)
-        mLineAction->setChecked(false);
-    if(action != mSprayAction)
-        mSprayAction->setChecked(false);
-    if(action != mFillAction)
-        mFillAction->setChecked(false);
-    if(action != mRectangleAction)
-        mRectangleAction->setChecked(false);
-    if(action != mEllipseAction)
-        mEllipseAction->setChecked(false);
+    foreach (QAction *temp, mInstrumentsActMap)
+    {
+        if(temp != action)
+            temp->setChecked(false);
+    }
 }
 
 void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
 {
     setAllInstrumentsUnchecked(NULL);
-    switch(instrument)
-    {
-    case NONE: case COUNT:
-        break;
-    case CURSOR:
-        mCursorAction->setChecked(true);
-        break;
-    case ERASER:
-        mEraserAction->setChecked(true);
-        break;
-    case COLORPICKER:
-        mColorPickerAction->setChecked(true);
-        break;
-    case MAGNIFIER:
-        mMagnifierAction->setChecked(true);
-        break;
-    case PEN:
-        mPenAction->setChecked(true);
-        break;
-    case LINE:
-        mLineAction->setChecked(true);
-        break;
-    case SPRAY:
-        mSprayAction->setChecked(true);
-        break;
-    case FILL:
-        mFillAction->setChecked(true);
-        break;
-    case RECTANGLE:
-        mRectangleAction->setChecked(true);
-        break;
-    case ELLIPSE:
-        mEllipseAction->setChecked(true);
-        break;
-    }
+    if(instrument == NONE || instrument == COUNT)
+        return;
+    mInstrumentsActMap[instrument]->setChecked(true);
 }
 
-void MainWindow::cursorAct(const bool &state)
+void MainWindow::instumentsAct(bool state)
 {
+    static bool isPrevSetted = false;
+    QAction *currentAction = static_cast<QAction*>(sender());
     if(state)
     {
-        setAllInstrumentsUnchecked(mCursorAction);
-        mCursorAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(CURSOR);
-        emit sendInstrumentChecked(CURSOR);
+        if(currentAction == mInstrumentsActMap[COLORPICKER] && !mPrevInstrumentSetted)
+        {
+            DataSingleton::Instance()->setPreviousInstrument(DataSingleton::Instance()->getInstrument());
+            mPrevInstrumentSetted = true;
+        }
+        setAllInstrumentsUnchecked(currentAction);
+        currentAction->setChecked(true);
+        DataSingleton::Instance()->setInstrument(mInstrumentsActMap.key(currentAction));
+        emit sendInstrumentChecked(mInstrumentsActMap.key(currentAction));
     }
     else
     {
         setAllInstrumentsUnchecked(NULL);
         DataSingleton::Instance()->setInstrument(NONE);
         emit sendInstrumentChecked(NONE);
-        DataSingleton::Instance()->setPreviousInstrument(CURSOR);
-    }
-}
-
-void MainWindow::eraserAct(const bool &state)
-{
-    if(state)
-    {
-        setAllInstrumentsUnchecked(mEraserAction);
-        mEraserAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(ERASER);
-        emit sendInstrumentChecked(ERASER);
-    }
-    else
-    {
-        setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
-    }
-}
-
-void MainWindow::colorPickerAct(const bool &state)
-{
-    if(state)
-    {
-        setAllInstrumentsUnchecked(mColorPickerAction);
-        mColorPickerAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(COLORPICKER);
-        emit sendInstrumentChecked(COLORPICKER);
-    }
-    else
-    {
-        setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
-    }
-}
-
-void MainWindow::magnifierAct(const bool &state)
-{
-    if(state)
-    {
-        setAllInstrumentsUnchecked(mMagnifierAction);
-        mMagnifierAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(MAGNIFIER);
-        emit sendInstrumentChecked(MAGNIFIER);
-    }
-    else
-    {
-        setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
-    }
-}
-
-void MainWindow::penAct(const bool &state)
-{
-    if(state)
-    {
-        setAllInstrumentsUnchecked(mPenAction);
-        mPenAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(PEN);
-        emit sendInstrumentChecked(PEN);
-    }
-    else
-    {
-        setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
-    }
-}
-
-void MainWindow::lineAct(const bool &state)
-{
-    if(state)
-    {
-        setAllInstrumentsUnchecked(mLineAction);
-        mLineAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(LINE);
-        emit sendInstrumentChecked(LINE);
-    }
-    else
-    {
-        setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
-    }
-}
-
-void MainWindow::sprayAct(const bool &state)
-{
-    if(state)
-    {
-        setAllInstrumentsUnchecked(mSprayAction);
-        mSprayAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(SPRAY);
-        emit sendInstrumentChecked(SPRAY);
-    }
-    else
-    {
-        setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
-    }
-}
-
-void MainWindow::fillAct(const bool &state)
-{
-    if(state)
-    {
-        setAllInstrumentsUnchecked(mFillAction);
-        mEraserAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(FILL);
-        emit sendInstrumentChecked(FILL);
-    }
-    else
-    {
-        setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
-    }
-}
-
-void MainWindow::rectangleAct(const bool &state)
-{
-    if(state)
-    {
-        setAllInstrumentsUnchecked(mRectangleAction);
-        mRectangleAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(RECTANGLE);
-        emit sendInstrumentChecked(RECTANGLE);
-    }
-    else
-    {
-        setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
-    }
-}
-
-void MainWindow::ellipseAct(const bool &state)
-{
-    if(state)
-    {
-        setAllInstrumentsUnchecked(mEllipseAction);
-        mEllipseAction->setChecked(true);
-        DataSingleton::Instance()->setInstrument(ELLIPSE);
-        emit sendInstrumentChecked(ELLIPSE);
-    }
-    else
-    {
-        setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
+        if(currentAction == mInstrumentsActMap[CURSOR])
+            DataSingleton::Instance()->setPreviousInstrument(mInstrumentsActMap.key(currentAction));
     }
 }
 
@@ -926,8 +767,6 @@ void MainWindow::enableActions(int index)
     mSaveAsAction->setEnabled(isEnable);
     mCloseAction->setEnabled(isEnable);
     mPrintAction->setEnabled(isEnable);
-//    mCopyAction->setEnabled(isEnable);
-//    mCutAction->setEnabled(isEnable);
 
     if(!isEnable)
     {
@@ -952,6 +791,15 @@ void MainWindow::clearImageSelection()
 {
     getCurrentImageArea()->clearSelection();
     DataSingleton::Instance()->setPreviousInstrument(NONE);
+}
+
+void MainWindow::restorePreviousInstrument()
+{
+    setInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
+    DataSingleton::Instance()->setInstrument(DataSingleton::Instance()->getPreviousInstrument());
+    emit sendInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
+    mPrevInstrumentSetted = false;
+    //emit sendClearStatusBarColor();
 }
 
 void MainWindow::helpAct()

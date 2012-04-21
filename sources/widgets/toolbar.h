@@ -44,7 +44,7 @@ class ToolBar : public QToolBar
     Q_OBJECT
 
 public:
-    explicit ToolBar(QWidget *parent = 0);
+    explicit ToolBar(const QMap<InstrumentsEnum, QAction*> &actMap, QWidget *parent = 0);
 
 private:
     /**
@@ -60,13 +60,14 @@ private:
      * @param iconPath Path to button icon.
      * @return QToolButton Created QToolButton.
      */
-    QToolButton* createToolButton(const QString &name, const QString &iconPath);
+    QToolButton* createToolButton(QAction *act);
 
     QToolButton *mCursorButton, *mEraserButton, *mPenButton, *mLineButton,
                 *mColorPickerButton, *mMagnifierButton, *mSprayButton, *mFillButton,
                 *mRectangleButton, *mEllipseButton, *mCurveButton;
     ColorChooser *mPColorChooser, *mSColorChooser;
     bool mPrevInstrumentSetted;
+    const QMap<InstrumentsEnum, QAction*> &mActMap;
     
 signals:
     void sendInstrumentChecked(InstrumentsEnum);
@@ -77,23 +78,11 @@ public slots:
     void setPrimaryColorView();
     void setSecondaryColorView();
     void setInstrumentChecked(InstrumentsEnum instrument);
-    void restorePreviousInstrument();
     
 private slots:
     void penValueChanged(const int &value);
     void primaryColorChanged(const QColor &color);
     void secondaryColorChanged(const QColor &color);
-    void setCursor(const bool &state);
-    void setLastic(const bool &state);
-    void setPen(const bool &state);
-    void setLine(const bool &state);
-    void setPipette(const bool &state);
-    void setLoupe(const bool &state);
-    void setSpray(const bool &state);
-    void setFill(const bool &state);
-    void setRect(const bool &state);
-    void setEllipse(const bool &state);
-    void setCurve(bool state);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *);

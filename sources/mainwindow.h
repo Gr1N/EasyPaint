@@ -27,6 +27,7 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
+#include <QtCore/QMap>
 
 #include "easypaintenums.h"
 
@@ -96,15 +97,13 @@ private:
     PaletteBar *mPaletteBar;
     QLabel *mSizeLabel, *mPosLabel, *mColorPreviewLabel, *mColorRGBLabel;
 
-    QAction *mCursorAction, *mEraserAction, *mColorPickerAction, *mMagnifierAction,
-            *mPenAction, *mLineAction, *mSprayAction, *mFillAction,
-            *mRectangleAction, *mEllipseAction,
-            *mSaveAction, *mSaveAsAction, *mCloseAction, *mPrintAction,
+    QMap<InstrumentsEnum, QAction*> mInstrumentsActMap;
+    QAction *mSaveAction, *mSaveAsAction, *mCloseAction, *mPrintAction,
             *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction,
             *mNewAction, *mOpenAction, *mExitAction, *mPasteAction, *mZoomInAction, *mZoomOutAction;
     QMenu *mInstrumentsMenu, *mEffectsMenu, *mToolsMenu;
     QUndoGroup *mUndoStackGroup;
-
+    bool mPrevInstrumentSetted; /**< Used for magnifier */
 private slots:
     void activateTab(const int &index);
     void setNewSizeToSizeLabel(const QSize &size);
@@ -134,21 +133,15 @@ private slots:
     void closeTabAct();
     void closeTab(int index);
     void setAllInstrumentsUnchecked(QAction *action);
-    void cursorAct(const bool &state);
-    void eraserAct(const bool &state);
-    void colorPickerAct(const bool &state);
-    void magnifierAct(const bool &state);
-    void penAct(const bool &state);
-    void lineAct(const bool &state);
-    void sprayAct(const bool &state);
-    void fillAct(const bool &state);
-    void rectangleAct(const bool &state);
-    void ellipseAct(const bool &state);
+    /**
+     * @brief Instruments buttons handler.
+     */
+    void instumentsAct(bool state);
     void enableActions(int index);
     void enableCopyCutActions(bool enable);
     void clearImageSelectionSingleShot();
     void clearImageSelection();
-
+    void restorePreviousInstrument();
 signals:
     void sendInstrumentChecked(InstrumentsEnum);
 
