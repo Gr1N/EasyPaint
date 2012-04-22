@@ -30,7 +30,7 @@
 #include <QtGui/QPen>
 #include <QtGui/QPainter>
 #include <QtGui/QImage>
-#include <QDebug>
+
 CurveLineInstrument::CurveLineInstrument(QObject *parent) :
     AbstractInstrument(parent)
 {
@@ -43,22 +43,24 @@ void CurveLineInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageAr
     {
         switch(mPointsCount)
         {
+        //draw linear Bezier curve
         case 0:
-            mStartPoint = mEndPoint = mFirst = mSecond = event->pos();
-            mPointsCount++;
+            mImageCopy = *imageArea.getImage();
+            mStartPoint = mEndPoint = mFirstControlPoint = mSecondControlPoint = event->pos();
+            ++mPointsCount;
             break;
+        //draw square Bezier curve
         case 1:
-            mFirst = mSecond = event->pos();
-            mPointsCount++;
+            mFirstControlPoint = mSecondControlPoint = event->pos();
+            ++mPointsCount;
             break;
+        //draw cubic Bezier curve
         case 2:
-            mSecond = event->pos();
-            mPointsCount=0;
+            mSecondControlPoint = event->pos();
+            mPointsCount = 0;
             break;
         }
-//        mStartPoint = mEndPoint = event->pos();
         imageArea.setIsPaint(true);
-        mImageCopy = *imageArea.getImage();
         imageArea.pushUndoCommand();
     }
 }
@@ -67,7 +69,22 @@ void CurveLineInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageAre
 {
     if(imageArea.isPaint())
     {
-        mEndPoint = event->pos();
+        switch(mPointsCount)
+        {
+        //draw linear Bezier curve
+        case 1:
+            mEndPoint = event->pos();
+            break;
+        //draw square Bezier curve
+        case 2:
+            mFirstControlPoint = mSecondControlPoint = event->pos();
+            break;
+        //draw cubic Bezier curve
+        case 0:
+            mSecondControlPoint = event->pos();
+            break;
+        }
+
         imageArea.setImage(mImageCopy);
         if(event->buttons() & Qt::LeftButton)
             paint(imageArea, false);
@@ -91,18 +108,17 @@ void CurveLineInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &image
 
 void CurveLineInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
 {
-    qDebug()<<mStartPoint << mFirst << mSecond << mEndPoint;
     QPainter painter(imageArea.getImage());
-    //make Bezier curve
+    //make Bezier curve path
     QPainterPath path;
     path.moveTo(mStartPoint);
-    path.cubicTo(mFirst, mSecond, mEndPoint);
+    path.cubicTo(mFirstControlPoint, mSecondControlPoint, mEndPoint);
     //choose color
     painter.setPen(QPen(isSecondaryColor ? DataSingleton::Instance()->getSecondaryColor() :
                                            DataSingleton::Instance()->getPrimaryColor(),
                         DataSingleton::Instance()->getPenSize() * imageArea.getZoomFactor(),
                         Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-
+    //draw Bezier curve with given path
     painter.strokePath(path, painter.pen());
 
     imageArea.setEdited(true);

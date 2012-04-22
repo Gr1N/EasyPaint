@@ -45,8 +45,8 @@ protected:
     void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
 
 private:
-    QPoint mFirst, mSecond;
-    unsigned int mPointsCount;
+    QPoint mFirstControlPoint, mSecondControlPoint;
+    unsigned int mPointsCount : 2; /**< Chaneges from 0 to 2, so 2 bits is enough. */
 };
 
 #endif // CURVELINEINSTRUMENT_H
