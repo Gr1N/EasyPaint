@@ -24,8 +24,82 @@
  */
 
 #include "curvelineinstrument.h"
+#include "../imagearea.h"
+#include "../datasingleton.h"
+
+#include <QtGui/QPen>
+#include <QtGui/QPainter>
+#include <QtGui/QImage>
 
 CurveLineInstrument::CurveLineInstrument(QObject *parent) :
     AbstractInstrument(parent)
 {
+    mPointsCount = 0;
+}
+
+void CurveLineInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
+{
+    if(event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
+    {
+        switch(mPointsCount)
+        {
+        case 0:
+            mStartPoint = mEndPoint = event->pos();
+            break;
+        case 1:
+            mFirst = event->pos();
+            break;
+        case 2:
+            break;
+        }
+//        mStartPoint = mEndPoint = event->pos();
+        imageArea.setIsPaint(true);
+        mImageCopy = *imageArea.getImage();
+        imageArea.pushUndoCommand();
+    }
+}
+
+void CurveLineInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
+{
+    if(imageArea.isPaint())
+    {
+        mEndPoint = event->pos();
+        imageArea.setImage(mImageCopy);
+        if(event->buttons() & Qt::LeftButton)
+            paint(imageArea, false);
+        else if(event->buttons() & Qt::RightButton)
+            paint(imageArea, true);
+    }
+}
+
+void CurveLineInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
+{
+    if(imageArea.isPaint())
+    {
+        imageArea.setImage(mImageCopy);
+        if(event->button() == Qt::LeftButton)
+            paint(imageArea, false);
+        else if(event->button() == Qt::RightButton)
+            paint(imageArea, true);
+        imageArea.setIsPaint(false);
+    }
+}
+
+void CurveLineInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
+{
+    QPainter painter(imageArea.getImage());
+    //choose color
+    painter.setPen(QPen(isSecondaryColor ? DataSingleton::Instance()->getSecondaryColor() :
+                                           DataSingleton::Instance()->getPrimaryColor(),
+                        DataSingleton::Instance()->getPenSize() * imageArea.getZoomFactor(),
+                        Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+//    if(mStartPoint == mEndPoint)
+    //    painter.drawPoint(mStartPoint);
+  //  else
+
+        painter.drawLine(mStartPoint, mEndPoint);
+
+    imageArea.setEdited(true);
+    painter.end();
+    imageArea.update();
 }

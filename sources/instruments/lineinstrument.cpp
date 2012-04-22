@@ -29,6 +29,7 @@
 
 #include <QtGui/QPen>
 #include <QtGui/QPainter>
+#include <QtGui/QImage>
 
 LineInstrument::LineInstrument(QObject *parent) :
     AbstractInstrument(parent)

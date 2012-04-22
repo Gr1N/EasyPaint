@@ -29,6 +29,7 @@
 #include "abstractinstrument.h"
 
 #include <QtCore/QObject>
+#include <QtCore/QPoint>
 
 class CurveLineInstrument : public AbstractInstrument
 {
@@ -36,10 +37,16 @@ class CurveLineInstrument : public AbstractInstrument
 public:
     explicit CurveLineInstrument(QObject *parent = 0);
     
-signals:
-    
-private:
+    virtual void mousePressEvent(QMouseEvent *event, ImageArea &imageArea);
+    virtual void mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea);
+    virtual void mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea);
 
+protected:
+    void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
+
+private:
+    QPoint mFirst, mSecond;
+    unsigned int mPointsCount;
 };
 
 #endif // CURVELINEINSTRUMENT_H

@@ -210,6 +210,9 @@ void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
     case ELLIPSE:
         mEllipseButton->setChecked(true);
         break;
+    case CURVELINE:
+        mCurveButton->setChecked(true);
+        break;
     }
 }
 

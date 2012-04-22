@@ -38,6 +38,7 @@
 #include "instruments/magnifierinstrument.h"
 #include "instruments/colorpickerinstrument.h"
 #include "instruments/selectioninstrument.h"
+#include "instruments/curvelineinstrument.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -112,6 +113,8 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mInstrumentsHandlers[SPRAY] = new SprayInstrument(this);
     mInstrumentsHandlers[MAGNIFIER] = new MagnifierInstrument(this);
     mInstrumentsHandlers[COLORPICKER] = new ColorpickerInstrument(this);
+    mInstrumentsHandlers[CURVELINE] = new CurveLineInstrument(this);
+    // TODO: Add new handlers here
 }
 
 ImageArea::~ImageArea()
@@ -390,7 +393,7 @@ void ImageArea::restoreCursor()
         mCurrentCursor = new QCursor(*mPixmap);
         setCursor(*mCurrentCursor);
         break;
-    case RECTANGLE: case ELLIPSE: case LINE:
+    case RECTANGLE: case ELLIPSE: case LINE: case CURVELINE:
         mCurrentCursor = new QCursor(Qt::CrossCursor);
         setCursor(*mCurrentCursor);
         break;
@@ -415,7 +418,7 @@ void ImageArea::drawCursor()
     switch(DataSingleton::Instance()->getInstrument())
     {
     case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
-    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case COUNT:
+    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case COUNT: case CURVELINE:
         break;
     case PEN: case ERASER:
         mPixmap->fill(QColor(0, 0, 0, 0));
@@ -425,7 +428,7 @@ void ImageArea::drawCursor()
     switch(DataSingleton::Instance()->getInstrument())
     {
     case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
-    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case COUNT:
+    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case COUNT: case CURVELINE:
         break;
     case PEN:
         if(mRightButtonPressed)
