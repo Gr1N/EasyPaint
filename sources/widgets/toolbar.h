@@ -52,7 +52,6 @@ private:
      *
      */
     void initializeItems();
-    void setAllButtonsUnchecked(QToolButton *button);
     /**
      * @brief Create new QToolButton
      *
@@ -70,14 +69,12 @@ private:
     const QMap<InstrumentsEnum, QAction*> &mActMap;
     
 signals:
-    void sendInstrumentChecked(InstrumentsEnum);
     void sendClearStatusBarColor();
     void sendClearImageSelection();
 
 public slots:
     void setPrimaryColorView();
     void setSecondaryColorView();
-    void setInstrumentChecked(InstrumentsEnum instrument);
     
 private slots:
     void penValueChanged(const int &value);

@@ -41,7 +41,7 @@ ToolBar::ToolBar(const QMap<InstrumentsEnum, QAction *> &actMap, QWidget *parent
     mPrevInstrumentSetted = false;
 }
 
-QToolButton* ToolBar::createToolButton(QAction *act/*const QString &name, const QString &iconPath*/)
+QToolButton* ToolBar::createToolButton(QAction *act)
 {
     QToolButton *toolButton = new QToolButton();
     toolButton->setMinimumSize(QSize(30, 30));
@@ -136,84 +136,6 @@ void ToolBar::setPrimaryColorView()
 void ToolBar::setSecondaryColorView()
 {
     mSColorChooser->setColor(DataSingleton::Instance()->getSecondaryColor());
-}
-
-void ToolBar::setAllButtonsUnchecked(QToolButton *button)
-{
-    if(button != mCursorButton)
-    {
-        mCursorButton->setChecked(false);
-        if (DataSingleton::Instance()->getPreviousInstrument() == CURSOR)
-        {
-            emit sendClearImageSelection();
-        }
-    }
-    if(button != mEraserButton)
-        mEraserButton->setChecked(false);
-    if(button != mPenButton)
-        mPenButton->setChecked(false);
-    if(button != mLineButton)
-        mLineButton->setChecked(false);
-    if(button != mColorPickerButton)
-    {
-        mColorPickerButton->setChecked(false);
-        emit sendClearStatusBarColor();
-    }
-    if(button != mMagnifierButton)
-        mMagnifierButton->setChecked(false);
-    if(button != mSprayButton)
-        mSprayButton->setChecked(false);
-    if(button != mFillButton)
-        mFillButton->setChecked(false);
-    if(button != mRectangleButton)
-        mRectangleButton->setChecked(false);
-    if(button != mEllipseButton)
-        mEllipseButton->setChecked(false);
-    if(button != mCurveButton)
-        mCurveButton->setChecked(false);
-}
-
-void ToolBar::setInstrumentChecked(InstrumentsEnum instrument)
-{
-    setAllButtonsUnchecked(NULL);
-    switch(instrument)
-    {
-    case NONE: case COUNT:
-        break;
-    case CURSOR:
-        mCursorButton->setChecked(true);
-        break;
-    case ERASER:
-        mEraserButton->setChecked(true);
-        break;
-    case COLORPICKER:
-        mColorPickerButton->setChecked(true);
-        break;
-    case MAGNIFIER:
-        mMagnifierButton->setChecked(true);
-        break;
-    case PEN:
-        mPenButton->setChecked(true);
-        break;
-    case LINE:
-        mLineButton->setChecked(true);
-        break;
-    case SPRAY:
-        mSprayButton->setChecked(true);
-        break;
-    case FILL:
-        mFillButton->setChecked(true);
-        break;
-    case RECTANGLE:
-        mRectangleButton->setChecked(true);
-        break;
-    case ELLIPSE:
-        mEllipseButton->setChecked(true);
-        break;
-    case CURVELINE:
-        mCurveButton->setChecked(true);
-        break;
-    }
 }
 
 void ToolBar::contextMenuEvent(QContextMenuEvent *)

@@ -403,9 +403,7 @@ void MainWindow::initializeToolBar()
 {
     mToolbar = new ToolBar(mInstrumentsActMap, this);
     addToolBar(Qt::LeftToolBarArea, mToolbar);
-    connect(mToolbar, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), this, SLOT(setInstrumentChecked(InstrumentsEnum)));
     connect(mToolbar, SIGNAL(sendClearStatusBarColor()), this, SLOT(clearStatusBarColor()));
-    connect(this, SIGNAL(sendInstrumentChecked(InstrumentsEnum)), mToolbar, SLOT(setInstrumentChecked(InstrumentsEnum)));
     connect(mToolbar, SIGNAL(sendClearImageSelection()), this, SLOT(clearImageSelectionSingleShot()));
 }
 
@@ -728,7 +726,6 @@ void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
 
 void MainWindow::instumentsAct(bool state)
 {
-    static bool isPrevSetted = false;
     QAction *currentAction = static_cast<QAction*>(sender());
     if(state)
     {
@@ -799,7 +796,6 @@ void MainWindow::restorePreviousInstrument()
     DataSingleton::Instance()->setInstrument(DataSingleton::Instance()->getPreviousInstrument());
     emit sendInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
     mPrevInstrumentSetted = false;
-    //emit sendClearStatusBarColor();
 }
 
 void MainWindow::helpAct()

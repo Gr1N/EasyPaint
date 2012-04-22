@@ -30,7 +30,7 @@
 #include <QtGui/QPen>
 #include <QtGui/QPainter>
 #include <QtGui/QImage>
-
+#include <QDebug>
 CurveLineInstrument::CurveLineInstrument(QObject *parent) :
     AbstractInstrument(parent)
 {
@@ -44,12 +44,16 @@ void CurveLineInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageAr
         switch(mPointsCount)
         {
         case 0:
-            mStartPoint = mEndPoint = event->pos();
+            mStartPoint = mEndPoint = mFirst = mSecond = event->pos();
+            mPointsCount++;
             break;
         case 1:
-            mFirst = event->pos();
+            mFirst = mSecond = event->pos();
+            mPointsCount++;
             break;
         case 2:
+            mSecond = event->pos();
+            mPointsCount=0;
             break;
         }
 //        mStartPoint = mEndPoint = event->pos();
@@ -87,17 +91,19 @@ void CurveLineInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &image
 
 void CurveLineInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
 {
+    qDebug()<<mStartPoint << mFirst << mSecond << mEndPoint;
     QPainter painter(imageArea.getImage());
+    //make Bezier curve
+    QPainterPath path;
+    path.moveTo(mStartPoint);
+    path.cubicTo(mFirst, mSecond, mEndPoint);
     //choose color
     painter.setPen(QPen(isSecondaryColor ? DataSingleton::Instance()->getSecondaryColor() :
                                            DataSingleton::Instance()->getPrimaryColor(),
                         DataSingleton::Instance()->getPenSize() * imageArea.getZoomFactor(),
                         Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-//    if(mStartPoint == mEndPoint)
-    //    painter.drawPoint(mStartPoint);
-  //  else
 
-        painter.drawLine(mStartPoint, mEndPoint);
+    painter.strokePath(path, painter.pen());
 
     imageArea.setEdited(true);
     painter.end();

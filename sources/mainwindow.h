@@ -135,6 +135,8 @@ private slots:
     void setAllInstrumentsUnchecked(QAction *action);
     /**
      * @brief Instruments buttons handler.
+     *
+     * If some instrument has specific behavior, edit this slot.
      */
     void instumentsAct(bool state);
     void enableActions(int index);
