@@ -13,7 +13,7 @@ public:
     PaletteButton(const QColor &color);
 
 signals:
-    emit void colorPicked();
+    void colorPicked();
 
 private:
     QColor mColor;

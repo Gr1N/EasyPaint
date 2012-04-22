@@ -34,5 +34,6 @@
         <file>media/actions-icons/zoom-in.png</file>
         <file>media/actions-icons/zoom-out.png</file>
         <file>media/logo/easypaint_64.png</file>
+        <file>media/instruments-icons/curve.png</file>
     </qresource>
 </RCC>

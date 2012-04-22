@@ -23,7 +23,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "lineinstrument.h"
+#include "curvelineinstrument.h"
 #include "../imagearea.h"
 #include "../datasingleton.h"
 
@@ -31,87 +31,97 @@
 #include <QtGui/QPainter>
 #include <QtGui/QImage>
 
-LineInstrument::LineInstrument(QObject *parent) :
+CurveLineInstrument::CurveLineInstrument(QObject *parent) :
     AbstractInstrument(parent)
 {
+    mPointsCount = 0;
 }
 
-void LineInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
+void CurveLineInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     if(event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
     {
-        mStartPoint = mEndPoint = event->pos();
+        switch(mPointsCount)
+        {
+        //draw linear Bezier curve
+        case 0:
+            mImageCopy = *imageArea.getImage();
+            mStartPoint = mEndPoint = mFirstControlPoint = mSecondControlPoint = event->pos();
+            ++mPointsCount;
+            break;
+        //draw square Bezier curve
+        case 1:
+            mFirstControlPoint = mSecondControlPoint = event->pos();
+            ++mPointsCount;
+            break;
+        //draw cubic Bezier curve
+        case 2:
+            mSecondControlPoint = event->pos();
+            mPointsCount = 0;
+            break;
+        }
         imageArea.setIsPaint(true);
-        mImageCopy = *imageArea.getImage();
         imageArea.pushUndoCommand();
     }
 }
 
-void LineInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
+void CurveLineInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     if(imageArea.isPaint())
     {
-        mEndPoint = event->pos();
+        switch(mPointsCount)
+        {
+        //draw linear Bezier curve
+        case 1:
+            mEndPoint = event->pos();
+            break;
+        //draw square Bezier curve
+        case 2:
+            mFirstControlPoint = mSecondControlPoint = event->pos();
+            break;
+        //draw cubic Bezier curve
+        case 0:
+            mSecondControlPoint = event->pos();
+            break;
+        }
+
         imageArea.setImage(mImageCopy);
         if(event->buttons() & Qt::LeftButton)
-        {
             paint(imageArea, false);
-        }
         else if(event->buttons() & Qt::RightButton)
-        {
             paint(imageArea, true);
-        }
     }
 }
 
-void LineInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
+void CurveLineInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     if(imageArea.isPaint())
     {
         imageArea.setImage(mImageCopy);
         if(event->button() == Qt::LeftButton)
-        {
             paint(imageArea, false);
-        }
         else if(event->button() == Qt::RightButton)
-        {
             paint(imageArea, true);
-        }
         imageArea.setIsPaint(false);
     }
 }
 
-void LineInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
+void CurveLineInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
 {
     QPainter painter(imageArea.getImage());
-    if(isSecondaryColor)
-    {
-        painter.setPen(QPen(DataSingleton::Instance()->getSecondaryColor(),
-                            DataSingleton::Instance()->getPenSize() * imageArea.getZoomFactor(),
-                            Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    }
-    else
-    {
-        painter.setPen(QPen(DataSingleton::Instance()->getPrimaryColor(),
-                            DataSingleton::Instance()->getPenSize() * imageArea.getZoomFactor(),
-                            Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    }
+    //make Bezier curve path
+    QPainterPath path;
+    path.moveTo(mStartPoint);
+    path.cubicTo(mFirstControlPoint, mSecondControlPoint, mEndPoint);
+    //choose color
+    painter.setPen(QPen(isSecondaryColor ? DataSingleton::Instance()->getSecondaryColor() :
+                                           DataSingleton::Instance()->getPrimaryColor(),
+                        DataSingleton::Instance()->getPenSize() * imageArea.getZoomFactor(),
+                        Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    //draw Bezier curve with given path
+    painter.strokePath(path, painter.pen());
 
-    if(mStartPoint != mEndPoint)
-    {
-        painter.drawLine(mStartPoint, mEndPoint);
-    }
-
-    if(mStartPoint == mEndPoint)
-    {
-        painter.drawPoint(mStartPoint);
-    }
     imageArea.setEdited(true);
-    //    int rad(DataSingleton::Instance()->getPenSize() + round(sqrt((mStartPoint.x() - mEndPoint.x()) *
-    //                                                                 (mStartPoint.x() - mEndPoint.x()) +
-    //                                                                 (mStartPoint.y() - mEndPoint.y()) *
-    //                                                                 (mStartPoint.y() - mEndPoint.y()))));
-    //    mPImageArea->update(QRect(mStartPoint, mEndPoint).normalized().adjusted(-rad, -rad, +rad, +rad));
     painter.end();
     imageArea.update();
 }

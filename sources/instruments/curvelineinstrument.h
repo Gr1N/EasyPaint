@@ -23,30 +23,30 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#ifndef CURVELINEINSTRUMENT_H
+#define CURVELINEINSTRUMENT_H
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+#include "abstractinstrument.h"
+
+#include <QtCore/QObject>
+#include <QtCore/QPoint>
+
+class CurveLineInstrument : public AbstractInstrument
 {
-    NONE = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
+    Q_OBJECT
+public:
+    explicit CurveLineInstrument(QObject *parent = 0);
+    
+    virtual void mousePressEvent(QMouseEvent *event, ImageArea &imageArea);
+    virtual void mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea);
+    virtual void mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea);
 
-    // Don't use it. (Used to know count of current instrument)
-    COUNT
-} InstrumentsEnum;
+protected:
+    void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
 
-#endif // EASYPAINTENUMS_H
+private:
+    QPoint mFirstControlPoint, mSecondControlPoint;
+    unsigned int mPointsCount : 2; /**< Chaneges from 0 to 2, so 2 bits is enough. */
+};
+
+#endif // CURVELINEINSTRUMENT_H
