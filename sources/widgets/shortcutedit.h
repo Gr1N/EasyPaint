@@ -28,6 +28,10 @@
 
 #include <QtGui/QLineEdit>
 
+QT_BEGIN_NAMESPACE
+class QToolButton;
+QT_END_NAMESPACE
+
 /**
  * @brief Widget for editing key sequences.
  *
@@ -41,10 +45,12 @@ public:
     
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
-
+    virtual void resizeEvent(QResizeEvent *);
 private:
     bool isModifier(int key);
-
+    QToolButton *mClearButton;
+private slots:
+    void updateClearButton(const QString& text);
 };
 
 #endif // SHORTCUTEDIT_H
