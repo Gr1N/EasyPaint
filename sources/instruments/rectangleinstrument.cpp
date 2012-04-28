@@ -26,6 +26,7 @@
 #include "rectangleinstrument.h"
 #include "../imagearea.h"
 #include "../datasingleton.h"
+#include "../undocommand.h"
 
 #include <QtGui/QPen>
 #include <QtGui/QPainter>
@@ -42,7 +43,7 @@ void RectangleInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageAr
         mStartPoint = mEndPoint = event->pos();
         imageArea.setIsPaint(true);
         mImageCopy = *imageArea.getImage();
-        imageArea.pushUndoCommand();
+        imageArea.pushUndoCommand(new UndoCommand(imageArea.getImage(), imageArea));
     }
 }
 

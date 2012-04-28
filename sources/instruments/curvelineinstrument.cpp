@@ -26,6 +26,7 @@
 #include "curvelineinstrument.h"
 #include "../imagearea.h"
 #include "../datasingleton.h"
+#include "../undocommand.h"
 
 #include <QtGui/QPen>
 #include <QtGui/QPainter>
@@ -66,7 +67,7 @@ void CurveLineInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageAr
             break;
         }
         imageArea.setIsPaint(true);
-        imageArea.pushUndoCommand();
+        imageArea.pushUndoCommand(new UndoCommand(imageArea.getImage(), imageArea));
     }
 }
 

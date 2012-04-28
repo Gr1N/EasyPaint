@@ -28,6 +28,8 @@
 #include "../undocommand.h"
 #include "math.h"
 #include "../datasingleton.h"
+#include "../undocommand.h"
+
 #include <QtGui/QPainter>
 #include <QtGui/QApplication>
 #include <QtGui/QClipboard>
@@ -52,7 +54,7 @@ void SelectionInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageAr
             mIsSelectionMoving = true;
             if(!mIsImageSelected)
             {
-                imageArea.pushUndoCommand();
+                imageArea.pushUndoCommand(new UndoCommand(imageArea.getImage(), imageArea));
                 mSelectedImage = imageArea.getImage()->copy(mTopLeftPoint.x(),
                                                   mTopLeftPoint.y(),
                                                   mWidth, mHeight);
@@ -291,7 +293,7 @@ void SelectionInstrument::pasteImage(ImageArea &imageArea)
         *imageArea.getImage() = mImageCopy;
         paint(imageArea, true, false);
         mImageCopy = *imageArea.getImage();
-        imageArea.pushUndoCommand();
+        imageArea.pushUndoCommand(new UndoCommand(imageArea.getImage(), imageArea));
     }
     if (DataSingleton::Instance()->getInstrument() != CURSOR)
     {
