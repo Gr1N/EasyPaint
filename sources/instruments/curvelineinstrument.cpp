@@ -41,6 +41,11 @@ void CurveLineInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageAr
 {
     if(event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
     {
+        if(DataSingleton::Instance()->isResetCurve())
+        {
+            mPointsCount = 0;
+            DataSingleton::Instance()->setResetCurve(false);
+        }
         switch(mPointsCount)
         {
         //draw linear Bezier curve
