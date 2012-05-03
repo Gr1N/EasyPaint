@@ -26,7 +26,6 @@
 #include "lineinstrument.h"
 #include "../imagearea.h"
 #include "../datasingleton.h"
-#include "../undocommand.h"
 
 #include <QtGui/QPen>
 #include <QtGui/QPainter>
@@ -44,7 +43,7 @@ void LineInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
         mStartPoint = mEndPoint = event->pos();
         imageArea.setIsPaint(true);
         mImageCopy = *imageArea.getImage();
-        imageArea.pushUndoCommand(new UndoCommand(imageArea.getImage(), imageArea));
+        makeUndoCommand(imageArea);
     }
 }
 

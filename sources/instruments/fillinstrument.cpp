@@ -26,7 +26,6 @@
 #include "fillinstrument.h"
 #include "../imagearea.h"
 #include "../datasingleton.h"
-#include "../undocommand.h"
 
 #include <QtGui/QPen>
 #include <QtGui/QPainter>
@@ -42,7 +41,7 @@ void FillInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
     {
         mStartPoint = mEndPoint = event->pos();
         imageArea.setIsPaint(true);
-        imageArea.pushUndoCommand(new UndoCommand(imageArea.getImage(), imageArea));
+        makeUndoCommand(imageArea);
     }
 }
 

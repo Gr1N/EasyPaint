@@ -28,7 +28,6 @@
 #include "../undocommand.h"
 #include "math.h"
 #include "../datasingleton.h"
-#include "../undocommand.h"
 
 #include <QtGui/QPainter>
 #include <QtGui/QApplication>
@@ -54,7 +53,7 @@ void SelectionInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageAr
             mIsSelectionMoving = true;
             if(!mIsImageSelected)
             {
-                imageArea.pushUndoCommand(new UndoCommand(imageArea.getImage(), imageArea));
+                makeUndoCommand(imageArea);
                 mSelectedImage = imageArea.getImage()->copy(mTopLeftPoint.x(),
                                                   mTopLeftPoint.y(),
                                                   mWidth, mHeight);
