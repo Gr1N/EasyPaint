@@ -35,8 +35,10 @@
 
 QT_BEGIN_NAMESPACE
 class QUndoStack;
-class AbstractInstrument;
 QT_END_NAMESPACE
+
+class UndoCommand;
+class AbstractInstrument;
 
 /**
  * @brief Base class which contains view image and controller for painting
@@ -164,7 +166,7 @@ public:
      * @brief Push current image to undo stack.
      *
      */
-    void pushUndoCommand();
+    void pushUndoCommand(UndoCommand *command);
     
 private:
     /**

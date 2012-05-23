@@ -75,7 +75,6 @@ private:
     QCheckBox *mIsAutoSave;
     ShortcutEdit *mShortcutEdit;
     QTreeWidget *mShortcutsTree;
-    QPushButton *mResetButton;
     
 signals:
     
