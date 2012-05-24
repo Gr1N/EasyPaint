@@ -55,7 +55,7 @@ public:
     inline int getPenSize() { return mPenSize; }
     inline void setPenSize(const int &size) { mPenSize = size; }
     inline InstrumentsEnum getInstrument() { return mCurrentInstrument; }
-    inline void setInstrument(const InstrumentsEnum &instrument) { mCurrentInstrument = instrument; }
+    inline void setInstrument(const InstrumentsEnum &instrument) { mCurrentInstrument = instrument; mIsResetCurve = true; }
     inline InstrumentsEnum getPreviousInstrument() { return mPreviousInstrument; }
     inline void setPreviousInstrument(const InstrumentsEnum &instrument) { mPreviousInstrument = instrument; }
     inline QSize getBaseSize() { return mBaseSize; }
@@ -81,6 +81,10 @@ public:
     inline QKeySequence getToolShortcutByKey(const QString &key) { return mToolsShortcuts[key]; }
     inline void setToolShortcutByKey(const QString &key, const QKeySequence &value) { mToolsShortcuts[key] = value; }
 
+    //Needs for correct work of Bezier curve instrument
+    inline void setResetCurve(bool b) { mIsResetCurve = b; }
+    inline bool isResetCurve() { return mIsResetCurve; }
+
     void readSetting();
     void writeSettings();
 
@@ -95,6 +99,7 @@ private:
     InstrumentsEnum mCurrentInstrument, mPreviousInstrument;
     QSize mBaseSize;
     bool mIsAutoSave;
+    bool mIsResetCurve; /**< Needs to correct work of Bezier curve instrument */
     int mAutoSaveInterval, mHistoryDepth;
     QString mAppLanguage;
     QMap<QString, QKeySequence> mFileShortcuts, mEditShortcuts, mInstrumentsShortcuts, mToolsShortcuts;

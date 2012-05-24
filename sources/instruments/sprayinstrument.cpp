@@ -42,7 +42,7 @@ void SprayInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
     {
         mStartPoint = mEndPoint = event->pos();
         imageArea.setIsPaint(true);
-        imageArea.pushUndoCommand();
+        makeUndoCommand(imageArea);
     }
 }
 

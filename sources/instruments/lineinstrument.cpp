@@ -43,7 +43,7 @@ void LineInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
         mStartPoint = mEndPoint = event->pos();
         imageArea.setIsPaint(true);
         mImageCopy = *imageArea.getImage();
-        imageArea.pushUndoCommand();
+        makeUndoCommand(imageArea);
     }
 }
 

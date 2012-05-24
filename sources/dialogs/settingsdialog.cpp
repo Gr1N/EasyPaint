@@ -159,12 +159,8 @@ void SettingsDialog::initializeGui()
     mShortcutEdit = new ShortcutEdit();
     mShortcutEdit->setEnabled(false);
     connect(mShortcutEdit, SIGNAL(textChanged(QString)), this, SLOT(textChanged(QString)));
-    mResetButton = new QPushButton(tr("Reset"));
-    mResetButton->setEnabled(false);
-    connect(mResetButton, SIGNAL(clicked()), this, SLOT(reset()));
     hBox5->addWidget(label7);
     hBox5->addWidget(mShortcutEdit);
-    hBox5->addWidget(mResetButton);
 
     QVBoxLayout *vBox5 = new QVBoxLayout();
     vBox5->addWidget(groupBox3);
@@ -245,13 +241,11 @@ void SettingsDialog::itemSelectionChanged()
     if(mShortcutsTree->selectedItems().at(0)->childCount() != 0)
     {
         mShortcutEdit->setEnabled(false);
-        mResetButton->setEnabled(false);
         mShortcutEdit->clear();
     }
     else
     {
         mShortcutEdit->setEnabled(true);
-        mResetButton->setEnabled(true);
         mShortcutEdit->setText(mShortcutsTree->selectedItems().at(0)->text(1));
     }
     mShortcutEdit->setFocus();

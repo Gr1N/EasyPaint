@@ -544,7 +544,8 @@ void ImageArea::clearSelection()
     instrument->clearSelection(*this);
 }
 
-void ImageArea::pushUndoCommand()
+void ImageArea::pushUndoCommand(UndoCommand *command)
 {
-    mUndoStack->push(new UndoCommand(mImage, *this));
+    if(command != 0)
+        mUndoStack->push(command);
 }
