@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     a.setApplicationName("EasyPaint");
-    a.setApplicationVersion("0.0.1");
+    a.setApplicationVersion("0.1.0");
 
     QStringList args = a.arguments();
 
@@ -79,6 +79,10 @@ int main(int argc, char *argv[])
             if(QFile::exists(args.at(i)))
             {
                 filePaths.append(args.at(i));
+            }
+            else
+            {
+                qDebug()<<QString("File %1 not found").arg(args.at(i));
             }
         }
 

@@ -159,6 +159,10 @@ void ImageArea::open(const QString &filePath)
         resize(mImage->rect().right() + 6,
                mImage->rect().bottom() + 6);
     }
+    else
+    {
+        qDebug()<<QString("Can't open file %1").arg(filePath);
+    }
 }
 
 void ImageArea::save()
