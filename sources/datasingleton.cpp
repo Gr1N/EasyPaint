@@ -37,6 +37,7 @@ DataSingleton::DataSingleton()
     mCurrentInstrument = NONE;
     mPreviousInstrument = NONE;
     readSetting();
+    readState();
 }
 
 DataSingleton* DataSingleton::Instance()
@@ -131,4 +132,18 @@ void DataSingleton::writeSettings()
     //write shortcuts for tools menu
     settings.setValue("/Shortcuts/Tools/Zoom/ZoomIn", mToolsShortcuts["ZoomIn"]);
     settings.setValue("/Shortcuts/Tools/Zoom/ZoomOut", mToolsShortcuts["ZoomOut"]);
+}
+
+void DataSingleton::readState()
+{
+    QSettings settings;
+    mWindowSize = settings.value("/State/WindowSize", QSize()).toSize();
+}
+
+void DataSingleton::writeState()
+{
+    QSettings settings;
+    if (mWindowSize.isValid()) {
+        settings.setValue("/State/WindowSize", mWindowSize);
+    }
 }
