@@ -52,7 +52,7 @@ void DataSingleton::readSetting()
     QSettings settings;
     mBaseSize = settings.value("/Settings/BaseSize", QSize(400, 300)).toSize();
     mIsAutoSave = settings.value("/Settings/IsAutoSave", false).toBool();
-    mAutoSaveInterval = settings.value("/Settings/AutoSaveInterval", 300000).toInt();
+    mAutoSaveInterval = settings.value("/Settings/AutoSaveInterval", 300).toInt();
     mHistoryDepth = settings.value("/Settings/HistoryDepth", 40).toInt();
     mAppLanguage = settings.value("/Settings/AppLanguage", "system").toString();
 
