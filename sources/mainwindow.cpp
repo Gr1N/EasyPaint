@@ -49,7 +49,7 @@ MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent), mPrevInstrumentSetted(false)
 {
     QSize winSize = DataSingleton::Instance()->getWindowSize();
-    if (winSize.isValid()) {
+    if (DataSingleton::Instance()->getIsRestoreWindowSize() &&  winSize.isValid()) {
         resize(winSize);
     }
 

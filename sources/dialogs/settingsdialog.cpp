@@ -81,6 +81,9 @@ void SettingsDialog::initializeGui()
     vBox1->addLayout(hBox1);
     QLabel *label4 = new QLabel(tr("Note: language changing requires application restart"));
     vBox1->addWidget(label4);
+    mIsRestoreWindowSize = new QCheckBox(tr("Restore window size on start"));
+    mIsRestoreWindowSize->setChecked(DataSingleton::Instance()->getIsRestoreWindowSize());
+    vBox1->addWidget(mIsRestoreWindowSize);
 
     QGroupBox *groupBox1 = new QGroupBox(tr("User interface"));
     groupBox1->setLayout(vBox1);
@@ -184,6 +187,7 @@ void SettingsDialog::sendSettingsToSingleton()
     DataSingleton::Instance()->setBaseSize(QSize(mWidth->value(), mHeight->value()));
     DataSingleton::Instance()->setHistoryDepth(mHistoryDepth->value());
     DataSingleton::Instance()->setIsAutoSave(mIsAutoSave->isChecked());
+    DataSingleton::Instance()->setIsRestoreWindowSize(mIsRestoreWindowSize->isChecked());
     DataSingleton::Instance()->setAutoSaveInterval(mAutoSaveInterval->value());
 
     QStringList languages;

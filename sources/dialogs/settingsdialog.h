@@ -73,6 +73,7 @@ private:
     QComboBox *mLanguageBox;
     QSpinBox *mWidth, *mHeight, *mHistoryDepth, *mAutoSaveInterval;
     QCheckBox *mIsAutoSave;
+    QCheckBox *mIsRestoreWindowSize;
     ShortcutEdit *mShortcutEdit;
     QTreeWidget *mShortcutsTree;
     

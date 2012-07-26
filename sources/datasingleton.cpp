@@ -56,6 +56,7 @@ void DataSingleton::readSetting()
     mAutoSaveInterval = settings.value("/Settings/AutoSaveInterval", 300000).toInt();
     mHistoryDepth = settings.value("/Settings/HistoryDepth", 40).toInt();
     mAppLanguage = settings.value("/Settings/AppLanguage", "system").toString();
+    mIsRestoreWindowSize = settings.value("/Settings/IsRestoreWindowSize", true).toBool();
 
     //read shortcuts for file menu
     mFileShortcuts.insert("New", settings.value("/Shortcuts/File/New", QKeySequence(QKeySequence::New)).value<QKeySequence>());
@@ -100,6 +101,7 @@ void DataSingleton::writeSettings()
     settings.setValue("/Settings/AutoSaveInterval", mAutoSaveInterval);
     settings.setValue("/Settings/HistoryDepth", mHistoryDepth);
     settings.setValue("/Settings/AppLanguage", mAppLanguage);
+    settings.setValue("/Settings/IsRestoreWindowSize", mIsRestoreWindowSize);
 
     //write shortcuts for file menu
     settings.setValue("/Shortcuts/File/New", mFileShortcuts["New"]);

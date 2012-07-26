@@ -67,6 +67,8 @@ public:
     inline int getHistoryDepth() { return mHistoryDepth; }
     inline void setHistoryDepth(const int &historyDepth) { mHistoryDepth = historyDepth; }
     inline QString getAppLanguage() { return mAppLanguage; }
+    inline bool getIsRestoreWindowSize() { return mIsRestoreWindowSize; }
+    inline void setIsRestoreWindowSize(const bool &isRestoreWindowSize) { mIsRestoreWindowSize = isRestoreWindowSize; }
     inline void setAppLanguage(const QString &appLanguage) { mAppLanguage = appLanguage; }
     inline QSize getWindowSize() { return mWindowSize; }
     inline void setWindowSize(const QSize &winSize) { mWindowSize = winSize; }
@@ -102,7 +104,7 @@ private:
     int mPenSize;
     InstrumentsEnum mCurrentInstrument, mPreviousInstrument;
     QSize mBaseSize, mWindowSize;
-    bool mIsAutoSave;
+    bool mIsAutoSave, mIsRestoreWindowSize;
     bool mIsResetCurve; /**< Needs to correct work of Bezier curve instrument */
     int mAutoSaveInterval, mHistoryDepth;
     QString mAppLanguage;
