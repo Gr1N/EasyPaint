@@ -37,6 +37,7 @@ DataSingleton::DataSingleton()
     mCurrentInstrument = NONE;
     mPreviousInstrument = NONE;
     readSetting();
+    readState();
 }
 
 DataSingleton* DataSingleton::Instance()
@@ -55,6 +56,7 @@ void DataSingleton::readSetting()
     mAutoSaveInterval = settings.value("/Settings/AutoSaveInterval", 300).toInt();
     mHistoryDepth = settings.value("/Settings/HistoryDepth", 40).toInt();
     mAppLanguage = settings.value("/Settings/AppLanguage", "system").toString();
+    mIsRestoreWindowSize = settings.value("/Settings/IsRestoreWindowSize", true).toBool();
 
     //read shortcuts for file menu
     mFileShortcuts.insert("New", settings.value("/Shortcuts/File/New", QKeySequence(QKeySequence::New)).value<QKeySequence>());
@@ -99,6 +101,7 @@ void DataSingleton::writeSettings()
     settings.setValue("/Settings/AutoSaveInterval", mAutoSaveInterval);
     settings.setValue("/Settings/HistoryDepth", mHistoryDepth);
     settings.setValue("/Settings/AppLanguage", mAppLanguage);
+    settings.setValue("/Settings/IsRestoreWindowSize", mIsRestoreWindowSize);
 
     //write shortcuts for file menu
     settings.setValue("/Shortcuts/File/New", mFileShortcuts["New"]);
@@ -131,4 +134,18 @@ void DataSingleton::writeSettings()
     //write shortcuts for tools menu
     settings.setValue("/Shortcuts/Tools/Zoom/ZoomIn", mToolsShortcuts["ZoomIn"]);
     settings.setValue("/Shortcuts/Tools/Zoom/ZoomOut", mToolsShortcuts["ZoomOut"]);
+}
+
+void DataSingleton::readState()
+{
+    QSettings settings;
+    mWindowSize = settings.value("/State/WindowSize", QSize()).toSize();
+}
+
+void DataSingleton::writeState()
+{
+    QSettings settings;
+    if (mWindowSize.isValid()) {
+        settings.setValue("/State/WindowSize", mWindowSize);
+    }
 }
