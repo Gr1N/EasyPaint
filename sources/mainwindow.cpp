@@ -332,13 +332,13 @@ void MainWindow::initializeMainMenu()
 
     QMenu *rotateMenu = new QMenu(tr("Rotate"));
 
-    QAction *rotateLAction = new QAction(tr("Left"), this);
+    QAction *rotateLAction = new QAction(tr("Counter-clockwise"), this);
     rotateLAction->setIcon(QIcon::fromTheme("object-rotate-left", QIcon(":/media/actions-icons/object-rotate-left.png")));
     rotateLAction->setIconVisibleInMenu(true);
     connect(rotateLAction, SIGNAL(triggered()), this, SLOT(rotateLeftImageAct()));
     rotateMenu->addAction(rotateLAction);
 
-    QAction *rotateRAction = new QAction(tr("Right"), this);
+    QAction *rotateRAction = new QAction(tr("Clockwise"), this);
     rotateRAction->setIcon(QIcon::fromTheme("object-rotate-right", QIcon(":/media/actions-icons/object-rotate-right.png")));
     rotateRAction->setIconVisibleInMenu(true);
     connect(rotateRAction, SIGNAL(triggered()), this, SLOT(rotateRightImageAct()));

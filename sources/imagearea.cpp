@@ -92,7 +92,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     }
 
     QTimer *autoSaveTimer = new QTimer(this);
-    autoSaveTimer->setInterval(DataSingleton::Instance()->getAutoSaveInterval());
+    autoSaveTimer->setInterval(DataSingleton::Instance()->getAutoSaveInterval() * 1000);
     connect(autoSaveTimer, SIGNAL(timeout()), this, SLOT(autoSave()));
     connect(mAdditionalTools, SIGNAL(sendNewImageSize(QSize)), this, SIGNAL(sendNewImageSize(QSize)));
 

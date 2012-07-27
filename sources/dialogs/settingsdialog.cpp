@@ -106,9 +106,9 @@ void SettingsDialog::initializeGui()
 
     mIsAutoSave = new QCheckBox(tr("Autosave"));
     mIsAutoSave->setChecked(DataSingleton::Instance()->getIsAutoSave());
-    QLabel *label6 = new QLabel(tr("Autosave interval (msec):"));
+    QLabel *label6 = new QLabel(tr("Autosave interval (sec):"));
     mAutoSaveInterval = new QSpinBox();
-    mAutoSaveInterval->setRange(1, 1000000);
+    mAutoSaveInterval->setRange(1, 3000);
     mAutoSaveInterval->setValue(DataSingleton::Instance()->getAutoSaveInterval());
     mAutoSaveInterval->setFixedWidth(80);
 
