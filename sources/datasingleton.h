@@ -67,7 +67,11 @@ public:
     inline int getHistoryDepth() { return mHistoryDepth; }
     inline void setHistoryDepth(const int &historyDepth) { mHistoryDepth = historyDepth; }
     inline QString getAppLanguage() { return mAppLanguage; }
+    inline bool getIsRestoreWindowSize() { return mIsRestoreWindowSize; }
+    inline void setIsRestoreWindowSize(const bool &isRestoreWindowSize) { mIsRestoreWindowSize = isRestoreWindowSize; }
     inline void setAppLanguage(const QString &appLanguage) { mAppLanguage = appLanguage; }
+    inline QSize getWindowSize() { return mWindowSize; }
+    inline void setWindowSize(const QSize &winSize) { mWindowSize = winSize; }
     inline QMap<QString, QKeySequence> getFileShortcuts() { return mFileShortcuts; }
     inline QKeySequence getFileShortcutByKey(const QString &key) { return mFileShortcuts[key]; }
     inline void setFileShortcutByKey(const QString &key, const QKeySequence &value) { mFileShortcuts[key] = value; }
@@ -87,6 +91,8 @@ public:
 
     void readSetting();
     void writeSettings();
+    void readState();
+    void writeState();
 
 private:
     DataSingleton();
@@ -97,8 +103,8 @@ private:
            mSecondaryColor;
     int mPenSize;
     InstrumentsEnum mCurrentInstrument, mPreviousInstrument;
-    QSize mBaseSize;
-    bool mIsAutoSave;
+    QSize mBaseSize, mWindowSize;
+    bool mIsAutoSave, mIsRestoreWindowSize;
     bool mIsResetCurve; /**< Needs to correct work of Bezier curve instrument */
     int mAutoSaveInterval, mHistoryDepth;
     QString mAppLanguage;

@@ -48,6 +48,11 @@
 MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     : QMainWindow(parent), mPrevInstrumentSetted(false)
 {
+    QSize winSize = DataSingleton::Instance()->getWindowSize();
+    if (DataSingleton::Instance()->getIsRestoreWindowSize() &&  winSize.isValid()) {
+        resize(winSize);
+    }
+
     setWindowIcon(QIcon(":/media/logo/easypaint_64.png"));
 
     mUndoStackGroup = new QUndoGroup(this);
@@ -651,10 +656,10 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if(!isSomethingModified())
-        event->accept();
-    else if(closeAllTabs())
+    if(!isSomethingModified() || closeAllTabs())
     {
+        DataSingleton::Instance()->setWindowSize(size());
+        DataSingleton::Instance()->writeState();
         event->accept();
     }
     else
