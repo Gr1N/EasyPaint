@@ -86,6 +86,7 @@ void DataSingleton::readSetting()
     mInstrumentsShortcuts.insert("Rect", settings.value("/Shortcuts/Instruments/Rect", "Ctrl+9").value<QKeySequence>());
     mInstrumentsShortcuts.insert("Ellipse", settings.value("/Shortcuts/Instruments/Ellipse", "Ctrl+0").value<QKeySequence>());
     mInstrumentsShortcuts.insert("Curve", settings.value("/Shortcuts/Instruments/Curve", "").value<QKeySequence>());
+    mInstrumentsShortcuts.insert("Text", settings.value("/Shortcuts/Instruments/Text", "").value<QKeySequence>());
     // TODO: Add shortcuts for new instruments here
 
     //read shortcuts for tools menu

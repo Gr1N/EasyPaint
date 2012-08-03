@@ -23,31 +23,25 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "textinstrument.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+TextInstrument::TextInstrument(QObject *parent) :
+    AbstractInstrument(parent)
+{       
+}
+
+void TextInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
 {
-    NONE = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
-    TEXT,
+}
 
-    // Don't use it. (Used to know count of current instrument)
-    COUNT
-} InstrumentsEnum;
+void TextInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
+{
+}
 
-#endif // EASYPAINTENUMS_H
+void TextInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
+{
+}
+
+void TextInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
+{
+}

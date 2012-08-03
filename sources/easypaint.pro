@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     instruments/magnifierinstrument.cpp \
     instruments/colorpickerinstrument.cpp \
     instruments/selectioninstrument.cpp \
-    instruments/curvelineinstrument.cpp
+    instruments/curvelineinstrument.cpp \
+    instruments/textinstrument.cpp
 
 HEADERS  += mainwindow.h \
     easypaintenums.h \
@@ -67,7 +68,8 @@ HEADERS  += mainwindow.h \
     instruments/magnifierinstrument.h \
     instruments/colorpickerinstrument.h \
     instruments/selectioninstrument.h \
-    instruments/curvelineinstrument.h
+    instruments/curvelineinstrument.h \
+    instruments/textinstrument.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \
