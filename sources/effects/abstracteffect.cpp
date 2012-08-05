@@ -23,44 +23,16 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "abstracteffect.h"
+#include "../undocommand.h"
+#include "../imagearea.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+AbstractEffect::AbstractEffect(QObject *parent) :
+    QObject(parent)
 {
-    NONE_INSTRUMENT = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
+}
 
-    // Don't use it. (Used to know count of current instrument)
-    INSTRUMENTS_COUNT
-} InstrumentsEnum;
-
-/**
- * @brief Enum with effects names
- *
- */
-typedef enum
+void AbstractEffect::makeUndoCommand(ImageArea &imageArea)
 {
-    NONE_EFFECT = 0,
-    NEGATIVE,
-    GRAY,
-
-    // Don't use it. (Used to know count of current instrument)
-    EFFECTS_COUNT
-} EffectsEnum;
-
-#endif // EASYPAINTENUMS_H
+    imageArea.pushUndoCommand(new UndoCommand(imageArea.getImage(), imageArea));
+}

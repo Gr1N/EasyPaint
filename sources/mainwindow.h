@@ -98,6 +98,7 @@ private:
     QLabel *mSizeLabel, *mPosLabel, *mColorPreviewLabel, *mColorRGBLabel;
 
     QMap<InstrumentsEnum, QAction*> mInstrumentsActMap;
+    QMap<EffectsEnum, QAction*> mEffectsActMap;
     QAction *mSaveAction, *mSaveAsAction, *mCloseAction, *mPrintAction,
             *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction,
             *mNewAction, *mOpenAction, *mExitAction, *mPasteAction, *mZoomInAction, *mZoomOutAction;
@@ -121,8 +122,7 @@ private slots:
     void pasteAct();
     void cutAct();
     void settingsAct();
-    void effectGrayAct();
-    void effectNegativeAct();
+    void effectsAct();
     void resizeImageAct();
     void resizeCanvasAct();
     void rotateLeftImageAct();

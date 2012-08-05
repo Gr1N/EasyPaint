@@ -23,8 +23,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EFFECTS_H
-#define EFFECTS_H
+#ifndef ABSTRACTEFFECT_H
+#define ABSTRACTEFFECT_H
 
 #include <QtCore/QObject>
 
@@ -33,40 +33,28 @@ class ImageArea;
 QT_END_NAMESPACE
 
 /**
- * @brief Class for implementation of effects which changing view of image.
+ * @brief Abstract class for implementing effects.
  *
  */
-class Effects : public QObject
+class AbstractEffect : public QObject
 {
     Q_OBJECT
+
 public:
-    /**
-     * @brief Constructor
-     *
-     * @param pImageArea A pointer to ImageArea.
-     * @param parent Pointer for parent.
-     */
-    explicit Effects(ImageArea *pImageArea, QObject *parent = 0);
-    ~Effects();
+    explicit AbstractEffect(QObject *parent = 0);
+    virtual ~AbstractEffect(){}
 
-    /**
-     * @brief Gray effect
-     *
-     */
-    void gray();
-    /**
-     * @brief Negative effect
-     *
-     */
-    void negative();
+    virtual void applyEffect(ImageArea &imageArea) = 0;
     
-private:
-    ImageArea *mPImageArea; /**< A pointer to ImageArea. */
+protected:
+    /**
+     * @brief Creates UndoCommand & pushes it to UndoStack.
+     *
+     * Base realisation simply save all image to UndoStack
+     * @param imageArea corresponse to image, which is edited
+     */
+    virtual void makeUndoCommand(ImageArea &imageArea);
 
-signals:
-    
-public slots:
-    
 };
 
-#endif // EFFECTS_H
+#endif // ABSTRACTEFFECT_H

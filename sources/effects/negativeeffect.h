@@ -23,39 +23,26 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "effects.h"
-#include "imagearea.h"
+#ifndef NEGATIVEEFFECT_H
+#define NEGATIVEEFFECT_H
 
-Effects::Effects(ImageArea *pImageArea, QObject *parent) :
-    QObject(parent)
+#include "abstracteffect.h"
+
+#include <QtCore/QObject>
+
+/**
+ * @brief Negative effect class.
+ *
+ */
+class NegativeEffect : public AbstractEffect
 {
-    mPImageArea = pImageArea;
-}
+    Q_OBJECT
 
-Effects::~Effects()
-{
+public:
+    explicit NegativeEffect(QObject *parent = 0);
 
-}
+    void applyEffect(ImageArea &imageArea);
 
-void Effects::gray()
-{
-    for(int i(0); i < mPImageArea->getImage()->width(); i++)
-    {
-        for(int y(0); y < mPImageArea->getImage()->height(); y++)
-        {
-            QRgb pixel(mPImageArea->getImage()->pixel(i, y));
-            int rgb = (int)(0.299 * qRed(pixel) + 0.587 * qGreen(pixel) + 0.114 * qBlue(pixel));
-            pixel = qRgb(rgb, rgb, rgb);
-            mPImageArea->getImage()->setPixel(i, y, pixel);
-        }
-    }
-    mPImageArea->setEdited(true);
-    mPImageArea->update();
-}
+};
 
-void Effects::negative()
-{
-    mPImageArea->getImage()->invertPixels(QImage::InvertRgb);
-    mPImageArea->setEdited(true);
-    mPImageArea->update();
-}
+#endif // NEGATIVEEFFECT_H

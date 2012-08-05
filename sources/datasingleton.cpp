@@ -34,8 +34,8 @@ DataSingleton::DataSingleton()
     mPrimaryColor = Qt::black;
     mSecondaryColor = Qt::white;
     mPenSize = 1;
-    mCurrentInstrument = NONE;
-    mPreviousInstrument = NONE;
+    mCurrentInstrument = NONE_INSTRUMENT;
+    mPreviousInstrument = NONE_INSTRUMENT;
     readSetting();
     readState();
 }

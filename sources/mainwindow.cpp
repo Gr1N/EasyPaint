@@ -318,12 +318,14 @@ void MainWindow::initializeMainMenu()
     mEffectsMenu = menuBar()->addMenu(tr("E&ffects"));
 
     QAction *grayEfAction = new QAction(tr("Gray"), this);
-    connect(grayEfAction, SIGNAL(triggered()), this, SLOT(effectGrayAct()));
+    connect(grayEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
     mEffectsMenu->addAction(grayEfAction);
+    mEffectsActMap.insert(GRAY, grayEfAction);
 
     QAction *negativeEfAction = new QAction(tr("Negative"), this);
-    connect(negativeEfAction, SIGNAL(triggered()), this, SLOT(effectNegativeAct()));
+    connect(negativeEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
     mEffectsMenu->addAction(negativeEfAction);
+    mEffectsActMap.insert(NEGATIVE, negativeEfAction);
 
     mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
@@ -568,14 +570,10 @@ void MainWindow::updateShortcuts()
     mZoomOutAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomOut"));
 }
 
-void MainWindow::effectGrayAct()
+void MainWindow::effectsAct()
 {
-    getCurrentImageArea()->effectGray();
-}
-
-void MainWindow::effectNegativeAct()
-{
-    getCurrentImageArea()->effectNegative();
+    QAction *currentAction = static_cast<QAction*>(sender());
+    getCurrentImageArea()->applyEffect(mEffectsActMap.key(currentAction));
 }
 
 void MainWindow::resizeImageAct()
@@ -724,7 +722,7 @@ void MainWindow::setAllInstrumentsUnchecked(QAction *action)
 void MainWindow::setInstrumentChecked(InstrumentsEnum instrument)
 {
     setAllInstrumentsUnchecked(NULL);
-    if(instrument == NONE || instrument == COUNT)
+    if(instrument == NONE_INSTRUMENT || instrument == INSTRUMENTS_COUNT)
         return;
     mInstrumentsActMap[instrument]->setChecked(true);
 }
@@ -747,8 +745,8 @@ void MainWindow::instumentsAct(bool state)
     else
     {
         setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
+        DataSingleton::Instance()->setInstrument(NONE_INSTRUMENT);
+        emit sendInstrumentChecked(NONE_INSTRUMENT);
         if(currentAction == mInstrumentsActMap[CURSOR])
             DataSingleton::Instance()->setPreviousInstrument(mInstrumentsActMap.key(currentAction));
     }
@@ -773,8 +771,8 @@ void MainWindow::enableActions(int index)
     if(!isEnable)
     {
         setAllInstrumentsUnchecked(NULL);
-        DataSingleton::Instance()->setInstrument(NONE);
-        emit sendInstrumentChecked(NONE);
+        DataSingleton::Instance()->setInstrument(NONE_INSTRUMENT);
+        emit sendInstrumentChecked(NONE_INSTRUMENT);
     }
 }
 
@@ -792,7 +790,7 @@ void MainWindow::clearImageSelectionSingleShot()
 void MainWindow::clearImageSelection()
 {
     getCurrentImageArea()->clearSelection();
-    DataSingleton::Instance()->setPreviousInstrument(NONE);
+    DataSingleton::Instance()->setPreviousInstrument(NONE_INSTRUMENT);
 }
 
 void MainWindow::restorePreviousInstrument()

@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.6)
- 
+
 # set project's name
 set (PROJECT easypaint)
 
@@ -10,13 +10,15 @@ message(STATUS "Processor: " ${CMAKE_HOST_SYSTEM_PROCESSOR})
 set(EASYPAINT_VERSION 0.1.0)
 
 #------- headers --------
-set (HEADERS 
+set (HEADERS
     sources/mainwindow.h
     sources/easypaintenums.h
     sources/imagearea.h
     sources/datasingleton.h
     sources/additionaltools.h
-    sources/effects.h
+    sources/effects/abstracteffect.h
+    sources/effects/negativeeffect.h
+    sources/effects/grayeffect.h
     sources/undocommand.h
     sources/widgets/toolbar.h
     sources/widgets/colorchooser.h
@@ -39,13 +41,15 @@ set (HEADERS
     sources/instruments/curvelineinstrument.h)
 
 #------- sources --------
-set (SOURCES 
+set (SOURCES
     sources/main.cpp
     sources/mainwindow.cpp
     sources/imagearea.cpp
     sources/datasingleton.cpp
     sources/additionaltools.cpp
-    sources/effects.cpp
+    sources/effects/abstracteffect.cpp
+    sources/effects/negativeeffect.cpp
+    sources/effects/grayeffect.cpp
     sources/undocommand.cpp
     sources/widgets/toolbar.cpp
     sources/widgets/colorchooser.cpp
@@ -66,14 +70,14 @@ set (SOURCES
     sources/instruments/magnifierinstrument.cpp
     sources/instruments/colorpickerinstrument.cpp
     sources/instruments/curvelineinstrument.cpp)
- 
+
 #------- resources -------
-set (RESOURCE_PATH 
+set (RESOURCE_PATH
     sources)
- 
-set (RESOURCES 
+
+set (RESOURCES
     ${RESOURCE_PATH}/resources.qrc)
- 
+
 #------- languages -------
 if(NOT NO_TRANSLATIONS)
     set (TRANSLATIONS
@@ -83,17 +87,17 @@ if(NOT NO_TRANSLATIONS)
 endif(NOT NO_TRANSLATIONS)
 
 project (${PROJECT})
- 
+
 include_directories (./)
- 
+
 find_package (Qt4 REQUIRED)
 include (${QT_USE_FILE})
 qt4_add_resources (QRC_SOURCES ${RESOURCES})
 qt4_wrap_cpp (MOC_SOURCES ${HEADERS})
 qt4_add_translation( TRANSLATIONS_QM ${TRANSLATIONS} )
- 
+
 add_definitions (-Wall)
- 
+
 source_group ("Header Files" FILES ${HEADERS})
 source_group ("Source Files" FILES ${SOURCES})
 source_group ("Generated Files" FILES ${MOC_SOURCES})
@@ -101,7 +105,7 @@ source_group ("Resource Files" FILES ${QRC_SOURCES})
 
 #-------  build executable from sources ----------
 add_executable (${PROJECT} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${QRC_SOURCES} ${TRANSLATIONS_QM})
- 
+
 target_link_libraries (${PROJECT} ${QT_LIBRARIES})
 
 #-------  installing ----------
