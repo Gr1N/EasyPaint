@@ -137,10 +137,6 @@ void SelectionInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageAre
             *imageArea.getImage() = mImageCopy;
             paint(imageArea, false, true);
         }
-        else
-        {
-            *imageArea.getImage() = mImageCopy;
-        }
     }
     if (mIsPaint)
     {
@@ -293,10 +289,6 @@ void SelectionInstrument::pasteImage(ImageArea &imageArea)
         paint(imageArea, true, false);
         mImageCopy = *imageArea.getImage();
         imageArea.pushUndoCommand(new UndoCommand(imageArea.getImage(), imageArea));
-    }
-    if (DataSingleton::Instance()->getInstrument() != CURSOR)
-    {
-        emit sendEnableSelectionInstrument(true);
     }
     mPasteImage = globalClipboard->image();
     if (!mPasteImage.isNull())

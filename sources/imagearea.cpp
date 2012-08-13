@@ -169,15 +169,13 @@ void ImageArea::open(const QString &filePath)
 
 void ImageArea::save()
 {
-    SelectionInstrument *instrument = static_cast <SelectionInstrument*> (mInstrumentsHandlers.at(CURSOR));
-    instrument->clearSelection(*this);
-
     if(mFilePath.isEmpty())
     {
         saveAs();
     }
     else
     {
+        clearSelection();
         mImage->save(mFilePath);
         mIsEdited = false;
     }
@@ -187,6 +185,7 @@ void ImageArea::saveAs()
 {
     QString filter;
     QString fileName(getFileName());
+    clearSelection();
     if(fileName.isEmpty())
     {
         fileName = tr("Untitled image");
@@ -279,6 +278,8 @@ void ImageArea::copyImage()
 
 void ImageArea::pasteImage()
 {
+    if(DataSingleton::Instance()->getInstrument() != CURSOR)
+        emit sendSetInstrument(CURSOR);
     SelectionInstrument *instrument = static_cast <SelectionInstrument*> (mInstrumentsHandlers.at(CURSOR));
     instrument->pasteImage(*this);
 }
