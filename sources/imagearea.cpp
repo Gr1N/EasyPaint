@@ -543,14 +543,20 @@ void ImageArea::makeFormatsFilters()
 
 void ImageArea::saveImageChanges()
 {
-    SelectionInstrument *instrument = static_cast <SelectionInstrument*> (mInstrumentsHandlers.at(CURSOR));
-    instrument->saveImageChanges(*this);
+    foreach (AbstractInstrument* instrument, mInstrumentsHandlers)
+    {
+        if (AbstractSelection *selection = qobject_cast<AbstractSelection*>(instrument))
+            selection->saveImageChanges(*this);
+    }
 }
 
 void ImageArea::clearSelection()
 {
-    SelectionInstrument *instrument = static_cast <SelectionInstrument*> (mInstrumentsHandlers.at(CURSOR));
-    instrument->clearSelection(*this);
+    foreach (AbstractInstrument* instrument, mInstrumentsHandlers)
+    {
+        if (AbstractSelection *selection = qobject_cast<AbstractSelection*>(instrument))
+            selection->clearSelection(*this);
+    }
 }
 
 void ImageArea::pushUndoCommand(UndoCommand *command)

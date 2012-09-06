@@ -26,6 +26,7 @@ set (HEADERS
     sources/dialogs/resizedialog.h
     sources/dialogs/settingsdialog.h
     sources/instruments/abstractinstrument.h
+    sources/instruments/abstractselection.h
     sources/instruments/selectioninstrument.h
     sources/instruments/pencilinstrument.h
     sources/instruments/lineinstrument.h
@@ -56,6 +57,7 @@ set (SOURCES
     sources/dialogs/resizedialog.cpp
     sources/dialogs/settingsdialog.cpp
     sources/instruments/abstractinstrument.cpp
+    sources/instruments/abstractselection.cpp
     sources/instruments/selectioninstrument.cpp
     sources/instruments/pencilinstrument.cpp
     sources/instruments/lineinstrument.cpp

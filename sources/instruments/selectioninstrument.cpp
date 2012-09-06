@@ -27,223 +27,21 @@
 #include "../imagearea.h"
 #include "../undocommand.h"
 #include "math.h"
-#include "../datasingleton.h"
 
 #include <QtGui/QPainter>
 #include <QtGui/QApplication>
 #include <QtGui/QClipboard>
 
-
 SelectionInstrument::SelectionInstrument(QObject *parent) :
-    AbstractInstrument(parent)
+    AbstractSelection(parent)
 {
-    mIsSelectionExists = mIsSelectionMoving = mIsSelectionResizing
-            = mIsPaint = mIsImageSelected = false;
-}
-
-void SelectionInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
-{
-    if (mIsSelectionExists)
-    {
-        if (event->pos().x() > mTopLeftPoint.x() &&
-                event->pos().x() < mBottomRightPoint.x() &&
-                event->pos().y() > mTopLeftPoint.y() &&
-                event->pos().y() < mBottomRightPoint.y())
-        {
-            mIsSelectionMoving = true;
-            if(!mIsImageSelected)
-            {
-                makeUndoCommand(imageArea);
-                mSelectedImage = imageArea.getImage()->copy(mTopLeftPoint.x(),
-                                                  mTopLeftPoint.y(),
-                                                  mWidth, mHeight);
-                clearSelectionBackground(imageArea);
-                mIsImageSelected = true;
-            }
-            mMoveDiffPoint = mBottomRightPoint - event->pos();
-            return;
-        }
-        else if (event->pos().x() > mBottomRightPoint.x() &&
-                 event->pos().x() < mBottomRightPoint.x() + 6 &&
-                 event->pos().y() > mBottomRightPoint.y() &&
-                 event->pos().y() < mBottomRightPoint.y() + 6)
-        {
-            mIsSelectionResizing = true;
-            return;
-        }
-        else
-        {
-            *imageArea.getImage() = mImageCopy;
-            if(mIsImageSelected)
-            {
-                paint(imageArea, true, false);
-                mIsImageSelected = false;
-            }
-            mImageCopy = *imageArea.getImage();
-            mIsSelectionExists = false;
-            emit sendEnableCopyCutActions(false);
-        }
-    }
-    if(event->button() == Qt::LeftButton)
-    {
-        mBottomRightPoint = event->pos();
-        mTopLeftPoint = event->pos();
-        mSelectedImage = QImage();
-        mIsPaint = true;
-        mImageCopy = *imageArea.getImage();
-    }
-}
-
-void SelectionInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
-{
-    if (mIsSelectionExists)
-    {
-        if (event->pos().x() > mTopLeftPoint.x() &&
-                event->pos().x() < mBottomRightPoint.x() &&
-                event->pos().y() > mTopLeftPoint.y() &&
-                event->pos().y() < mBottomRightPoint.y())
-        {
-            imageArea.setCursor(Qt::SizeAllCursor);
-        }
-        else if (event->pos().x() > mBottomRightPoint.x() &&
-                 event->pos().x() < mBottomRightPoint.x() + 6 &&
-                 event->pos().y() > mBottomRightPoint.y() &&
-                 event->pos().y() < mBottomRightPoint.y() + 6)
-        {
-            imageArea.setCursor(Qt::SizeFDiagCursor);
-        }
-        else
-        {
-            imageArea.restoreCursor();
-        }
-
-        if (mIsSelectionMoving)
-        {
-
-            mIsPaint = false;
-            mBottomRightPoint = event->pos() +
-                                           mMoveDiffPoint;
-            mTopLeftPoint = event->pos() + mMoveDiffPoint -
-                                  QPoint(mWidth, mHeight);
-            *imageArea.getImage() = mImageCopy;
-            paint(imageArea, false, true);
-        }
-        else if (mIsSelectionResizing)
-        {
-            mIsPaint = false;
-            mWidth += event->pos().x() - mBottomRightPoint.x();
-            mHeight += event->pos().y() - mBottomRightPoint.y();
-            mBottomRightPoint = event->pos();
-            *imageArea.getImage() = mImageCopy;
-            paint(imageArea, false, true);
-        }
-    }
-    if (mIsPaint)
-    {
-        mBottomRightPoint = event->pos();
-        *imageArea.getImage() = mImageCopy;
-        paint(imageArea, false, true);
-    }
-}
-
-void SelectionInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
-{
-    int right = mTopLeftPoint.x() > mBottomRightPoint.x() ? mTopLeftPoint.x() : mBottomRightPoint.x();
-    int bottom = mTopLeftPoint.y() > mBottomRightPoint.y() ? mTopLeftPoint.y() : mBottomRightPoint.y();
-    int left = mTopLeftPoint.x() < mBottomRightPoint.x() ? mTopLeftPoint.x() : mBottomRightPoint.x();
-    int top = mTopLeftPoint.y() < mBottomRightPoint.y() ? mTopLeftPoint.y() : mBottomRightPoint.y();
-    mBottomRightPoint = QPoint(right, bottom);
-    mTopLeftPoint = QPoint(left, top);
-
-    if (mIsSelectionExists)
-    {
-        if(mIsSelectionMoving)
-        {
-            *imageArea.getImage() = mImageCopy;
-            paint(imageArea, true, true);
-            mIsPaint = false;
-            mIsSelectionMoving = false;
-        }
-        else if (mIsSelectionResizing)
-        {
-            *imageArea.getImage() = mImageCopy;
-            paint(imageArea, true, true);
-            mIsPaint = false;
-            mIsSelectionResizing = false;
-        }
-    }
-    if (mIsPaint)
-    {
-        if (event->button() == Qt::LeftButton)
-        {
-            *imageArea.getImage() = mImageCopy;
-            paint(imageArea, false, true);
-            mIsPaint = false;
-            if (mTopLeftPoint != mBottomRightPoint)
-            {
-                mIsSelectionExists = true;
-                emit sendEnableCopyCutActions(true);
-            }
-        }
-    }
-}
-
-void SelectionInstrument::paint(ImageArea &imageArea, bool isSelected, bool isDrawBorders)
-{
-    mHeight = fabs(mTopLeftPoint.y() - mBottomRightPoint.y());
-    mWidth = fabs(mTopLeftPoint.x() - mBottomRightPoint.x());
-
-    if (mWidth == 0 || mHeight == 0)
-    {
-        isDrawBorders = false;
-    }
-
-    if (isDrawBorders)
-    {
-        QPainter painter(imageArea.getImage());
-        painter.setPen(QPen(Qt::blue, 1, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
-        painter.setBackgroundMode(Qt::TransparentMode);
-
-        if(mTopLeftPoint != mBottomRightPoint)
-        {
-            painter.drawRect(QRect(mTopLeftPoint - QPoint(1, 1), mBottomRightPoint));
-        }
-
-        imageArea.setEdited(true);
-        painter.end();
-        imageArea.update();
-    }
-
-    if (isSelected)
-    {
-        QPainter painter(imageArea.getImage());
-        if(mTopLeftPoint != mBottomRightPoint)
-        {
-            QRect source(0, 0, mSelectedImage.width(), mSelectedImage.height());
-            QRect target(mTopLeftPoint, mBottomRightPoint);
-            painter.drawImage(target, mSelectedImage, source);
-        }
-        imageArea.setEdited(true);
-        painter.end();
-        imageArea.update();
-    }
-}
-
-void SelectionInstrument::clearSelectionBackground(ImageArea &imageArea)
-{
-    QPainter blankPainter(imageArea.getImage());
-    blankPainter.setPen(Qt::white);
-    blankPainter.setBrush(QBrush(Qt::white));
-    blankPainter.setBackgroundMode(Qt::OpaqueMode);
-    blankPainter.drawRect(QRect(mTopLeftPoint - QPoint(1, 1), mBottomRightPoint));
-    blankPainter.end();
-    mImageCopy = *imageArea.getImage();
 }
 
 void SelectionInstrument::copyImage(ImageArea &imageArea)
 {
     if (mIsSelectionExists)
     {
+        imageArea.setImage(mImageCopy);
         QClipboard *globalClipboard = QApplication::clipboard();
         QImage copyImage;
         if(mIsImageSelected)
@@ -252,7 +50,7 @@ void SelectionInstrument::copyImage(ImageArea &imageArea)
         }
         else
         {
-            copyImage = imageArea.getImage()->copy(mTopLeftPoint.x(), mTopLeftPoint.y(), mWidth - 1, mHeight - 1);
+            copyImage = imageArea.getImage()->copy(mTopLeftPoint.x(), mTopLeftPoint.y(), mWidth, mHeight);
         }
         globalClipboard->setImage(copyImage, QClipboard::Clipboard);
     }
@@ -263,9 +61,10 @@ void SelectionInstrument::cutImage(ImageArea &imageArea)
     if (mIsSelectionExists)
     {
         copyImage(imageArea);
+        makeUndoCommand(imageArea);
         if (/*mSelectedImage != mPasteImage || !*/mIsImageSelected)
         {
-            *imageArea.getImage() = mImageCopy;
+            imageArea.setImage(mImageCopy);
         }
         else
         {
@@ -275,7 +74,11 @@ void SelectionInstrument::cutImage(ImageArea &imageArea)
         mBottomRightPoint = QPoint(0, 0);
         mImageCopy = *imageArea.getImage();
         imageArea.update();
+        if (mIsImageSelected) {
+            makeUndoCommand(imageArea);
+        }
         mIsSelectionExists = false;
+        imageArea.restoreCursor();
         emit sendEnableCopyCutActions(false);
     }
 }
@@ -285,11 +88,11 @@ void SelectionInstrument::pasteImage(ImageArea &imageArea)
     QClipboard *globalClipboard = QApplication::clipboard();
     if(mIsSelectionExists)
     {
-        *imageArea.getImage() = mImageCopy;
-        paint(imageArea, true, false);
+        imageArea.setImage(mImageCopy);
+        paint(imageArea);
         mImageCopy = *imageArea.getImage();
-        imageArea.pushUndoCommand(new UndoCommand(imageArea.getImage(), imageArea));
     }
+    makeUndoCommand(imageArea);
     mPasteImage = globalClipboard->image();
     if (!mPasteImage.isNull())
     {
@@ -297,30 +100,95 @@ void SelectionInstrument::pasteImage(ImageArea &imageArea)
         mImageCopy = *imageArea.getImage();
         mTopLeftPoint = QPoint(0, 0);
         mBottomRightPoint = QPoint(mPasteImage.width(), mPasteImage.height());
-        paint(imageArea, true, true);
+        mHeight = mBottomRightPoint.y();
+        mWidth = mBottomRightPoint.x();
         mIsImageSelected = mIsSelectionExists = true;
+        paint(imageArea);
+        drawBorder(imageArea);
+        imageArea.restoreCursor();
         emit sendEnableCopyCutActions(true);
     }
 }
 
-void SelectionInstrument::clearSelection(ImageArea &imageArea)
+void SelectionInstrument::startSelection(ImageArea &imageArea)
 {
-    if (mIsSelectionExists)
+}
+
+void SelectionInstrument::startResizing(ImageArea &imageArea)
+{
+    if (!mIsImageSelected)
     {
-        *imageArea.getImage() = mImageCopy;
-        if (mIsImageSelected)
-        {
-            paint(imageArea, mIsImageSelected, false);
-        }
-        mImageCopy = *imageArea.getImage();
-        mIsSelectionExists = mIsSelectionMoving
-                = mIsSelectionResizing = mIsImageSelected = false;
-        imageArea.update();
-        emit sendEnableCopyCutActions(false);
+        clearSelectionBackground(imageArea);
     }
 }
 
-void SelectionInstrument::saveImageChanges(ImageArea &imageArea)
+void SelectionInstrument::startMoving(ImageArea &imageArea)
 {
+    clearSelectionBackground(imageArea);
+}
+
+void SelectionInstrument::select(ImageArea &imageArea)
+{
+}
+
+void SelectionInstrument::resize(ImageArea &imageArea)
+{
+}
+
+void SelectionInstrument::move(ImageArea &imageArea)
+{
+}
+
+void SelectionInstrument::completeSelection(ImageArea &imageArea)
+{
+    mSelectedImage = imageArea.getImage()->copy(mTopLeftPoint.x(),
+                                                mTopLeftPoint.y(),
+                                                mWidth, mHeight);
+    emit sendEnableCopyCutActions(true);
+}
+
+void SelectionInstrument::completeResizing(ImageArea &imageArea)
+{
+    mSelectedImage = imageArea.getImage()->copy(mTopLeftPoint.x(),
+                                                mTopLeftPoint.y(),
+                                                mWidth, mHeight);
+}
+
+void SelectionInstrument::completeMoving(ImageArea &imageArea)
+{
+}
+
+void SelectionInstrument::clearSelectionBackground(ImageArea &imageArea)
+{
+    QPainter blankPainter(imageArea.getImage());
+    blankPainter.setPen(Qt::white);
+    blankPainter.setBrush(QBrush(Qt::white));
+    blankPainter.setBackgroundMode(Qt::OpaqueMode);
+    blankPainter.drawRect(QRect(mTopLeftPoint, mBottomRightPoint - QPoint(1, 1)));
+    blankPainter.end();
     mImageCopy = *imageArea.getImage();
+}
+
+void SelectionInstrument::clear(ImageArea &imageArea)
+{
+    AbstractSelection::clearSelection(imageArea);
+    mSelectedImage = QImage();
+    emit sendEnableCopyCutActions(false);
+}
+
+void SelectionInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool additionalFlag)
+{
+    if (mIsSelectionExists)
+    {
+        if(mTopLeftPoint != mBottomRightPoint)
+        {
+            QPainter painter(imageArea.getImage());
+            QRect source(0, 0, mSelectedImage.width(), mSelectedImage.height());
+            QRect target(mTopLeftPoint, mBottomRightPoint);
+            painter.drawImage(target, mSelectedImage, source);
+            painter.end();
+        }
+        imageArea.setEdited(true);
+        imageArea.update();
+    }
 }

@@ -30,6 +30,7 @@ SOURCES += main.cpp\
     dialogs/resizedialog.cpp \
     dialogs/settingsdialog.cpp \
     instruments/abstractinstrument.cpp \
+    instruments/abstractselection.cpp \
     instruments/pencilinstrument.cpp \
     instruments/lineinstrument.cpp \
     instruments/eraserinstrument.cpp \
@@ -58,6 +59,7 @@ HEADERS  += mainwindow.h \
     dialogs/resizedialog.h \
     dialogs/settingsdialog.h \
     instruments/abstractinstrument.h \
+    instruments/abstractselection.h \
     instruments/pencilinstrument.h \
     instruments/lineinstrument.h \
     instruments/eraserinstrument.h \
