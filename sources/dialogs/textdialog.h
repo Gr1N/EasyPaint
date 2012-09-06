@@ -23,45 +23,40 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef TEXTINSTRUMENT_H
-#define TEXTINSTRUMENT_H
+#ifndef TEXTDIALOG_H
+#define TEXTDIALOG_H
 
-#include "abstractselection.h"
+#include "../imagearea.h"
 
-#include <QtCore/QObject>
+#include <QtGui/QDialog>
+#include <QTextEdit>
 
 /**
- * @brief Text instrument class.
+ * @brief QDialog for resizing image.
  *
  */
-class TextInstrument : public AbstractSelection
+class TextDialog : public QDialog
 {
     Q_OBJECT
+
 public:
-    explicit TextInstrument(QObject *parent = 0);
-
+    /**
+     * @brief Constructor
+     *
+     * @param parent Pointer for parent.
+     */
+    explicit TextDialog(ImageArea *parent = 0);
+   
 private:
-    void startSelection(ImageArea &imageArea);
-    void startResizing(ImageArea &imageArea);
-    void startMoving(ImageArea &imageArea);
-    void select(ImageArea &imageArea);
-    void resize(ImageArea &imageArea);
-    void move(ImageArea &imageArea);
-    void completeSelection(ImageArea &imageArea);
-    void completeResizing(ImageArea &imageArea);
-    void completeMoving(ImageArea &imageArea);
-    void clear(ImageArea &imageArea);
-    void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
-
-    QString mText;
-    bool mIsEdited;
-
+    void initializeGui();
+    QTextEdit *mTextEdit;
+  
 signals:
-    void sendCloseTextDialog();
+    void textChanged(ImageArea *, const QString);
 
 private slots:
-    void updateText(ImageArea *, QString);
+    void textChanged();
 
 };
 
-#endif // TEXTINSTRUMENT_H
+#endif // TEXTDIALOG_H

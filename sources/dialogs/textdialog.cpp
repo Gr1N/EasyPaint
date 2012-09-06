@@ -23,45 +23,30 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef TEXTINSTRUMENT_H
-#define TEXTINSTRUMENT_H
+#include "textdialog.h"
+#include "../imagearea.h"
 
-#include "abstractselection.h"
+#include <QtGui/QVBoxLayout>
 
-#include <QtCore/QObject>
-
-/**
- * @brief Text instrument class.
- *
- */
-class TextInstrument : public AbstractSelection
+TextDialog::TextDialog(ImageArea *parent) :
+    QDialog(parent)
 {
-    Q_OBJECT
-public:
-    explicit TextInstrument(QObject *parent = 0);
+    initializeGui();
+    layout()->setSizeConstraint(QLayout::SetFixedSize);
+    setWindowTitle(tr("Text"));
+}
 
-private:
-    void startSelection(ImageArea &imageArea);
-    void startResizing(ImageArea &imageArea);
-    void startMoving(ImageArea &imageArea);
-    void select(ImageArea &imageArea);
-    void resize(ImageArea &imageArea);
-    void move(ImageArea &imageArea);
-    void completeSelection(ImageArea &imageArea);
-    void completeResizing(ImageArea &imageArea);
-    void completeMoving(ImageArea &imageArea);
-    void clear(ImageArea &imageArea);
-    void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
+void TextDialog::initializeGui()
+{
+    QVBoxLayout *mainLayout = new QVBoxLayout();
+    mTextEdit = new QTextEdit();
+    mTextEdit->setLineWrapMode(QTextEdit::NoWrap);
+    mainLayout->addWidget(mTextEdit);
+    setLayout(mainLayout);
+    connect(mTextEdit, SIGNAL(textChanged()), this, SLOT(textChanged()));
+}
 
-    QString mText;
-    bool mIsEdited;
-
-signals:
-    void sendCloseTextDialog();
-
-private slots:
-    void updateText(ImageArea *, QString);
-
-};
-
-#endif // TEXTINSTRUMENT_H
+void TextDialog::textChanged()
+{
+    emit textChanged(qobject_cast<ImageArea*>(this->parent()), mTextEdit->toPlainText());
+}

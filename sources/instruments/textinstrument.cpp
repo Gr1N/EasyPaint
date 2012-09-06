@@ -24,24 +24,90 @@
  */
 
 #include "textinstrument.h"
+#include "../imagearea.h"
+#include "../undocommand.h"
+#include "../dialogs/textdialog.h"
+
+#include <QPainter>
 
 TextInstrument::TextInstrument(QObject *parent) :
-    AbstractInstrument(parent)
-{       
+    AbstractSelection(parent)
+{
+    mText = QString();
+    mIsEdited = false;
 }
 
-void TextInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
+void TextInstrument::updateText(ImageArea *imageArea, QString textString)
+{
+    mText = textString;
+    imageArea->setImage(mImageCopy);
+    if (!mIsEdited)
+    {
+        makeUndoCommand(*imageArea);
+        mIsEdited = true;
+    }
+    paint(*imageArea);
+    drawBorder(*imageArea);
+}
+
+void TextInstrument::startSelection(ImageArea &imageArea)
 {
 }
 
-void TextInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
+void TextInstrument::startResizing(ImageArea &imageArea)
 {
 }
 
-void TextInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea)
+void TextInstrument::startMoving(ImageArea &imageArea)
 {
 }
 
-void TextInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool)
+void TextInstrument::select(ImageArea &imageArea)
 {
+}
+
+void TextInstrument::resize(ImageArea &imageArea)
+{
+    paint(imageArea);
+}
+
+void TextInstrument::move(ImageArea &imageArea)
+{
+    paint(imageArea);
+}
+
+void TextInstrument::completeSelection(ImageArea &imageArea)
+{
+    TextDialog *td = new TextDialog(&imageArea);
+    connect(td, SIGNAL(textChanged(ImageArea *, QString)), this, SLOT(updateText(ImageArea *, QString)));
+    connect(this, SIGNAL(sendCloseTextDialog()), td, SLOT(close()));
+    td->setAttribute(Qt::WA_DeleteOnClose);
+    td->show();
+}
+
+void TextInstrument::completeResizing(ImageArea &imageArea)
+{
+}
+
+void TextInstrument::completeMoving(ImageArea &imageArea)
+{
+}
+
+void TextInstrument::clear(ImageArea &imageArea)
+{
+    mText = QString();
+    mIsEdited = false;
+    emit sendCloseTextDialog();
+}
+
+void TextInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool additionalFlag)
+{
+    if(mTopLeftPoint != mBottomRightPoint)
+    {
+        QPainter painter(imageArea.getImage());
+        painter.drawText(QRect(mTopLeftPoint, mBottomRightPoint), mText);
+        painter.end();
+        imageArea.setEdited(true);
+        imageArea.update();
+    }
 }

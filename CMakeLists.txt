@@ -25,6 +25,7 @@ set (HEADERS
     sources/widgets/shortcutedit.h
     sources/dialogs/resizedialog.h
     sources/dialogs/settingsdialog.h
+    sources/dialogs/textdialog.h
     sources/instruments/abstractinstrument.h
     sources/instruments/abstractselection.h
     sources/instruments/selectioninstrument.h
@@ -56,6 +57,7 @@ set (SOURCES
     sources/widgets/shortcutedit.cpp
     sources/dialogs/resizedialog.cpp
     sources/dialogs/settingsdialog.cpp
+    sources/dialogs/textdialog.cpp
     sources/instruments/abstractinstrument.cpp
     sources/instruments/abstractselection.cpp
     sources/instruments/selectioninstrument.cpp

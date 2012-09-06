@@ -29,6 +29,7 @@ SOURCES += main.cpp\
     widgets/shortcutedit.cpp \
     dialogs/resizedialog.cpp \
     dialogs/settingsdialog.cpp \
+    dialogs/textdialog.cpp \
     instruments/abstractinstrument.cpp \
     instruments/abstractselection.cpp \
     instruments/pencilinstrument.cpp \
@@ -58,6 +59,7 @@ HEADERS  += mainwindow.h \
     widgets/shortcutedit.h \
     dialogs/resizedialog.h \
     dialogs/settingsdialog.h \
+    dialogs/textdialog.h \
     instruments/abstractinstrument.h \
     instruments/abstractselection.h \
     instruments/pencilinstrument.h \
