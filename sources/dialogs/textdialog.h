@@ -56,6 +56,7 @@ signals:
 
 private slots:
     void textChanged();
+    void selectFont();
 
 };
 

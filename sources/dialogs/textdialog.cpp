@@ -25,8 +25,13 @@
 
 #include "textdialog.h"
 #include "../imagearea.h"
+#include "../datasingleton.h"
 
+#include <QtGui/QPushButton>
+#include <QtGui/QHBoxLayout>
 #include <QtGui/QVBoxLayout>
+#include <QtGui/QFont>
+#include <QtGui/QFontDialog>
 
 TextDialog::TextDialog(ImageArea *parent) :
     QDialog(parent)
@@ -38,10 +43,18 @@ TextDialog::TextDialog(ImageArea *parent) :
 
 void TextDialog::initializeGui()
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout();
+    QPushButton *mFontButton = new QPushButton(tr("Select Font"));
+    QPushButton *mCloseButton = new QPushButton(tr("Close"));
+    connect(mFontButton, SIGNAL(clicked()), this, SLOT(selectFont()));
+    connect(mCloseButton, SIGNAL(clicked()), this, SLOT(close()));
+    QHBoxLayout *hBox = new QHBoxLayout();
+    hBox->addWidget(mFontButton);
+    hBox->addWidget(mCloseButton);
     mTextEdit = new QTextEdit();
     mTextEdit->setLineWrapMode(QTextEdit::NoWrap);
+    QVBoxLayout *mainLayout = new QVBoxLayout();
     mainLayout->addWidget(mTextEdit);
+    mainLayout->addLayout(hBox);
     setLayout(mainLayout);
     connect(mTextEdit, SIGNAL(textChanged()), this, SLOT(textChanged()));
 }
@@ -49,4 +62,17 @@ void TextDialog::initializeGui()
 void TextDialog::textChanged()
 {
     emit textChanged(qobject_cast<ImageArea*>(this->parent()), mTextEdit->toPlainText());
+}
+
+void TextDialog::selectFont()
+{
+    bool ok;
+    QFont font = DataSingleton::Instance()->getTextFont();
+    font = QFontDialog::getFont(&ok, font, this);
+    if (ok)
+    {
+        DataSingleton::Instance()->setTextFont(font);
+        textChanged();
+        mTextEdit->setFocus();
+    }
 }

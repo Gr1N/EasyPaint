@@ -34,6 +34,7 @@ DataSingleton::DataSingleton()
     mPrimaryColor = Qt::black;
     mSecondaryColor = Qt::white;
     mPenSize = 1;
+    mTextFont = QFont("Times", 12);
     mCurrentInstrument = NONE;
     mPreviousInstrument = NONE;
     readSetting();

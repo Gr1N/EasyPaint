@@ -25,6 +25,7 @@
 
 #include "textinstrument.h"
 #include "../imagearea.h"
+#include "../datasingleton.h"
 #include "../undocommand.h"
 #include "../dialogs/textdialog.h"
 
@@ -105,6 +106,8 @@ void TextInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool add
     if(mTopLeftPoint != mBottomRightPoint)
     {
         QPainter painter(imageArea.getImage());
+        painter.setPen(QPen(DataSingleton::Instance()->getPrimaryColor()));
+        painter.setFont(DataSingleton::Instance()->getTextFont());
         painter.drawText(QRect(mTopLeftPoint, mBottomRightPoint), mText);
         painter.end();
         imageArea.setEdited(true);
