@@ -171,7 +171,6 @@ void SelectionInstrument::clearSelectionBackground(ImageArea &imageArea)
 
 void SelectionInstrument::clear(ImageArea &imageArea)
 {
-    AbstractSelection::clearSelection(imageArea);
     mSelectedImage = QImage();
     emit sendEnableCopyCutActions(false);
 }
