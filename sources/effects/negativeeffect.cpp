@@ -23,45 +23,19 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "negativeeffect.h"
+#include "../imagearea.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+NegativeEffect::NegativeEffect(QObject *parent) :
+    AbstractEffect(parent)
 {
-    NONE_INSTRUMENT = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
-    TEXT,
+}
 
-    // Don't use it. (Used to know count of current instrument)
-    INSTRUMENTS_COUNT
-} InstrumentsEnum;
-
-/**
- * @brief Enum with effects names
- *
- */
-typedef enum
+void NegativeEffect::applyEffect(ImageArea &imageArea)
 {
-    NONE_EFFECT = 0,
-    NEGATIVE,
-    GRAY,
+    makeUndoCommand(imageArea);
 
-    // Don't use it. (Used to know count of current instrument)
-    EFFECTS_COUNT
-} EffectsEnum;
-
-#endif // EASYPAINTENUMS_H
+    imageArea.getImage()->invertPixels(QImage::InvertRgb);
+    imageArea.setEdited(true);
+    imageArea.update();
+}

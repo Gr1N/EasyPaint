@@ -41,6 +41,10 @@
 #include "instruments/curvelineinstrument.h"
 #include "instruments/textinstrument.h"
 
+#include "effects/abstracteffect.h"
+#include "effects/negativeeffect.h"
+#include "effects/grayeffect.h"
+
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
 #include <QtGui/QFileDialog>
@@ -66,7 +70,6 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mZoomFactor = 1;
 
     mAdditionalTools = new AdditionalTools(this);
-    mEffects = new Effects(this);
 
     mUndoStack = new QUndoStack(this);
     mUndoStack->setUndoLimit(DataSingleton::Instance()->getHistoryDepth());
@@ -103,7 +106,8 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     connect(selectionInstrument, SIGNAL(sendEnableCopyCutActions(bool)), this, SIGNAL(sendEnableCopyCutActions(bool)));
     connect(selectionInstrument, SIGNAL(sendEnableSelectionInstrument(bool)), this, SIGNAL(sendEnableSelectionInstrument(bool)));
 
-    mInstrumentsHandlers.fill(0, (int)COUNT);
+    // Instruments handlers
+    mInstrumentsHandlers.fill(0, (int)INSTRUMENTS_COUNT);
     mInstrumentsHandlers[CURSOR] = selectionInstrument;
     mInstrumentsHandlers[PEN] = new PencilInstrument(this);
     mInstrumentsHandlers[LINE] = new LineInstrument(this);
@@ -116,7 +120,11 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mInstrumentsHandlers[COLORPICKER] = new ColorpickerInstrument(this);
     mInstrumentsHandlers[CURVELINE] = new CurveLineInstrument(this);
     mInstrumentsHandlers[TEXT] = new TextInstrument(this);
-    // TODO: Add new handlers here
+
+    // Effects handlers
+    mEffectsHandlers.fill(0, (int)EFFECTS_COUNT);
+    mEffectsHandlers[NEGATIVE] = new NegativeEffect(this);
+    mEffectsHandlers[GRAY] = new GrayEffect(this);
 }
 
 ImageArea::~ImageArea()
@@ -265,6 +273,12 @@ void ImageArea::rotateImage(bool flag)
     emit sendNewImageSize(mImage->size());
 }
 
+void ImageArea::applyEffect(EffectsEnum effect)
+{
+    mEffectHandler = mEffectsHandlers.at(effect);
+    mEffectHandler->applyEffect(*this);
+}
+
 bool ImageArea::zoomImage(qreal factor)
 {
     return mAdditionalTools->zoomImage(factor);
@@ -301,7 +315,7 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
         mIsResize = true;
         setCursor(Qt::SizeFDiagCursor);
     }
-    else if(DataSingleton::Instance()->getInstrument() != NONE)
+    else if(DataSingleton::Instance()->getInstrument() != NONE_INSTRUMENT)
     {
         mInstrumentHandler = mInstrumentsHandlers.at(DataSingleton::Instance()->getInstrument());
         mInstrumentHandler->mousePressEvent(event, *this);
@@ -332,7 +346,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
         emit sendCursorPos(event->pos());
     }
 
-    if(DataSingleton::Instance()->getInstrument() != NONE)
+    if(DataSingleton::Instance()->getInstrument() != NONE_INSTRUMENT)
     {
         mInstrumentHandler = mInstrumentsHandlers.at(DataSingleton::Instance()->getInstrument());
         mInstrumentHandler->mouseMoveEvent(event, *this);
@@ -346,7 +360,7 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
        mIsResize = false;
        restoreCursor();
     }
-    else if(DataSingleton::Instance()->getInstrument() != NONE)
+    else if(DataSingleton::Instance()->getInstrument() != NONE_INSTRUMENT)
     {
         mInstrumentHandler = mInstrumentsHandlers.at(DataSingleton::Instance()->getInstrument());
         mInstrumentHandler->mouseReleaseEvent(event, *this);
@@ -375,14 +389,14 @@ void ImageArea::restoreCursor()
 {
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case COUNT:
+    case INSTRUMENTS_COUNT:
         break;
     case MAGNIFIER:
         mPixmap = new QPixmap(":/media/instruments-icons/cursor_loupe.png");
         mCurrentCursor = new QCursor(*mPixmap);
         setCursor(*mCurrentCursor);
         break;
-    case NONE:
+    case NONE_INSTRUMENT:
         mCurrentCursor = new QCursor(Qt::ArrowCursor);
         setCursor(*mCurrentCursor);
         break;
@@ -424,8 +438,8 @@ void ImageArea::drawCursor()
     QPoint center(13, 13);
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
-    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case COUNT:
+    case NONE_INSTRUMENT: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
+    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case INSTRUMENTS_COUNT:
     case CURVELINE: case TEXT:
         break;
     case PEN: case ERASER:
@@ -435,8 +449,8 @@ void ImageArea::drawCursor()
     painter.begin(mPixmap);
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case NONE: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
-    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case COUNT:
+    case NONE_INSTRUMENT: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
+    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case INSTRUMENTS_COUNT:
     case CURVELINE: case TEXT:
         break;
     case PEN:

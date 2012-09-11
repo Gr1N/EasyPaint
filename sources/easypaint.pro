@@ -20,7 +20,6 @@ SOURCES += main.cpp\
     imagearea.cpp \
     datasingleton.cpp \
     additionaltools.cpp \
-    effects.cpp \
     undocommand.cpp \
     widgets/toolbar.cpp \
     widgets/colorchooser.cpp \
@@ -43,14 +42,16 @@ SOURCES += main.cpp\
     instruments/colorpickerinstrument.cpp \
     instruments/selectioninstrument.cpp \
     instruments/curvelineinstrument.cpp \
-    instruments/textinstrument.cpp
+    instruments/textinstrument.cpp \
+    effects/abstracteffect.cpp \
+    effects/negativeeffect.cpp \
+    effects/grayeffect.cpp
 
 HEADERS  += mainwindow.h \
     easypaintenums.h \
     imagearea.h \
     datasingleton.h \
     additionaltools.h \
-    effects.h \
     undocommand.h \
     widgets/toolbar.h \
     widgets/colorchooser.h \
@@ -73,7 +74,10 @@ HEADERS  += mainwindow.h \
     instruments/colorpickerinstrument.h \
     instruments/selectioninstrument.h \
     instruments/curvelineinstrument.h \
-    instruments/textinstrument.h
+    instruments/textinstrument.h \
+    effects/abstracteffect.h \
+    effects/negativeeffect.h \
+    effects/grayeffect.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

@@ -23,45 +23,28 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "grayeffect.h"
+#include "../imagearea.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+GrayEffect::GrayEffect(QObject *parent) :
+    AbstractEffect(parent)
 {
-    NONE_INSTRUMENT = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
-    TEXT,
+}
 
-    // Don't use it. (Used to know count of current instrument)
-    INSTRUMENTS_COUNT
-} InstrumentsEnum;
-
-/**
- * @brief Enum with effects names
- *
- */
-typedef enum
+void GrayEffect::applyEffect(ImageArea &imageArea)
 {
-    NONE_EFFECT = 0,
-    NEGATIVE,
-    GRAY,
+    makeUndoCommand(imageArea);
 
-    // Don't use it. (Used to know count of current instrument)
-    EFFECTS_COUNT
-} EffectsEnum;
-
-#endif // EASYPAINTENUMS_H
+    for(int i(0); i < imageArea.getImage()->width(); i++)
+    {
+        for(int y(0); y < imageArea.getImage()->height(); y++)
+        {
+            QRgb pixel(imageArea.getImage()->pixel(i, y));
+            int rgb = (int)(0.299 * qRed(pixel) + 0.587 * qGreen(pixel) + 0.114 * qBlue(pixel));
+            pixel = qRgb(rgb, rgb, rgb);
+            imageArea.getImage()->setPixel(i, y, pixel);
+        }
+    }
+    imageArea.setEdited(true);
+    imageArea.update();
+}

@@ -1,8 +1,7 @@
 # Build dirs and files #
 ########################
 easypaint.pro.user
-easypaint-build-desktop-Qt___PATH______
-easypaint-build-desktop-Qt___PATH________
+easypaint-build-*
 
 # Compiled source #
 ###################

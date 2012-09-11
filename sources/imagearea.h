@@ -27,7 +27,6 @@
 #define IMAGEAREA_H
 
 #include "easypaintenums.h"
-#include "effects.h"
 #include "additionaltools.h"
 
 #include <QtGui/QWidget>
@@ -39,6 +38,7 @@ QT_END_NAMESPACE
 
 class UndoCommand;
 class AbstractInstrument;
+class AbstractEffect;
 
 /**
  * @brief Base class which contains view image and controller for painting
@@ -107,15 +107,10 @@ public:
      */
     inline bool getEdited() { return mIsEdited; }
     /**
-     * @brief Apply gray effect.
-     *
+     * @brief applyEffect Apply effect for image.
+     * @param effect Name of affect for apply.
      */
-    inline void effectGray() { mEffects->gray(); }
-    /**
-     * @brief Apply negative effect.
-     *
-     */
-    inline void effectNegative() { mEffects->negative(); }
+    void applyEffect(EffectsEnum effect);
     /**
      * @brief Restores previous cursor image.
      *
@@ -198,24 +193,19 @@ private:
 
     QImage *mImage,  /**< Main image. */
            mImageCopy; /**< Copy of main image, need for events. */ // ?????????????
-//           mSelectedImage, /**< Copy of selected image. */
-//           mPasteImage; /**< Image to paste */
     AdditionalTools *mAdditionalTools;
-    Effects *mEffects;
     QString mFilePath; /**< Path where located image. */
     QString mOpenFilter; /**< Supported open formats filter. */
     QString mSaveFilter; /**< Supported save formats filter. */
-    bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed; /*mIsSelectionExists,
-         mIsSelectionMoving, mIsSelectionResizing, mIsImageSelected;*/
+    bool mIsEdited, mIsPaint, mIsResize, mRightButtonPressed;
     QPixmap *mPixmap;
     QCursor *mCurrentCursor;
     qreal mZoomFactor;
     QUndoStack *mUndoStack;
-//    QPoint mSelectionBottomRightPoint, mSelectionTopLeftPoint, mSelectionMoveDiffPoint;
-//    int mSelectionHeight, mSelectionWidth;
     QVector<AbstractInstrument*> mInstrumentsHandlers;
     AbstractInstrument *mInstrumentHandler;
-
+    QVector<AbstractEffect*> mEffectsHandlers;
+    AbstractEffect *mEffectHandler;
 
 signals:
     /**
