@@ -327,6 +327,16 @@ void MainWindow::initializeMainMenu()
     mEffectsMenu->addAction(negativeEfAction);
     mEffectsActMap.insert(NEGATIVE, negativeEfAction);
 
+    QAction *binarizationEfAction = new QAction(tr("Binarization"), this);
+    connect(binarizationEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
+    mEffectsMenu->addAction(binarizationEfAction);
+    mEffectsActMap.insert(BINARIZATION, binarizationEfAction);
+
+    QAction *kuwaharaEfAction = new QAction(tr("Kuwahara"), this);
+    connect(kuwaharaEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
+    mEffectsMenu->addAction(kuwaharaEfAction);
+    mEffectsActMap.insert(KUWAHARA, kuwaharaEfAction);
+
     mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
     QAction *resizeImAction = new QAction(tr("Image size"), this);

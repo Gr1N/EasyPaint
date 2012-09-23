@@ -23,46 +23,41 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "binarizationeffect.h"
+#include "../imagearea.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+BinarizationEffect::BinarizationEffect(QObject *parent) :
+    AbstractEffect(parent)
 {
-    NONE_INSTRUMENT = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
+}
 
-    // Don't use it. (Used to know count of current instrument)
-    INSTRUMENTS_COUNT
-} InstrumentsEnum;
-
-/**
- * @brief Enum with effects names
- *
- */
-typedef enum
+void BinarizationEffect::applyEffect(ImageArea &imageArea)
 {
-    NONE_EFFECT = 0,
-    NEGATIVE,
-    GRAY,
-    BINARIZATION,
-    KUWAHARA,
+    makeUndoCommand(imageArea);
 
-    // Don't use it. (Used to know count of current instrument)
-    EFFECTS_COUNT
-} EffectsEnum;
+    // TODO: add dialog for setting parameters
+    makeBinarization(imageArea, 200, 100);
 
-#endif // EASYPAINTENUMS_H
+    imageArea.setEdited(true);
+    imageArea.update();
+}
+
+void BinarizationEffect::makeBinarization(ImageArea &imageArea, int coeff1, int coeff2)
+{
+    for (int x(0); x < imageArea.getImage()->width(); x++)
+    {
+        for (int y(0); y < imageArea.getImage()->height(); y++)
+        {
+            QRgb pixel = imageArea.getImage()->pixel(x, y);
+            int r = (int)qRed(pixel);
+            if (r >= coeff1)
+                r = 0;
+            else if (r >= coeff2 && r < coeff1)
+                    r = 255;
+            else
+                r = 0;
+            pixel = qRgb(r, r, r);
+            imageArea.getImage()->setPixel(x, y, pixel);
+        }
+    }
+}

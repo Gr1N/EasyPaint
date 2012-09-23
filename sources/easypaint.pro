@@ -42,7 +42,9 @@ SOURCES += main.cpp\
     instruments/curvelineinstrument.cpp \
     effects/abstracteffect.cpp \
     effects/negativeeffect.cpp \
-    effects/grayeffect.cpp
+    effects/grayeffect.cpp \
+    effects/binarizationeffect.cpp \
+    effects/kuwaharaeffect.cpp
 
 HEADERS  += mainwindow.h \
     easypaintenums.h \
@@ -71,7 +73,9 @@ HEADERS  += mainwindow.h \
     instruments/curvelineinstrument.h \
     effects/abstracteffect.h \
     effects/negativeeffect.h \
-    effects/grayeffect.h
+    effects/grayeffect.h \
+    effects/binarizationeffect.h \
+    effects/kuwaharaeffect.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

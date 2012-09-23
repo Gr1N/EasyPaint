@@ -43,6 +43,8 @@
 #include "effects/abstracteffect.h"
 #include "effects/negativeeffect.h"
 #include "effects/grayeffect.h"
+#include "effects/binarizationeffect.h"
+#include "effects/kuwaharaeffect.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -123,6 +125,8 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mEffectsHandlers.fill(0, (int)EFFECTS_COUNT);
     mEffectsHandlers[NEGATIVE] = new NegativeEffect(this);
     mEffectsHandlers[GRAY] = new GrayEffect(this);
+    mEffectsHandlers[BINARIZATION] = new BinarizationEffect(this);
+    mEffectsHandlers[KUWAHARA] = new KuwaharaEffect(this);
 }
 
 ImageArea::~ImageArea()

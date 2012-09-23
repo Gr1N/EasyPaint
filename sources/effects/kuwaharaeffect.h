@@ -23,46 +23,28 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#ifndef KUWAHARAEFFECT_H
+#define KUWAHARAEFFECT_H
+
+#include "abstracteffect.h"
+
+#include <QtCore/QObject>
 
 /**
- * @brief Enum with instruments names
+ * @brief Kuwahara effect class.
  *
  */
-typedef enum
+class KuwaharaEffect : public AbstractEffect
 {
-    NONE_INSTRUMENT = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
+    Q_OBJECT
+public:
+    explicit KuwaharaEffect(QObject *parent = 0);
+    
+    void applyEffect(ImageArea &imageArea);
 
-    // Don't use it. (Used to know count of current instrument)
-    INSTRUMENTS_COUNT
-} InstrumentsEnum;
+private:
+    void makeKuwahara(ImageArea &imageArea);
+    
+};
 
-/**
- * @brief Enum with effects names
- *
- */
-typedef enum
-{
-    NONE_EFFECT = 0,
-    NEGATIVE,
-    GRAY,
-    BINARIZATION,
-    KUWAHARA,
-
-    // Don't use it. (Used to know count of current instrument)
-    EFFECTS_COUNT
-} EffectsEnum;
-
-#endif // EASYPAINTENUMS_H
+#endif // KUWAHARAEFFECT_H

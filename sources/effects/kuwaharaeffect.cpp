@@ -23,46 +23,26 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "kuwaharaeffect.h"
+#include "../imagearea.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+
+KuwaharaEffect::KuwaharaEffect(QObject *parent) :
+    AbstractEffect(parent)
 {
-    NONE_INSTRUMENT = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
+}
 
-    // Don't use it. (Used to know count of current instrument)
-    INSTRUMENTS_COUNT
-} InstrumentsEnum;
-
-/**
- * @brief Enum with effects names
- *
- */
-typedef enum
+void KuwaharaEffect::applyEffect(ImageArea &imageArea)
 {
-    NONE_EFFECT = 0,
-    NEGATIVE,
-    GRAY,
-    BINARIZATION,
-    KUWAHARA,
+    makeUndoCommand(imageArea);
 
-    // Don't use it. (Used to know count of current instrument)
-    EFFECTS_COUNT
-} EffectsEnum;
+    makeKuwahara(imageArea);
 
-#endif // EASYPAINTENUMS_H
+    imageArea.setEdited(true);
+    imageArea.update();
+}
+
+void KuwaharaEffect::makeKuwahara(ImageArea &imageArea)
+{
+
+}
