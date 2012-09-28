@@ -23,47 +23,42 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "gammaeffect.h"
+#include "../imagearea.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+#include <math.h>
+
+GammaEffect::GammaEffect(QObject *parent) :
+    AbstractEffect(parent)
 {
-    NONE_INSTRUMENT = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
+}
 
-    // Don't use it. (Used to know count of current instrument)
-    INSTRUMENTS_COUNT
-} InstrumentsEnum;
-
-/**
- * @brief Enum with effects names
- *
- */
-typedef enum
+void GammaEffect::applyEffect(ImageArea &imageArea)
 {
-    NONE_EFFECT = 0,
-    NEGATIVE,
-    GRAY,
-    BINARIZATION,
-    KUWAHARA,
-    GAMMA,
+    makeUndoCommand(imageArea);
 
-    // Don't use it. (Used to know count of current instrument)
-    EFFECTS_COUNT
-} EffectsEnum;
+    // TODO: add dialog for setting parameters
+    makeGamma(imageArea, 2);
 
-#endif // EASYPAINTENUMS_H
+    imageArea.setEdited(true);
+    imageArea.update();
+}
+
+void GammaEffect::makeGamma(ImageArea &imageArea, float modificator)
+{
+    for(int x(0); x < imageArea.getImage()->width(); x++)
+    {
+        for(int y(0); y < imageArea.getImage()->height(); y++)
+        {
+            QRgb pixel = imageArea.getImage()->pixel(x, y);
+            float r = qRed(pixel);
+            r = 255 * pow(r / 255, modificator);
+            float g = qGreen(pixel);
+            g = 255 * pow(g / 255, modificator);
+            float b = qBlue(pixel);
+            b = 255 * pow(b / 255, modificator);
+            pixel = qRgb(r, g, b);
+            imageArea.getImage()->setPixel(x, y, pixel);
+        }
+    }
+}

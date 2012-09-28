@@ -45,6 +45,7 @@
 #include "effects/grayeffect.h"
 #include "effects/binarizationeffect.h"
 #include "effects/kuwaharaeffect.h"
+#include "effects/gammaeffect.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -127,6 +128,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mEffectsHandlers[GRAY] = new GrayEffect(this);
     mEffectsHandlers[BINARIZATION] = new BinarizationEffect(this);
     mEffectsHandlers[KUWAHARA] = new KuwaharaEffect(this);
+    mEffectsHandlers[GAMMA] = new GammaEffect(this);
 }
 
 ImageArea::~ImageArea()

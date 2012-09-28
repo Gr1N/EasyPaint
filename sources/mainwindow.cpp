@@ -337,6 +337,11 @@ void MainWindow::initializeMainMenu()
     mEffectsMenu->addAction(kuwaharaEfAction);
     mEffectsActMap.insert(KUWAHARA, kuwaharaEfAction);
 
+    QAction *gammaEfAction = new QAction(tr("Gamma"), this);
+    connect(gammaEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
+    mEffectsMenu->addAction(gammaEfAction);
+    mEffectsActMap.insert(GAMMA, gammaEfAction);
+
     mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
     QAction *resizeImAction = new QAction(tr("Image size"), this);
