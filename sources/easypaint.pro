@@ -44,8 +44,8 @@ SOURCES += main.cpp\
     effects/negativeeffect.cpp \
     effects/grayeffect.cpp \
     effects/binarizationeffect.cpp \
-    effects/kuwaharaeffect.cpp \
-    effects/gammaeffect.cpp
+    effects/gammaeffect.cpp \
+    effects/gaussianblureffect.cpp
 
 HEADERS  += mainwindow.h \
     easypaintenums.h \
@@ -76,8 +76,8 @@ HEADERS  += mainwindow.h \
     effects/negativeeffect.h \
     effects/grayeffect.h \
     effects/binarizationeffect.h \
-    effects/kuwaharaeffect.h \
-    effects/gammaeffect.h
+    effects/gammaeffect.h \
+    effects/gaussianblureffect.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

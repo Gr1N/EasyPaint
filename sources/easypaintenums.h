@@ -59,7 +59,7 @@ typedef enum
     NEGATIVE,
     GRAY,
     BINARIZATION,
-    KUWAHARA,
+    GAUSSIANBLUR,
     GAMMA,
 
     // Don't use it. (Used to know count of current instrument)

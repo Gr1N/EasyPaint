@@ -23,26 +23,28 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "kuwaharaeffect.h"
-#include "../imagearea.h"
+#ifndef GAUSSIANBLUREFFECT_H
+#define GAUSSIANBLUREFFECT_H
 
+#include "abstracteffect.h"
 
-KuwaharaEffect::KuwaharaEffect(QObject *parent) :
-    AbstractEffect(parent)
+#include <QtCore/QObject>
+
+/**
+ * @brief Gaussian Blur effect class.
+ *
+ */
+class GaussianBlurEffect : public AbstractEffect
 {
-}
+    Q_OBJECT
+public:
+    explicit GaussianBlurEffect(QObject *parent = 0);
+    
+    void applyEffect(ImageArea &imageArea);
 
-void KuwaharaEffect::applyEffect(ImageArea &imageArea)
-{
-    makeUndoCommand(imageArea);
+private:
+    void makeGaussian(ImageArea &imageArea);
+    
+};
 
-    makeKuwahara(imageArea);
-
-    imageArea.setEdited(true);
-    imageArea.update();
-}
-
-void KuwaharaEffect::makeKuwahara(ImageArea &imageArea)
-{
-
-}
+#endif // GAUSSIANBLUREFFECT_H

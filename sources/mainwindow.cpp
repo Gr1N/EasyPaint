@@ -332,10 +332,10 @@ void MainWindow::initializeMainMenu()
     mEffectsMenu->addAction(binarizationEfAction);
     mEffectsActMap.insert(BINARIZATION, binarizationEfAction);
 
-    QAction *kuwaharaEfAction = new QAction(tr("Kuwahara"), this);
-    connect(kuwaharaEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
-    mEffectsMenu->addAction(kuwaharaEfAction);
-    mEffectsActMap.insert(KUWAHARA, kuwaharaEfAction);
+    QAction *gaussianBlurEfAction = new QAction(tr("Gaussian Blur"), this);
+    connect(gaussianBlurEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
+    mEffectsMenu->addAction(gaussianBlurEfAction);
+    mEffectsActMap.insert(GAUSSIANBLUR, gaussianBlurEfAction);
 
     QAction *gammaEfAction = new QAction(tr("Gamma"), this);
     connect(gammaEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
