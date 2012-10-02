@@ -38,5 +38,5 @@ void ConvolutionMatrixEffect::applyEffect(ImageArea &imageArea)
     // TODO: add realization
 
     imageArea.setEdited(true);
-    ImageArea.update();
+    imageArea.update();
 }

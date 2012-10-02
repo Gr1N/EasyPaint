@@ -23,25 +23,11 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "sharpeneffect.h"
+#include "../imagearea.h"
 
-#ifndef CONVOLUTIONMATRIXEFFECT_H
-#define CONVOLUTIONMATRIXEFFECT_H
-
-#include "abstracteffect.h"
-
-#include <QtCore/QObject>
-
-class ConvolutionMatrixEffect : public AbstractEffect
+SharpenEffect::SharpenEffect(QObject *parent) :
+    ConvolutionMatrixEffect(parent)
 {
-    Q_OBJECT
-public:
-    explicit ConvolutionMatrixEffect(QObject *parent = 0);
+}
 
-    void virtual applyEffect(ImageArea &imageArea);
-
-protected:
-    void applyConvolution(ImageArea &imageArea, double **matrix);
-
-};
-
-#endif // CONVOLUTIONMATRIXEFFECT_H

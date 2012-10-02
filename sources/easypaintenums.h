@@ -61,6 +61,7 @@ typedef enum
     BINARIZATION,
     GAUSSIANBLUR,
     GAMMA,
+    SHARPEN,
 
     // Don't use it. (Used to know count of current instrument)
     EFFECTS_COUNT
