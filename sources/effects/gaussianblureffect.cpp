@@ -27,22 +27,18 @@
 #include "../imagearea.h"
 
 GaussianBlurEffect::GaussianBlurEffect(QObject *parent) :
-    AbstractEffect(parent)
+    ConvolutionMatrixEffect(parent)
 {
 }
 
-void GaussianBlurEffect::applyEffect(ImageArea &imageArea)
+QList<double> GaussianBlurEffect::getConvolutionMatrix()
 {
-    makeUndoCommand(imageArea);
+    // TODO: add correct realization dialog with settings
+    QList<double> list;
 
-    // TODO: add dialog for setting parameters
-    makeGaussian(imageArea);
+    list << 0 << 1 << 0
+         << 1 << 0 << 1
+         << 0 << 1 << 1;
 
-    imageArea.setEdited(true);
-    imageArea.update();
-}
-
-void GaussianBlurEffect::makeGaussian(ImageArea &imageArea)
-{
-
+    return list;
 }

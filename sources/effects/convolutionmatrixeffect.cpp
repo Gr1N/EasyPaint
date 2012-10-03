@@ -60,7 +60,7 @@ QRgb ConvolutionMatrixEffect::convolutePixel(const QImage &image, int x, int y, 
     double red = 0;
     double green = 0;
     double blue = 0;
-
+    // TODO: some optimization can be made
     for(int r = -kernelSize / 2; r <= kernelSize / 2; ++r)
     {
         for(int c = -kernelSize / 2; c <= kernelSize / 2; ++c)

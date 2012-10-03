@@ -33,6 +33,7 @@ SharpenEffect::SharpenEffect(QObject *parent) :
 
 QList<double> SharpenEffect::getConvolutionMatrix()
 {
+    // TODO: add settings dialog
     QList<double> list;
 
     list << 0  << -1 <<  0

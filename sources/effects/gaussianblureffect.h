@@ -26,7 +26,7 @@
 #ifndef GAUSSIANBLUREFFECT_H
 #define GAUSSIANBLUREFFECT_H
 
-#include "abstracteffect.h"
+#include "convolutionmatrixeffect.h"
 
 #include <QtCore/QObject>
 
@@ -34,16 +34,14 @@
  * @brief Gaussian Blur effect class.
  *
  */
-class GaussianBlurEffect : public AbstractEffect
+class GaussianBlurEffect : public ConvolutionMatrixEffect
 {
     Q_OBJECT
 public:
     explicit GaussianBlurEffect(QObject *parent = 0);
     
-    void applyEffect(ImageArea &imageArea);
-
 private:
-    void makeGaussian(ImageArea &imageArea);
+    virtual QList<double> getConvolutionMatrix();
     
 };
 

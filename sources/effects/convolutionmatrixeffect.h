@@ -30,10 +30,13 @@
 #include "abstracteffect.h"
 
 #include <QtCore/QObject>
-#include <QtGui/QTransform>
 #include <QtGui/QRgb>
 #include <QtGui/QImage>
 
+/**
+ * @brief Base class for filters, which uses convolution matrix.
+ *
+ */
 class ConvolutionMatrixEffect : public AbstractEffect
 {
     Q_OBJECT
