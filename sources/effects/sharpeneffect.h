@@ -35,6 +35,9 @@ class SharpenEffect : public ConvolutionMatrixEffect
     Q_OBJECT
 public:
     explicit SharpenEffect(QObject *parent = 0);
+
+protected:
+    virtual QList<double> getConvolutionMatrix();
 };
 
 #endif // SHARPENEFFECT_H

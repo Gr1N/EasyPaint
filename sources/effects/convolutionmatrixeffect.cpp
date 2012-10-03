@@ -23,6 +23,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <cmath>
+
 #include "convolutionmatrixeffect.h"
 #include "../imagearea.h"
 
@@ -35,8 +37,44 @@ void ConvolutionMatrixEffect::applyEffect(ImageArea &imageArea)
 {
     makeUndoCommand(imageArea);
 
-    // TODO: add realization
+    QImage copy(*imageArea.getImage());
 
+    for(int i = 2; i < imageArea.getImage()->height() - 2; ++i)
+    {
+        for(int j = 2; j < imageArea.getImage()->width() - 2; ++j)
+        {
+            copy.setPixel(j, i, convolutePixel(*imageArea.getImage(), j, i, getConvolutionMatrix()));
+        }
+    }
+
+    imageArea.setImage(copy);
     imageArea.setEdited(true);
     imageArea.update();
+}
+
+QRgb ConvolutionMatrixEffect::convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix)
+{
+    int kernelSize = sqrt(kernelMatrix.size());
+
+    double total = 0;
+    double red = 0;
+    double green = 0;
+    double blue = 0;
+
+    for(int r = -kernelSize / 2; r <= kernelSize / 2; ++r)
+    {
+        for(int c = -kernelSize / 2; c <= kernelSize / 2; ++c)
+        {
+            int kernelValue = kernelMatrix[(kernelSize / 2 + r) * kernelSize + (kernelSize / 2 + c)];
+            total += kernelValue;
+            red += qRed(image.pixel(x + c, y + r)) * kernelValue;
+            green += qGreen(image.pixel(x + c, y + r)) * kernelValue;
+            blue += qBlue(image.pixel(x + c, y + r)) * kernelValue;
+        }
+    }
+
+    if(total == 0)
+        return qRgb(qBound(0, qRound(red), 255), qBound(0, qRound(green), 255), qBound(0, qRound(blue), 255));
+
+    return qRgb(qBound(0, qRound(red / total), 255), qBound(0, qRound(green / total), 255), qBound(0, qRound(blue / total), 255));
 }

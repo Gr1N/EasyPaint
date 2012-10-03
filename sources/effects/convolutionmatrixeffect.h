@@ -30,6 +30,9 @@
 #include "abstracteffect.h"
 
 #include <QtCore/QObject>
+#include <QtGui/QTransform>
+#include <QtGui/QRgb>
+#include <QtGui/QImage>
 
 class ConvolutionMatrixEffect : public AbstractEffect
 {
@@ -40,7 +43,8 @@ public:
     void virtual applyEffect(ImageArea &imageArea);
 
 protected:
-    void applyConvolution(ImageArea &imageArea, double **matrix);
+    QList<double> virtual getConvolutionMatrix() = 0;
+    QRgb convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix);
 
 };
 

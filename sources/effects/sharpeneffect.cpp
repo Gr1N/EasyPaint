@@ -31,3 +31,13 @@ SharpenEffect::SharpenEffect(QObject *parent) :
 {
 }
 
+QList<double> SharpenEffect::getConvolutionMatrix()
+{
+    QList<double> list;
+
+    list << 0  << -1 <<  0
+         << -1 <<  5 << -1
+         << 0  << -1 <<  0;
+
+    return list;
+}
