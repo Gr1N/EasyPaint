@@ -45,7 +45,9 @@ SOURCES += main.cpp\
     effects/grayeffect.cpp \
     effects/binarizationeffect.cpp \
     effects/gammaeffect.cpp \
-    effects/gaussianblureffect.cpp
+    effects/gaussianblureffect.cpp \
+    effects/convolutionmatrixeffect.cpp \
+    effects/sharpeneffect.cpp
 
 HEADERS  += mainwindow.h \
     easypaintenums.h \
@@ -77,7 +79,9 @@ HEADERS  += mainwindow.h \
     effects/grayeffect.h \
     effects/binarizationeffect.h \
     effects/gammaeffect.h \
-    effects/gaussianblureffect.h
+    effects/gaussianblureffect.h \
+    effects/convolutionmatrixeffect.h \
+    effects/sharpeneffect.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

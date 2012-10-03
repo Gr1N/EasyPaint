@@ -23,48 +23,32 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+
+#ifndef CONVOLUTIONMATRIXEFFECT_H
+#define CONVOLUTIONMATRIXEFFECT_H
+
+#include "abstracteffect.h"
+
+#include <QtCore/QObject>
+#include <QtGui/QRgb>
+#include <QtGui/QImage>
 
 /**
- * @brief Enum with instruments names
+ * @brief Base class for filters, which uses convolution matrix.
  *
  */
-typedef enum
+class ConvolutionMatrixEffect : public AbstractEffect
 {
-    NONE_INSTRUMENT = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
+    Q_OBJECT
+public:
+    explicit ConvolutionMatrixEffect(QObject *parent = 0);
 
-    // Don't use it. (Used to know count of current instrument)
-    INSTRUMENTS_COUNT
-} InstrumentsEnum;
+    void virtual applyEffect(ImageArea &imageArea);
 
-/**
- * @brief Enum with effects names
- *
- */
-typedef enum
-{
-    NONE_EFFECT = 0,
-    NEGATIVE,
-    GRAY,
-    BINARIZATION,
-    GAUSSIANBLUR,
-    GAMMA,
-    SHARPEN,
+protected:
+    QList<double> virtual getConvolutionMatrix() = 0;
+    QRgb convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix);
 
-    // Don't use it. (Used to know count of current instrument)
-    EFFECTS_COUNT
-} EffectsEnum;
+};
 
-#endif // EASYPAINTENUMS_H
+#endif // CONVOLUTIONMATRIXEFFECT_H
