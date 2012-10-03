@@ -36,9 +36,9 @@ QList<double> GaussianBlurEffect::getConvolutionMatrix()
     // TODO: add correct realization dialog with settings
     QList<double> list;
 
-    list << 0 << 1 << 0
-         << 1 << 0 << 1
-         << 0 << 1 << 1;
+    list << 1 << 2 << 1
+         << 2 << 4 << 2
+         << 1 << 2 << 1;
 
     return list;
 }
