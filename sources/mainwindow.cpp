@@ -342,6 +342,11 @@ void MainWindow::initializeMainMenu()
     mEffectsMenu->addAction(gammaEfAction);
     mEffectsActMap.insert(GAMMA, gammaEfAction);
 
+    QAction *sharpenEfAction = new QAction(tr("Sharpen"), this);
+    connect(sharpenEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
+    mEffectsMenu->addAction(sharpenEfAction);
+    mEffectsActMap.insert(SHARPEN, sharpenEfAction);
+
     mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
     QAction *resizeImAction = new QAction(tr("Image size"), this);

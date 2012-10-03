@@ -46,6 +46,7 @@
 #include "effects/binarizationeffect.h"
 #include "effects/gaussianblureffect.h"
 #include "effects/gammaeffect.h"
+#include "effects/sharpeneffect.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -129,6 +130,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mEffectsHandlers[BINARIZATION] = new BinarizationEffect(this);
     mEffectsHandlers[GAUSSIANBLUR] = new GaussianBlurEffect(this);
     mEffectsHandlers[GAMMA] = new GammaEffect(this);
+    mEffectsHandlers[SHARPEN] = new SharpenEffect(this);
 }
 
 ImageArea::~ImageArea()

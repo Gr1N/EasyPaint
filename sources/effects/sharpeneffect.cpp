@@ -23,48 +23,22 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#include "sharpeneffect.h"
+#include "../imagearea.h"
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+SharpenEffect::SharpenEffect(QObject *parent) :
+    ConvolutionMatrixEffect(parent)
 {
-    NONE_INSTRUMENT = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
+}
 
-    // Don't use it. (Used to know count of current instrument)
-    INSTRUMENTS_COUNT
-} InstrumentsEnum;
-
-/**
- * @brief Enum with effects names
- *
- */
-typedef enum
+QList<double> SharpenEffect::getConvolutionMatrix()
 {
-    NONE_EFFECT = 0,
-    NEGATIVE,
-    GRAY,
-    BINARIZATION,
-    GAUSSIANBLUR,
-    GAMMA,
-    SHARPEN,
+    // TODO: add settings dialog
+    QList<double> list;
 
-    // Don't use it. (Used to know count of current instrument)
-    EFFECTS_COUNT
-} EffectsEnum;
+    list << 0  << -1 <<  0
+         << -1 <<  5 << -1
+         << 0  << -1 <<  0;
 
-#endif // EASYPAINTENUMS_H
+    return list;
+}

@@ -23,48 +23,21 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EASYPAINTENUMS_H
-#define EASYPAINTENUMS_H
+#ifndef SHARPENEFFECT_H
+#define SHARPENEFFECT_H
 
-/**
- * @brief Enum with instruments names
- *
- */
-typedef enum
+#include "convolutionmatrixeffect.h"
+
+#include <QtCore/QObject>
+
+class SharpenEffect : public ConvolutionMatrixEffect
 {
-    NONE_INSTRUMENT = 0,
-    CURSOR,
-    ERASER,
-    PEN,
-    LINE,
-    COLORPICKER,
-    MAGNIFIER,
-    SPRAY,
-    FILL,
-    RECTANGLE,
-    ELLIPSE,
-    CURVELINE,
+    Q_OBJECT
+public:
+    explicit SharpenEffect(QObject *parent = 0);
 
-    // Don't use it. (Used to know count of current instrument)
-    INSTRUMENTS_COUNT
-} InstrumentsEnum;
+protected:
+    virtual QList<double> getConvolutionMatrix();
+};
 
-/**
- * @brief Enum with effects names
- *
- */
-typedef enum
-{
-    NONE_EFFECT = 0,
-    NEGATIVE,
-    GRAY,
-    BINARIZATION,
-    GAUSSIANBLUR,
-    GAMMA,
-    SHARPEN,
-
-    // Don't use it. (Used to know count of current instrument)
-    EFFECTS_COUNT
-} EffectsEnum;
-
-#endif // EASYPAINTENUMS_H
+#endif // SHARPENEFFECT_H
