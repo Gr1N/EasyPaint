@@ -75,6 +75,7 @@ void AdditionalTools::resizeCanvas(int width, int height, bool flag)
     mPImageArea->resize(mPImageArea->getImage()->rect().right() + 6,
                         mPImageArea->getImage()->rect().bottom() + 6);
     mPImageArea->setEdited(true);
+    mPImageArea->clearSelection();
 }
 
 void AdditionalTools::resizeImage()
@@ -86,6 +87,7 @@ void AdditionalTools::resizeImage()
         mPImageArea->resize(mPImageArea->getImage()->rect().right() + 6,
                             mPImageArea->getImage()->rect().bottom() + 6);
         mPImageArea->setEdited(true);
+        mPImageArea->clearSelection();
     }
 }
 
@@ -105,6 +107,7 @@ void AdditionalTools::rotateImage(bool flag)
                         mPImageArea->getImage()->rect().bottom() + 6);
     mPImageArea->update();
     mPImageArea->setEdited(true);
+    mPImageArea->clearSelection();
 }
 
 bool AdditionalTools::zoomImage(qreal factor)
@@ -126,6 +129,7 @@ bool AdditionalTools::zoomImage(qreal factor)
         mPImageArea->resize((mPImageArea->rect().width())*factor, (mPImageArea->rect().height())*factor);
         emit sendNewImageSize(mPImageArea->size());
         mPImageArea->setEdited(true);
+        mPImageArea->clearSelection();
         return true;
     }
 }

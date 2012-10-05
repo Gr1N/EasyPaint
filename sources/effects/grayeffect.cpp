@@ -33,6 +33,7 @@ GrayEffect::GrayEffect(QObject *parent) :
 
 void GrayEffect::applyEffect(ImageArea &imageArea)
 {
+    imageArea.clearSelection();
     makeUndoCommand(imageArea);
 
     for(int i(0); i < imageArea.getImage()->width(); i++)

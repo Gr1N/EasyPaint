@@ -31,6 +31,7 @@
 #include <QtCore/QString>
 #include <QtCore/QMap>
 #include <QtGui/QKeySequence>
+#include <QtGui/QFont>
 
 #include "easypaintenums.h"
 
@@ -72,6 +73,8 @@ public:
     inline void setAppLanguage(const QString &appLanguage) { mAppLanguage = appLanguage; }
     inline QSize getWindowSize() { return mWindowSize; }
     inline void setWindowSize(const QSize &winSize) { mWindowSize = winSize; }
+    inline QFont getTextFont() { return mTextFont; }
+    inline void setTextFont(const QFont textFont) { mTextFont = textFont; }
     inline QMap<QString, QKeySequence> getFileShortcuts() { return mFileShortcuts; }
     inline QKeySequence getFileShortcutByKey(const QString &key) { return mFileShortcuts[key]; }
     inline void setFileShortcutByKey(const QString &key, const QKeySequence &value) { mFileShortcuts[key] = value; }
@@ -108,6 +111,7 @@ private:
     bool mIsResetCurve; /**< Needs to correct work of Bezier curve instrument */
     int mAutoSaveInterval, mHistoryDepth;
     QString mAppLanguage;
+    QFont mTextFont;
     QMap<QString, QKeySequence> mFileShortcuts, mEditShortcuts, mInstrumentsShortcuts, mToolsShortcuts;
 
 };

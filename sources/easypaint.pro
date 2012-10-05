@@ -28,7 +28,9 @@ SOURCES += main.cpp\
     widgets/shortcutedit.cpp \
     dialogs/resizedialog.cpp \
     dialogs/settingsdialog.cpp \
+    dialogs/textdialog.cpp \
     instruments/abstractinstrument.cpp \
+    instruments/abstractselection.cpp \
     instruments/pencilinstrument.cpp \
     instruments/lineinstrument.cpp \
     instruments/eraserinstrument.cpp \
@@ -40,6 +42,7 @@ SOURCES += main.cpp\
     instruments/colorpickerinstrument.cpp \
     instruments/selectioninstrument.cpp \
     instruments/curvelineinstrument.cpp \
+    instruments/textinstrument.cpp \
     effects/abstracteffect.cpp \
     effects/negativeeffect.cpp \
     effects/grayeffect.cpp \
@@ -62,7 +65,9 @@ HEADERS  += mainwindow.h \
     widgets/shortcutedit.h \
     dialogs/resizedialog.h \
     dialogs/settingsdialog.h \
+    dialogs/textdialog.h \
     instruments/abstractinstrument.h \
+    instruments/abstractselection.h \
     instruments/pencilinstrument.h \
     instruments/lineinstrument.h \
     instruments/eraserinstrument.h \
@@ -74,6 +79,7 @@ HEADERS  += mainwindow.h \
     instruments/colorpickerinstrument.h \
     instruments/selectioninstrument.h \
     instruments/curvelineinstrument.h \
+    instruments/textinstrument.h \
     effects/abstracteffect.h \
     effects/negativeeffect.h \
     effects/grayeffect.h \

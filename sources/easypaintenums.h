@@ -44,6 +44,7 @@ typedef enum
     RECTANGLE,
     ELLIPSE,
     CURVELINE,
+    TEXT,
 
     // Don't use it. (Used to know count of current instrument)
     INSTRUMENTS_COUNT

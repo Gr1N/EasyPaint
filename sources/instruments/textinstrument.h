@@ -23,26 +23,51 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "undocommand.h"
+#ifndef TEXTINSTRUMENT_H
+#define TEXTINSTRUMENT_H
 
-UndoCommand::UndoCommand(const QImage *img, ImageArea &imgArea, QUndoCommand *parent)
-    : QUndoCommand(parent), mPrevImage(*img), mImageArea(imgArea)
-{
-    mCurrImage = mPrevImage;
-}
+#include "abstractselection.h"
 
-void UndoCommand::undo()
-{
-    mImageArea.clearSelection();
-    mCurrImage = *(mImageArea.getImage());
-    mImageArea.setImage(mPrevImage);
-    mImageArea.update();
-    mImageArea.saveImageChanges();
-}
+#include <QtCore/QObject>
 
-void UndoCommand::redo()
+/**
+ * @brief Text instrument class.
+ *
+ */
+class TextInstrument : public AbstractSelection
 {
-    mImageArea.setImage(mCurrImage);
-    mImageArea.update();
-    mImageArea.saveImageChanges();
-}
+    Q_OBJECT
+public:
+    explicit TextInstrument(QObject *parent = 0);
+
+private:
+    void startSelection(ImageArea &imageArea);
+    void startResizing(ImageArea &imageArea);
+    void startMoving(ImageArea &imageArea);
+    void select(ImageArea &imageArea);
+    void resize(ImageArea &imageArea);
+    void move(ImageArea &imageArea);
+    void completeSelection(ImageArea &imageArea);
+    void completeResizing(ImageArea &imageArea);
+    void completeMoving(ImageArea &imageArea);
+    void clear(ImageArea &imageArea);
+    void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
+
+    QString mText;
+    bool mIsEdited;
+
+signals:
+    void sendCloseTextDialog();
+
+private slots:
+    void updateText(ImageArea *, QString);
+    /**
+     * @brief Clears text and remove selection.
+     *
+     * @param imageArea ImageArea for applying changes.
+     */
+    void cancel(ImageArea *);
+
+};
+
+#endif // TEXTINSTRUMENT_H

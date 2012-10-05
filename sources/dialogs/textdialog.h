@@ -23,26 +23,43 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "undocommand.h"
+#ifndef TEXTDIALOG_H
+#define TEXTDIALOG_H
 
-UndoCommand::UndoCommand(const QImage *img, ImageArea &imgArea, QUndoCommand *parent)
-    : QUndoCommand(parent), mPrevImage(*img), mImageArea(imgArea)
-{
-    mCurrImage = mPrevImage;
-}
+#include "../imagearea.h"
 
-void UndoCommand::undo()
-{
-    mImageArea.clearSelection();
-    mCurrImage = *(mImageArea.getImage());
-    mImageArea.setImage(mPrevImage);
-    mImageArea.update();
-    mImageArea.saveImageChanges();
-}
+#include <QtGui/QDialog>
+#include <QTextEdit>
 
-void UndoCommand::redo()
+/**
+ * @brief QDialog for text instrument.
+ *
+ */
+class TextDialog : public QDialog
 {
-    mImageArea.setImage(mCurrImage);
-    mImageArea.update();
-    mImageArea.saveImageChanges();
-}
+    Q_OBJECT
+
+public:
+    /**
+     * @brief Constructor
+     *
+     * @param parent Pointer for parent.
+     */
+    explicit TextDialog(ImageArea *parent = 0);
+   
+private:
+    void initializeGui();
+    QTextEdit *mTextEdit;
+  
+signals:
+    void textChanged(ImageArea *, const QString);
+    void canceled(ImageArea *);
+
+private slots:
+    void textChanged();
+    void selectFont();    
+    void cancel();
+    void reject();
+};
+
+#endif // TEXTDIALOG_H
