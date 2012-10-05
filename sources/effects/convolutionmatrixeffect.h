@@ -23,25 +23,32 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef GRAYEFFECT_H
-#define GRAYEFFECT_H
+
+#ifndef CONVOLUTIONMATRIXEFFECT_H
+#define CONVOLUTIONMATRIXEFFECT_H
 
 #include "abstracteffect.h"
 
 #include <QtCore/QObject>
+#include <QtGui/QRgb>
+#include <QtGui/QImage>
 
 /**
- * @brief Gray effect class.
+ * @brief Base class for filters, which uses convolution matrix.
  *
  */
-class GrayEffect : public AbstractEffect
+class ConvolutionMatrixEffect : public AbstractEffect
 {
     Q_OBJECT
 public:
-    explicit GrayEffect(QObject *parent = 0);
-    
-    void applyEffect(ImageArea &imageArea);
+    explicit ConvolutionMatrixEffect(QObject *parent = 0);
+
+    void virtual applyEffect(ImageArea &imageArea);
+
+protected:
+    QList<double> virtual getConvolutionMatrix() = 0;
+    QRgb convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix);
 
 };
 
-#endif // GRAYEFFECT_H
+#endif // CONVOLUTIONMATRIXEFFECT_H

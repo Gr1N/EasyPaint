@@ -23,25 +23,42 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef GRAYEFFECT_H
-#define GRAYEFFECT_H
+#include "gammaeffect.h"
+#include "../imagearea.h"
 
-#include "abstracteffect.h"
+#include <math.h>
 
-#include <QtCore/QObject>
-
-/**
- * @brief Gray effect class.
- *
- */
-class GrayEffect : public AbstractEffect
+GammaEffect::GammaEffect(QObject *parent) :
+    AbstractEffect(parent)
 {
-    Q_OBJECT
-public:
-    explicit GrayEffect(QObject *parent = 0);
-    
-    void applyEffect(ImageArea &imageArea);
+}
 
-};
+void GammaEffect::applyEffect(ImageArea &imageArea)
+{
+    makeUndoCommand(imageArea);
 
-#endif // GRAYEFFECT_H
+    // TODO: add dialog for setting parameters
+    makeGamma(imageArea, 2);
+
+    imageArea.setEdited(true);
+    imageArea.update();
+}
+
+void GammaEffect::makeGamma(ImageArea &imageArea, float modificator)
+{
+    for(int x(0); x < imageArea.getImage()->width(); x++)
+    {
+        for(int y(0); y < imageArea.getImage()->height(); y++)
+        {
+            QRgb pixel = imageArea.getImage()->pixel(x, y);
+            float r = qRed(pixel);
+            r = 255 * pow(r / 255, modificator);
+            float g = qGreen(pixel);
+            g = 255 * pow(g / 255, modificator);
+            float b = qBlue(pixel);
+            b = 255 * pow(b / 255, modificator);
+            pixel = qRgb(r, g, b);
+            imageArea.getImage()->setPixel(x, y, pixel);
+        }
+    }
+}

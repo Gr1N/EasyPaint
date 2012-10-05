@@ -23,25 +23,21 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef GRAYEFFECT_H
-#define GRAYEFFECT_H
+#ifndef SHARPENEFFECT_H
+#define SHARPENEFFECT_H
 
-#include "abstracteffect.h"
+#include "convolutionmatrixeffect.h"
 
 #include <QtCore/QObject>
 
-/**
- * @brief Gray effect class.
- *
- */
-class GrayEffect : public AbstractEffect
+class SharpenEffect : public ConvolutionMatrixEffect
 {
     Q_OBJECT
 public:
-    explicit GrayEffect(QObject *parent = 0);
-    
-    void applyEffect(ImageArea &imageArea);
+    explicit SharpenEffect(QObject *parent = 0);
 
+protected:
+    virtual QList<double> getConvolutionMatrix();
 };
 
-#endif // GRAYEFFECT_H
+#endif // SHARPENEFFECT_H

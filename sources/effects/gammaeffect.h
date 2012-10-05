@@ -23,8 +23,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef GRAYEFFECT_H
-#define GRAYEFFECT_H
+#ifndef GAMMAEFFECT_H
+#define GAMMAEFFECT_H
 
 #include "abstracteffect.h"
 
@@ -34,14 +34,16 @@
  * @brief Gray effect class.
  *
  */
-class GrayEffect : public AbstractEffect
+class GammaEffect : public AbstractEffect
 {
     Q_OBJECT
 public:
-    explicit GrayEffect(QObject *parent = 0);
+    explicit GammaEffect(QObject *parent = 0);
     
     void applyEffect(ImageArea &imageArea);
-
+    
+private:
+    void makeGamma(ImageArea &imageArea, float modificator);
 };
 
-#endif // GRAYEFFECT_H
+#endif // GAMMAEFFECT_H

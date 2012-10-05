@@ -23,25 +23,28 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef GRAYEFFECT_H
-#define GRAYEFFECT_H
+#ifndef BINARIZATIONEFFECT_H
+#define BINARIZATIONEFFECT_H
 
 #include "abstracteffect.h"
 
 #include <QtCore/QObject>
 
 /**
- * @brief Gray effect class.
+ * @brief Binarization effect class.
  *
  */
-class GrayEffect : public AbstractEffect
+class BinarizationEffect : public AbstractEffect
 {
     Q_OBJECT
 public:
-    explicit GrayEffect(QObject *parent = 0);
+    explicit BinarizationEffect(QObject *parent = 0);
     
     void applyEffect(ImageArea &imageArea);
 
+private:
+    void makeBinarization(ImageArea &imageArea, int coeff1, int coeff2);
+    
 };
 
-#endif // GRAYEFFECT_H
+#endif // BINARIZATIONEFFECT_H

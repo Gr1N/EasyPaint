@@ -336,6 +336,26 @@ void MainWindow::initializeMainMenu()
     mEffectsMenu->addAction(negativeEfAction);
     mEffectsActMap.insert(NEGATIVE, negativeEfAction);
 
+    QAction *binarizationEfAction = new QAction(tr("Binarization"), this);
+    connect(binarizationEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
+    mEffectsMenu->addAction(binarizationEfAction);
+    mEffectsActMap.insert(BINARIZATION, binarizationEfAction);
+
+    QAction *gaussianBlurEfAction = new QAction(tr("Gaussian Blur"), this);
+    connect(gaussianBlurEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
+    mEffectsMenu->addAction(gaussianBlurEfAction);
+    mEffectsActMap.insert(GAUSSIANBLUR, gaussianBlurEfAction);
+
+    QAction *gammaEfAction = new QAction(tr("Gamma"), this);
+    connect(gammaEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
+    mEffectsMenu->addAction(gammaEfAction);
+    mEffectsActMap.insert(GAMMA, gammaEfAction);
+
+    QAction *sharpenEfAction = new QAction(tr("Sharpen"), this);
+    connect(sharpenEfAction, SIGNAL(triggered()), this, SLOT(effectsAct()));
+    mEffectsMenu->addAction(sharpenEfAction);
+    mEffectsActMap.insert(SHARPEN, sharpenEfAction);
+
     mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
     QAction *resizeImAction = new QAction(tr("Image size"), this);

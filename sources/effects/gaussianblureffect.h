@@ -23,25 +23,26 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef GRAYEFFECT_H
-#define GRAYEFFECT_H
+#ifndef GAUSSIANBLUREFFECT_H
+#define GAUSSIANBLUREFFECT_H
 
-#include "abstracteffect.h"
+#include "convolutionmatrixeffect.h"
 
 #include <QtCore/QObject>
 
 /**
- * @brief Gray effect class.
+ * @brief Gaussian Blur effect class.
  *
  */
-class GrayEffect : public AbstractEffect
+class GaussianBlurEffect : public ConvolutionMatrixEffect
 {
     Q_OBJECT
 public:
-    explicit GrayEffect(QObject *parent = 0);
+    explicit GaussianBlurEffect(QObject *parent = 0);
     
-    void applyEffect(ImageArea &imageArea);
-
+private:
+    virtual QList<double> getConvolutionMatrix();
+    
 };
 
-#endif // GRAYEFFECT_H
+#endif // GAUSSIANBLUREFFECT_H
