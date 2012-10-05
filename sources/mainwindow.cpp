@@ -536,17 +536,20 @@ void MainWindow::settingsAct()
 
 void MainWindow::copyAct()
 {
-    getCurrentImageArea()->copyImage();
+    if (ImageArea *imageArea = getCurrentImageArea())
+        imageArea->copyImage();
 }
 
 void MainWindow::pasteAct()
 {
-    getCurrentImageArea()->pasteImage();
+    if (ImageArea *imageArea = getCurrentImageArea())
+        imageArea->pasteImage();
 }
 
 void MainWindow::cutAct()
 {
-    getCurrentImageArea()->cutImage();
+    if (ImageArea *imageArea = getCurrentImageArea())
+        imageArea->cutImage();
 }
 
 void MainWindow::updateShortcuts()
