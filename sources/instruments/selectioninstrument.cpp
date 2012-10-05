@@ -101,9 +101,9 @@ void SelectionInstrument::pasteImage(ImageArea &imageArea)
         mSelectedImage = mPasteImage;
         mImageCopy = *imageArea.getImage();
         mTopLeftPoint = QPoint(0, 0);
-        mBottomRightPoint = QPoint(mPasteImage.width(), mPasteImage.height());
-        mHeight = mBottomRightPoint.y();
-        mWidth = mBottomRightPoint.x();
+        mBottomRightPoint = QPoint(mPasteImage.width(), mPasteImage.height()) - QPoint(1, 1);
+        mHeight = mPasteImage.height();
+        mWidth = mPasteImage.width();
         mIsImageSelected = mIsSelectionExists = true;
         paint(imageArea);
         drawBorder(imageArea);
