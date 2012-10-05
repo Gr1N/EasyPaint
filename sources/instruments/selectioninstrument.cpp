@@ -61,6 +61,11 @@ void SelectionInstrument::cutImage(ImageArea &imageArea)
     if (mIsSelectionExists)
     {
         copyImage(imageArea);
+        if(mIsSelectionExists)
+        {
+            imageArea.setImage(mImageCopy);
+            paint(imageArea);
+        }
         makeUndoCommand(imageArea);
         if (/*mSelectedImage != mPasteImage || !*/mIsImageSelected)
         {
@@ -74,9 +79,6 @@ void SelectionInstrument::cutImage(ImageArea &imageArea)
         mBottomRightPoint = QPoint(0, 0);
         mImageCopy = *imageArea.getImage();
         imageArea.update();
-        if (mIsImageSelected) {
-            makeUndoCommand(imageArea);
-        }
         mIsSelectionExists = false;
         imageArea.restoreCursor();
         emit sendEnableCopyCutActions(false);
