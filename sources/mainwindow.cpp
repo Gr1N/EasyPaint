@@ -74,6 +74,7 @@ MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
             initializeNewTab(true, filePaths.at(i));
         }
     }
+    qRegisterMetaType<InstrumentsEnum>("InstrumentsEnum");
 }
 
 MainWindow::~MainWindow()
@@ -126,6 +127,7 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
         connect(imageArea, SIGNAL(sendPrimaryColorView()), mToolbar, SLOT(setPrimaryColorView()));
         connect(imageArea, SIGNAL(sendSecondaryColorView()), mToolbar, SLOT(setSecondaryColorView()));
         connect(imageArea, SIGNAL(sendRestorePreviousInstrument()), this, SLOT(restorePreviousInstrument()));
+        connect(imageArea, SIGNAL(sendSetInstrument(InstrumentsEnum)), this, SLOT(setInstrument(InstrumentsEnum)));
         connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
         connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
         connect(imageArea, SIGNAL(sendColor(QColor)), this, SLOT(setCurrentPipetteColor(QColor)));
@@ -313,6 +315,13 @@ void MainWindow::initializeMainMenu()
     connect(curveLineAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(curveLineAction);
     mInstrumentsActMap.insert(CURVELINE, curveLineAction);
+
+    QAction *mTextAction = new QAction(tr("Text"), this);
+    mTextAction->setCheckable(true);
+    mTextAction->setIcon(QIcon(":/media/instruments-icons/text.png"));
+    connect(mTextAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
+    mInstrumentsMenu->addAction(mTextAction);
+    mInstrumentsActMap.insert(TEXT, mTextAction);
     // TODO: Add new instrument action here
 
     mEffectsMenu = menuBar()->addMenu(tr("E&ffects"));
@@ -431,7 +440,7 @@ void MainWindow::initializeToolBar()
     mToolbar = new ToolBar(mInstrumentsActMap, this);
     addToolBar(Qt::LeftToolBarArea, mToolbar);
     connect(mToolbar, SIGNAL(sendClearStatusBarColor()), this, SLOT(clearStatusBarColor()));
-    connect(mToolbar, SIGNAL(sendClearImageSelection()), this, SLOT(clearImageSelectionSingleShot()));
+    connect(mToolbar, SIGNAL(sendClearImageSelection()), this, SLOT(clearImageSelection()));
 }
 
 void MainWindow::initializePaletteBar()
@@ -442,9 +451,12 @@ void MainWindow::initializePaletteBar()
 
 ImageArea* MainWindow::getCurrentImageArea()
 {
-    QScrollArea *tempScrollArea = qobject_cast<QScrollArea*>(mTabWidget->currentWidget());
-    ImageArea *tempArea = qobject_cast<ImageArea*>(tempScrollArea->widget());
-    return tempArea;
+    if (mTabWidget->currentWidget()) {
+        QScrollArea *tempScrollArea = qobject_cast<QScrollArea*>(mTabWidget->currentWidget());
+        ImageArea *tempArea = qobject_cast<ImageArea*>(tempScrollArea->widget());
+        return tempArea;
+    }
+    return NULL;
 }
 
 ImageArea* MainWindow::getImageAreaByIndex(int index)
@@ -544,17 +556,20 @@ void MainWindow::settingsAct()
 
 void MainWindow::copyAct()
 {
-    getCurrentImageArea()->copyImage();
+    if (ImageArea *imageArea = getCurrentImageArea())
+        imageArea->copyImage();
 }
 
 void MainWindow::pasteAct()
 {
-    getCurrentImageArea()->pasteImage();
+    if (ImageArea *imageArea = getCurrentImageArea())
+        imageArea->pasteImage();
 }
 
 void MainWindow::cutAct()
 {
-    getCurrentImageArea()->cutImage();
+    if (ImageArea *imageArea = getCurrentImageArea())
+        imageArea->cutImage();
 }
 
 void MainWindow::updateShortcuts()
@@ -584,6 +599,7 @@ void MainWindow::updateShortcuts()
     mInstrumentsActMap[RECTANGLE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect"));
     mInstrumentsActMap[ELLIPSE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse"));
     mInstrumentsActMap[CURVELINE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Curve"));
+    mInstrumentsActMap[TEXT]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Text"));
     // TODO: Add new instruments' shorcuts here
 
     mZoomInAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn"));
@@ -724,14 +740,7 @@ bool MainWindow::closeAllTabs()
 
 void MainWindow::setAllInstrumentsUnchecked(QAction *action)
 {
-    if(action != mInstrumentsActMap[CURSOR])
-    {
-        mInstrumentsActMap[CURSOR]->setChecked(false);
-        if (DataSingleton::Instance()->getPreviousInstrument() == CURSOR)
-        {
-            clearImageSelectionSingleShot();
-        }
-    }
+    clearImageSelection();
     foreach (QAction *temp, mInstrumentsActMap)
     {
         if(temp != action)
@@ -802,15 +811,13 @@ void MainWindow::enableCopyCutActions(bool enable)
     mCutAction->setEnabled(enable);
 }
 
-void MainWindow::clearImageSelectionSingleShot()
-{
-    QTimer::singleShot(50, this, SLOT(clearImageSelection()));
-}
-
 void MainWindow::clearImageSelection()
 {
-    getCurrentImageArea()->clearSelection();
-    DataSingleton::Instance()->setPreviousInstrument(NONE_INSTRUMENT);
+    if (getCurrentImageArea())
+    {
+        getCurrentImageArea()->clearSelection();
+        DataSingleton::Instance()->setPreviousInstrument(NONE_INSTRUMENT);
+    }
 }
 
 void MainWindow::restorePreviousInstrument()
@@ -818,6 +825,14 @@ void MainWindow::restorePreviousInstrument()
     setInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
     DataSingleton::Instance()->setInstrument(DataSingleton::Instance()->getPreviousInstrument());
     emit sendInstrumentChecked(DataSingleton::Instance()->getPreviousInstrument());
+    mPrevInstrumentSetted = false;
+}
+
+void MainWindow::setInstrument(InstrumentsEnum instrument)
+{
+    setInstrumentChecked(instrument);
+    DataSingleton::Instance()->setInstrument(instrument);
+    emit sendInstrumentChecked(instrument);
     mPrevInstrumentSetted = false;
 }
 

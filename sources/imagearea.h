@@ -227,6 +227,11 @@ signals:
      */
     void sendRestorePreviousInstrument();
     /**
+     * @brief Send instrument for ToolBar.
+     *
+     */
+    void sendSetInstrument(InstrumentsEnum);
+    /**
      * @brief Send signal to enable copy cut actions in menu.
      *
      */

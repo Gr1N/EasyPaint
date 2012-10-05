@@ -33,6 +33,7 @@ NegativeEffect::NegativeEffect(QObject *parent) :
 
 void NegativeEffect::applyEffect(ImageArea &imageArea)
 {
+    imageArea.clearSelection();
     makeUndoCommand(imageArea);
 
     imageArea.getImage()->invertPixels(QImage::InvertRgb);

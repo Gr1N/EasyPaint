@@ -39,6 +39,7 @@
 #include "instruments/colorpickerinstrument.h"
 #include "instruments/selectioninstrument.h"
 #include "instruments/curvelineinstrument.h"
+#include "instruments/textinstrument.h"
 
 #include "effects/abstracteffect.h"
 #include "effects/negativeeffect.h"
@@ -122,6 +123,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mInstrumentsHandlers[MAGNIFIER] = new MagnifierInstrument(this);
     mInstrumentsHandlers[COLORPICKER] = new ColorpickerInstrument(this);
     mInstrumentsHandlers[CURVELINE] = new CurveLineInstrument(this);
+    mInstrumentsHandlers[TEXT] = new TextInstrument(this);
 
     // Effects handlers
     mEffectsHandlers.fill(0, (int)EFFECTS_COUNT);
@@ -183,15 +185,13 @@ void ImageArea::open(const QString &filePath)
 
 void ImageArea::save()
 {
-    SelectionInstrument *instrument = static_cast <SelectionInstrument*> (mInstrumentsHandlers.at(CURSOR));
-    instrument->clearSelection(*this);
-
     if(mFilePath.isEmpty())
     {
         saveAs();
     }
     else
     {
+        clearSelection();
         mImage->save(mFilePath);
         mIsEdited = false;
     }
@@ -201,6 +201,7 @@ void ImageArea::saveAs()
 {
     QString filter;
     QString fileName(getFileName());
+    clearSelection();
     if(fileName.isEmpty())
     {
         fileName = tr("Untitled image");
@@ -299,6 +300,8 @@ void ImageArea::copyImage()
 
 void ImageArea::pasteImage()
 {
+    if(DataSingleton::Instance()->getInstrument() != CURSOR)
+        emit sendSetInstrument(CURSOR);
     SelectionInstrument *instrument = static_cast <SelectionInstrument*> (mInstrumentsHandlers.at(CURSOR));
     instrument->pasteImage(*this);
 }
@@ -419,7 +422,7 @@ void ImageArea::restoreCursor()
         mCurrentCursor = new QCursor(*mPixmap);
         setCursor(*mCurrentCursor);
         break;
-    case RECTANGLE: case ELLIPSE: case LINE: case CURVELINE:
+    case RECTANGLE: case ELLIPSE: case LINE: case CURVELINE: case TEXT:
         mCurrentCursor = new QCursor(Qt::CrossCursor);
         setCursor(*mCurrentCursor);
         break;
@@ -444,7 +447,8 @@ void ImageArea::drawCursor()
     switch(DataSingleton::Instance()->getInstrument())
     {
     case NONE_INSTRUMENT: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
-    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case INSTRUMENTS_COUNT: case CURVELINE:
+    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case INSTRUMENTS_COUNT:
+    case CURVELINE: case TEXT:
         break;
     case PEN: case ERASER:
         mPixmap->fill(QColor(0, 0, 0, 0));
@@ -454,7 +458,8 @@ void ImageArea::drawCursor()
     switch(DataSingleton::Instance()->getInstrument())
     {
     case NONE_INSTRUMENT: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
-    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case INSTRUMENTS_COUNT: case CURVELINE:
+    case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case INSTRUMENTS_COUNT:
+    case CURVELINE: case TEXT:
         break;
     case PEN:
         if(mRightButtonPressed)
@@ -560,14 +565,20 @@ void ImageArea::makeFormatsFilters()
 
 void ImageArea::saveImageChanges()
 {
-    SelectionInstrument *instrument = static_cast <SelectionInstrument*> (mInstrumentsHandlers.at(CURSOR));
-    instrument->saveImageChanges(*this);
+    foreach (AbstractInstrument* instrument, mInstrumentsHandlers)
+    {
+        if (AbstractSelection *selection = qobject_cast<AbstractSelection*>(instrument))
+            selection->saveImageChanges(*this);
+    }
 }
 
 void ImageArea::clearSelection()
 {
-    SelectionInstrument *instrument = static_cast <SelectionInstrument*> (mInstrumentsHandlers.at(CURSOR));
-    instrument->clearSelection(*this);
+    foreach (AbstractInstrument* instrument, mInstrumentsHandlers)
+    {
+        if (AbstractSelection *selection = qobject_cast<AbstractSelection*>(instrument))
+            selection->clearSelection(*this);
+    }
 }
 
 void ImageArea::pushUndoCommand(UndoCommand *command)

@@ -26,22 +26,18 @@
 #ifndef SELECTIONINSTRUMENT_H
 #define SELECTIONINSTRUMENT_H
 
-#include "abstractinstrument.h"
+#include "abstractselection.h"
 
 QT_BEGIN_NAMESPACE
 class QUndoStack;
 QT_END_NAMESPACE
 
-class SelectionInstrument : public AbstractInstrument
+class SelectionInstrument : public AbstractSelection
 {
     Q_OBJECT
 
 public:
     explicit SelectionInstrument(QObject *parent = 0);
-
-    void mousePressEvent(QMouseEvent *event, ImageArea &imageArea);
-    void mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea);
-    void mouseReleaseEvent(QMouseEvent *event, ImageArea &imageArea);
 
     /**
      * @brief Clears background image at selection area.
@@ -67,28 +63,22 @@ public:
      * @param imageArea ImageArea for applying changes.
      */
     void cutImage(ImageArea &imageArea);
-    /**
-     * @brief Removes selection borders from image and clears all selection varaibles to default.
-     *
-     * @param imageArea ImageArea for applying changes.
-     */
-    void clearSelection(ImageArea &imageArea);
-    /**
-     * @brief Save all image changes to image copy.
-     *
-     */
-    void saveImageChanges(ImageArea &imageArea);
-
-
-protected:
-    void paint(ImageArea &imageArea, bool isSelected, bool isDrawBorders);
 
 private:
-    QPoint mBottomRightPoint, mTopLeftPoint, mMoveDiffPoint;
-    bool mIsPaint, mIsSelectionExists, mIsSelectionMoving, mIsSelectionResizing, mIsImageSelected;
+    void startSelection(ImageArea &imageArea);
+    void startResizing(ImageArea &imageArea);
+    void startMoving(ImageArea &imageArea);
+    void select(ImageArea &imageArea);
+    void resize(ImageArea &imageArea);
+    void move(ImageArea &imageArea);
+    void completeSelection(ImageArea &imageArea);
+    void completeResizing(ImageArea &imageArea);
+    void completeMoving(ImageArea &imageArea);
+    void clear(ImageArea &imageArea);
+    void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
+
     QImage mSelectedImage, /**< Copy of selected image. */
            mPasteImage; /**< Image to paste */
-    int mHeight, mWidth;
 
 signals:
     void sendEnableCopyCutActions(bool enable);

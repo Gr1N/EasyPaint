@@ -141,9 +141,9 @@ private slots:
     void instumentsAct(bool state);
     void enableActions(int index);
     void enableCopyCutActions(bool enable);
-    void clearImageSelectionSingleShot();
     void clearImageSelection();
     void restorePreviousInstrument();
+    void setInstrument(InstrumentsEnum instrument);
 signals:
     void sendInstrumentChecked(InstrumentsEnum);
 
