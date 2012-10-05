@@ -32,7 +32,7 @@
 #include <QTextEdit>
 
 /**
- * @brief QDialog for resizing image.
+ * @brief QDialog for text instrument.
  *
  */
 class TextDialog : public QDialog
@@ -53,11 +53,13 @@ private:
   
 signals:
     void textChanged(ImageArea *, const QString);
+    void canceled(ImageArea *);
 
 private slots:
     void textChanged();
-    void selectFont();
-
+    void selectFont();    
+    void cancel();
+    void reject();
 };
 
 #endif // TEXTDIALOG_H

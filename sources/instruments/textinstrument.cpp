@@ -81,7 +81,8 @@ void TextInstrument::completeSelection(ImageArea &imageArea)
 {
     TextDialog *td = new TextDialog(&imageArea);
     connect(td, SIGNAL(textChanged(ImageArea *, QString)), this, SLOT(updateText(ImageArea *, QString)));
-    connect(this, SIGNAL(sendCloseTextDialog()), td, SLOT(close()));
+    connect(this, SIGNAL(sendCloseTextDialog()), td, SLOT(accept()));
+    connect(td, SIGNAL(canceled(ImageArea *)), this, SLOT(cancel(ImageArea *)));
     td->setAttribute(Qt::WA_DeleteOnClose);
     td->show();
 }
@@ -99,6 +100,12 @@ void TextInstrument::clear(ImageArea &imageArea)
     mText = QString();
     mIsEdited = false;
     emit sendCloseTextDialog();
+}
+
+void TextInstrument::cancel(ImageArea *imageArea)
+{
+    mText = QString();
+    clearSelection(*imageArea);
 }
 
 void TextInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool additionalFlag)

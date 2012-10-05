@@ -32,6 +32,8 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QFont>
 #include <QtGui/QFontDialog>
+#include <QtGui/QDialogButtonBox>
+#include <QtGui/QMessageBox>
 
 TextDialog::TextDialog(ImageArea *parent) :
     QDialog(parent)
@@ -43,13 +45,15 @@ TextDialog::TextDialog(ImageArea *parent) :
 
 void TextDialog::initializeGui()
 {
-    QPushButton *mFontButton = new QPushButton(tr("Select Font"));
-    QPushButton *mCloseButton = new QPushButton(tr("Close"));
+    QPushButton *mFontButton = new QPushButton(tr("Select Font..."));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                                       QDialogButtonBox::Cancel);
     connect(mFontButton, SIGNAL(clicked()), this, SLOT(selectFont()));
-    connect(mCloseButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(cancel()));
     QHBoxLayout *hBox = new QHBoxLayout();
     hBox->addWidget(mFontButton);
-    hBox->addWidget(mCloseButton);
+    hBox->addWidget(buttonBox);
     mTextEdit = new QTextEdit();
     mTextEdit->setLineWrapMode(QTextEdit::NoWrap);
     QVBoxLayout *mainLayout = new QVBoxLayout();
@@ -75,4 +79,22 @@ void TextDialog::selectFont()
         textChanged();
         mTextEdit->setFocus();
     }
+}
+
+void TextDialog::cancel()
+{
+    emit canceled(qobject_cast<ImageArea*>(this->parent()));
+    QDialog::reject();
+}
+
+void TextDialog::reject() 
+{
+    if (mTextEdit->toPlainText().isEmpty() ||
+        QMessageBox::question(this, tr("Question"), tr("Clear text?"),
+                              QMessageBox::Yes | QMessageBox::No,
+                              QMessageBox::No) == QMessageBox::Yes)
+    {
+        emit canceled(qobject_cast<ImageArea*>(this->parent()));
+    }
+    QDialog::reject();
 }

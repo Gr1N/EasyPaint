@@ -61,6 +61,12 @@ signals:
 
 private slots:
     void updateText(ImageArea *, QString);
+    /**
+     * @brief Clears text and remove selection.
+     *
+     * @param imageArea ImageArea for applying changes.
+     */
+    void cancel(ImageArea *);
 
 };
 
