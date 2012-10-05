@@ -51,19 +51,19 @@ void TextInstrument::updateText(ImageArea *imageArea, QString textString)
     drawBorder(*imageArea);
 }
 
-void TextInstrument::startSelection(ImageArea &imageArea)
+void TextInstrument::startSelection(ImageArea &)
 {
 }
 
-void TextInstrument::startResizing(ImageArea &imageArea)
+void TextInstrument::startResizing(ImageArea &)
 {
 }
 
-void TextInstrument::startMoving(ImageArea &imageArea)
+void TextInstrument::startMoving(ImageArea &)
 {
 }
 
-void TextInstrument::select(ImageArea &imageArea)
+void TextInstrument::select(ImageArea &)
 {
 }
 
@@ -87,15 +87,15 @@ void TextInstrument::completeSelection(ImageArea &imageArea)
     td->show();
 }
 
-void TextInstrument::completeResizing(ImageArea &imageArea)
+void TextInstrument::completeResizing(ImageArea &)
 {
 }
 
-void TextInstrument::completeMoving(ImageArea &imageArea)
+void TextInstrument::completeMoving(ImageArea &)
 {
 }
 
-void TextInstrument::clear(ImageArea &imageArea)
+void TextInstrument::clear()
 {
     mText = QString();
     mIsEdited = false;
@@ -108,7 +108,7 @@ void TextInstrument::cancel(ImageArea *imageArea)
     clearSelection(*imageArea);
 }
 
-void TextInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool additionalFlag)
+void TextInstrument::paint(ImageArea &imageArea, bool, bool)
 {
     if(mTopLeftPoint != mBottomRightPoint)
     {

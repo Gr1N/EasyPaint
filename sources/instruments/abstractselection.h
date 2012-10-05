@@ -30,6 +30,7 @@
 
 QT_BEGIN_NAMESPACE
 class QUndoStack;
+class ImageArea;
 QT_END_NAMESPACE
 
 class AbstractSelection : public AbstractInstrument
@@ -53,18 +54,18 @@ public:
      * @brief Save all image changes to image copy.
      *
      */
-    virtual void saveImageChanges(ImageArea &imageArea) {};
+    void saveImageChanges(ImageArea &);
 
-    virtual void startSelection(ImageArea &imageArea) {};
-    virtual void startResizing(ImageArea &imageArea) {};
-    virtual void startMoving(ImageArea &imageArea) {};
-    virtual void select(ImageArea &imageArea) {};
-    virtual void resize(ImageArea &imageArea) {};
-    virtual void move(ImageArea &imageArea) {};
-    virtual void completeSelection(ImageArea &imageArea) {};
-    virtual void completeResizing(ImageArea &imageArea) {};
-    virtual void completeMoving(ImageArea &imageArea) {};
-    virtual void clear(ImageArea &imageArea) {};
+    virtual void startSelection(ImageArea &imageArea) = 0;
+    virtual void startResizing(ImageArea &imageArea) = 0;
+    virtual void startMoving(ImageArea &imageArea) = 0;
+    virtual void select(ImageArea &imageArea) = 0;
+    virtual void resize(ImageArea &imageArea) = 0;
+    virtual void move(ImageArea &imageArea) = 0;
+    virtual void completeSelection(ImageArea &imageArea) = 0;
+    virtual void completeResizing(ImageArea &imageArea) = 0;
+    virtual void completeMoving(ImageArea &imageArea) = 0;
+    virtual void clear() = 0;
 
 protected:
     void drawBorder(ImageArea &imageArea);

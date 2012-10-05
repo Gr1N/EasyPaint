@@ -65,17 +65,17 @@ public:
     void cutImage(ImageArea &imageArea);
 
 private:
-    void startSelection(ImageArea &imageArea);
+    void startSelection(ImageArea &);
     void startResizing(ImageArea &imageArea);
     void startMoving(ImageArea &imageArea);
-    void select(ImageArea &imageArea);
-    void resize(ImageArea &imageArea);
-    void move(ImageArea &imageArea);
+    void select(ImageArea &);
+    void resize(ImageArea &);
+    void move(ImageArea &);
     void completeSelection(ImageArea &imageArea);
     void completeResizing(ImageArea &imageArea);
-    void completeMoving(ImageArea &imageArea);
-    void clear(ImageArea &imageArea);
-    void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
+    void completeMoving(ImageArea &);
+    void clear();
+    void paint(ImageArea &imageArea, bool = false, bool = false);
 
     QImage mSelectedImage, /**< Copy of selected image. */
            mPasteImage; /**< Image to paste */
