@@ -381,7 +381,9 @@ void ImageArea::paintEvent(QPaintEvent *event)
     QRect *rect = new QRect(event->rect());
 
     painter->setBrush(QBrush(QPixmap(":media/textures/transparent.jpg")));
-    painter->drawRect(mImage->rect());
+    painter->drawRect(0, 0,
+                      mImage->rect().right() - 1,
+                      mImage->rect().bottom() - 1);
 
     painter->drawImage(*rect, *mImage, *rect);
 
