@@ -31,7 +31,7 @@
 #include "effectsettingsdialog.h"
 
 EffectSettingsDialog::EffectSettingsDialog(QImage &img, AbstractEffectSettings *settingsWidget, QWidget *parent) :
-    mImage(img), QDialog(parent)
+    QDialog(parent), mImage(img)
 {
     mSettingsWidget = settingsWidget;
 
@@ -40,7 +40,9 @@ EffectSettingsDialog::EffectSettingsDialog(QImage &img, AbstractEffectSettings *
     mApplyButton = new QPushButton(tr("Apply"), this);
 
     QHBoxLayout *hLayout_1 = new QHBoxLayout();
-    // TODO: add preview widget
+
+    // TODO: add preview widget (new widget or label?)
+    hLayout_1->addWidget(settingsWidget);
 
     QHBoxLayout *hLayout_2 = new QHBoxLayout();
 
@@ -48,8 +50,13 @@ EffectSettingsDialog::EffectSettingsDialog(QImage &img, AbstractEffectSettings *
     hLayout_2->addWidget(mCancelButton);
     hLayout_2->addWidget(mApplyButton);
 
+
     QVBoxLayout *vLayout = new QVBoxLayout();
 
+    vLayout->addLayout(hLayout_1);
+    vLayout->addLayout(hLayout_2);
+
+    setLayout(vLayout);
 }
 
 QRgb EffectSettingsDialog::convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix)

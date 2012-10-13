@@ -49,7 +49,10 @@ private:
     AbstractEffectSettings *mSettingsWidget;
     QImage &mImage;
 
-    QRgb convolutePixel(const QImage &mImage, int x, int y, const QList<double> &kernelMatrix);
+    QRgb convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix);
+
+private slots:
+
 };
 
 #endif // ABSTRACTEFFECTSDIALOG_H

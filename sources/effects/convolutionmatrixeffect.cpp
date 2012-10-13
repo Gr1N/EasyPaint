@@ -39,6 +39,7 @@ void ConvolutionMatrixEffect::applyEffect(ImageArea &imageArea)
 
     QImage copy(*imageArea.getImage());
 
+
     for(int i = 2; i < imageArea.getImage()->height() - 2; ++i)
     {
         for(int j = 2; j < imageArea.getImage()->width() - 2; ++j)
