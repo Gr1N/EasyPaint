@@ -23,23 +23,24 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef SHARPENEFFECT_H
-#define SHARPENEFFECT_H
+#ifndef SHARPENFILTERSETTINGS_H
+#define SHARPENFILTERSETTINGS_H
 
-#include "effectwithsettings.h"
-#include "../widgets/sharpenfiltersettings.h"
+#include <QtGui/QSlider>
 
-#include <QtCore/QObject>
+#include "abstracteffectsettings.h"
 
-class SharpenEffect : public EffectWithSettings
+class SharpenFilterSettings : public AbstractEffectSettings
 {
     Q_OBJECT
 public:
-    explicit SharpenEffect(QObject *parent = 0) : EffectWithSettings(parent) {}
-
+    explicit SharpenFilterSettings(QWidget *parent = 0);
+    
 protected:
-    // TODO: change type of widget
-    virtual AbstractEffectSettings *getSettingsWidget() { return new SharpenFilterSettings(); }
+    virtual QList<double> getConvolutionMatrix();
+
+private:
+    QSlider *mIntensitySlider;
 };
 
-#endif // SHARPENEFFECT_H
+#endif // SHARPENFILTERSETTINGS_H

@@ -50,7 +50,8 @@ SOURCES += main.cpp\
     effects/gammaeffect.cpp \
     dialogs/effectsettingsdialog.cpp \
     widgets/customfiltersettings.cpp \
-    effects/effectwithsettings.cpp
+    effects/effectwithsettings.cpp \
+    widgets/sharpenfiltersettings.cpp
 
 HEADERS  += mainwindow.h \
     easypaintenums.h \
@@ -91,7 +92,8 @@ HEADERS  += mainwindow.h \
     widgets/customfiltersettings.h \
     widgets/abstracteffectsettings.h \
     effects/effectwithsettings.h \
-    effects/customeffect.h
+    effects/customeffect.h \
+    widgets/sharpenfiltersettings.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

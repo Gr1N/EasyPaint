@@ -37,15 +37,13 @@ EffectWithSettings::EffectWithSettings(QObject *parent) :
 
 void EffectWithSettings::applyEffect(ImageArea &imageArea)
 {
-    QImage copy(*imageArea.getImage());
-
-    EffectSettingsDialog dlg(copy, getSettingsWidget());
+    EffectSettingsDialog dlg(*imageArea.getImage(), getSettingsWidget());
 
     if(dlg.exec())
     {
         makeUndoCommand(imageArea);
 
-        imageArea.setImage(copy);
+        imageArea.setImage(dlg.getChangedImage());
         imageArea.setEdited(true);
         imageArea.update();
     }

@@ -30,12 +30,13 @@
 
 #include "effectsettingsdialog.h"
 
-EffectSettingsDialog::EffectSettingsDialog(QImage &img, AbstractEffectSettings *settingsWidget, QWidget *parent) :
+EffectSettingsDialog::EffectSettingsDialog(const QImage &img, AbstractEffectSettings *settingsWidget, QWidget *parent) :
     QDialog(parent), mImage(img)
 {
     mSettingsWidget = settingsWidget;
 
     mOkButton = new QPushButton(tr("Ok"), this);
+    connect(mOkButton, SIGNAL(clicked()), this, SLOT(applyMatrix()));
     connect(mOkButton, SIGNAL(clicked()), this, SLOT(accept()));
     mCancelButton = new QPushButton(tr("Cancel"), this);
     connect(mCancelButton, SIGNAL(clicked()), this, SLOT(reject()));
@@ -45,14 +46,13 @@ EffectSettingsDialog::EffectSettingsDialog(QImage &img, AbstractEffectSettings *
     QHBoxLayout *hLayout_1 = new QHBoxLayout();
 
     // TODO: add preview widget (new widget or label?)
-    hLayout_1->addWidget(settingsWidget);
+    hLayout_1->addWidget(mSettingsWidget);
 
     QHBoxLayout *hLayout_2 = new QHBoxLayout();
 
     hLayout_2->addWidget(mOkButton);
     hLayout_2->addWidget(mCancelButton);
     hLayout_2->addWidget(mApplyButton);
-
 
     QVBoxLayout *vLayout = new QVBoxLayout();
 
@@ -70,7 +70,7 @@ QRgb EffectSettingsDialog::convolutePixel(const QImage &image, int x, int y, con
     double red = 0;
     double green = 0;
     double blue = 0;
-    // TODO: some optimization can be made
+    // TODO: some optimization can be made (maybe use OpenCV in future
     for(int r = -kernelSize / 2; r <= kernelSize / 2; ++r)
     {
         for(int c = -kernelSize / 2; c <= kernelSize / 2; ++c)
@@ -91,5 +91,15 @@ QRgb EffectSettingsDialog::convolutePixel(const QImage &image, int x, int y, con
 
 void EffectSettingsDialog::applyMatrix()
 {
+    QImage copy(mImage);
 
+    for(int i = 2; i < copy.height() - 2; ++i)
+    {
+        for(int j = 2; j < copy.width() - 2; ++j)
+        {
+            copy.setPixel(j, i, convolutePixel(mImage, j, i, mSettingsWidget->getConvolutionMatrix()));
+        }
+    }
+
+    mImage = copy;
 }

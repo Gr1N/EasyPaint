@@ -50,6 +50,7 @@ private:
     QDoubleSpinBox *mSpinBox_32;
     QDoubleSpinBox *mSpinBox_33;
 
+    QDoubleSpinBox* createSpinBox();
 };
 
 #endif // CUSTOMFILTERSETTINGS_H

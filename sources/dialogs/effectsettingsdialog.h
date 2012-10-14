@@ -35,8 +35,9 @@ class EffectSettingsDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit EffectSettingsDialog(QImage &img, AbstractEffectSettings *settingsWidget, QWidget *parent = 0);
+    explicit EffectSettingsDialog(const QImage &img, AbstractEffectSettings *settingsWidget, QWidget *parent = 0);
     
+    inline QImage getChangedImage() { return mImage; }
 signals:
     
 public slots:
@@ -47,7 +48,7 @@ private:
     QPushButton *mApplyButton;
 
     AbstractEffectSettings *mSettingsWidget;
-    QImage &mImage;
+    QImage mImage;
 
     QRgb convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix);
 

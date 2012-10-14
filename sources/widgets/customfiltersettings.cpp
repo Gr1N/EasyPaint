@@ -30,24 +30,15 @@
 CustomFilterSettings::CustomFilterSettings(QWidget *parent) :
     AbstractEffectSettings(parent)
 {
-    mSpinBox_11 = new QDoubleSpinBox(this);
-    mSpinBox_11->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    mSpinBox_12 = new QDoubleSpinBox(this);
-    mSpinBox_12->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    mSpinBox_13 = new QDoubleSpinBox(this);
-    mSpinBox_13->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    mSpinBox_21 = new QDoubleSpinBox(this);
-    mSpinBox_21->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    mSpinBox_22 = new QDoubleSpinBox(this);
-    mSpinBox_22->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    mSpinBox_23 = new QDoubleSpinBox(this);
-    mSpinBox_23->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    mSpinBox_31 = new QDoubleSpinBox(this);
-    mSpinBox_31->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    mSpinBox_32 = new QDoubleSpinBox(this);
-    mSpinBox_32->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    mSpinBox_33 = new QDoubleSpinBox(this);
-    mSpinBox_33->setButtonSymbols(QAbstractSpinBox::NoButtons);
+    mSpinBox_11 = createSpinBox();
+    mSpinBox_12 = createSpinBox();
+    mSpinBox_13 = createSpinBox();
+    mSpinBox_21 = createSpinBox();
+    mSpinBox_22 = createSpinBox();
+    mSpinBox_23 = createSpinBox();
+    mSpinBox_31 = createSpinBox();
+    mSpinBox_32 = createSpinBox();
+    mSpinBox_33 = createSpinBox();
 
     QGridLayout *gLayout = new QGridLayout();
 
@@ -73,4 +64,12 @@ QList<double> CustomFilterSettings::getConvolutionMatrix()
           << mSpinBox_31->value() << mSpinBox_32->value() << mSpinBox_33->value();
 
    return matrix;
+}
+
+QDoubleSpinBox* CustomFilterSettings::createSpinBox()
+{
+    QDoubleSpinBox *spinBox = new QDoubleSpinBox(this);
+    spinBox->setButtonSymbols(QAbstractSpinBox::NoButtons);
+    connect(spinBox, SIGNAL(valueChanged(double)), this, SIGNAL(matrixChanged()));
+    return spinBox;
 }
