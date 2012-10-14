@@ -31,6 +31,8 @@
 class AbstractEffectSettings : public QWidget
 {
     Q_OBJECT
+signals:
+    void matrixChanged();
 public:
     explicit AbstractEffectSettings(QWidget *parent = 0) : QWidget(parent) {}
     

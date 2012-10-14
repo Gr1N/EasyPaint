@@ -36,8 +36,11 @@ EffectSettingsDialog::EffectSettingsDialog(QImage &img, AbstractEffectSettings *
     mSettingsWidget = settingsWidget;
 
     mOkButton = new QPushButton(tr("Ok"), this);
+    connect(mOkButton, SIGNAL(clicked()), this, SLOT(accept()));
     mCancelButton = new QPushButton(tr("Cancel"), this);
+    connect(mCancelButton, SIGNAL(clicked()), this, SLOT(reject()));
     mApplyButton = new QPushButton(tr("Apply"), this);
+    connect(mApplyButton, SIGNAL(clicked()), this, SLOT(applyMatrix()));
 
     QHBoxLayout *hLayout_1 = new QHBoxLayout();
 
@@ -84,4 +87,9 @@ QRgb EffectSettingsDialog::convolutePixel(const QImage &image, int x, int y, con
         return qRgb(qBound(0, qRound(red), 255), qBound(0, qRound(green), 255), qBound(0, qRound(blue), 255));
 
     return qRgb(qBound(0, qRound(red / total), 255), qBound(0, qRound(green / total), 255), qBound(0, qRound(blue / total), 255));
+}
+
+void EffectSettingsDialog::applyMatrix()
+{
+
 }

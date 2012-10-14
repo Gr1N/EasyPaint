@@ -23,32 +23,20 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#ifndef CUSTOMEFFECT_H
+#define CUSTOMEFFECT_H
 
-#ifndef CONVOLUTIONMATRIXEFFECT_H
-#define CONVOLUTIONMATRIXEFFECT_H
+#include "effectwithsettings.h"
+#include "../widgets/customfiltersettings.h"
 
-#include "abstracteffect.h"
-
-#include <QtCore/QObject>
-#include <QtGui/QRgb>
-#include <QtGui/QImage>
-
-/**
- * @brief Base class for filters, which uses convolution matrix.
- *
- */
-class ConvolutionMatrixEffect : public AbstractEffect
+class CustomEffect : public EffectWithSettings
 {
     Q_OBJECT
 public:
-    explicit ConvolutionMatrixEffect(QObject *parent = 0);
-
-    void virtual applyEffect(ImageArea &imageArea);
-
+    explicit CustomEffect(QObject *parent = 0) : EffectWithSettings(parent) {}
+    
 protected:
-    QList<double> virtual getConvolutionMatrix() = 0;
-    QRgb convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix);
-
+    virtual AbstractEffectSettings* getSettingsWidget() { return new CustomFilterSettings(); }
 };
 
-#endif // CONVOLUTIONMATRIXEFFECT_H
+#endif // CUSTOMEFFECT_H

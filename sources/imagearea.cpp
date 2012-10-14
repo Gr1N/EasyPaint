@@ -48,6 +48,7 @@
 #include "effects/gaussianblureffect.h"
 #include "effects/gammaeffect.h"
 #include "effects/sharpeneffect.h"
+#include "effects/customeffect.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
@@ -133,6 +134,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mEffectsHandlers[GAUSSIANBLUR] = new GaussianBlurEffect(this);
     mEffectsHandlers[GAMMA] = new GammaEffect(this);
     mEffectsHandlers[SHARPEN] = new SharpenEffect(this);
+    mEffectsHandlers[CUSTOM] = new CustomEffect(this);
 }
 
 ImageArea::~ImageArea()

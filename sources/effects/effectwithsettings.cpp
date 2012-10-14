@@ -23,22 +23,30 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "sharpeneffect.h"
-#include "../imagearea.h"
+#include <cmath>
 
-SharpenEffect::SharpenEffect(QObject *parent) :
-    ConvolutionMatrixEffect(parent)
+#include "effectwithsettings.h"
+#include "../imagearea.h"
+#include "../dialogs/effectsettingsdialog.h"
+#include "../widgets/customfiltersettings.h"
+
+EffectWithSettings::EffectWithSettings(QObject *parent) :
+    AbstractEffect(parent)
 {
 }
 
-QList<double> SharpenEffect::getConvolutionMatrix()
+void EffectWithSettings::applyEffect(ImageArea &imageArea)
 {
-    // TODO: add settings dialog
-    QList<double> list;
+    QImage copy(*imageArea.getImage());
 
-    list << 0  << -1 <<  0
-         << -1 <<  5 << -1
-         << 0  << -1 <<  0;
+    EffectSettingsDialog dlg(copy, getSettingsWidget());
 
-    return list;
+    if(dlg.exec())
+    {
+        makeUndoCommand(imageArea);
+
+        imageArea.setImage(copy);
+        imageArea.setEdited(true);
+        imageArea.update();
+    }
 }

@@ -26,18 +26,20 @@
 #ifndef SHARPENEFFECT_H
 #define SHARPENEFFECT_H
 
-#include "convolutionmatrixeffect.h"
+#include "effectwithsettings.h"
+#include "../widgets/customfiltersettings.h"
 
 #include <QtCore/QObject>
 
-class SharpenEffect : public ConvolutionMatrixEffect
+class SharpenEffect : public EffectWithSettings
 {
     Q_OBJECT
 public:
-    explicit SharpenEffect(QObject *parent = 0);
+    explicit SharpenEffect(QObject *parent = 0) : EffectWithSettings(parent) {}
 
 protected:
-    virtual QList<double> getConvolutionMatrix();
+    // TODO: change type of widget
+    virtual AbstractEffectSettings *getSettingsWidget() { return new CustomFilterSettings(); }
 };
 
 #endif // SHARPENEFFECT_H

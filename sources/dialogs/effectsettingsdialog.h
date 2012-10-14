@@ -52,7 +52,7 @@ private:
     QRgb convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix);
 
 private slots:
-
+    void applyMatrix();
 };
 
 #endif // ABSTRACTEFFECTSDIALOG_H

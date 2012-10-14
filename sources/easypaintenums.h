@@ -63,6 +63,7 @@ typedef enum
     GAUSSIANBLUR,
     GAMMA,
     SHARPEN,
+    CUSTOM,
 
     // Don't use it. (Used to know count of current instrument)
     EFFECTS_COUNT
