@@ -29,7 +29,7 @@
 #include <QtGui/QDialog>
 #include <QtGui/QPushButton>
 
-#include <widgets/abstracteffectsettings.h>
+#include "../widgets/abstracteffectsettings.h"
 
 class EffectSettingsDialog : public QDialog
 {

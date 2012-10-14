@@ -19,15 +19,25 @@ set (HEADERS
     sources/effects/abstracteffect.h
     sources/effects/negativeeffect.h
     sources/effects/grayeffect.h
+    sources/effects/binarizationeffect.h
+    sources/effects/customeffect.h
+    sources/effects/effectwithsettings.h
+    sources/effects/gammaeffect.h
+    sources/effects/gaussianblureffect.h
+    sources/effects/sharpeneffect.h
     sources/undocommand.h
     sources/widgets/toolbar.h
     sources/widgets/colorchooser.h
     sources/widgets/palettebar.h
     sources/widgets/palettebutton.h
     sources/widgets/shortcutedit.h
+    sources/widgets/abstracteffectsettings.h
+    sources/widgets/customfiltersettings.h
+    sources/widgets/sharpenfiltersettings.h
     sources/dialogs/resizedialog.h
     sources/dialogs/settingsdialog.h
     sources/dialogs/textdialog.h
+    sources/dialogs/effectsettingsdialog.h
     sources/instruments/abstractinstrument.h
     sources/instruments/abstractselection.h
     sources/instruments/selectioninstrument.h
@@ -53,15 +63,21 @@ set (SOURCES
     sources/effects/abstracteffect.cpp
     sources/effects/negativeeffect.cpp
     sources/effects/grayeffect.cpp
+    sources/effects/binarizationeffect.cpp
+    sources/effects/effectwithsettings.cpp
+    sources/effects/gammaeffect.cpp
     sources/undocommand.cpp
     sources/widgets/toolbar.cpp
     sources/widgets/colorchooser.cpp
     sources/widgets/palettebar.cpp
     sources/widgets/palettebutton.cpp
     sources/widgets/shortcutedit.cpp
+    sources/widgets/customfiltersettings.cpp
+    sources/widgets/sharpenfiltersettings.cpp
     sources/dialogs/resizedialog.cpp
     sources/dialogs/settingsdialog.cpp
     sources/dialogs/textdialog.cpp
+    sources/dialogs/effectsettingsdialog.cpp
     sources/instruments/abstractinstrument.cpp
     sources/instruments/abstractselection.cpp
     sources/instruments/selectioninstrument.cpp

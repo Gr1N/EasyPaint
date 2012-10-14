@@ -28,7 +28,6 @@
 #include "effectwithsettings.h"
 #include "../imagearea.h"
 #include "../dialogs/effectsettingsdialog.h"
-#include "../widgets/customfiltersettings.h"
 
 EffectWithSettings::EffectWithSettings(QObject *parent) :
     AbstractEffect(parent)
