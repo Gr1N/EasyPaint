@@ -25,34 +25,47 @@
 
 #include <cmath>
 
-#include "convolutionmatrixeffect.h"
-#include "../imagearea.h"
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QVBoxLayout>
 
-ConvolutionMatrixEffect::ConvolutionMatrixEffect(QObject *parent) :
-    AbstractEffect(parent)
+#include "effectsettingsdialog.h"
+
+EffectSettingsDialog::EffectSettingsDialog(const QImage &img, AbstractEffectSettings *settingsWidget, QWidget *parent) :
+    QDialog(parent), mImage(img)
 {
+    mSettingsWidget = settingsWidget;
+    mImagePreview = new ImagePreview(&mImage, this);
+    mImagePreview->setMinimumSize(140, 140);
+
+    mOkButton = new QPushButton(tr("Ok"), this);
+    connect(mOkButton, SIGNAL(clicked()), this, SLOT(applyMatrix()));
+    connect(mOkButton, SIGNAL(clicked()), this, SLOT(accept()));
+    mCancelButton = new QPushButton(tr("Cancel"), this);
+    connect(mCancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+    mApplyButton = new QPushButton(tr("Apply"), this);
+    connect(mApplyButton, SIGNAL(clicked()), this, SLOT(applyMatrix()));
+    connect(mApplyButton, SIGNAL(clicked()), mImagePreview, SLOT(update()));
+
+    QHBoxLayout *hLayout_1 = new QHBoxLayout();
+
+    hLayout_1->addWidget(mImagePreview);
+    hLayout_1->addWidget(mSettingsWidget);
+
+    QHBoxLayout *hLayout_2 = new QHBoxLayout();
+
+    hLayout_2->addWidget(mOkButton);
+    hLayout_2->addWidget(mCancelButton);
+    hLayout_2->addWidget(mApplyButton);
+
+    QVBoxLayout *vLayout = new QVBoxLayout();
+
+    vLayout->addLayout(hLayout_1);
+    vLayout->addLayout(hLayout_2);
+
+    setLayout(vLayout);
 }
 
-void ConvolutionMatrixEffect::applyEffect(ImageArea &imageArea)
-{
-    makeUndoCommand(imageArea);
-
-    QImage copy(*imageArea.getImage());
-
-    for(int i = 2; i < imageArea.getImage()->height() - 2; ++i)
-    {
-        for(int j = 2; j < imageArea.getImage()->width() - 2; ++j)
-        {
-            copy.setPixel(j, i, convolutePixel(*imageArea.getImage(), j, i, getConvolutionMatrix()));
-        }
-    }
-
-    imageArea.setImage(copy);
-    imageArea.setEdited(true);
-    imageArea.update();
-}
-
-QRgb ConvolutionMatrixEffect::convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix)
+QRgb EffectSettingsDialog::convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix)
 {
     int kernelSize = sqrt(kernelMatrix.size());
 
@@ -60,7 +73,7 @@ QRgb ConvolutionMatrixEffect::convolutePixel(const QImage &image, int x, int y, 
     double red = 0;
     double green = 0;
     double blue = 0;
-    // TODO: some optimization can be made
+    // TODO: some optimization can be made (maybe use OpenCV in future
     for(int r = -kernelSize / 2; r <= kernelSize / 2; ++r)
     {
         for(int c = -kernelSize / 2; c <= kernelSize / 2; ++c)
@@ -77,4 +90,19 @@ QRgb ConvolutionMatrixEffect::convolutePixel(const QImage &image, int x, int y, 
         return qRgb(qBound(0, qRound(red), 255), qBound(0, qRound(green), 255), qBound(0, qRound(blue), 255));
 
     return qRgb(qBound(0, qRound(red / total), 255), qBound(0, qRound(green / total), 255), qBound(0, qRound(blue / total), 255));
+}
+
+void EffectSettingsDialog::applyMatrix()
+{
+    QImage copy(mImage);
+
+    for(int i = 2; i < copy.height() - 2; ++i)
+    {
+        for(int j = 2; j < copy.width() - 2; ++j)
+        {
+            copy.setPixel(j, i, convolutePixel(mImage, j, i, mSettingsWidget->getConvolutionMatrix()));
+        }
+    }
+
+    mImage = copy;
 }

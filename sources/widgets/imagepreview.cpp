@@ -23,23 +23,26 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef SHARPENEFFECT_H
-#define SHARPENEFFECT_H
+#include <QtGui/QPainter>
+#include <QtGui/QPaintEvent>
+#include <QtGui/QImage>
 
-#include "effectwithsettings.h"
-#include "../widgets/sharpenfiltersettings.h"
+#include "imagepreview.h"
 
-#include <QtCore/QObject>
-
-class SharpenEffect : public EffectWithSettings
+ImagePreview::ImagePreview(QImage *image, QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
-public:
-    explicit SharpenEffect(QObject *parent = 0) : EffectWithSettings(parent) {}
+    mImage = image;
+}
 
-protected:
-    // TODO: change type of widget
-    virtual AbstractEffectSettings *getSettingsWidget() { return new SharpenFilterSettings(); }
-};
+void ImagePreview::paintEvent(QPaintEvent *event)
+{
+    if(mImage)
+    {
+        QPainter *painter = new QPainter(this);
 
-#endif // SHARPENEFFECT_H
+        painter->drawImage(event->rect(), *mImage, event->rect());
+
+        painter->end();
+    }
+}

@@ -23,23 +23,20 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef SHARPENEFFECT_H
-#define SHARPENEFFECT_H
+#ifndef CUSTOMEFFECT_H
+#define CUSTOMEFFECT_H
 
 #include "effectwithsettings.h"
-#include "../widgets/sharpenfiltersettings.h"
+#include "../widgets/customfiltersettings.h"
 
-#include <QtCore/QObject>
-
-class SharpenEffect : public EffectWithSettings
+class CustomEffect : public EffectWithSettings
 {
     Q_OBJECT
 public:
-    explicit SharpenEffect(QObject *parent = 0) : EffectWithSettings(parent) {}
-
+    explicit CustomEffect(QObject *parent = 0) : EffectWithSettings(parent) {}
+    
 protected:
-    // TODO: change type of widget
-    virtual AbstractEffectSettings *getSettingsWidget() { return new SharpenFilterSettings(); }
+    virtual AbstractEffectSettings* getSettingsWidget() { return new CustomFilterSettings(); }
 };
 
-#endif // SHARPENEFFECT_H
+#endif // CUSTOMEFFECT_H

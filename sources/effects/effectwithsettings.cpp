@@ -23,23 +23,27 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef SHARPENEFFECT_H
-#define SHARPENEFFECT_H
+#include <cmath>
 
 #include "effectwithsettings.h"
-#include "../widgets/sharpenfiltersettings.h"
+#include "../imagearea.h"
+#include "../dialogs/effectsettingsdialog.h"
 
-#include <QtCore/QObject>
-
-class SharpenEffect : public EffectWithSettings
+EffectWithSettings::EffectWithSettings(QObject *parent) :
+    AbstractEffect(parent)
 {
-    Q_OBJECT
-public:
-    explicit SharpenEffect(QObject *parent = 0) : EffectWithSettings(parent) {}
+}
 
-protected:
-    // TODO: change type of widget
-    virtual AbstractEffectSettings *getSettingsWidget() { return new SharpenFilterSettings(); }
-};
+void EffectWithSettings::applyEffect(ImageArea &imageArea)
+{
+    EffectSettingsDialog dlg(*imageArea.getImage(), getSettingsWidget());
 
-#endif // SHARPENEFFECT_H
+    if(dlg.exec())
+    {
+        makeUndoCommand(imageArea);
+
+        imageArea.setImage(dlg.getChangedImage());
+        imageArea.setEdited(true);
+        imageArea.update();
+    }
+}
