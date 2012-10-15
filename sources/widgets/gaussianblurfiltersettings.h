@@ -23,28 +23,25 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef GAUSSIANBLUREFFECT_H
-#define GAUSSIANBLUREFFECT_H
+#ifndef GAUSSIANBLURFILTERSETTINGS_H
+#define GAUSSIANBLURFILTERSETTINGS_H
 
-#include "effectwithsettings.h"
-#include "../widgets/gaussianblurfiltersettings.h"
+#include <QtGui/QSlider>
 
-#include <QtCore/QObject>
+#include "abstracteffectsettings.h"
 
-/**
- * @brief Gaussian Blur effect class.
- *
- */
-class GaussianBlurEffect : public EffectWithSettings
+class GaussianBlurFilterSettings : public AbstractEffectSettings
 {
     Q_OBJECT
 public:
-    explicit GaussianBlurEffect(QObject *parent = 0) : EffectWithSettings(parent) {}
+    explicit GaussianBlurFilterSettings(QWidget *parent = 0);
     
 protected:
-    // TODO: change type of widget
-    virtual AbstractEffectSettings *getSettingsWidget() { return new GaussianBlurFilterSettings(); }
+    virtual QList<double> getConvolutionMatrix();
+
+private:
+    QSlider *mIntensitySlider;
     
 };
 
-#endif // GAUSSIANBLUREFFECT_H
+#endif // GAUSSIANBLURFILTERSETTINGS_H
