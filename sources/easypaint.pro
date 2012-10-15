@@ -51,7 +51,8 @@ SOURCES += main.cpp\
     dialogs/effectsettingsdialog.cpp \
     widgets/customfiltersettings.cpp \
     effects/effectwithsettings.cpp \
-    widgets/sharpenfiltersettings.cpp
+    widgets/sharpenfiltersettings.cpp \
+    widgets/imagepreview.cpp
 
 HEADERS  += mainwindow.h \
     easypaintenums.h \
@@ -93,7 +94,8 @@ HEADERS  += mainwindow.h \
     widgets/abstracteffectsettings.h \
     effects/effectwithsettings.h \
     effects/customeffect.h \
-    widgets/sharpenfiltersettings.h
+    widgets/sharpenfiltersettings.h \
+    widgets/imagepreview.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

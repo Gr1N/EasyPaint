@@ -37,12 +37,14 @@ SharpenFilterSettings::SharpenFilterSettings(QWidget *parent) :
     mIntensitySlider->setTickPosition(QSlider::TicksBothSides);
     mIntensitySlider->setMinimum(1);
     mIntensitySlider->setMaximum(10);
+    mIntensitySlider->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     connect(mIntensitySlider, SIGNAL(valueChanged(int)), this, SIGNAL(matrixChanged()));
 
     QVBoxLayout *vLayout = new QVBoxLayout();
 
     vLayout->addWidget(label);
     vLayout->addWidget(mIntensitySlider);
+    vLayout->addStretch();
     setLayout(vLayout);
 }
 

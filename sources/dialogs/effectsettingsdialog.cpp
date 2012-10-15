@@ -34,6 +34,8 @@ EffectSettingsDialog::EffectSettingsDialog(const QImage &img, AbstractEffectSett
     QDialog(parent), mImage(img)
 {
     mSettingsWidget = settingsWidget;
+    mImagePreview = new ImagePreview(&mImage, this);
+    mImagePreview->setMinimumSize(140, 140);
 
     mOkButton = new QPushButton(tr("Ok"), this);
     connect(mOkButton, SIGNAL(clicked()), this, SLOT(applyMatrix()));
@@ -42,10 +44,11 @@ EffectSettingsDialog::EffectSettingsDialog(const QImage &img, AbstractEffectSett
     connect(mCancelButton, SIGNAL(clicked()), this, SLOT(reject()));
     mApplyButton = new QPushButton(tr("Apply"), this);
     connect(mApplyButton, SIGNAL(clicked()), this, SLOT(applyMatrix()));
+    connect(mApplyButton, SIGNAL(clicked()), mImagePreview, SLOT(update()));
 
     QHBoxLayout *hLayout_1 = new QHBoxLayout();
 
-    // TODO: add preview widget (new widget or label?)
+    hLayout_1->addWidget(mImagePreview);
     hLayout_1->addWidget(mSettingsWidget);
 
     QHBoxLayout *hLayout_2 = new QHBoxLayout();

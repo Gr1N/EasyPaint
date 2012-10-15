@@ -23,40 +23,27 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef ABSTRACTEFFECTSDIALOG_H
-#define ABSTRACTEFFECTSDIALOG_H
+#include <QtGui/QPainter>
+#include <QtGui/QPaintEvent>
+#include <QtGui/QImage>
 
-#include <QtGui/QDialog>
-#include <QtGui/QPushButton>
+#include "imagepreview.h"
 
-#include "../widgets/abstracteffectsettings.h"
-#include "../widgets/imagepreview.h"
-
-class EffectSettingsDialog : public QDialog
+ImagePreview::ImagePreview(QImage *image, QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
-public:
-    explicit EffectSettingsDialog(const QImage &img, AbstractEffectSettings *settingsWidget, QWidget *parent = 0);
-    
-    inline QImage getChangedImage() { return mImage; }
-signals:
-    
-public slots:
+    mImage = image;
+}
 
-private:
-    QPushButton *mOkButton;
-    QPushButton *mCancelButton;
-    QPushButton *mApplyButton;
+void ImagePreview::paintEvent(QPaintEvent *event)
+{
+    if(mImage)
+    {
+        QPainter *painter = new QPainter(this);
+        const QRect &rect = event->rect();
 
-    AbstractEffectSettings *mSettingsWidget;
-    ImagePreview *mImagePreview;
+        painter->drawImage(rect, *mImage, rect);
 
-    QImage mImage;
-
-    QRgb convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix);
-
-private slots:
-    void applyMatrix();
-};
-
-#endif // ABSTRACTEFFECTSDIALOG_H
+        painter->end();
+    }
+}

@@ -23,40 +23,26 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef ABSTRACTEFFECTSDIALOG_H
-#define ABSTRACTEFFECTSDIALOG_H
+#ifndef IMAGEPREVIEW_H
+#define IMAGEPREVIEW_H
 
-#include <QtGui/QDialog>
-#include <QtGui/QPushButton>
+#include <QtGui/QWidget>
 
-#include "../widgets/abstracteffectsettings.h"
-#include "../widgets/imagepreview.h"
-
-class EffectSettingsDialog : public QDialog
+class ImagePreview : public QWidget
 {
     Q_OBJECT
 public:
-    explicit EffectSettingsDialog(const QImage &img, AbstractEffectSettings *settingsWidget, QWidget *parent = 0);
+    explicit ImagePreview(QImage *image, QWidget *parent);
     
-    inline QImage getChangedImage() { return mImage; }
 signals:
     
 public slots:
+    
+protected:
+    virtual void paintEvent(QPaintEvent *event);
 
 private:
-    QPushButton *mOkButton;
-    QPushButton *mCancelButton;
-    QPushButton *mApplyButton;
-
-    AbstractEffectSettings *mSettingsWidget;
-    ImagePreview *mImagePreview;
-
-    QImage mImage;
-
-    QRgb convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix);
-
-private slots:
-    void applyMatrix();
+    QImage *mImage;
 };
 
-#endif // ABSTRACTEFFECTSDIALOG_H
+#endif // IMAGEPREVIEW_H
