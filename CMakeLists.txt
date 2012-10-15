@@ -34,6 +34,7 @@ set (HEADERS
     sources/widgets/abstracteffectsettings.h
     sources/widgets/customfiltersettings.h
     sources/widgets/sharpenfiltersettings.h
+    sources/widgets/imagepreview.h
     sources/dialogs/resizedialog.h
     sources/dialogs/settingsdialog.h
     sources/dialogs/textdialog.h
@@ -74,6 +75,7 @@ set (SOURCES
     sources/widgets/shortcutedit.cpp
     sources/widgets/customfiltersettings.cpp
     sources/widgets/sharpenfiltersettings.cpp
+    sources/widgets/imagepreview.cpp
     sources/dialogs/resizedialog.cpp
     sources/dialogs/settingsdialog.cpp
     sources/dialogs/textdialog.cpp

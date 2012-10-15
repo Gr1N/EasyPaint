@@ -380,14 +380,14 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
 void ImageArea::paintEvent(QPaintEvent *event)
 {
     QPainter *painter = new QPainter(this);
-    QRect *rect = new QRect(event->rect());
+    //QRect *rect = new QRect(event->rect());
 
     painter->setBrush(QBrush(QPixmap(":media/textures/transparent.jpg")));
     painter->drawRect(0, 0,
                       mImage->rect().right() - 1,
                       mImage->rect().bottom() - 1);
 
-    painter->drawImage(*rect, *mImage, *rect);
+    painter->drawImage(event->rect(), *mImage, event->rect());
 
     painter->setPen(Qt::NoPen);
     painter->setBrush(QBrush(Qt::black));

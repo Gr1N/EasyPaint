@@ -40,9 +40,8 @@ void ImagePreview::paintEvent(QPaintEvent *event)
     if(mImage)
     {
         QPainter *painter = new QPainter(this);
-        const QRect &rect = event->rect();
 
-        painter->drawImage(rect, *mImage, rect);
+        painter->drawImage(event->rect(), *mImage, event->rect());
 
         painter->end();
     }
