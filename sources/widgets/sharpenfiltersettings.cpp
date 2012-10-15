@@ -23,23 +23,39 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef SHARPENEFFECT_H
-#define SHARPENEFFECT_H
+#include <QtGui/QLabel>
+#include <QtGui/QLayout>
 
-#include "effectwithsettings.h"
-#include "../widgets/sharpenfiltersettings.h"
+#include "sharpenfiltersettings.h"
 
-#include <QtCore/QObject>
-
-class SharpenEffect : public EffectWithSettings
+SharpenFilterSettings::SharpenFilterSettings(QWidget *parent) :
+    AbstractEffectSettings(parent)
 {
-    Q_OBJECT
-public:
-    explicit SharpenEffect(QObject *parent = 0) : EffectWithSettings(parent) {}
+    QLabel *label = new QLabel(tr("Intensity"), this);
 
-protected:
-    // TODO: change type of widget
-    virtual AbstractEffectSettings *getSettingsWidget() { return new SharpenFilterSettings(); }
-};
+    mIntensitySlider = new QSlider(Qt::Horizontal, this);
+    mIntensitySlider->setTickPosition(QSlider::TicksBothSides);
+    mIntensitySlider->setMinimum(1);
+    mIntensitySlider->setMaximum(10);
+    mIntensitySlider->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    connect(mIntensitySlider, SIGNAL(valueChanged(int)), this, SIGNAL(matrixChanged()));
 
-#endif // SHARPENEFFECT_H
+    QVBoxLayout *vLayout = new QVBoxLayout();
+
+    vLayout->addWidget(label);
+    vLayout->addWidget(mIntensitySlider);
+    vLayout->addStretch();
+    setLayout(vLayout);
+}
+
+QList<double> SharpenFilterSettings::getConvolutionMatrix()
+{
+    QList<double> matrix;
+    int intensity = mIntensitySlider->value();
+
+    matrix << 0            << -(intensity)        << 0
+           << -(intensity) << (intensity * 4) + 1 << -(intensity)
+           << 0            << -(intensity)        << 0;
+
+    return matrix;
+}

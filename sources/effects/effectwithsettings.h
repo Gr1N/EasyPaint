@@ -23,22 +23,32 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "gaussianblureffect.h"
-#include "../imagearea.h"
 
-GaussianBlurEffect::GaussianBlurEffect(QObject *parent) :
-    ConvolutionMatrixEffect(parent)
+#ifndef CONVOLUTIONMATRIXEFFECT_H
+#define CONVOLUTIONMATRIXEFFECT_H
+
+#include "abstracteffect.h"
+#include "../widgets/abstracteffectsettings.h"
+
+#include <QtCore/QObject>
+#include <QtGui/QRgb>
+#include <QtGui/QImage>
+
+/**
+ * @brief Base class for filters, which uses convolution matrix.
+ *
+ */
+class EffectWithSettings : public AbstractEffect
 {
-}
+    Q_OBJECT
+public:
+    explicit EffectWithSettings(QObject *parent = 0);
 
-QList<double> GaussianBlurEffect::getConvolutionMatrix()
-{
-    // TODO: add correct realization dialog with settings
-    QList<double> list;
+    virtual void applyEffect(ImageArea &imageArea);
 
-    list << 1 << 2 << 1
-         << 2 << 4 << 2
-         << 1 << 2 << 1;
+protected:
+    virtual AbstractEffectSettings* getSettingsWidget() = 0;
 
-    return list;
-}
+};
+
+#endif // CONVOLUTIONMATRIXEFFECT_H

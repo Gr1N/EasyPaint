@@ -48,9 +48,11 @@ SOURCES += main.cpp\
     effects/grayeffect.cpp \
     effects/binarizationeffect.cpp \
     effects/gammaeffect.cpp \
-    effects/gaussianblureffect.cpp \
-    effects/convolutionmatrixeffect.cpp \
-    effects/sharpeneffect.cpp
+    dialogs/effectsettingsdialog.cpp \
+    widgets/customfiltersettings.cpp \
+    effects/effectwithsettings.cpp \
+    widgets/sharpenfiltersettings.cpp \
+    widgets/imagepreview.cpp
 
 HEADERS  += mainwindow.h \
     easypaintenums.h \
@@ -86,8 +88,14 @@ HEADERS  += mainwindow.h \
     effects/binarizationeffect.h \
     effects/gammaeffect.h \
     effects/gaussianblureffect.h \
-    effects/convolutionmatrixeffect.h \
-    effects/sharpeneffect.h
+    effects/sharpeneffect.h \
+    dialogs/effectsettingsdialog.h \
+    widgets/customfiltersettings.h \
+    widgets/abstracteffectsettings.h \
+    effects/effectwithsettings.h \
+    effects/customeffect.h \
+    widgets/sharpenfiltersettings.h \
+    widgets/imagepreview.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

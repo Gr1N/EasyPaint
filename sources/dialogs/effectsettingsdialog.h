@@ -23,32 +23,40 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#ifndef ABSTRACTEFFECTSDIALOG_H
+#define ABSTRACTEFFECTSDIALOG_H
 
-#ifndef CONVOLUTIONMATRIXEFFECT_H
-#define CONVOLUTIONMATRIXEFFECT_H
+#include <QtGui/QDialog>
+#include <QtGui/QPushButton>
 
-#include "abstracteffect.h"
+#include "../widgets/abstracteffectsettings.h"
+#include "../widgets/imagepreview.h"
 
-#include <QtCore/QObject>
-#include <QtGui/QRgb>
-#include <QtGui/QImage>
-
-/**
- * @brief Base class for filters, which uses convolution matrix.
- *
- */
-class ConvolutionMatrixEffect : public AbstractEffect
+class EffectSettingsDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit ConvolutionMatrixEffect(QObject *parent = 0);
+    explicit EffectSettingsDialog(const QImage &img, AbstractEffectSettings *settingsWidget, QWidget *parent = 0);
+    
+    inline QImage getChangedImage() { return mImage; }
+signals:
+    
+public slots:
 
-    void virtual applyEffect(ImageArea &imageArea);
+private:
+    QPushButton *mOkButton;
+    QPushButton *mCancelButton;
+    QPushButton *mApplyButton;
 
-protected:
-    QList<double> virtual getConvolutionMatrix() = 0;
+    AbstractEffectSettings *mSettingsWidget;
+    ImagePreview *mImagePreview;
+
+    QImage mImage;
+
     QRgb convolutePixel(const QImage &image, int x, int y, const QList<double> &kernelMatrix);
 
+private slots:
+    void applyMatrix();
 };
 
-#endif // CONVOLUTIONMATRIXEFFECT_H
+#endif // ABSTRACTEFFECTSDIALOG_H
