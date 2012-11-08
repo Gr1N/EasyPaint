@@ -76,6 +76,7 @@ private:
     void completeMoving(ImageArea &imageArea);
     void clear(ImageArea &imageArea);
     void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
+    void showMenu(ImageArea &imageArea);
 
     QImage mSelectedImage, /**< Copy of selected image. */
            mPasteImage; /**< Image to paste */

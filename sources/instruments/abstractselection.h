@@ -65,15 +65,17 @@ public:
     virtual void completeResizing(ImageArea &imageArea) {};
     virtual void completeMoving(ImageArea &imageArea) {};
     virtual void clear(ImageArea &imageArea) {};
+    virtual void showMenu(ImageArea &imageArea) {};
 
 protected:
     void drawBorder(ImageArea &imageArea);
     void updateCursor(QMouseEvent *event, ImageArea &imageArea);
 
     QPoint mBottomRightPoint, mTopLeftPoint, mMoveDiffPoint;
-    bool mIsPaint, mIsSelectionExists, mIsSelectionMoving, mIsSelectionResizing, mIsImageSelected;
+    bool mIsPaint, mIsSelectionExists, mIsSelectionMoving, mIsSelectionResizing, mIsImageSelected,
+         mIsMouseMoved;
     int mHeight, mWidth;
-
+    Qt::MouseButton mButton;
 };
 
 #endif // ABSTRACTSELECTION_H

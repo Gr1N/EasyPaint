@@ -34,11 +34,13 @@ AbstractSelection::AbstractSelection(QObject *parent) :
     AbstractInstrument(parent)
 {
     mIsSelectionExists = mIsSelectionMoving = mIsSelectionResizing
-            = mIsPaint = mIsImageSelected = false;
+            = mIsPaint = mIsImageSelected = mIsMouseMoved = false;
 }
 
 void AbstractSelection::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
 {
+    mButton = event->button();
+    mIsMouseMoved = false;
     if (mIsSelectionExists)
     {
         imageArea.setImage(mImageCopy);
@@ -89,6 +91,7 @@ void AbstractSelection::mousePressEvent(QMouseEvent *event, ImageArea &imageArea
 
 void AbstractSelection::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
 {
+    mIsMouseMoved = true;
     if (mIsSelectionExists)
     {
         if (mIsSelectionMoving)
@@ -133,11 +136,18 @@ void AbstractSelection::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageAr
     int top = mTopLeftPoint.y() < mBottomRightPoint.y() ? mTopLeftPoint.y() : mBottomRightPoint.y();
     mBottomRightPoint = QPoint(right, bottom);
     mTopLeftPoint = QPoint(left, top);
-
     if (mIsSelectionExists)
     {
         updateCursor(event, imageArea);
-        if(mIsSelectionMoving)
+        if (mButton == Qt::RightButton && !mIsMouseMoved)
+        {
+            showMenu(imageArea);
+            paint(imageArea);
+            drawBorder(imageArea);
+            mIsPaint = false;
+            mIsSelectionMoving = mIsImageSelected = false;
+        }
+        else if(mIsSelectionMoving)
         {
             imageArea.setImage(mImageCopy);
             completeMoving(imageArea);

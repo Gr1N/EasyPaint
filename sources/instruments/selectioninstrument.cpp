@@ -193,3 +193,7 @@ void SelectionInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, boo
         imageArea.update();
     }
 }
+
+void SelectionInstrument::showMenu(ImageArea &imageArea)
+{
+}
