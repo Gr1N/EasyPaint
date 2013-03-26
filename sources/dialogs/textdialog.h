@@ -28,7 +28,7 @@
 
 #include "../imagearea.h"
 
-#include <QtGui/QDialog>
+#include <QDialog>
 #include <QTextEdit>
 
 /**

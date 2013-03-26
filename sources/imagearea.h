@@ -29,8 +29,8 @@
 #include "easypaintenums.h"
 #include "additionaltools.h"
 
-#include <QtGui/QWidget>
-#include <QtGui/QImage>
+#include <QWidget>
+#include <QImage>
 
 QT_BEGIN_NAMESPACE
 class QUndoStack;

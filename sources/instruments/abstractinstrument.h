@@ -27,8 +27,8 @@
 #define ABSTRACTINSTRUMENT_H
 
 #include <QtCore/QObject>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QImage>
+#include <QMouseEvent>
+#include <QImage>
 
 QT_BEGIN_NAMESPACE
 class ImageArea;

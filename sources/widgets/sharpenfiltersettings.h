@@ -26,7 +26,7 @@
 #ifndef SHARPENFILTERSETTINGS_H
 #define SHARPENFILTERSETTINGS_H
 
-#include <QtGui/QSlider>
+#include <QSlider>
 
 #include "abstracteffectsettings.h"
 

@@ -23,7 +23,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <QtGui/QLayout>
+#include <QLayout>
 
 #include "customfiltersettings.h"
 

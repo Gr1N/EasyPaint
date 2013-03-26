@@ -24,10 +24,10 @@
  */
 
 #include "shortcutedit.h"
-#include <QtGui/QKeyEvent>
-#include <QtGui/QKeySequence>
-#include <QtGui/QToolButton>
-#include <QtGui/QStyle>
+#include <QKeyEvent>
+#include <QKeySequence>
+#include <QToolButton>
+#include <QStyle>
 
 ShortcutEdit::ShortcutEdit(QWidget *parent) :
     QLineEdit(parent)

@@ -25,15 +25,15 @@
 
 #include "resizedialog.h"
 
-#include <QtGui/QLabel>
-#include <QtGui/QGridLayout>
-#include <QtGui/QRadioButton>
-#include <QtGui/QSpinBox>
+#include <QLabel>
+#include <QGridLayout>
+#include <QRadioButton>
+#include <QSpinBox>
 #include <QtCore/QDebug>
-#include <QtGui/QDialogButtonBox>
-#include <QtGui/QCheckBox>
-#include <QtGui/QGroupBox>
-#include <QtGui/QVBoxLayout>
+#include <QDialogButtonBox>
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QVBoxLayout>
 
 ResizeDialog::ResizeDialog(const QSize &size, QWidget *parent) :
     QDialog(parent), mWidth(size.width()), mHeight(size.height()),

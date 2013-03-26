@@ -28,9 +28,9 @@
 #include "../undocommand.h"
 #include "math.h"
 
-#include <QtGui/QPainter>
-#include <QtGui/QApplication>
-#include <QtGui/QClipboard>
+#include <QPainter>
+#include <QApplication>
+#include <QClipboard>
 
 SelectionInstrument::SelectionInstrument(QObject *parent) :
     AbstractSelection(parent)
