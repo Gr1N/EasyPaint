@@ -112,14 +112,13 @@ void SelectionInstrument::pasteImage(ImageArea &imageArea)
     }
 }
 
-
 void SelectionInstrument::startAdjusting(ImageArea &imageArea)
 {
     mImageCopy = *imageArea.getImage();
     mIsImageSelected = false;
 }
 
-void SelectionInstrument::startSelection(ImageArea &imageArea)
+void SelectionInstrument::startSelection(ImageArea &)
 {
 }
 
@@ -144,15 +143,15 @@ void SelectionInstrument::startMoving(ImageArea &imageArea)
     }
 }
 
-void SelectionInstrument::select(ImageArea &imageArea)
+void SelectionInstrument::select(ImageArea &)
 {
 }
 
-void SelectionInstrument::resize(ImageArea &imageArea)
+void SelectionInstrument::resize(ImageArea &)
 {
 }
 
-void SelectionInstrument::move(ImageArea &imageArea)
+void SelectionInstrument::move(ImageArea &)
 {
 }
 
@@ -196,13 +195,13 @@ void SelectionInstrument::clearSelectionBackground(ImageArea &imageArea)
     }
 }
 
-void SelectionInstrument::clear(ImageArea &imageArea)
+void SelectionInstrument::clear()
 {
     mSelectedImage = QImage();
     emit sendEnableCopyCutActions(false);
 }
 
-void SelectionInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool additionalFlag)
+void SelectionInstrument::paint(ImageArea &imageArea, bool, bool)
 {
     if (mIsSelectionExists && !mIsSelectionAdjusting)
     {
@@ -219,6 +218,6 @@ void SelectionInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, boo
     }
 }
 
-void SelectionInstrument::showMenu(ImageArea &imageArea)
+void SelectionInstrument::showMenu(ImageArea &)
 {
 }

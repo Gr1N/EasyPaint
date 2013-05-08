@@ -41,17 +41,18 @@ public:
     explicit TextInstrument(QObject *parent = 0);
 
 private:
-    void startSelection(ImageArea &imageArea);
-    void startResizing(ImageArea &imageArea);
-    void startMoving(ImageArea &imageArea);
-    void select(ImageArea &imageArea);
+    void startAdjusting(ImageArea &);
+    void startSelection(ImageArea &);
+    void startResizing(ImageArea &);
+    void startMoving(ImageArea &);
+    void select(ImageArea &);
     void resize(ImageArea &imageArea);
     void move(ImageArea &imageArea);
     void completeSelection(ImageArea &imageArea);
-    void completeResizing(ImageArea &imageArea);
-    void completeMoving(ImageArea &imageArea);
-    void clear(ImageArea &imageArea);
-    void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
+    void completeResizing(ImageArea &);
+    void completeMoving(ImageArea &);
+    void clear();
+    void paint(ImageArea &imageArea, bool = false, bool = false);
     void showMenu(ImageArea &imageArea);
 
     QString mText;

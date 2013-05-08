@@ -230,8 +230,12 @@ void AbstractSelection::clearSelection(ImageArea &imageArea)
                 = mIsPaint = mIsImageSelected = false;
         imageArea.update(); 
         imageArea.restoreCursor();
-        clear(imageArea);
+        clear();
     }
+}
+
+void AbstractSelection::saveImageChanges(ImageArea &)
+{
 }
 
 void AbstractSelection::updateCursor(QMouseEvent *event, ImageArea &imageArea)

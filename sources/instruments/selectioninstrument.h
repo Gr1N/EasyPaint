@@ -66,18 +66,18 @@ public:
 
 private:
     void startAdjusting(ImageArea &imageArea);
-    void startSelection(ImageArea &imageArea);
+    void startSelection(ImageArea &);
     void startResizing(ImageArea &imageArea);
     void startMoving(ImageArea &imageArea);
-    void select(ImageArea &imageArea);
-    void resize(ImageArea &imageArea);
-    void move(ImageArea &imageArea);
+    void select(ImageArea &);
+    void resize(ImageArea &);
+    void move(ImageArea &);
     void completeSelection(ImageArea &imageArea);
     void completeResizing(ImageArea &imageArea);
     void completeMoving(ImageArea &imageArea);
-    void clear(ImageArea &imageArea);
-    void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
-    void showMenu(ImageArea &imageArea);
+    void clear();
+    void paint(ImageArea &imageArea, bool = false, bool = false);
+    void showMenu(ImageArea &);
 
     QImage mSelectedImage, /**< Copy of selected image. */
            mPasteImage; /**< Image to paste */

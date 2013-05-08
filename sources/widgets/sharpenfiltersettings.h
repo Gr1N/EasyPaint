@@ -23,22 +23,24 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "sharpeneffect.h"
-#include "../imagearea.h"
+#ifndef SHARPENFILTERSETTINGS_H
+#define SHARPENFILTERSETTINGS_H
 
-SharpenEffect::SharpenEffect(QObject *parent) :
-    ConvolutionMatrixEffect(parent)
+#include <QtGui/QSlider>
+
+#include "abstracteffectsettings.h"
+
+class SharpenFilterSettings : public AbstractEffectSettings
 {
-}
+    Q_OBJECT
+public:
+    explicit SharpenFilterSettings(QWidget *parent = 0);
+    
+protected:
+    virtual QList<double> getConvolutionMatrix();
 
-QList<double> SharpenEffect::getConvolutionMatrix()
-{
-    // TODO: add settings dialog
-    QList<double> list;
+private:
+    QSlider *mIntensitySlider;
+};
 
-    list << 0  << -1 <<  0
-         << -1 <<  5 << -1
-         << 0  << -1 <<  0;
-
-    return list;
-}
+#endif // SHARPENFILTERSETTINGS_H
