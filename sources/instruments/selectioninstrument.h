@@ -65,6 +65,7 @@ public:
     void cutImage(ImageArea &imageArea);
 
 private:
+    void startAdjusting(ImageArea &imageArea);
     void startSelection(ImageArea &imageArea);
     void startResizing(ImageArea &imageArea);
     void startMoving(ImageArea &imageArea);

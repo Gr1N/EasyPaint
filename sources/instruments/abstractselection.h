@@ -58,6 +58,7 @@ public:
     virtual void startSelection(ImageArea &imageArea) {};
     virtual void startResizing(ImageArea &imageArea) {};
     virtual void startMoving(ImageArea &imageArea) {};
+    virtual void startAdjusting(ImageArea &imageArea) {};
     virtual void select(ImageArea &imageArea) {};
     virtual void resize(ImageArea &imageArea) {};
     virtual void move(ImageArea &imageArea) {};
@@ -73,7 +74,7 @@ protected:
 
     QPoint mBottomRightPoint, mTopLeftPoint, mMoveDiffPoint;
     bool mIsPaint, mIsSelectionExists, mIsSelectionMoving, mIsSelectionResizing, mIsImageSelected,
-         mIsMouseMoved;
+         mIsMouseMoved, mIsSelectionAdjusting;;
     int mHeight, mWidth;
     Qt::MouseButton mButton;
 };

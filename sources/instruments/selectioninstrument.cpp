@@ -112,6 +112,13 @@ void SelectionInstrument::pasteImage(ImageArea &imageArea)
     }
 }
 
+
+void SelectionInstrument::startAdjusting(ImageArea &imageArea)
+{
+    mImageCopy = *imageArea.getImage();
+    mIsImageSelected = false;
+}
+
 void SelectionInstrument::startSelection(ImageArea &imageArea)
 {
 }
@@ -122,11 +129,19 @@ void SelectionInstrument::startResizing(ImageArea &imageArea)
     {
         clearSelectionBackground(imageArea);
     }
+    if (mIsSelectionAdjusting)
+    {
+        mIsImageSelected = false;
+    }
 }
 
 void SelectionInstrument::startMoving(ImageArea &imageArea)
 {
     clearSelectionBackground(imageArea);
+    if (mIsSelectionAdjusting)
+    {
+        mIsImageSelected = false;
+    }
 }
 
 void SelectionInstrument::select(ImageArea &imageArea)
@@ -158,17 +173,27 @@ void SelectionInstrument::completeResizing(ImageArea &imageArea)
 
 void SelectionInstrument::completeMoving(ImageArea &imageArea)
 {
+    if (mIsSelectionAdjusting)
+    {
+        mSelectedImage = imageArea.getImage()->copy(mTopLeftPoint.x(),
+                                                   mTopLeftPoint.y(),
+                                                   mWidth, mHeight);
+    }
+
 }
 
 void SelectionInstrument::clearSelectionBackground(ImageArea &imageArea)
 {
-    QPainter blankPainter(imageArea.getImage());
-    blankPainter.setPen(Qt::white);
-    blankPainter.setBrush(QBrush(Qt::white));
-    blankPainter.setBackgroundMode(Qt::OpaqueMode);
-    blankPainter.drawRect(QRect(mTopLeftPoint, mBottomRightPoint - QPoint(1, 1)));
-    blankPainter.end();
-    mImageCopy = *imageArea.getImage();
+    if (!mIsSelectionAdjusting)
+    {
+        QPainter blankPainter(imageArea.getImage());
+        blankPainter.setPen(Qt::white);
+        blankPainter.setBrush(QBrush(Qt::white));
+        blankPainter.setBackgroundMode(Qt::OpaqueMode);
+        blankPainter.drawRect(QRect(mTopLeftPoint, mBottomRightPoint - QPoint(1, 1)));
+        blankPainter.end();
+        mImageCopy = *imageArea.getImage();
+    }
 }
 
 void SelectionInstrument::clear(ImageArea &imageArea)
@@ -179,7 +204,7 @@ void SelectionInstrument::clear(ImageArea &imageArea)
 
 void SelectionInstrument::paint(ImageArea &imageArea, bool isSecondaryColor, bool additionalFlag)
 {
-    if (mIsSelectionExists)
+    if (mIsSelectionExists && !mIsSelectionAdjusting)
     {
         if(mTopLeftPoint != mBottomRightPoint)
         {
