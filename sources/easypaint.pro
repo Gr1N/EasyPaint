@@ -4,7 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += widgets printsupport
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = easypaint
 VERSION = 0.0.1
