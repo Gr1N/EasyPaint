@@ -27,10 +27,10 @@
 #include "imagearea.h"
 #include "dialogs/resizedialog.h"
 
-#include <QtGui/QImage>
-#include <QtGui/QPainter>
-#include <QtGui/QLabel>
-#include <QtGui/QTransform>
+#include <QImage>
+#include <QPainter>
+#include <QLabel>
+#include <QTransform>
 #include <QSize>
 #include <QClipboard>
 #include <QApplication>

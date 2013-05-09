@@ -27,8 +27,8 @@
 #include "../imagearea.h"
 #include "../datasingleton.h"
 
-#include <QtGui/QPen>
-#include <QtGui/QPainter>
+#include <QPen>
+#include <QPainter>
 #include <math.h>
 
 SprayInstrument::SprayInstrument(QObject *parent) :

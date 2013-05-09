@@ -50,18 +50,18 @@
 #include "effects/sharpeneffect.h"
 #include "effects/customeffect.h"
 
-#include <QtGui/QApplication>
-#include <QtGui/QPainter>
-#include <QtGui/QFileDialog>
+#include <QApplication>
+#include <QPainter>
+#include <QFileDialog>
 #include <QtCore/QDebug>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QPaintEvent>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
+#include <QMouseEvent>
+#include <QPaintEvent>
+#include <QPrinter>
+#include <QPrintDialog>
 #include <QtCore/QTimer>
-#include <QtGui/QImageReader>
-#include <QtGui/QImageWriter>
-#include <QtGui/QUndoStack>
+#include <QImageReader>
+#include <QImageWriter>
+#include <QUndoStack>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
     QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false)
@@ -223,7 +223,7 @@ void ImageArea::saveAs()
         if(temp.contains('.'))
         {
             temp = temp.split('.').last();
-            if(QImageWriter::supportedImageFormats().contains(temp.toAscii()))
+            if(QImageWriter::supportedImageFormats().contains(temp.toLatin1()))
                 extension = temp;
             else
                 extension = "png"; //if format is unknown, save it as png format, but with user extension

@@ -31,8 +31,8 @@
 #include "../widgets/abstracteffectsettings.h"
 
 #include <QtCore/QObject>
-#include <QtGui/QRgb>
-#include <QtGui/QImage>
+#include <QRgb>
+#include <QImage>
 
 /**
  * @brief Base class for filters, which uses convolution matrix.

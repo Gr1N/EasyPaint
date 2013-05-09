@@ -23,7 +23,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
 #include <QtCore/QFile>

@@ -27,10 +27,10 @@
 #include "colorchooser.h"
 #include "../datasingleton.h"
 
-#include <QtGui/QToolButton>
-#include <QtGui/QGridLayout>
-#include <QtGui/QSpinBox>
-#include <QtGui/QAction>
+#include <QToolButton>
+#include <QGridLayout>
+#include <QSpinBox>
+#include <QAction>
 #include <QtCore/QMap>
 
 ToolBar::ToolBar(const QMap<InstrumentsEnum, QAction *> &actMap, QWidget *parent) :

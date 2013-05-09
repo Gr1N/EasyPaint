@@ -26,8 +26,8 @@
 #ifndef UNDOCOMMAND_H
 #define UNDOCOMMAND_H
 
-#include <QtGui/QUndoCommand>
-#include <QtGui/QImage>
+#include <QUndoCommand>
+#include <QImage>
 
 #include "imagearea.h"
 

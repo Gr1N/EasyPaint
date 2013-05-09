@@ -28,7 +28,7 @@
 
 #include "../easypaintenums.h"
 
-#include <QtGui/QToolBar>
+#include <QToolBar>
 
 QT_BEGIN_NAMESPACE
 class QToolButton;

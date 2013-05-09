@@ -27,9 +27,9 @@
 #include "../imagearea.h"
 #include "../datasingleton.h"
 
-#include <QtGui/QPen>
-#include <QtGui/QPainter>
-#include <QtGui/QImage>
+#include <QPen>
+#include <QPainter>
+#include <QImage>
 
 LineInstrument::LineInstrument(QObject *parent) :
     AbstractInstrument(parent)
