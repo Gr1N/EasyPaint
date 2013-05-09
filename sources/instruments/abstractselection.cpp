@@ -34,25 +34,39 @@ AbstractSelection::AbstractSelection(QObject *parent) :
     AbstractInstrument(parent)
 {
     mIsSelectionExists = mIsSelectionMoving = mIsSelectionResizing
-            = mIsPaint = mIsImageSelected = false;
+            = mIsPaint = mIsImageSelected = mIsMouseMoved
+            = mIsSelectionAdjusting = false;
 }
 
 void AbstractSelection::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
 {
+    mButton = event->button();
+    mIsMouseMoved = false;
     if (mIsSelectionExists)
     {
         imageArea.setImage(mImageCopy);
         paint(imageArea);
+        if (mButton == Qt::RightButton)
+        {
+            mIsSelectionAdjusting = true;
+            startAdjusting(imageArea);
+        }
         if (event->pos().x() > mTopLeftPoint.x() &&
                 event->pos().x() < mBottomRightPoint.x() &&
                 event->pos().y() > mTopLeftPoint.y() &&
                 event->pos().y() < mBottomRightPoint.y())
         {
-            makeUndoCommand(imageArea);
+            if (!mIsSelectionAdjusting)
+            {
+                makeUndoCommand(imageArea);
+            }
             if (!mIsImageSelected)
             {
                 startMoving(imageArea);
-                mIsImageSelected = true;
+                if (!mIsSelectionAdjusting)
+                {
+                    mIsImageSelected = true;
+                }
             } 
             else
             {
@@ -67,7 +81,10 @@ void AbstractSelection::mousePressEvent(QMouseEvent *event, ImageArea &imageArea
                  event->pos().y() >= mBottomRightPoint.y() &&
                  event->pos().y() <= mBottomRightPoint.y() + 6)
         {
-            makeUndoCommand(imageArea);
+            if (!mIsSelectionAdjusting)
+            {
+                makeUndoCommand(imageArea);
+            }
             startResizing(imageArea);
             mIsSelectionResizing = true;
             return;
@@ -77,7 +94,7 @@ void AbstractSelection::mousePressEvent(QMouseEvent *event, ImageArea &imageArea
             clearSelection(imageArea);
         }
     }
-    if(event->button() == Qt::LeftButton)
+    if (event->button() == Qt::LeftButton)
     {
         mBottomRightPoint = mTopLeftPoint = event->pos();
         mHeight =  mWidth = 0;
@@ -89,6 +106,7 @@ void AbstractSelection::mousePressEvent(QMouseEvent *event, ImageArea &imageArea
 
 void AbstractSelection::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
 {
+    mIsMouseMoved = true;
     if (mIsSelectionExists)
     {
         if (mIsSelectionMoving)
@@ -133,11 +151,18 @@ void AbstractSelection::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageAr
     int top = mTopLeftPoint.y() < mBottomRightPoint.y() ? mTopLeftPoint.y() : mBottomRightPoint.y();
     mBottomRightPoint = QPoint(right, bottom);
     mTopLeftPoint = QPoint(left, top);
-
     if (mIsSelectionExists)
     {
         updateCursor(event, imageArea);
-        if(mIsSelectionMoving)
+        if (mButton == Qt::RightButton && !mIsMouseMoved)
+        {
+            showMenu(imageArea);
+            paint(imageArea);
+            drawBorder(imageArea);
+            mIsPaint = false;
+            mIsSelectionMoving = mIsImageSelected = false;
+        }
+        else if (mIsSelectionMoving)
         {
             imageArea.setImage(mImageCopy);
             completeMoving(imageArea);
@@ -174,6 +199,7 @@ void AbstractSelection::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageAr
             mIsPaint = false;
         }
     }
+    mIsSelectionAdjusting = false;
 }
 
 void AbstractSelection::drawBorder(ImageArea &imageArea)

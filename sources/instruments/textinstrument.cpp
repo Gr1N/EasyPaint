@@ -51,6 +51,10 @@ void TextInstrument::updateText(ImageArea *imageArea, QString textString)
     drawBorder(*imageArea);
 }
 
+void TextInstrument::startAdjusting(ImageArea &)
+{
+}
+
 void TextInstrument::startSelection(ImageArea &)
 {
 }
@@ -79,7 +83,7 @@ void TextInstrument::move(ImageArea &imageArea)
 
 void TextInstrument::completeSelection(ImageArea &imageArea)
 {
-    TextDialog *td = new TextDialog(&imageArea);
+    TextDialog *td = new TextDialog(mText, &imageArea);
     connect(td, SIGNAL(textChanged(ImageArea *, QString)), this, SLOT(updateText(ImageArea *, QString)));
     connect(this, SIGNAL(sendCloseTextDialog()), td, SLOT(accept()));
     connect(td, SIGNAL(canceled(ImageArea *)), this, SLOT(cancel(ImageArea *)));
@@ -120,4 +124,10 @@ void TextInstrument::paint(ImageArea &imageArea, bool, bool)
         imageArea.setEdited(true);
         imageArea.update();
     }
+}
+
+void TextInstrument::showMenu(ImageArea &imageArea)
+{
+    emit sendCloseTextDialog();
+    completeSelection(imageArea); //show text dialog
 }

@@ -65,6 +65,7 @@ public:
     void cutImage(ImageArea &imageArea);
 
 private:
+    void startAdjusting(ImageArea &imageArea);
     void startSelection(ImageArea &);
     void startResizing(ImageArea &imageArea);
     void startMoving(ImageArea &imageArea);
@@ -73,9 +74,10 @@ private:
     void move(ImageArea &);
     void completeSelection(ImageArea &imageArea);
     void completeResizing(ImageArea &imageArea);
-    void completeMoving(ImageArea &);
+    void completeMoving(ImageArea &imageArea);
     void clear();
     void paint(ImageArea &imageArea, bool = false, bool = false);
+    void showMenu(ImageArea &);
 
     QImage mSelectedImage, /**< Copy of selected image. */
            mPasteImage; /**< Image to paste */

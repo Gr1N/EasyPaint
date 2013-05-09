@@ -35,10 +35,17 @@
 #include <QtGui/QDialogButtonBox>
 #include <QtGui/QMessageBox>
 
-TextDialog::TextDialog(ImageArea *parent) :
+TextDialog::TextDialog(QString text, ImageArea *parent) :
     QDialog(parent)
 {
     initializeGui();
+    if (!text.isEmpty())
+    {
+        mTextEdit->setText(text);
+        QTextCursor cursor(mTextEdit->textCursor());
+        cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
+        mTextEdit->setTextCursor(cursor);
+    }
     layout()->setSizeConstraint(QLayout::SetFixedSize);
     setWindowTitle(tr("Text"));
 }
