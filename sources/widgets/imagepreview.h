@@ -26,7 +26,7 @@
 #ifndef IMAGEPREVIEW_H
 #define IMAGEPREVIEW_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class ImagePreview : public QWidget
 {

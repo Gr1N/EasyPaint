@@ -26,7 +26,7 @@
 #ifndef SHORTCUTEDIT_H
 #define SHORTCUTEDIT_H
 
-#include <QtGui/QLineEdit>
+#include <QLineEdit>
 
 QT_BEGIN_NAMESPACE
 class QToolButton;

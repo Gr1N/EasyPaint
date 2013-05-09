@@ -26,7 +26,7 @@
 #ifndef GAUSSIANBLURFILTERSETTINGS_H
 #define GAUSSIANBLURFILTERSETTINGS_H
 
-#include <QtGui/QSlider>
+#include <QSlider>
 
 #include "abstracteffectsettings.h"
 

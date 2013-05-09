@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += widgets printsupport
 
 TARGET = easypaint
 VERSION = 0.0.1

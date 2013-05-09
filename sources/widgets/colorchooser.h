@@ -26,7 +26,7 @@
 #ifndef COLORCHOOSER_H
 #define COLORCHOOSER_H
 
-#include <QtGui/QLabel>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 class QColor;

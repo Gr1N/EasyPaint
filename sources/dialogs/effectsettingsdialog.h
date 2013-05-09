@@ -26,8 +26,8 @@
 #ifndef ABSTRACTEFFECTSDIALOG_H
 #define ABSTRACTEFFECTSDIALOG_H
 
-#include <QtGui/QDialog>
-#include <QtGui/QPushButton>
+#include <QDialog>
+#include <QPushButton>
 
 #include "../widgets/abstracteffectsettings.h"
 #include "../widgets/imagepreview.h"
