@@ -112,6 +112,12 @@ void SelectionInstrument::pasteImage(ImageArea &imageArea)
     }
 }
 
+void SelectionInstrument::startAdjusting(ImageArea &imageArea)
+{
+    mImageCopy = *imageArea.getImage();
+    mIsImageSelected = false;
+}
+
 void SelectionInstrument::startSelection(ImageArea &)
 {
 }
@@ -122,11 +128,19 @@ void SelectionInstrument::startResizing(ImageArea &imageArea)
     {
         clearSelectionBackground(imageArea);
     }
+    if (mIsSelectionAdjusting)
+    {
+        mIsImageSelected = false;
+    }
 }
 
 void SelectionInstrument::startMoving(ImageArea &imageArea)
 {
     clearSelectionBackground(imageArea);
+    if (mIsSelectionAdjusting)
+    {
+        mIsImageSelected = false;
+    }
 }
 
 void SelectionInstrument::select(ImageArea &)
@@ -156,19 +170,29 @@ void SelectionInstrument::completeResizing(ImageArea &imageArea)
                                                 mWidth, mHeight);
 }
 
-void SelectionInstrument::completeMoving(ImageArea &)
+void SelectionInstrument::completeMoving(ImageArea &imageArea)
 {
+    if (mIsSelectionAdjusting)
+    {
+        mSelectedImage = imageArea.getImage()->copy(mTopLeftPoint.x(),
+                                                   mTopLeftPoint.y(),
+                                                   mWidth, mHeight);
+    }
+
 }
 
 void SelectionInstrument::clearSelectionBackground(ImageArea &imageArea)
 {
-    QPainter blankPainter(imageArea.getImage());
-    blankPainter.setPen(Qt::white);
-    blankPainter.setBrush(QBrush(Qt::white));
-    blankPainter.setBackgroundMode(Qt::OpaqueMode);
-    blankPainter.drawRect(QRect(mTopLeftPoint, mBottomRightPoint - QPoint(1, 1)));
-    blankPainter.end();
-    mImageCopy = *imageArea.getImage();
+    if (!mIsSelectionAdjusting)
+    {
+        QPainter blankPainter(imageArea.getImage());
+        blankPainter.setPen(Qt::white);
+        blankPainter.setBrush(QBrush(Qt::white));
+        blankPainter.setBackgroundMode(Qt::OpaqueMode);
+        blankPainter.drawRect(QRect(mTopLeftPoint, mBottomRightPoint - QPoint(1, 1)));
+        blankPainter.end();
+        mImageCopy = *imageArea.getImage();
+    }
 }
 
 void SelectionInstrument::clear()
@@ -179,7 +203,7 @@ void SelectionInstrument::clear()
 
 void SelectionInstrument::paint(ImageArea &imageArea, bool, bool)
 {
-    if (mIsSelectionExists)
+    if (mIsSelectionExists && !mIsSelectionAdjusting)
     {
         if(mTopLeftPoint != mBottomRightPoint)
         {
@@ -192,4 +216,8 @@ void SelectionInstrument::paint(ImageArea &imageArea, bool, bool)
         imageArea.setEdited(true);
         imageArea.update();
     }
+}
+
+void SelectionInstrument::showMenu(ImageArea &)
+{
 }

@@ -334,6 +334,8 @@ void ImageArea::mousePressEvent(QMouseEvent *event)
 
 void ImageArea::mouseMoveEvent(QMouseEvent *event)
 {
+    InstrumentsEnum instrument = DataSingleton::Instance()->getInstrument();
+    mInstrumentHandler = mInstrumentsHandlers.at(DataSingleton::Instance()->getInstrument());
     if(mIsResize)
     {
          mAdditionalTools->resizeCanvas(event->x(), event->y());
@@ -345,8 +347,10 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
             event->pos().y() < mImage->rect().bottom() + 6)
     {
         setCursor(Qt::SizeFDiagCursor);
+        if (qobject_cast<AbstractSelection*>(mInstrumentHandler))
+            return;
     }
-    else
+    else if (!qobject_cast<AbstractSelection*>(mInstrumentHandler))
     {
         restoreCursor();
     }
@@ -356,9 +360,8 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
         emit sendCursorPos(event->pos());
     }
 
-    if(DataSingleton::Instance()->getInstrument() != NONE_INSTRUMENT)
+    if(instrument != NONE_INSTRUMENT)
     {
-        mInstrumentHandler = mInstrumentsHandlers.at(DataSingleton::Instance()->getInstrument());
         mInstrumentHandler->mouseMoveEvent(event, *this);
     }
 }

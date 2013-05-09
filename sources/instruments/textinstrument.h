@@ -41,6 +41,7 @@ public:
     explicit TextInstrument(QObject *parent = 0);
 
 private:
+    void startAdjusting(ImageArea &);
     void startSelection(ImageArea &);
     void startResizing(ImageArea &);
     void startMoving(ImageArea &);
@@ -52,6 +53,7 @@ private:
     void completeMoving(ImageArea &);
     void clear();
     void paint(ImageArea &imageArea, bool = false, bool = false);
+    void showMenu(ImageArea &imageArea);
 
     QString mText;
     bool mIsEdited;
