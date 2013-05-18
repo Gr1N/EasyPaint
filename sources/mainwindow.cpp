@@ -476,6 +476,7 @@ void MainWindow::activateTab(const int &index)
     if(index == -1)
         return;
     mTabWidget->setCurrentIndex(index);
+    getCurrentImageArea()->clearSelection();
     QSize size = getCurrentImageArea()->getImage()->size();
     mSizeLabel->setText(QString("%1 x %2").arg(size.width()).arg(size.height()));
 
