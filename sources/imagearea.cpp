@@ -62,6 +62,7 @@
 #include <QtGui/QImageReader>
 #include <QtGui/QImageWriter>
 #include <QtGui/QUndoStack>
+#include <QtCore/QDir>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
     QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false)
@@ -150,7 +151,7 @@ void ImageArea::initializeImage()
 
 void ImageArea::open()
 {
-    QString filePath = QFileDialog::getOpenFileName(this, tr("Open image..."), "",
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Open image..."), QDir::homePath(),
                                                     mOpenFilter, 0,
                                                     QFileDialog::DontUseNativeDialog);
 
@@ -202,11 +203,11 @@ void ImageArea::save()
 void ImageArea::saveAs()
 {
     QString filter;
-    QString fileName(getFileName());
+    QString fileName(mFilePath);
     clearSelection();
     if(fileName.isEmpty())
     {
-        fileName = tr("Untitled image");
+        fileName = QDir::homePath() + "/" + tr("Untitled image") + ".png";
     }
     QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName, mSaveFilter,
                                                     &filter,
