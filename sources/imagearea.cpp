@@ -63,6 +63,7 @@
 #include <QtGui/QImageWriter>
 #include <QtGui/QUndoStack>
 #include <QtCore/QDir>
+#include <QtGui/QMessageBox>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
     QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false)
@@ -154,24 +155,17 @@ void ImageArea::open()
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open image..."), QDir::homePath(),
                                                     mOpenFilter, 0,
                                                     QFileDialog::DontUseNativeDialog);
-
-    QApplication::setOverrideCursor(Qt::WaitCursor);
     if(!filePath.isEmpty())
     {
-        mImage->load(filePath);
-        *mImage = mImage->convertToFormat(QImage::Format_ARGB32_Premultiplied);
-        mFilePath = filePath;
-
-        resize(mImage->rect().right() + 6,
-               mImage->rect().bottom() + 6);
+        open(filePath);
     }
-    QApplication::restoreOverrideCursor();
 }
 
 
 
 void ImageArea::open(const QString &filePath)
 {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     if(mImage->load(filePath))
     {
         *mImage = mImage->convertToFormat(QImage::Format_ARGB32_Premultiplied);
@@ -179,10 +173,13 @@ void ImageArea::open(const QString &filePath)
 
         resize(mImage->rect().right() + 6,
                mImage->rect().bottom() + 6);
+        QApplication::restoreOverrideCursor();
     }
     else
     {
         qDebug()<<QString("Can't open file %1").arg(filePath);
+        QApplication::restoreOverrideCursor();
+        QMessageBox::warning(this, tr("Error opening file"), tr("Can't open file \"%1\".").arg(filePath));
     }
 }
 
@@ -195,8 +192,10 @@ void ImageArea::save()
     else
     {
         clearSelection();
-        mImage->save(mFilePath);
-        mIsEdited = false;
+        if(mImage->save(mFilePath))
+            mIsEdited = false;
+        else
+            QMessageBox::warning(this, tr("Error saving file"), tr("Can't save file \"%1\".").arg(mFilePath));
     }
 }
 
@@ -234,9 +233,14 @@ void ImageArea::saveAs()
             extension = filter.split('.').last().remove(')');
             filePath += '.' + extension;
         }
-        mImage->save(filePath, extension.toLatin1().data());
-        mFilePath = filePath;
-        mIsEdited = false;
+
+        if(mImage->save(filePath, extension.toLatin1().data()))
+        {
+            mFilePath = filePath;
+            mIsEdited = false;
+        }
+        else
+            QMessageBox::warning(this, tr("Error saving file"), tr("Can't save file \"%1\"").arg(filePath));
     }
     QApplication::restoreOverrideCursor();
 }
