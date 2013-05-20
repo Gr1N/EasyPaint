@@ -152,12 +152,22 @@ void ImageArea::initializeImage()
 
 void ImageArea::open()
 {
-    QString filePath = QFileDialog::getOpenFileName(this, tr("Open image..."), QDir::homePath(),
-                                                    mOpenFilter, 0,
-                                                    QFileDialog::DontUseNativeDialog);
-    if(!filePath.isEmpty())
+    QString fileName(mFilePath);
+    QFileDialog dialog(this, tr("Open image..."), "", mOpenFilter);
+    QString prevPath = DataSingleton::Instance()->getLastFilePath();
+
+    if (!prevPath.isEmpty())
+        dialog.selectFile(prevPath);
+    else
+        dialog.setDirectory(QDir::homePath());
+
+    if (dialog.exec())
     {
-        open(filePath);
+        QStringList selectedFiles = dialog.selectedFiles();
+        if (!selectedFiles.isEmpty())
+        {
+          open(selectedFiles.takeFirst());
+        }
     }
 }
 
@@ -170,7 +180,7 @@ void ImageArea::open(const QString &filePath)
     {
         *mImage = mImage->convertToFormat(QImage::Format_ARGB32_Premultiplied);
         mFilePath = filePath;
-
+        DataSingleton::Instance()->setLastFilePath(filePath);
         resize(mImage->rect().right() + 6,
                mImage->rect().bottom() + 6);
         QApplication::restoreOverrideCursor();

@@ -71,6 +71,8 @@ public:
     inline bool getIsRestoreWindowSize() { return mIsRestoreWindowSize; }
     inline void setIsRestoreWindowSize(const bool &isRestoreWindowSize) { mIsRestoreWindowSize = isRestoreWindowSize; }
     inline void setAppLanguage(const QString &appLanguage) { mAppLanguage = appLanguage; }
+    inline QString getLastFilePath() { return mLastFilePath; }
+    inline void setLastFilePath(const QString &lastFilePath) { mLastFilePath = lastFilePath; }
     inline QSize getWindowSize() { return mWindowSize; }
     inline void setWindowSize(const QSize &winSize) { mWindowSize = winSize; }
     inline QFont getTextFont() { return mTextFont; }
@@ -111,6 +113,7 @@ private:
     bool mIsResetCurve; /**< Needs to correct work of Bezier curve instrument */
     int mAutoSaveInterval, mHistoryDepth;
     QString mAppLanguage;
+    QString mLastFilePath; /* last opened file */
     QFont mTextFont;
     QMap<QString, QKeySequence> mFileShortcuts, mEditShortcuts, mInstrumentsShortcuts, mToolsShortcuts;
 
