@@ -6,10 +6,13 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += widgets printsupport
+    DEFINES += HAVE_QT5
+}
 
 TARGET = easypaint
-VERSION = 0.0.1
+VERSION = 0.1.1
 TEMPLATE = app
 
 DESTDIR = bin
