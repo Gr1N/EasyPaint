@@ -1,0 +1,8 @@
+Developers:
+-----------
+
+Nikita Grishko (Gr1N) <grin(dot)minsk(at)gmail(dot)com>
+Artem Stepanyuk (faulknercs) <faulknercs(at)yandex(dot)ru>
+Denis Klimenko (DenisKlimenko) <denis(dot)klimenko(dot)92(at)gmail(dot)com>
+BahdanSiamionau (Bahdan) <bahdan(dot)siamionau(at)gmail(dot)com>
+Alexander Shlemin <a(dot)shlemin(at)rusbitech(dot)ru>
