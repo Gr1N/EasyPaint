@@ -1,7 +1,7 @@
 # norootforbuild
 
 Name:		easypaint
-Version:	0.1.0
+Version:	0.1.1
 Release:	0
 License:	MIT
 Vendor:		Nikita Grishko <grin.minsk@gmail.com>

@@ -43,14 +43,14 @@ void printHelpMessage()
 
 void printVersion()
 {
-    qDebug()<<"0.1.0";
+    qDebug()<<"0.1.1";
 }
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     a.setApplicationName("EasyPaint");
-    a.setApplicationVersion("0.1.0");
+    a.setApplicationVersion("0.1.1");
 
     QStringList args = a.arguments();
 
