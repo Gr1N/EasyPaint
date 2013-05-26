@@ -49,7 +49,7 @@ public:
      * @param pImageArea A pointer to ImageArea.
      * @param parent Pointer for parent.
      */
-    explicit AdditionalTools(ImageArea *pImageArea, QObject *parent = 0);
+    explicit AdditionalTools(ImageArea *pImageArea, QObject *parent);
     ~AdditionalTools();
 
     /**

@@ -51,7 +51,7 @@ void AdditionalTools::resizeCanvas(int width, int height, bool flag)
 {
     if(flag)
     {
-        ResizeDialog resizeDialog(QSize(width, height));
+        ResizeDialog resizeDialog(QSize(width, height), qobject_cast<QWidget *>(this->parent()));
         if(resizeDialog.exec() == QDialog::Accepted)
         {
             QSize newSize = resizeDialog.getNewSize();
@@ -80,7 +80,7 @@ void AdditionalTools::resizeCanvas(int width, int height, bool flag)
 
 void AdditionalTools::resizeImage()
 {
-    ResizeDialog resizeDialog(mPImageArea->getImage()->size());
+    ResizeDialog resizeDialog(mPImageArea->getImage()->size(), qobject_cast<QWidget *>(this->parent()));
     if(resizeDialog.exec() == QDialog::Accepted)
     {
         mPImageArea->setImage(mPImageArea->getImage()->scaled(resizeDialog.getNewSize()));

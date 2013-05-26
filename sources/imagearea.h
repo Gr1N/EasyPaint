@@ -56,7 +56,7 @@ public:
      * @param filePath Image file path to open.
      * @param parent Pointer for parent.
      */
-    explicit ImageArea(const bool &isOpen = false, const QString &filePath = "", QWidget *parent = 0);
+    explicit ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent);
     ~ImageArea();
 
     /**

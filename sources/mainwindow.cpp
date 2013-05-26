@@ -100,17 +100,17 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
     QString fileName(tr("Untitled Image"));
     if(isOpen && filePath.isEmpty())
     {
-        imageArea = new ImageArea(isOpen);
+        imageArea = new ImageArea(isOpen, "", this);
         fileName = imageArea->getFileName();
     }
     else if(isOpen && !filePath.isEmpty())
     {
-        imageArea = new ImageArea(isOpen, filePath);
+        imageArea = new ImageArea(isOpen, filePath, this);
         fileName = imageArea->getFileName();
     }
     else
     {
-        imageArea = new ImageArea();
+        imageArea = new ImageArea(false, "", this);
     }
 
     if (!fileName.isEmpty())
@@ -551,7 +551,7 @@ void MainWindow::printAct()
 
 void MainWindow::settingsAct()
 {
-    SettingsDialog settingsDialog;
+    SettingsDialog settingsDialog(this);
     if(settingsDialog.exec() == QDialog::Accepted)
     {
         settingsDialog.sendSettingsToSingleton();

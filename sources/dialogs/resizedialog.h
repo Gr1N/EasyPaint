@@ -49,7 +49,7 @@ public:
      * @param size Current image size.
      * @param parent Pointer for parent.
      */
-    explicit ResizeDialog(const QSize &size, QWidget *parent = 0);
+    explicit ResizeDialog(const QSize &size, QWidget *parent);
 
     /**
      * @brief Return new image size

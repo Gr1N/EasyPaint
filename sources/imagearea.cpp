@@ -76,7 +76,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     initializeImage();
     mZoomFactor = 1;
 
-    mAdditionalTools = new AdditionalTools(this);
+    mAdditionalTools = new AdditionalTools(this, this->parent());
 
     mUndoStack = new QUndoStack(this);
     mUndoStack->setUndoLimit(DataSingleton::Instance()->getHistoryDepth());
@@ -267,7 +267,7 @@ void ImageArea::autoSave()
 void ImageArea::print()
 {
     QPrinter *printer = new QPrinter();
-    QPrintDialog *printDialog = new QPrintDialog(printer);
+    QPrintDialog *printDialog = new QPrintDialog(printer, this);
     if(printDialog->exec())
     {
         QPainter painter(printer);
