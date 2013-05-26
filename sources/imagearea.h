@@ -92,7 +92,8 @@ public:
      */
     void rotateImage(bool flag);
 
-    inline QString getFileName() { return mFilePath.split('/').last(); }
+    inline QString getFileName() { return (mFilePath.isEmpty() ? mFilePath :
+                                           mFilePath.split('/').last()); }
     inline QImage* getImage() { return mImage; }
     inline void setImage(const QImage &image) { *mImage = image; }
     /**

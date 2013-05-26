@@ -40,6 +40,7 @@
 #include "instruments/selectioninstrument.h"
 #include "instruments/curvelineinstrument.h"
 #include "instruments/textinstrument.h"
+#include "dialogs/resizedialog.h"
 
 #include "effects/abstracteffect.h"
 #include "effects/negativeeffect.h"
@@ -64,6 +65,7 @@
 #include <QtGui/QUndoStack>
 #include <QtCore/QDir>
 #include <QtGui/QMessageBox>
+#include <QtGui/QClipboard>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
     QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false)
@@ -71,7 +73,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     setMouseTracking(true);
 
     mRightButtonPressed = false;
-    mFilePath.clear();
+    mFilePath = QString();
     makeFormatsFilters();
     initializeImage();
     mZoomFactor = 1;
@@ -91,15 +93,34 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     }
     else
     {
+        int width, height;
+        width = DataSingleton::Instance()->getBaseSize().width();
+        height = DataSingleton::Instance()->getBaseSize().height();
+        if (DataSingleton::Instance()->getIsInitialized() &&
+            DataSingleton::Instance()->getIsAskCanvasSize())
+        {
+            QClipboard *globalClipboard = QApplication::clipboard();
+            QImage mClipboardImage = globalClipboard->image();
+            if (!mClipboardImage.isNull())
+            {
+                width = mClipboardImage.width();
+                height = mClipboardImage.height();
+            }
+            ResizeDialog resizeDialog(QSize(width, height), this);
+            if(resizeDialog.exec() != QDialog::Accepted)
+                return;
+            QSize newSize = resizeDialog.getNewSize();
+            width = newSize.width();
+            height = newSize.height();
+            mAdditionalTools->resizeCanvas(width, height, false);
+        }
         QPainter *painter = new QPainter(mImage);
-        painter->fillRect(0, 0,
-                          DataSingleton::Instance()->getBaseSize().width(),
-                          DataSingleton::Instance()->getBaseSize().height(),
-                          Qt::white);
+        painter->fillRect(0, 0, width, height, Qt::white);
         painter->end();
 
         resize(mImage->rect().right() + 6,
                mImage->rect().bottom() + 6);
+        mFilePath = QString(""); // empty name indicate that user has accepted tab creation
     }
 
     QTimer *autoSaveTimer = new QTimer(this);

@@ -75,6 +75,7 @@ MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
         }
     }
     qRegisterMetaType<InstrumentsEnum>("InstrumentsEnum");
+    DataSingleton::Instance()->setIsInitialized();
 }
 
 MainWindow::~MainWindow()
@@ -112,8 +113,7 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
     {
         imageArea = new ImageArea(false, "", this);
     }
-
-    if (!fileName.isEmpty())
+    if (!imageArea->getFileName().isNull())
     {
         QScrollArea *scrollArea = new QScrollArea();
         scrollArea->setAttribute(Qt::WA_DeleteOnClose);
