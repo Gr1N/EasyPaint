@@ -63,12 +63,13 @@ public:
      * @brief Save image to file with existing path.
      *
      */
-    void save();
+    bool save();
     /**
      * @brief Save image to file with unknown path.
      *
+     * @return returns true in case of success
      */
-    void saveAs();
+    bool saveAs();
     /**
      * @brief Print image.
      *

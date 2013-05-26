@@ -193,24 +193,25 @@ void ImageArea::open(const QString &filePath)
     }
 }
 
-void ImageArea::save()
+bool ImageArea::save()
 {
     if(mFilePath.isEmpty())
     {
-        saveAs();
+        return saveAs();
     }
-    else
+    clearSelection();
+    if (!mImage->save(mFilePath))
     {
-        clearSelection();
-        if(mImage->save(mFilePath))
-            mIsEdited = false;
-        else
-            QMessageBox::warning(this, tr("Error saving file"), tr("Can't save file \"%1\".").arg(mFilePath));
+        QMessageBox::warning(this, tr("Error saving file"), tr("Can't save file \"%1\".").arg(mFilePath));
+        return false;
     }
+    mIsEdited = false;
+    return true;
 }
 
-void ImageArea::saveAs()
+bool ImageArea::saveAs()
 {
+    bool result = true;
     QString filter;
     QString fileName(mFilePath);
     clearSelection();
@@ -250,17 +251,22 @@ void ImageArea::saveAs()
             mIsEdited = false;
         }
         else
+        {
             QMessageBox::warning(this, tr("Error saving file"), tr("Can't save file \"%1\".").arg(filePath));
+            result = false;
+        }
     }
     QApplication::restoreOverrideCursor();
+    return result;
 }
 
 void ImageArea::autoSave()
 {
     if(mIsEdited && !mFilePath.isEmpty() && DataSingleton::Instance()->getIsAutoSave())
     {
-        mImage->save(mFilePath);
-        mIsEdited = false;
+        if(mImage->save(mFilePath)) {
+            mIsEdited = false;
+        }
     }
 }
 

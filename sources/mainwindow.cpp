@@ -678,8 +678,9 @@ void MainWindow::closeTab(int index)
         switch(ans)
         {
         case QMessageBox::Yes:
-            ia->save();
-            break;
+            if (ia->save())
+                break;
+            return;
         case QMessageBox::Cancel:
             return;
         }
@@ -731,8 +732,9 @@ bool MainWindow::closeAllTabs()
             switch(ans)
             {
             case QMessageBox::Yes:
-                ia->save();
-                break;
+                if (ia->save())
+                    break;
+                return false;
             case QMessageBox::Cancel:
                 return false;
             }
