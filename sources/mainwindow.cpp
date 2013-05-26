@@ -363,11 +363,11 @@ void MainWindow::initializeMainMenu()
 
     mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
-    QAction *resizeImAction = new QAction(tr("Image size"), this);
+    QAction *resizeImAction = new QAction(tr("Image size..."), this);
     connect(resizeImAction, SIGNAL(triggered()), this, SLOT(resizeImageAct()));
     mToolsMenu->addAction(resizeImAction);
 
-    QAction *resizeCanAction = new QAction(tr("Canvas size"), this);
+    QAction *resizeCanAction = new QAction(tr("Canvas size..."), this);
     connect(resizeCanAction, SIGNAL(triggered()), this, SLOT(resizeCanvasAct()));
     mToolsMenu->addAction(resizeCanAction);
 

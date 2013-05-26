@@ -250,7 +250,7 @@ void ImageArea::saveAs()
             mIsEdited = false;
         }
         else
-            QMessageBox::warning(this, tr("Error saving file"), tr("Can't save file \"%1\"").arg(filePath));
+            QMessageBox::warning(this, tr("Error saving file"), tr("Can't save file \"%1\".").arg(filePath));
     }
     QApplication::restoreOverrideCursor();
 }
