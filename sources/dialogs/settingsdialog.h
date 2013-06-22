@@ -76,6 +76,7 @@ private:
     QCheckBox *mIsRestoreWindowSize;
     ShortcutEdit *mShortcutEdit;
     QTreeWidget *mShortcutsTree;
+    QCheckBox *mIsAskCanvasSize;
     
 signals:
     

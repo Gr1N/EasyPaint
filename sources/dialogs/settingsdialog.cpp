@@ -84,6 +84,9 @@ void SettingsDialog::initializeGui()
     mIsRestoreWindowSize = new QCheckBox(tr("Restore window size on start"));
     mIsRestoreWindowSize->setChecked(DataSingleton::Instance()->getIsRestoreWindowSize());
     vBox1->addWidget(mIsRestoreWindowSize);
+    mIsAskCanvasSize = new QCheckBox(tr("Ask canvas size on new image creation"));
+    mIsAskCanvasSize->setChecked(DataSingleton::Instance()->getIsAskCanvasSize());
+    vBox1->addWidget(mIsAskCanvasSize);
 
     QGroupBox *groupBox1 = new QGroupBox(tr("User interface"));
     groupBox1->setLayout(vBox1);
@@ -188,6 +191,7 @@ void SettingsDialog::sendSettingsToSingleton()
     DataSingleton::Instance()->setHistoryDepth(mHistoryDepth->value());
     DataSingleton::Instance()->setIsAutoSave(mIsAutoSave->isChecked());
     DataSingleton::Instance()->setIsRestoreWindowSize(mIsRestoreWindowSize->isChecked());
+    DataSingleton::Instance()->setIsAskCanvasSize(mIsAskCanvasSize->isChecked());
     DataSingleton::Instance()->setAutoSaveInterval(mAutoSaveInterval->value());
 
     QStringList languages;
