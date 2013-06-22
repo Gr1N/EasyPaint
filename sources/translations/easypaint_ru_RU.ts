@@ -279,25 +279,25 @@
     <message>
         <location filename="../mainwindow.cpp" line="611"/>
         <source>Enter zoom factor</source>
-        <translation>Введи коэффициент масштабирования</translation>
+        <translation>Введите коэффициент масштабирования</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="611"/>
         <source>Zoom factor:</source>
-        <translation>Каэффициент масштабирования:</translation>
+        <translation>Коэффициент масштабирования:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="629"/>
         <location filename="../mainwindow.cpp" line="682"/>
         <source>Closing Tab...</source>
-        <translation>Закрытие таба...</translation>
+        <translation>Закрытие вкладки...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="630"/>
         <location filename="../mainwindow.cpp" line="683"/>
-        <source>File has been modified
+        <source>File has been modified.
 Do you want to save changes?</source>
-        <translation>Изображение было изменено
+        <translation>Изображение было изменено.
 Хотите сохранить изменения?</translation>
     </message>
     <message>
@@ -318,7 +318,7 @@ Do you want to save changes?</source>
     <message>
         <location filename="../mainwindow.cpp" line="815"/>
         <source>If you like &lt;b&gt;EasyPaint&lt;/b&gt; and you want to share your opinion, or send a bug report, or want to suggest new features, we are waiting for you on our &lt;a href=&quot;https://github.com/Gr1N/EasyPaint/issues?milestone=&amp;sort=created&amp;direction=desc&amp;state=open&quot;&gt;tracker&lt;/a&gt;.</source>
-        <translation>Если вам понравится &lt;b&gt;EasyPaint&lt;/b&gt; и вы хотите поделиться своим мнением или сообшить об ошибке или предложить новые идеи, то мы вас ждем на нашем &lt;a href=\&quot;https://github.com/Gr1N/EasyPaint/issues?milestone=&amp;sort=created&amp;direction=desc&amp;state=open\&quot;&gt;трекере&lt;/a&gt;.</translation>
+        <translation>Если вам понравится &lt;b&gt;EasyPaint&lt;/b&gt; и вы хотите поделиться своим мнением или сообщить об ошибке или предложить новые идеи, то мы вас ждем на нашем &lt;a href=\&quot;https://github.com/Gr1N/EasyPaint/issues?milestone=&amp;sort=created&amp;direction=desc&amp;state=open\&quot;&gt;трекере&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Copyright</source>

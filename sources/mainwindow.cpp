@@ -672,7 +672,7 @@ void MainWindow::closeTab(int index)
     if(ia->getEdited())
     {
         int ans = QMessageBox::warning(this, tr("Closing Tab..."),
-                                       tr("File has been modified\nDo you want to save changes?"),
+                                       tr("File has been modified.\nDo you want to save changes?"),
                                        QMessageBox::Yes | QMessageBox::Default,
                                        QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
         switch(ans)
@@ -726,7 +726,7 @@ bool MainWindow::closeAllTabs()
         if(ia->getEdited())
         {
             int ans = QMessageBox::warning(this, tr("Closing Tab..."),
-                                           tr("File has been modified\nDo you want to save changes?"),
+                                           tr("File has been modified.\nDo you want to save changes?"),
                                            QMessageBox::Yes | QMessageBox::Default,
                                            QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
             switch(ans)
