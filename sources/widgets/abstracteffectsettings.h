@@ -26,7 +26,7 @@
 #ifndef ABSTRACTEFFECTWIDGET_H
 #define ABSTRACTEFFECTWIDGET_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class AbstractEffectSettings : public QWidget
 {

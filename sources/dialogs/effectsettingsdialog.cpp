@@ -25,8 +25,8 @@
 
 #include <cmath>
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 #include "effectsettingsdialog.h"
 

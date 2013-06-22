@@ -3,7 +3,7 @@
 
 #include "../datasingleton.h"
 
-#include <QtGui/QToolButton>
+#include <QToolButton>
 
 class PaletteButton : public QToolButton
 {

@@ -27,13 +27,13 @@
 #include "../imagearea.h"
 #include "../datasingleton.h"
 
-#include <QtGui/QPushButton>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QFont>
-#include <QtGui/QFontDialog>
-#include <QtGui/QDialogButtonBox>
-#include <QtGui/QMessageBox>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QFont>
+#include <QFontDialog>
+#include <QDialogButtonBox>
+#include <QMessageBox>
 
 TextDialog::TextDialog(QString text, ImageArea *parent) :
     QDialog(parent)

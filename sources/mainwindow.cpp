@@ -30,18 +30,18 @@
 #include "dialogs/settingsdialog.h"
 #include "widgets/palettebar.h"
 
-#include <QtGui/QApplication>
-#include <QtGui/QAction>
-#include <QtGui/QMenu>
-#include <QtGui/QMenuBar>
-#include <QtGui/QStatusBar>
-#include <QtGui/QMessageBox>
-#include <QtGui/QScrollArea>
-#include <QtGui/QLabel>
-#include <QtGui/QtEvents>
-#include <QtGui/QPainter>
-#include <QtGui/QInputDialog>
-#include <QtGui/QUndoGroup>
+#include <QApplication>
+#include <QAction>
+#include <QMenu>
+#include <QMenuBar>
+#include <QStatusBar>
+#include <QMessageBox>
+#include <QScrollArea>
+#include <QLabel>
+#include <QtEvents>
+#include <QPainter>
+#include <QInputDialog>
+#include <QUndoGroup>
 #include <QtCore/QTimer>
 #include <QtCore/QMap>
 

@@ -1,6 +1,6 @@
 #include "palettebutton.h"
 
-#include <QtGui/QMouseEvent>
+#include <QMouseEvent>
 
 PaletteButton::PaletteButton(const QColor &color)
 {

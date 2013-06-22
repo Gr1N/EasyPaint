@@ -26,12 +26,12 @@
 #ifndef DATASINGLETON_H
 #define DATASINGLETON_H
 
-#include <QtGui/QColor>
+#include <QColor>
 #include <QtCore/QSize>
 #include <QtCore/QString>
 #include <QtCore/QMap>
-#include <QtGui/QKeySequence>
-#include <QtGui/QFont>
+#include <QKeySequence>
+#include <QFont>
 
 #include "easypaintenums.h"
 

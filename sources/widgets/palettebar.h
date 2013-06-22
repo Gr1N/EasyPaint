@@ -29,7 +29,7 @@
 #include "toolbar.h"
 #include "palettebutton.h"
 
-#include <QtGui/QToolBar>
+#include <QToolBar>
 
 /**
   * @brief Toolbar with some number of differrent colors

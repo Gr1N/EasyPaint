@@ -27,7 +27,7 @@
 #define ADDITIONALTOOLS_H
 
 #include <QtCore/QObject>
-#include <QtGui/QImage>
+#include <QImage>
 
 QT_BEGIN_NAMESPACE
 class ImageArea;

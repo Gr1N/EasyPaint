@@ -27,8 +27,8 @@
 #include "../imagearea.h"
 #include "../datasingleton.h"
 
-#include <QtGui/QPen>
-#include <QtGui/QPainter>
+#include <QPen>
+#include <QPainter>
 
 PencilInstrument::PencilInstrument(QObject *parent) :
     AbstractInstrument(parent)

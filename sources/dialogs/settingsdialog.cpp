@@ -27,19 +27,19 @@
 #include "../datasingleton.h"
 #include "../widgets/shortcutedit.h"
 
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QTabWidget>
-#include <QtGui/QDialogButtonBox>
-#include <QtGui/QLabel>
-#include <QtGui/QComboBox>
-#include <QtGui/QGroupBox>
-#include <QtGui/QSpinBox>
-#include <QtGui/QCheckBox>
-#include <QtGui/QTreeWidget>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QTabWidget>
+#include <QDialogButtonBox>
+#include <QLabel>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QSpinBox>
+#include <QCheckBox>
+#include <QTreeWidget>
+#include <QLineEdit>
+#include <QPushButton>
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent)

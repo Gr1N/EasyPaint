@@ -25,11 +25,11 @@
 
 #include "colorchooser.h"
 
-#include <QtGui/QColor>
-#include <QtGui/QPixmap>
-#include <QtGui/QPainter>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QColorDialog>
+#include <QColor>
+#include <QPixmap>
+#include <QPainter>
+#include <QMouseEvent>
+#include <QColorDialog>
 
 ColorChooser::ColorChooser(const int &r, const int &g, const int &b, QWidget *parent) :
     QLabel(parent)

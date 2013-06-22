@@ -26,7 +26,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 #include <QtCore/QMap>
 
 #include "easypaintenums.h"

@@ -26,8 +26,8 @@
 #ifndef CUSTOMFILTERSETTINGS_H
 #define CUSTOMFILTERSETTINGS_H
 
-#include <QtGui/QWidget>
-#include <QtGui/QSpinBox>
+#include <QWidget>
+#include <QSpinBox>
 
 #include "abstracteffectsettings.h"
 
