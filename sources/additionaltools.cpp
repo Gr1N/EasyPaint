@@ -57,6 +57,8 @@ void AdditionalTools::resizeCanvas(int width, int height, bool flag)
             QSize newSize = resizeDialog.getNewSize();
             width = newSize.width();
             height = newSize.height();
+        } else {
+            return;
         }
     }
 
