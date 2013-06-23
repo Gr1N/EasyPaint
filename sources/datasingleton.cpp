@@ -37,6 +37,7 @@ DataSingleton::DataSingleton()
     mTextFont = QFont("Times", 12);
     mCurrentInstrument = NONE_INSTRUMENT;
     mPreviousInstrument = NONE_INSTRUMENT;
+    mIsInitialized = false;
     readSetting();
     readState();
 }
@@ -58,6 +59,7 @@ void DataSingleton::readSetting()
     mHistoryDepth = settings.value("/Settings/HistoryDepth", 40).toInt();
     mAppLanguage = settings.value("/Settings/AppLanguage", "system").toString();
     mIsRestoreWindowSize = settings.value("/Settings/IsRestoreWindowSize", true).toBool();
+    mIsAskCanvasSize = settings.value("/Settings/IsAskCanvasSize", true).toBool();
 
     //read shortcuts for file menu
     mFileShortcuts.insert("New", settings.value("/Shortcuts/File/New", QKeySequence(QKeySequence::New)).value<QKeySequence>());
@@ -104,6 +106,7 @@ void DataSingleton::writeSettings()
     settings.setValue("/Settings/HistoryDepth", mHistoryDepth);
     settings.setValue("/Settings/AppLanguage", mAppLanguage);
     settings.setValue("/Settings/IsRestoreWindowSize", mIsRestoreWindowSize);
+    settings.setValue("/Settings/IsAskCanvasSize", mIsAskCanvasSize);
 
     //write shortcuts for file menu
     settings.setValue("/Shortcuts/File/New", mFileShortcuts["New"]);

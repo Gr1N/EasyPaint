@@ -40,6 +40,7 @@
 #include "instruments/selectioninstrument.h"
 #include "instruments/curvelineinstrument.h"
 #include "instruments/textinstrument.h"
+#include "dialogs/resizedialog.h"
 
 #include "effects/abstracteffect.h"
 #include "effects/negativeeffect.h"
@@ -62,6 +63,9 @@
 #include <QImageReader>
 #include <QImageWriter>
 #include <QUndoStack>
+#include <QtCore/QDir>
+#include <QMessageBox>
+#include <QClipboard>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
     QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false)
@@ -69,12 +73,12 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     setMouseTracking(true);
 
     mRightButtonPressed = false;
-    mFilePath.clear();
+    mFilePath = QString();
     makeFormatsFilters();
     initializeImage();
     mZoomFactor = 1;
 
-    mAdditionalTools = new AdditionalTools(this);
+    mAdditionalTools = new AdditionalTools(this, this->parent());
 
     mUndoStack = new QUndoStack(this);
     mUndoStack->setUndoLimit(DataSingleton::Instance()->getHistoryDepth());
@@ -89,15 +93,35 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     }
     else
     {
+        int width, height;
+        width = DataSingleton::Instance()->getBaseSize().width();
+        height = DataSingleton::Instance()->getBaseSize().height();
+        if (DataSingleton::Instance()->getIsInitialized() &&
+            DataSingleton::Instance()->getIsAskCanvasSize())
+        {
+            QClipboard *globalClipboard = QApplication::clipboard();
+            QImage mClipboardImage = globalClipboard->image();
+            if (!mClipboardImage.isNull())
+            {
+                width = mClipboardImage.width();
+                height = mClipboardImage.height();
+            }
+            ResizeDialog resizeDialog(QSize(width, height), this);
+            if(resizeDialog.exec() != QDialog::Accepted)
+                return;
+            QSize newSize = resizeDialog.getNewSize();
+            width = newSize.width();
+            height = newSize.height();
+            mAdditionalTools->resizeCanvas(width, height, false);
+            mIsEdited = false;
+        }
         QPainter *painter = new QPainter(mImage);
-        painter->fillRect(0, 0,
-                          DataSingleton::Instance()->getBaseSize().width(),
-                          DataSingleton::Instance()->getBaseSize().height(),
-                          Qt::white);
+        painter->fillRect(0, 0, width, height, Qt::white);
         painter->end();
 
         resize(mImage->rect().right() + 6,
                mImage->rect().bottom() + 6);
+        mFilePath = QString(""); // empty name indicate that user has accepted tab creation
     }
 
     QTimer *autoSaveTimer = new QTimer(this);
@@ -150,63 +174,72 @@ void ImageArea::initializeImage()
 
 void ImageArea::open()
 {
-    QString filePath = QFileDialog::getOpenFileName(this, tr("Open image..."), "",
-                                                    mOpenFilter, 0,
-                                                    QFileDialog::DontUseNativeDialog);
+    QString fileName(mFilePath);
+    QFileDialog dialog(this, tr("Open image..."), "", mOpenFilter);
+    QString prevPath = DataSingleton::Instance()->getLastFilePath();
 
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-    if(!filePath.isEmpty())
+    if (!prevPath.isEmpty())
+        dialog.selectFile(prevPath);
+    else
+        dialog.setDirectory(QDir::homePath());
+
+    if (dialog.exec())
     {
-        mImage->load(filePath);
-        *mImage = mImage->convertToFormat(QImage::Format_ARGB32_Premultiplied);
-        mFilePath = filePath;
-
-        resize(mImage->rect().right() + 6,
-               mImage->rect().bottom() + 6);
+        QStringList selectedFiles = dialog.selectedFiles();
+        if (!selectedFiles.isEmpty())
+        {
+          open(selectedFiles.takeFirst());
+        }
     }
-    QApplication::restoreOverrideCursor();
 }
 
 
 
 void ImageArea::open(const QString &filePath)
 {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     if(mImage->load(filePath))
     {
         *mImage = mImage->convertToFormat(QImage::Format_ARGB32_Premultiplied);
         mFilePath = filePath;
-
+        DataSingleton::Instance()->setLastFilePath(filePath);
         resize(mImage->rect().right() + 6,
                mImage->rect().bottom() + 6);
+        QApplication::restoreOverrideCursor();
     }
     else
     {
         qDebug()<<QString("Can't open file %1").arg(filePath);
+        QApplication::restoreOverrideCursor();
+        QMessageBox::warning(this, tr("Error opening file"), tr("Can't open file \"%1\".").arg(filePath));
     }
 }
 
-void ImageArea::save()
+bool ImageArea::save()
 {
     if(mFilePath.isEmpty())
     {
-        saveAs();
+        return saveAs();
     }
-    else
+    clearSelection();
+    if (!mImage->save(mFilePath))
     {
-        clearSelection();
-        mImage->save(mFilePath);
-        mIsEdited = false;
+        QMessageBox::warning(this, tr("Error saving file"), tr("Can't save file \"%1\".").arg(mFilePath));
+        return false;
     }
+    mIsEdited = false;
+    return true;
 }
 
-void ImageArea::saveAs()
+bool ImageArea::saveAs()
 {
+    bool result = true;
     QString filter;
-    QString fileName(getFileName());
+    QString fileName(mFilePath);
     clearSelection();
     if(fileName.isEmpty())
     {
-        fileName = tr("Untitled image");
+        fileName = QDir::homePath() + "/" + tr("Untitled image") + ".png";
     }
     QString filePath = QFileDialog::getSaveFileName(this, tr("Save image..."), fileName, mSaveFilter,
                                                     &filter,
@@ -233,26 +266,36 @@ void ImageArea::saveAs()
             extension = filter.split('.').last().remove(')');
             filePath += '.' + extension;
         }
-        mImage->save(filePath, extension.toLatin1().data());
-        mFilePath = filePath;
-        mIsEdited = false;
+
+        if(mImage->save(filePath, extension.toLatin1().data()))
+        {
+            mFilePath = filePath;
+            mIsEdited = false;
+        }
+        else
+        {
+            QMessageBox::warning(this, tr("Error saving file"), tr("Can't save file \"%1\".").arg(filePath));
+            result = false;
+        }
     }
     QApplication::restoreOverrideCursor();
+    return result;
 }
 
 void ImageArea::autoSave()
 {
     if(mIsEdited && !mFilePath.isEmpty() && DataSingleton::Instance()->getIsAutoSave())
     {
-        mImage->save(mFilePath);
-        mIsEdited = false;
+        if(mImage->save(mFilePath)) {
+            mIsEdited = false;
+        }
     }
 }
 
 void ImageArea::print()
 {
     QPrinter *printer = new QPrinter();
-    QPrintDialog *printDialog = new QPrintDialog(printer);
+    QPrintDialog *printDialog = new QPrintDialog(printer, this);
     if(printDialog->exec())
     {
         QPainter painter(printer);

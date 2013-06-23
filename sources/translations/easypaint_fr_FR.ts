@@ -231,9 +231,9 @@
     <message>
         <location filename="../mainwindow.cpp" line="492"/>
         <location filename="../mainwindow.cpp" line="540"/>
-        <source>File has been modified
+        <source>File has been modified.
 Do you want to save changes?</source>
-        <translation>Le fichier a &#201;t&#201; modifi&#201;
+        <translation>Le fichier a &#201;t&#201; modifi&#201;.
 Voulez-vous sauvegarder les changements?</translation>
     </message>
     <message>

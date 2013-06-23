@@ -56,19 +56,20 @@ public:
      * @param filePath Image file path to open.
      * @param parent Pointer for parent.
      */
-    explicit ImageArea(const bool &isOpen = false, const QString &filePath = "", QWidget *parent = 0);
+    explicit ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent);
     ~ImageArea();
 
     /**
      * @brief Save image to file with existing path.
      *
      */
-    void save();
+    bool save();
     /**
      * @brief Save image to file with unknown path.
      *
+     * @return returns true in case of success
      */
-    void saveAs();
+    bool saveAs();
     /**
      * @brief Print image.
      *
@@ -91,7 +92,8 @@ public:
      */
     void rotateImage(bool flag);
 
-    inline QString getFileName() { return mFilePath.split('/').last(); }
+    inline QString getFileName() { return (mFilePath.isEmpty() ? mFilePath :
+                                           mFilePath.split('/').last()); }
     inline QImage* getImage() { return mImage; }
     inline void setImage(const QImage &image) { *mImage = image; }
     /**
