@@ -75,6 +75,7 @@ MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
         }
     }
     qRegisterMetaType<InstrumentsEnum>("InstrumentsEnum");
+    DataSingleton::Instance()->setIsInitialized();
 }
 
 MainWindow::~MainWindow()
@@ -100,20 +101,19 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
     QString fileName(tr("Untitled Image"));
     if(isOpen && filePath.isEmpty())
     {
-        imageArea = new ImageArea(isOpen);
+        imageArea = new ImageArea(isOpen, "", this);
         fileName = imageArea->getFileName();
     }
     else if(isOpen && !filePath.isEmpty())
     {
-        imageArea = new ImageArea(isOpen, filePath);
+        imageArea = new ImageArea(isOpen, filePath, this);
         fileName = imageArea->getFileName();
     }
     else
     {
-        imageArea = new ImageArea();
+        imageArea = new ImageArea(false, "", this);
     }
-
-    if (!fileName.isEmpty())
+    if (!imageArea->getFileName().isNull())
     {
         QScrollArea *scrollArea = new QScrollArea();
         scrollArea->setAttribute(Qt::WA_DeleteOnClose);
@@ -363,11 +363,11 @@ void MainWindow::initializeMainMenu()
 
     mToolsMenu = menuBar()->addMenu(tr("&Tools"));
 
-    QAction *resizeImAction = new QAction(tr("Image size"), this);
+    QAction *resizeImAction = new QAction(tr("Image size..."), this);
     connect(resizeImAction, SIGNAL(triggered()), this, SLOT(resizeImageAct()));
     mToolsMenu->addAction(resizeImAction);
 
-    QAction *resizeCanAction = new QAction(tr("Canvas size"), this);
+    QAction *resizeCanAction = new QAction(tr("Canvas size..."), this);
     connect(resizeCanAction, SIGNAL(triggered()), this, SLOT(resizeCanvasAct()));
     mToolsMenu->addAction(resizeCanAction);
 
@@ -476,6 +476,7 @@ void MainWindow::activateTab(const int &index)
     if(index == -1)
         return;
     mTabWidget->setCurrentIndex(index);
+    getCurrentImageArea()->clearSelection();
     QSize size = getCurrentImageArea()->getImage()->size();
     mSizeLabel->setText(QString("%1 x %2").arg(size.width()).arg(size.height()));
 
@@ -550,7 +551,7 @@ void MainWindow::printAct()
 
 void MainWindow::settingsAct()
 {
-    SettingsDialog settingsDialog;
+    SettingsDialog settingsDialog(this);
     if(settingsDialog.exec() == QDialog::Accepted)
     {
         settingsDialog.sendSettingsToSingleton();
@@ -671,14 +672,15 @@ void MainWindow::closeTab(int index)
     if(ia->getEdited())
     {
         int ans = QMessageBox::warning(this, tr("Closing Tab..."),
-                                       tr("File has been modified\nDo you want to save changes?"),
+                                       tr("File has been modified.\nDo you want to save changes?"),
                                        QMessageBox::Yes | QMessageBox::Default,
                                        QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
         switch(ans)
         {
         case QMessageBox::Yes:
-            ia->save();
-            break;
+            if (ia->save())
+                break;
+            return;
         case QMessageBox::Cancel:
             return;
         }
@@ -724,14 +726,15 @@ bool MainWindow::closeAllTabs()
         if(ia->getEdited())
         {
             int ans = QMessageBox::warning(this, tr("Closing Tab..."),
-                                           tr("File has been modified\nDo you want to save changes?"),
+                                           tr("File has been modified.\nDo you want to save changes?"),
                                            QMessageBox::Yes | QMessageBox::Default,
                                            QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
             switch(ans)
             {
             case QMessageBox::Yes:
-                ia->save();
-                break;
+                if (ia->save())
+                    break;
+                return false;
             case QMessageBox::Cancel:
                 return false;
             }

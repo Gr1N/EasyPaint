@@ -45,7 +45,7 @@ public:
      *
      * @param parent Pointer for parent.
      */
-    explicit TextDialog(QString text, ImageArea *parent = 0);
+    explicit TextDialog(QString text, ImageArea *parent);
    
 private:
     void initializeGui();

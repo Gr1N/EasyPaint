@@ -2,11 +2,59 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ru_RU">
 <context>
+    <name>EffectSettingsDialog</name>
+    <message>
+        <location filename="../dialogs/effectsettingsdialog.cpp" line="40"/>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/effectsettingsdialog.cpp" line="43"/>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/effectsettingsdialog.cpp" line="45"/>
+        <source>Apply</source>
+        <translation>Применить</translation>
+    </message>
+</context>
+<context>
+    <name>GaussianBlurFilterSettings</name>
+    <message>
+        <location filename="../widgets/gaussianblurfiltersettings.cpp" line="34"/>
+        <source>Intensity</source>
+        <translation>Интенсивность</translation>
+    </message>
+</context>
+<context>
     <name>ImageArea</name>
     <message>
         <location filename="../imagearea.cpp" line="133"/>
         <source>Open image...</source>
         <translation>Открыть изображение...</translation>
+    </message>
+    <message>
+        <location filename="../imagearea.cpp" line="214"/>
+        <source>Error opening file</source>
+        <translation>Ошибка открытия файла</translation>
+    </message>
+    <message>
+        <location filename="../imagearea.cpp" line="214"/>
+        <source>Can&apos;t open file &quot;%1&quot;.</source>
+        <translation>Не удаётся открыть файл &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location filename="../imagearea.cpp" line="227"/>
+        <location filename="../imagearea.cpp" line="277"/>
+        <source>Error saving file</source>
+        <translation>Ошибка сохранения файла</translation>
+    </message>
+    <message>
+        <location filename="../imagearea.cpp" line="227"/>
+        <location filename="../imagearea.cpp" line="277"/>
+        <source>Can&apos;t save file &quot;%1&quot;.</source>
+        <translation>Не удаётся сохранить файл &quot;%1&quot;.</translation>
     </message>
     <message>
         <location filename="../imagearea.cpp" line="190"/>
@@ -112,6 +160,46 @@
         <location filename="../mainwindow.cpp" line="233"/>
         <source>&amp;Instruments</source>
         <translation>&amp;Инструменты</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="319"/>
+        <source>Text</source>
+        <translation>Текст</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="339"/>
+        <source>Binarization</source>
+        <translation>Бинаризация</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="344"/>
+        <source>Gaussian Blur</source>
+        <translation>Гауссовское размытие</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="349"/>
+        <source>Gamma</source>
+        <translation>Гамма</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="354"/>
+        <source>Sharpen</source>
+        <translation>Резкость</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="359"/>
+        <source>Custom</source>
+        <translation>Настраиваемый</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="366"/>
+        <source>Image size...</source>
+        <translation>Размер изображения...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="370"/>
+        <source>Canvas size...</source>
+        <translation>Размер холста...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="335"/>
@@ -231,7 +319,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="333"/>
         <source>Rotate</source>
-        <translation>Поворот...</translation>
+        <translation>Поворот</translation>
     </message>
     <message>
         <source>Left</source>
@@ -279,25 +367,25 @@
     <message>
         <location filename="../mainwindow.cpp" line="611"/>
         <source>Enter zoom factor</source>
-        <translation>Введи коэффициент масштабирования</translation>
+        <translation>Введите коэффициент масштабирования</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="611"/>
         <source>Zoom factor:</source>
-        <translation>Каэффициент масштабирования:</translation>
+        <translation>Коэффициент масштабирования:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="629"/>
         <location filename="../mainwindow.cpp" line="682"/>
         <source>Closing Tab...</source>
-        <translation>Закрытие таба...</translation>
+        <translation>Закрытие вкладки...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="630"/>
         <location filename="../mainwindow.cpp" line="683"/>
-        <source>File has been modified
+        <source>File has been modified.
 Do you want to save changes?</source>
-        <translation>Изображение было изменено
+        <translation>Изображение было изменено.
 Хотите сохранить изменения?</translation>
     </message>
     <message>
@@ -318,7 +406,7 @@ Do you want to save changes?</source>
     <message>
         <location filename="../mainwindow.cpp" line="815"/>
         <source>If you like &lt;b&gt;EasyPaint&lt;/b&gt; and you want to share your opinion, or send a bug report, or want to suggest new features, we are waiting for you on our &lt;a href=&quot;https://github.com/Gr1N/EasyPaint/issues?milestone=&amp;sort=created&amp;direction=desc&amp;state=open&quot;&gt;tracker&lt;/a&gt;.</source>
-        <translation>Если вам понравится &lt;b&gt;EasyPaint&lt;/b&gt; и вы хотите поделиться своим мнением или сообшить об ошибке или предложить новые идеи, то мы вас ждем на нашем &lt;a href=\&quot;https://github.com/Gr1N/EasyPaint/issues?milestone=&amp;sort=created&amp;direction=desc&amp;state=open\&quot;&gt;трекере&lt;/a&gt;.</translation>
+        <translation>Если вам понравится &lt;b&gt;EasyPaint&lt;/b&gt; и вы хотите поделиться своим мнением или сообщить об ошибке или предложить новые идеи, то мы вас ждем на нашем &lt;a href=\&quot;https://github.com/Gr1N/EasyPaint/issues?milestone=&amp;sort=created&amp;direction=desc&amp;state=open\&quot;&gt;трекере&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Copyright</source>
@@ -419,6 +507,16 @@ Do you want to save changes?</source>
         <translation>Предупреждение: настройки языка вступят в силу после перезапуска программы</translation>
     </message>
     <message>
+        <location filename="../dialogs/settingsdialog.cpp" line="84"/>
+        <source>Restore window size on start</source>
+        <translation>Сохранять размер окна</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/settingsdialog.cpp" line="87"/>
+        <source>Ask canvas size on new image creation</source>
+        <translation>Задание размера при создании нового изображения</translation>
+    </message>
+    <message>
         <location filename="../dialogs/settingsdialog.cpp" line="85"/>
         <source>User interface</source>
         <translation>Интерфейс пользователя</translation>
@@ -497,11 +595,42 @@ Do you want to save changes?</source>
     </message>
 </context>
 <context>
+    <name>SharpenFilterSettings</name>
+    <message>
+        <location filename="../widgets/sharpenfiltersettings.cpp" line="34"/>
+        <source>Intensity</source>
+        <translation>Интенсивность</translation>
+    </message>
+</context>
+<context>
     <name>ShortcutEdit</name>
     <message>
         <location filename="../widgets/shortcutedit.cpp" line="44"/>
         <source>Clear</source>
         <translation>Очистить</translation>
+    </message>
+</context>
+<context>
+    <name>TextDialog</name>
+    <message>
+        <location filename="../dialogs/textdialog.cpp" line="50"/>
+        <source>Text</source>
+        <translation>Текст</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/textdialog.cpp" line="55"/>
+        <source>Select Font...</source>
+        <translation>Выбрать шрифт...</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/textdialog.cpp" line="100"/>
+        <source>Question</source>
+        <translation>Вопрос</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/textdialog.cpp" line="100"/>
+        <source>Clear text?</source>
+        <translation>Очистить текст?</translation>
     </message>
 </context>
 <context>

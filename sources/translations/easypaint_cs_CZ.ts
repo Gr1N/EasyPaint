@@ -308,7 +308,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="597"/>
         <location filename="../mainwindow.cpp" line="650"/>
-        <source>File has been modified
+        <source>File has been modified.
 Do you want to save changes?</source>
         <translation>Soubor byl změněn.
 Chcete uložit změny?</translation>

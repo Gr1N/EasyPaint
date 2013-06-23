@@ -68,9 +68,15 @@ public:
     inline int getHistoryDepth() { return mHistoryDepth; }
     inline void setHistoryDepth(const int &historyDepth) { mHistoryDepth = historyDepth; }
     inline QString getAppLanguage() { return mAppLanguage; }
+    inline void setAppLanguage(const QString &appLanguage) { mAppLanguage = appLanguage; }
     inline bool getIsRestoreWindowSize() { return mIsRestoreWindowSize; }
     inline void setIsRestoreWindowSize(const bool &isRestoreWindowSize) { mIsRestoreWindowSize = isRestoreWindowSize; }
-    inline void setAppLanguage(const QString &appLanguage) { mAppLanguage = appLanguage; }
+    inline bool getIsAskCanvasSize() { return mIsAskCanvasSize; }
+    inline void setIsAskCanvasSize(const bool &isAskCanvasSize) { mIsAskCanvasSize = isAskCanvasSize; }
+    inline bool getIsInitialized() { return mIsInitialized; }
+    inline void setIsInitialized(const bool &isInitialized = true) { mIsInitialized = isInitialized; }
+    inline QString getLastFilePath() { return mLastFilePath; }
+    inline void setLastFilePath(const QString &lastFilePath) { mLastFilePath = lastFilePath; }
     inline QSize getWindowSize() { return mWindowSize; }
     inline void setWindowSize(const QSize &winSize) { mWindowSize = winSize; }
     inline QFont getTextFont() { return mTextFont; }
@@ -107,10 +113,11 @@ private:
     int mPenSize;
     InstrumentsEnum mCurrentInstrument, mPreviousInstrument;
     QSize mBaseSize, mWindowSize;
-    bool mIsAutoSave, mIsRestoreWindowSize;
+    bool mIsAutoSave, mIsRestoreWindowSize, mIsAskCanvasSize, mIsInitialized;
     bool mIsResetCurve; /**< Needs to correct work of Bezier curve instrument */
     int mAutoSaveInterval, mHistoryDepth;
     QString mAppLanguage;
+    QString mLastFilePath; /* last opened file */
     QFont mTextFont;
     QMap<QString, QKeySequence> mFileShortcuts, mEditShortcuts, mInstrumentsShortcuts, mToolsShortcuts;
 
