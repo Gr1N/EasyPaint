@@ -2,6 +2,8 @@
 ########################
 easypaint.pro.user
 easypaint-build-*
+build
+*kdev4
 
 # Compiled source #
 ###################

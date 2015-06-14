@@ -123,8 +123,8 @@ void AbstractSelection::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
         else if (mIsSelectionResizing)
         {
             mBottomRightPoint = event->pos();
-            mHeight = fabs(mTopLeftPoint.y() - mBottomRightPoint.y()) + 1;
-            mWidth = fabs(mTopLeftPoint.x() - mBottomRightPoint.x()) + 1;
+            mHeight = abs(mTopLeftPoint.y() - mBottomRightPoint.y()) + 1;
+            mWidth = abs(mTopLeftPoint.x() - mBottomRightPoint.x()) + 1;
             imageArea.setImage(mImageCopy);
             resize(imageArea);
             drawBorder(imageArea);
@@ -134,8 +134,8 @@ void AbstractSelection::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
     if (mIsPaint)
     {
         mBottomRightPoint = event->pos();
-        mHeight = fabs(mTopLeftPoint.y() - mBottomRightPoint.y()) + 1;
-        mWidth = fabs(mTopLeftPoint.x() - mBottomRightPoint.x()) + 1;
+        mHeight = abs(mTopLeftPoint.y() - mBottomRightPoint.y()) + 1;
+        mWidth = abs(mTopLeftPoint.x() - mBottomRightPoint.x()) + 1;
         imageArea.setImage(mImageCopy);
         drawBorder(imageArea);
         select(imageArea);
