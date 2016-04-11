@@ -29,3 +29,7 @@ easypaint-build-*
 ehthumbs.db
 Icon?
 Thumbs.db
+
+# CLion files #
+###############
+.idea/

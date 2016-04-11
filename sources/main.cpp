@@ -28,73 +28,65 @@
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QTranslator>
+#include <QRegularExpression>
 
 #include "mainwindow.h"
 #include "datasingleton.h"
 
-void printHelpMessage()
-{
-    qDebug()<<"EasyPaint - simple graphics painting program\n"
-              "Usage: easypaint [options] [filename]\n\n"
-              "Options:\n"
-              "\t-h, --help\t\tshow this help message and exit\n"
-              "\t-v, --version\t\tshow program's version number and exit";
+void printHelpMessage() {
+    qDebug() << "EasyPaint - simple graphics painting program\n"
+            "Usage: easypaint [options] [filename]\n\n"
+            "Options:\n"
+            "\t-h, --help\t\tshow this help message and exit\n"
+            "\t-v, --version\t\tshow program's version number and exit";
 }
 
-void printVersion()
-{
-    qDebug()<<"0.1.1";
+void printVersion() {
+    qDebug() << "0.1.1";
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     a.setApplicationName("EasyPaint");
     a.setApplicationVersion("0.1.1");
 
     QStringList args = a.arguments();
 
-    QRegExp rxArgHelp("--help");
-    QRegExp rxArgH("-h");
-    QRegExp rxArgVersion("--version");
-    QRegExp rxArgV("-v");
+    QRegularExpression rxArgHelp("--help");
+    QRegularExpression rxArgH("-h");
+    QRegularExpression rxArgVersion("--version");
+    QRegularExpression rxArgV("-v");
 
     bool isHelp(false), isVer(false);
     QStringList filePaths;
 
-    for(int i(1); i < args.size(); ++i)
-    {
-        if (rxArgHelp.indexIn(args.at(i)) != -1  ||
-                rxArgH.indexIn(args.at(i)) != -1)
-        {
+    for (int i = 1; i < args.size(); i++) {
+        QString arg = args.at(i);
+        QRegularExpressionMatch matchHelp = rxArgHelp.match(arg);
+        QRegularExpressionMatch matchH = rxArgH.match(arg);
+        QRegularExpressionMatch matchVersion = rxArgVersion.match(arg);
+        QRegularExpressionMatch matchV = rxArgV.match(arg);
+        if (matchHelp.hasMatch() || matchH.hasMatch()) {
             isHelp = true;
         }
-        else if (rxArgVersion.indexIn(args.at(i)) != -1  ||
-                 rxArgV.indexIn(args.at(i)) != -1)
-        {
+        else if (matchVersion.hasMatch() || matchV.hasMatch()) {
             isVer = true;
         }
-        else
-        {
-            if(QFile::exists(args.at(i)))
-            {
-                filePaths.append(args.at(i));
+        else {
+            if (QFile::exists(arg)) {
+                filePaths.append(arg);
             }
-            else
-            {
-                qDebug()<<QString("File %1 not found").arg(args.at(i));
+            else {
+                qDebug() << QString("File %1 not found").arg(arg);
             }
         }
-
     }
 
-    if(isHelp)
-    {
+    if (isHelp) {
         printHelpMessage();
         return 0;
     }
-    else if(isVer)
-    {
+    else if (isVer) {
         printVersion();
         return 0;
     }
@@ -102,12 +94,10 @@ int main(int argc, char *argv[])
     QTranslator appTranslator;
     QString translationsPath("/usr/share/easypaint/translations/");
     QString appLanguage = DataSingleton::Instance()->getAppLanguage();
-    if(appLanguage == "system")
-    {
+    if (appLanguage == "system") {
         appTranslator.load(translationsPath + "easypaint_" + QLocale::system().name());
     }
-    else
-    {
+    else {
         appTranslator.load(translationsPath + appLanguage);
     }
     a.installTranslator(&appTranslator);
