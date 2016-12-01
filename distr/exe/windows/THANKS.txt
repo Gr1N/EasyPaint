@@ -1,0 +1,28 @@
+What's this file about?
+-----------------------
+This file lists all external people that have contributed to this project.
+If any contributors are missing, please email the developers - see the AUTHORS file.
+
+Testers and contributors:
+-------------------------
+These people have contributed to EasyPaint by testing the software,
+reporting problems, sending patches and making useful suggestions:
+
+Jerome Leclanche <adys(dot)wh(at)gmail(dot)com>
+TI_Eugene <ti(dot)eugene(at)gmail(dot)com>
+
+Translators:
+------------
+These people have translated EasyPaint to foreign languages:
+
+Pavel Fric <pavelfric(at)seznam(dot)cz> - cs_CZ
+Jerome Leclanche <adys(dot)wh(at)gmail(dot)com> - fr_FR
+
+Graphical part:
+---------------
+These people have done work on graphical part of EasyPaint:
+
+Darya Mankevich <dasuletko(at)gmail(dot)com> - created logo
+
+Projects:
+---------
