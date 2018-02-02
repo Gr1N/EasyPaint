@@ -75,7 +75,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="186"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Editer</translation>
+        <translation>&amp;Éditer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="188"/>
@@ -105,7 +105,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="232"/>
         <source>&amp;Settings</source>
-        <translation>&amp;Pr&#201;f&#201;rences</translation>
+        <translation>&amp;Préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="240"/>
@@ -175,7 +175,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="299"/>
         <source>Negative</source>
-        <translation>N&#201;gatif</translation>
+        <translation>Négatif</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="304"/>
@@ -210,17 +210,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="334"/>
         <source>&amp;About</source>
-        <translation>&amp;A propos</translation>
+        <translation>&amp;À propos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="336"/>
         <source>&amp;About EasyPaint</source>
-        <translation>&amp;A propos de EasyPaint</translation>
+        <translation>&amp;À propos de EasyPaint</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="344"/>
         <source>About Qt</source>
-        <translation>A propos de Qt</translation>
+        <translation>À propos de Qt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="491"/>
@@ -233,13 +233,13 @@
         <location filename="../mainwindow.cpp" line="540"/>
         <source>File has been modified.
 Do you want to save changes?</source>
-        <translation>Le fichier a &#201;t&#201; modifi&#201;.
+        <translation>Le fichier a été modifié.
 Voulez-vous sauvegarder les changements?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="820"/>
         <source>About EasyPaint</source>
-        <translation>A propos de EasyPaint</translation>
+        <translation>À propos de EasyPaint</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="830"/>
@@ -317,7 +317,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../resizedialog.cpp" line="88"/>
         <source>Preserve Aspect Ratio</source>
-        <translation>Pr&#201;server le rapport d'aspect</translation>
+        <translation>Préserver le rapport d'aspect</translation>
     </message>
 </context>
 <context>
@@ -325,7 +325,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../settingsdialog.cpp" line="45"/>
         <source>Settings</source>
-        <translation>Pr&#201;f&#201;rences</translation>
+        <translation>Préférences</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="65"/>
@@ -335,7 +335,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../settingsdialog.cpp" line="67"/>
         <source>&lt;System&gt;</source>
-        <translation>&lt;Syst&#232;me&gt;</translation>
+        <translation>&lt;Système&gt;</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="76"/>
