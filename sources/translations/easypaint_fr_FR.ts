@@ -37,7 +37,7 @@
     <message>
         <location filename="../imagearea.cpp" line="214"/>
         <source>Error opening file</source>
-        <translation></translation>
+        <translation>Erreur aux ouvrir le fichier</translation>
     </message>
     <message>
         <location filename="../imagearea.cpp" line="214"/>
@@ -48,7 +48,7 @@
         <location filename="../imagearea.cpp" line="227"/>
         <location filename="../imagearea.cpp" line="277"/>
         <source>Error saving file</source>
-        <translation></translation>
+        <translation>Erreur aux enregistrer le fichier</translation>
     </message>
     <message>
         <location filename="../imagearea.cpp" line="227"/>
@@ -165,17 +165,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="249"/>
         <source>Eraser</source>
-        <translation></translation>
+        <translation>Gomme</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="256"/>
         <source>Color picker</source>
-        <translation></translation>
+        <translation>Sélecteur de couleurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="263"/>
         <source>Magnifier</source>
-        <translation></translation>
+        <translation>Lupe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="270"/>
@@ -240,7 +240,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="344"/>
         <source>Gaussian Blur</source>
-        <translation></translation>
+        <translation>Flou gaussien</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="349"/>
@@ -250,7 +250,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="354"/>
         <source>Sharpen</source>
-        <translation></translation>
+        <translation>Aiguiser</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="359"/>
@@ -280,32 +280,32 @@
     <message>
         <location filename="../mainwindow.cpp" line="376"/>
         <source>Counter-clockwise</source>
-        <translation></translation>
+        <translation>Sens inverse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="382"/>
         <source>Clockwise</source>
-        <translation></translation>
+        <translation>Guilles d'une montre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="390"/>
         <source>Zoom</source>
-        <translation></translation>
+        <translation>Zoom</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="392"/>
         <source>Zoom In</source>
-        <translation></translation>
+        <translation>Zoom avant</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="398"/>
         <source>Zoom Out</source>
-        <translation></translation>
+        <translation>Zoom arrière</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="404"/>
         <source>Advanced Zoom...</source>
-        <translation></translation>
+        <translation>Zoom avancé...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="411"/>
@@ -325,12 +325,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="656"/>
         <source>Enter zoom factor</source>
-        <translation></translation>
+        <translation>Entrez le facteur de zoom</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="656"/>
         <source>Zoom factor:</source>
-        <translation></translation>
+        <translation>Facteur de zoom :</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="674"/>
@@ -344,7 +344,7 @@
         <source>File has been modified.
 Do you want to save changes?</source>
         <translation>Le fichier a été modifié.
-Voulez-vous sauvegarder les changements?</translation>
+Voulez-vous sauvegarder les changements ?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="849"/>
@@ -369,7 +369,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="861"/>
         <source>If you like &lt;b&gt;EasyPaint&lt;/b&gt; and you want to share your opinion, or send a bug report, or want to suggest new features, we are waiting for you on our &lt;a href=&quot;https://github.com/Gr1N/EasyPaint/issues?milestone=&amp;sort=created&amp;direction=desc&amp;state=open&quot;&gt;tracker&lt;/a&gt;.</source>
-        <translation></translation>
+        <translation>Si vous aimez &lt;b&gt;EasyPaint&lt;/b&gt; et que vous souhaitez partager votre opinion, ou envoyer un rapport de bogue, ou si vous voulez suggérer de nouvelles fonctionnalités, nous vous attendons sur notre &lt;a href=&quot;https://github.com/Gr1N/EasyPaint/issues?milestone=&amp;sort=created&amp;direction=desc&amp;state=open&quot;&gt;tracker&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -390,12 +390,12 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../resizedialog.cpp" line="49"/>
         <source>Original size:</source>
-        <translation>Dimensions originales:</translation>
+        <translation>Dimensions originales :</translation>
     </message>
     <message>
         <location filename="../resizedialog.cpp" line="51"/>
         <source>New size:</source>
-        <translation>Nouvelles dimensions:</translation>
+        <translation>Nouvelles dimensions :</translation>
     </message>
     <message>
         <location filename="../resizedialog.cpp" line="54"/>
@@ -406,12 +406,12 @@ Voulez-vous sauvegarder les changements?</translation>
         <location filename="../resizedialog.cpp" line="68"/>
         <location filename="../resizedialog.cpp" line="86"/>
         <source>Width:</source>
-        <translation>Largeur:</translation>
+        <translation>Largeur :</translation>
     </message>
     <message>
         <location filename="../resizedialog.cpp" line="69"/>
         <source>x Height:</source>
-        <translation>Longueur x:</translation>
+        <translation>Longueur x :</translation>
     </message>
     <message>
         <location filename="../resizedialog.cpp" line="71"/>
@@ -421,7 +421,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../resizedialog.cpp" line="87"/>
         <source>% x Height:</source>
-        <translation>% Largeur x:</translation>
+        <translation>% Largeur x :</translation>
     </message>
     <message>
         <location filename="../resizedialog.cpp" line="88"/>
@@ -444,7 +444,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="69"/>
         <source>Language:</source>
-        <translation>Langue:</translation>
+        <translation>Langue :</translation>
     </message>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="71"/>
@@ -454,17 +454,17 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="82"/>
         <source>Note: language changing requires application restart</source>
-        <translation></translation>
+        <translation>Note : Le changement de langue nécessite le redémarrage de l'application</translation>
     </message>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="84"/>
         <source>Restore window size on start</source>
-        <translation></translation>
+        <translation>Restaurer la taille de la fenêtre au démarrage</translation>
     </message>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="87"/>
         <source>Ask canvas size on new image creation</source>
-        <translation></translation>
+        <translation>Demandez la taille de la toile sur la nouvelle création d'image</translation>
     </message>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="91"/>
@@ -474,12 +474,12 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="94"/>
         <source>Base size:</source>
-        <translation>Dimensions de base:</translation>
+        <translation>Dimensions de base :</translation>
     </message>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="107"/>
         <source>History depth:</source>
-        <translation>Taille de l'historique:</translation>
+        <translation>Taille de l'historique :</translation>
     </message>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="113"/>
@@ -489,7 +489,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="115"/>
         <source>Autosave interval (sec):</source>
-        <translation>Sauvegarde automatique intervalle (m)ec:</translation>
+        <translation>Sauvegarde automatique intervalle (sec) :</translation>
     </message>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="130"/>
@@ -499,12 +499,12 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="140"/>
         <source>General</source>
-        <translation></translation>
+        <translation>Général</translation>
     </message>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="142"/>
         <source>Keyboard shortcuts</source>
-        <translation></translation>
+        <translation>Raccourcis clavier</translation>
     </message>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="148"/>
@@ -515,7 +515,7 @@ Voulez-vous sauvegarder les changements?</translation>
         <location filename="../dialogs/settingsdialog.cpp" line="148"/>
         <location filename="../dialogs/settingsdialog.cpp" line="160"/>
         <source>Shortcut</source>
-        <translation></translation>
+        <translation>Raccoursis</translation>
     </message>
     <message>
         <location filename="../dialogs/settingsdialog.cpp" line="164"/>
@@ -541,7 +541,7 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../widgets/shortcutedit.cpp" line="44"/>
         <source>Clear</source>
-        <translation></translation>
+        <translation>Supprimer</translation>
     </message>
 </context>
 <context>
@@ -559,12 +559,12 @@ Voulez-vous sauvegarder les changements?</translation>
     <message>
         <location filename="../dialogs/textdialog.cpp" line="100"/>
         <source>Question</source>
-        <translation></translation>
+        <translation>Question</translation>
     </message>
     <message>
         <location filename="../dialogs/textdialog.cpp" line="100"/>
         <source>Clear text?</source>
-        <translation></translation>
+        <translation>Supprimer le text ?</translation>
     </message>
 </context>
 <context>
