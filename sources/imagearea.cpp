@@ -66,6 +66,7 @@
 #include <QtCore/QDir>
 #include <QMessageBox>
 #include <QClipboard>
+#include <QScreen>
 
 ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *parent) :
     QWidget(parent), mIsEdited(false), mIsPaint(false), mIsResize(false)
@@ -635,4 +636,14 @@ void ImageArea::pushUndoCommand(UndoCommand *command)
 {
     if(command != 0)
         mUndoStack->push(command);
+}
+
+void ImageArea::takeScreenshot()
+{
+    qDebug() << "shot";
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QPixmap pixmap = screen->grabWindow(0);
+    QImage im = pixmap.toImage();
+    this->getImage()->swap(im);
+    this->update();
 }

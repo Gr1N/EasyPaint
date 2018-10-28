@@ -144,6 +144,7 @@ private slots:
     void clearImageSelection();
     void restorePreviousInstrument();
     void setInstrument(InstrumentsEnum instrument);
+    void takeScreenshot();
 signals:
     void sendInstrumentChecked(InstrumentsEnum);
 

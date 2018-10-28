@@ -164,6 +164,11 @@ public:
      *
      */
     void pushUndoCommand(UndoCommand *command);
+    /**
+     * @brief Take screenshot of parent screen.
+     *
+     */
+    void takeScreenshot();
     
 private:
     /**
@@ -192,6 +197,7 @@ private:
      *
      */
     void makeFormatsFilters();
+
 
     QImage *mImage,  /**< Main image. */
            mImageCopy; /**< Copy of main image, need for events. */ // ?????????????

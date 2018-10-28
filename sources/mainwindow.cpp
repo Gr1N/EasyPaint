@@ -408,6 +408,10 @@ void MainWindow::initializeMainMenu()
 
     mToolsMenu->addMenu(zoomMenu);
 
+    QAction *screenshotQtAction = new QAction(tr("Screenshot"), this);
+    connect(screenshotQtAction, SIGNAL(triggered()), this, SLOT(takeScreenshot()));
+    mToolsMenu->addAction(screenshotQtAction);
+
     QMenu *aboutMenu = menuBar()->addMenu(tr("&About"));
 
     QAction *aboutAction = new QAction(tr("&About EasyPaint"), this);
@@ -859,4 +863,9 @@ void MainWindow::helpAct()
                                "<br> %5")
                        .arg(tr("version")).arg("0.1.0").arg(tr("Site")).arg(tr("Authors"))
                        .arg(tr("If you like <b>EasyPaint</b> and you want to share your opinion, or send a bug report, or want to suggest new features, we are waiting for you on our <a href=\"https://github.com/Gr1N/EasyPaint/issues?milestone=&sort=created&direction=desc&state=open\">tracker</a>.")));
+}
+
+void MainWindow::takeScreenshot()
+{
+    getCurrentImageArea()->takeScreenshot();
 }
