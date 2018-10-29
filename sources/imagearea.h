@@ -197,6 +197,11 @@ private:
      *
      */
     void makeFormatsFilters();
+    /**
+     * @brief Take screenshot of parent screen.
+     *
+     */
+    void _takeScreenshot();
 
 
     QImage *mImage,  /**< Main image. */

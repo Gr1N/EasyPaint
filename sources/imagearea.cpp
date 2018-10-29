@@ -638,11 +638,18 @@ void ImageArea::pushUndoCommand(UndoCommand *command)
         mUndoStack->push(command);
 }
 
-void ImageArea::takeScreenshot()
+void ImageArea::_takeScreenshot()
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     QPixmap pixmap = screen->grabWindow(0);
     QImage image = pixmap.toImage();
     mAdditionalTools->resizeCanvas(image.width(), image.height(), false);
     this->getImage()->swap(image);
+    this->topLevelWidget()->show();
+}
+
+void ImageArea::takeScreenshot()
+{
+    this->topLevelWidget()->hide();
+    QTimer::singleShot(1000, this, &ImageArea::_takeScreenshot);
 }
