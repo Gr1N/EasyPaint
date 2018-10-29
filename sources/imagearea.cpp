@@ -640,10 +640,9 @@ void ImageArea::pushUndoCommand(UndoCommand *command)
 
 void ImageArea::takeScreenshot()
 {
-    qDebug() << "shot";
     QScreen *screen = QGuiApplication::primaryScreen();
     QPixmap pixmap = screen->grabWindow(0);
-    QImage im = pixmap.toImage();
-    this->getImage()->swap(im);
-    this->update();
+    QImage image = pixmap.toImage();
+    mAdditionalTools->resizeCanvas(image.width(), image.height(), false);
+    this->getImage()->swap(image);
 }
