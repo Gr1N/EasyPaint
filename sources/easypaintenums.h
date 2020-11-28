@@ -38,6 +38,7 @@ typedef enum
     PEN,
     LINE,
     COLORPICKER,
+    COLORPICKERPALETTE,
     MAGNIFIER,
     SPRAY,
     FILL,

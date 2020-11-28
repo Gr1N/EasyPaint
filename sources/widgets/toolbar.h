@@ -62,7 +62,8 @@ private:
     QToolButton* createToolButton(QAction *act);
 
     QToolButton *mCursorButton, *mEraserButton, *mPenButton, *mLineButton,
-                *mColorPickerButton, *mMagnifierButton, *mSprayButton, *mFillButton,
+                *mColorPickerButton,*mColorPickerPaletteButton, *mMagnifierButton,
+                *mSprayButton, *mFillButton,
                 *mRectangleButton, *mEllipseButton, *mCurveButton, *mTextButton;
     ColorChooser *mPColorChooser, *mSColorChooser;
     bool mPrevInstrumentSetted;

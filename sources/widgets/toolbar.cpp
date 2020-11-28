@@ -58,6 +58,7 @@ void ToolBar::initializeItems()
     mPenButton = createToolButton(mActMap[PEN]);
     mLineButton = createToolButton(mActMap[LINE]);
     mColorPickerButton = createToolButton(mActMap[COLORPICKER]);
+    mColorPickerPaletteButton = createToolButton(mActMap[COLORPICKERPALETTE]);
     mMagnifierButton = createToolButton(mActMap[MAGNIFIER]);
     mSprayButton = createToolButton(mActMap[SPRAY]);
     mFillButton = createToolButton(mActMap[FILL]);
@@ -80,6 +81,7 @@ void ToolBar::initializeItems()
     bLayout->addWidget(mEllipseButton, 4, 1);
     bLayout->addWidget(mCurveButton, 5, 0);
     bLayout->addWidget(mTextButton, 5, 1);
+    bLayout->addWidget(mColorPickerPaletteButton, 6, 0);
 
     QWidget *bWidget = new QWidget();
     bWidget->setLayout(bLayout);
