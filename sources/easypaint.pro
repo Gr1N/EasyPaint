@@ -21,6 +21,7 @@ MOC_DIR = build
 UI_DIR = build
 
 SOURCES += main.cpp\
+    instruments/colorpickerpaletteinstrument.cpp \
         mainwindow.cpp \
     imagearea.cpp \
     datasingleton.cpp \
@@ -65,6 +66,7 @@ HEADERS  += mainwindow.h \
     imagearea.h \
     datasingleton.h \
     additionaltools.h \
+    instruments/colorpickerpaletteinstrument.h \
     undocommand.h \
     widgets/toolbar.h \
     widgets/colorchooser.h \
