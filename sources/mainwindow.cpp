@@ -253,12 +253,12 @@ void MainWindow::initializeMainMenu()
     mInstrumentsMenu->addAction(mEraserAction);
     mInstrumentsActMap.insert(ERASER, mEraserAction);
 
-    QAction *mColorPickerAction = new QAction(tr("Color picker"), this);
-    mColorPickerAction->setCheckable(true);
-    mColorPickerAction->setIcon(QIcon(":/media/instruments-icons/pipette.png"));
-    connect(mColorPickerAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
-    mInstrumentsMenu->addAction(mColorPickerAction);
-    mInstrumentsActMap.insert(COLORPICKER, mColorPickerAction);
+    QAction *mColorPickerPaletteAction = new QAction(tr("Color picker palette"), this);
+    mColorPickerPaletteAction->setCheckable(true);
+    mColorPickerPaletteAction->setIcon(QIcon(":/media/instruments-icons/palette.png"));
+    connect(mColorPickerPaletteAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
+    mInstrumentsMenu->addAction(mColorPickerPaletteAction);
+    mInstrumentsActMap.insert(COLORPICKERPALETTE, mColorPickerPaletteAction);
 
     QAction *mMagnifierAction = new QAction(tr("Magnifier"), this);
     mMagnifierAction->setCheckable(true);
@@ -322,13 +322,6 @@ void MainWindow::initializeMainMenu()
     connect(mTextAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
     mInstrumentsMenu->addAction(mTextAction);
     mInstrumentsActMap.insert(TEXT, mTextAction);
-
-    QAction *mColorPickerPaletteAction = new QAction(tr("Color picker palette"), this);
-    mColorPickerPaletteAction->setCheckable(true);
-    mColorPickerPaletteAction->setIcon(QIcon(":/media/instruments-icons/palette.png"));
-    connect(mColorPickerPaletteAction, SIGNAL(triggered(bool)), this, SLOT(instumentsAct(bool)));
-    mInstrumentsMenu->addAction(mColorPickerPaletteAction);
-    mInstrumentsActMap.insert(COLORPICKERPALETTE, mColorPickerPaletteAction);
 
     // TODO: Add new instrument action here
 
@@ -604,7 +597,7 @@ void MainWindow::updateShortcuts()
 
     mInstrumentsActMap[CURSOR]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Cursor"));
     mInstrumentsActMap[ERASER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic"));
-    mInstrumentsActMap[COLORPICKER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette"));
+    mInstrumentsActMap[COLORPICKERPALETTE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette"));
     //todo : add short-cut for color picker widget
     mInstrumentsActMap[MAGNIFIER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe"));
     mInstrumentsActMap[PEN]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pen"));
@@ -779,7 +772,7 @@ void MainWindow::instumentsAct(bool state)
     if(state)
     {
         //todo : logic for new color picker palette
-        if(currentAction == mInstrumentsActMap[COLORPICKER] && !mPrevInstrumentSetted)
+        if(currentAction == mInstrumentsActMap[COLORPICKERPALETTE] && !mPrevInstrumentSetted)
         {
             DataSingleton::Instance()->setPreviousInstrument(DataSingleton::Instance()->getInstrument());
             mPrevInstrumentSetted = true;
