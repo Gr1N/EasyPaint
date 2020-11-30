@@ -75,7 +75,6 @@ SOURCES       = ../sources/main.cpp \
 		../sources/instruments/fillinstrument.cpp \
 		../sources/instruments/sprayinstrument.cpp \
 		../sources/instruments/magnifierinstrument.cpp \
-		../sources/instruments/colorpickerinstrument.cpp \
 		../sources/instruments/selectioninstrument.cpp \
 		../sources/instruments/curvelineinstrument.cpp \
 		../sources/instruments/textinstrument.cpp \
@@ -112,7 +111,6 @@ SOURCES       = ../sources/main.cpp \
 		build/moc_fillinstrument.cpp \
 		build/moc_sprayinstrument.cpp \
 		build/moc_magnifierinstrument.cpp \
-		build/moc_colorpickerinstrument.cpp \
 		build/moc_selectioninstrument.cpp \
 		build/moc_curvelineinstrument.cpp \
 		build/moc_textinstrument.cpp \
@@ -156,7 +154,6 @@ OBJECTS       = build/main.o \
 		build/fillinstrument.o \
 		build/sprayinstrument.o \
 		build/magnifierinstrument.o \
-		build/colorpickerinstrument.o \
 		build/selectioninstrument.o \
 		build/curvelineinstrument.o \
 		build/textinstrument.o \
@@ -194,7 +191,6 @@ OBJECTS       = build/main.o \
 		build/moc_fillinstrument.o \
 		build/moc_sprayinstrument.o \
 		build/moc_magnifierinstrument.o \
-		build/moc_colorpickerinstrument.o \
 		build/moc_selectioninstrument.o \
 		build/moc_curvelineinstrument.o \
 		build/moc_textinstrument.o \
@@ -327,7 +323,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../sources/instruments/fillinstrument.h \
 		../sources/instruments/sprayinstrument.h \
 		../sources/instruments/magnifierinstrument.h \
-		../sources/instruments/colorpickerinstrument.h \
 		../sources/instruments/selectioninstrument.h \
 		../sources/instruments/curvelineinstrument.h \
 		../sources/instruments/textinstrument.h \
@@ -370,7 +365,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../sources/instruments/fillinstrument.cpp \
 		../sources/instruments/sprayinstrument.cpp \
 		../sources/instruments/magnifierinstrument.cpp \
-		../sources/instruments/colorpickerinstrument.cpp \
 		../sources/instruments/selectioninstrument.cpp \
 		../sources/instruments/curvelineinstrument.cpp \
 		../sources/instruments/textinstrument.cpp \
@@ -604,8 +598,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../sources/resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../sources/mainwindow.h ../sources/easypaintenums.h ../sources/imagearea.h ../sources/datasingleton.h ../sources/additionaltools.h ../sources/instruments/colorpickerpaletteinstrument.h ../sources/undocommand.h ../sources/widgets/toolbar.h ../sources/widgets/colorchooser.h ../sources/widgets/palettebar.h ../sources/widgets/palettebutton.h ../sources/widgets/shortcutedit.h ../sources/dialogs/resizedialog.h ../sources/dialogs/settingsdialog.h ../sources/dialogs/textdialog.h ../sources/instruments/abstractinstrument.h ../sources/instruments/abstractselection.h ../sources/instruments/pencilinstrument.h ../sources/instruments/lineinstrument.h ../sources/instruments/eraserinstrument.h ../sources/instruments/rectangleinstrument.h ../sources/instruments/ellipseinstrument.h ../sources/instruments/fillinstrument.h ../sources/instruments/sprayinstrument.h ../sources/instruments/magnifierinstrument.h ../sources/instruments/colorpickerinstrument.h ../sources/instruments/selectioninstrument.h ../sources/instruments/curvelineinstrument.h ../sources/instruments/textinstrument.h ../sources/effects/abstracteffect.h ../sources/effects/negativeeffect.h ../sources/effects/grayeffect.h ../sources/effects/binarizationeffect.h ../sources/effects/gammaeffect.h ../sources/effects/gaussianblureffect.h ../sources/effects/sharpeneffect.h ../sources/dialogs/effectsettingsdialog.h ../sources/widgets/customfiltersettings.h ../sources/widgets/abstracteffectsettings.h ../sources/effects/effectwithsettings.h ../sources/effects/customeffect.h ../sources/widgets/sharpenfiltersettings.h ../sources/widgets/imagepreview.h ../sources/widgets/gaussianblurfiltersettings.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../sources/main.cpp ../sources/instruments/colorpickerpaletteinstrument.cpp ../sources/mainwindow.cpp ../sources/imagearea.cpp ../sources/datasingleton.cpp ../sources/additionaltools.cpp ../sources/undocommand.cpp ../sources/widgets/toolbar.cpp ../sources/widgets/colorchooser.cpp ../sources/widgets/palettebar.cpp ../sources/widgets/palettebutton.cpp ../sources/widgets/shortcutedit.cpp ../sources/dialogs/resizedialog.cpp ../sources/dialogs/settingsdialog.cpp ../sources/dialogs/textdialog.cpp ../sources/instruments/abstractinstrument.cpp ../sources/instruments/abstractselection.cpp ../sources/instruments/pencilinstrument.cpp ../sources/instruments/lineinstrument.cpp ../sources/instruments/eraserinstrument.cpp ../sources/instruments/rectangleinstrument.cpp ../sources/instruments/ellipseinstrument.cpp ../sources/instruments/fillinstrument.cpp ../sources/instruments/sprayinstrument.cpp ../sources/instruments/magnifierinstrument.cpp ../sources/instruments/colorpickerinstrument.cpp ../sources/instruments/selectioninstrument.cpp ../sources/instruments/curvelineinstrument.cpp ../sources/instruments/textinstrument.cpp ../sources/effects/abstracteffect.cpp ../sources/effects/negativeeffect.cpp ../sources/effects/grayeffect.cpp ../sources/effects/binarizationeffect.cpp ../sources/effects/gammaeffect.cpp ../sources/dialogs/effectsettingsdialog.cpp ../sources/widgets/customfiltersettings.cpp ../sources/effects/effectwithsettings.cpp ../sources/widgets/sharpenfiltersettings.cpp ../sources/widgets/imagepreview.cpp ../sources/widgets/gaussianblurfiltersettings.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../sources/mainwindow.h ../sources/easypaintenums.h ../sources/imagearea.h ../sources/datasingleton.h ../sources/additionaltools.h ../sources/instruments/colorpickerpaletteinstrument.h ../sources/undocommand.h ../sources/widgets/toolbar.h ../sources/widgets/colorchooser.h ../sources/widgets/palettebar.h ../sources/widgets/palettebutton.h ../sources/widgets/shortcutedit.h ../sources/dialogs/resizedialog.h ../sources/dialogs/settingsdialog.h ../sources/dialogs/textdialog.h ../sources/instruments/abstractinstrument.h ../sources/instruments/abstractselection.h ../sources/instruments/pencilinstrument.h ../sources/instruments/lineinstrument.h ../sources/instruments/eraserinstrument.h ../sources/instruments/rectangleinstrument.h ../sources/instruments/ellipseinstrument.h ../sources/instruments/fillinstrument.h ../sources/instruments/sprayinstrument.h ../sources/instruments/magnifierinstrument.h ../sources/instruments/selectioninstrument.h ../sources/instruments/curvelineinstrument.h ../sources/instruments/textinstrument.h ../sources/effects/abstracteffect.h ../sources/effects/negativeeffect.h ../sources/effects/grayeffect.h ../sources/effects/binarizationeffect.h ../sources/effects/gammaeffect.h ../sources/effects/gaussianblureffect.h ../sources/effects/sharpeneffect.h ../sources/dialogs/effectsettingsdialog.h ../sources/widgets/customfiltersettings.h ../sources/widgets/abstracteffectsettings.h ../sources/effects/effectwithsettings.h ../sources/effects/customeffect.h ../sources/widgets/sharpenfiltersettings.h ../sources/widgets/imagepreview.h ../sources/widgets/gaussianblurfiltersettings.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../sources/main.cpp ../sources/instruments/colorpickerpaletteinstrument.cpp ../sources/mainwindow.cpp ../sources/imagearea.cpp ../sources/datasingleton.cpp ../sources/additionaltools.cpp ../sources/undocommand.cpp ../sources/widgets/toolbar.cpp ../sources/widgets/colorchooser.cpp ../sources/widgets/palettebar.cpp ../sources/widgets/palettebutton.cpp ../sources/widgets/shortcutedit.cpp ../sources/dialogs/resizedialog.cpp ../sources/dialogs/settingsdialog.cpp ../sources/dialogs/textdialog.cpp ../sources/instruments/abstractinstrument.cpp ../sources/instruments/abstractselection.cpp ../sources/instruments/pencilinstrument.cpp ../sources/instruments/lineinstrument.cpp ../sources/instruments/eraserinstrument.cpp ../sources/instruments/rectangleinstrument.cpp ../sources/instruments/ellipseinstrument.cpp ../sources/instruments/fillinstrument.cpp ../sources/instruments/sprayinstrument.cpp ../sources/instruments/magnifierinstrument.cpp ../sources/instruments/selectioninstrument.cpp ../sources/instruments/curvelineinstrument.cpp ../sources/instruments/textinstrument.cpp ../sources/effects/abstracteffect.cpp ../sources/effects/negativeeffect.cpp ../sources/effects/grayeffect.cpp ../sources/effects/binarizationeffect.cpp ../sources/effects/gammaeffect.cpp ../sources/dialogs/effectsettingsdialog.cpp ../sources/widgets/customfiltersettings.cpp ../sources/effects/effectwithsettings.cpp ../sources/widgets/sharpenfiltersettings.cpp ../sources/widgets/imagepreview.cpp ../sources/widgets/gaussianblurfiltersettings.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents translations/easypaint_cs_CZ.ts translations/easypaint_fr_FR.ts translations/easypaint_ru_RU.ts $(DISTDIR)/
 
 
@@ -681,9 +675,9 @@ compiler_moc_predefs_clean:
 build/moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -Wall -W -dM -E -o build/moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: build/moc_mainwindow.cpp build/moc_imagearea.cpp build/moc_additionaltools.cpp build/moc_colorpickerpaletteinstrument.cpp build/moc_toolbar.cpp build/moc_colorchooser.cpp build/moc_palettebar.cpp build/moc_palettebutton.cpp build/moc_shortcutedit.cpp build/moc_resizedialog.cpp build/moc_settingsdialog.cpp build/moc_textdialog.cpp build/moc_abstractinstrument.cpp build/moc_abstractselection.cpp build/moc_pencilinstrument.cpp build/moc_lineinstrument.cpp build/moc_eraserinstrument.cpp build/moc_rectangleinstrument.cpp build/moc_ellipseinstrument.cpp build/moc_fillinstrument.cpp build/moc_sprayinstrument.cpp build/moc_magnifierinstrument.cpp build/moc_colorpickerinstrument.cpp build/moc_selectioninstrument.cpp build/moc_curvelineinstrument.cpp build/moc_textinstrument.cpp build/moc_abstracteffect.cpp build/moc_negativeeffect.cpp build/moc_grayeffect.cpp build/moc_binarizationeffect.cpp build/moc_gammaeffect.cpp build/moc_gaussianblureffect.cpp build/moc_sharpeneffect.cpp build/moc_effectsettingsdialog.cpp build/moc_customfiltersettings.cpp build/moc_abstracteffectsettings.cpp build/moc_effectwithsettings.cpp build/moc_customeffect.cpp build/moc_sharpenfiltersettings.cpp build/moc_imagepreview.cpp build/moc_gaussianblurfiltersettings.cpp
+compiler_moc_header_make_all: build/moc_mainwindow.cpp build/moc_imagearea.cpp build/moc_additionaltools.cpp build/moc_colorpickerpaletteinstrument.cpp build/moc_toolbar.cpp build/moc_colorchooser.cpp build/moc_palettebar.cpp build/moc_palettebutton.cpp build/moc_shortcutedit.cpp build/moc_resizedialog.cpp build/moc_settingsdialog.cpp build/moc_textdialog.cpp build/moc_abstractinstrument.cpp build/moc_abstractselection.cpp build/moc_pencilinstrument.cpp build/moc_lineinstrument.cpp build/moc_eraserinstrument.cpp build/moc_rectangleinstrument.cpp build/moc_ellipseinstrument.cpp build/moc_fillinstrument.cpp build/moc_sprayinstrument.cpp build/moc_magnifierinstrument.cpp build/moc_selectioninstrument.cpp build/moc_curvelineinstrument.cpp build/moc_textinstrument.cpp build/moc_abstracteffect.cpp build/moc_negativeeffect.cpp build/moc_grayeffect.cpp build/moc_binarizationeffect.cpp build/moc_gammaeffect.cpp build/moc_gaussianblureffect.cpp build/moc_sharpeneffect.cpp build/moc_effectsettingsdialog.cpp build/moc_customfiltersettings.cpp build/moc_abstracteffectsettings.cpp build/moc_effectwithsettings.cpp build/moc_customeffect.cpp build/moc_sharpenfiltersettings.cpp build/moc_imagepreview.cpp build/moc_gaussianblurfiltersettings.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) build/moc_mainwindow.cpp build/moc_imagearea.cpp build/moc_additionaltools.cpp build/moc_colorpickerpaletteinstrument.cpp build/moc_toolbar.cpp build/moc_colorchooser.cpp build/moc_palettebar.cpp build/moc_palettebutton.cpp build/moc_shortcutedit.cpp build/moc_resizedialog.cpp build/moc_settingsdialog.cpp build/moc_textdialog.cpp build/moc_abstractinstrument.cpp build/moc_abstractselection.cpp build/moc_pencilinstrument.cpp build/moc_lineinstrument.cpp build/moc_eraserinstrument.cpp build/moc_rectangleinstrument.cpp build/moc_ellipseinstrument.cpp build/moc_fillinstrument.cpp build/moc_sprayinstrument.cpp build/moc_magnifierinstrument.cpp build/moc_colorpickerinstrument.cpp build/moc_selectioninstrument.cpp build/moc_curvelineinstrument.cpp build/moc_textinstrument.cpp build/moc_abstracteffect.cpp build/moc_negativeeffect.cpp build/moc_grayeffect.cpp build/moc_binarizationeffect.cpp build/moc_gammaeffect.cpp build/moc_gaussianblureffect.cpp build/moc_sharpeneffect.cpp build/moc_effectsettingsdialog.cpp build/moc_customfiltersettings.cpp build/moc_abstracteffectsettings.cpp build/moc_effectwithsettings.cpp build/moc_customeffect.cpp build/moc_sharpenfiltersettings.cpp build/moc_imagepreview.cpp build/moc_gaussianblurfiltersettings.cpp
+	-$(DEL_FILE) build/moc_mainwindow.cpp build/moc_imagearea.cpp build/moc_additionaltools.cpp build/moc_colorpickerpaletteinstrument.cpp build/moc_toolbar.cpp build/moc_colorchooser.cpp build/moc_palettebar.cpp build/moc_palettebutton.cpp build/moc_shortcutedit.cpp build/moc_resizedialog.cpp build/moc_settingsdialog.cpp build/moc_textdialog.cpp build/moc_abstractinstrument.cpp build/moc_abstractselection.cpp build/moc_pencilinstrument.cpp build/moc_lineinstrument.cpp build/moc_eraserinstrument.cpp build/moc_rectangleinstrument.cpp build/moc_ellipseinstrument.cpp build/moc_fillinstrument.cpp build/moc_sprayinstrument.cpp build/moc_magnifierinstrument.cpp build/moc_selectioninstrument.cpp build/moc_curvelineinstrument.cpp build/moc_textinstrument.cpp build/moc_abstracteffect.cpp build/moc_negativeeffect.cpp build/moc_grayeffect.cpp build/moc_binarizationeffect.cpp build/moc_gammaeffect.cpp build/moc_gaussianblureffect.cpp build/moc_sharpeneffect.cpp build/moc_effectsettingsdialog.cpp build/moc_customfiltersettings.cpp build/moc_abstracteffectsettings.cpp build/moc_effectwithsettings.cpp build/moc_customeffect.cpp build/moc_sharpenfiltersettings.cpp build/moc_imagepreview.cpp build/moc_gaussianblurfiltersettings.cpp
 build/moc_mainwindow.cpp: ../sources/easypaintenums.h \
 		../sources/mainwindow.h \
 		build/moc_predefs.h \
@@ -816,12 +810,6 @@ build/moc_magnifierinstrument.cpp: ../sources/instruments/abstractinstrument.h \
 		build/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/maifee/Desktop/personal_first/EasyPaint/sources -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../sources/instruments/magnifierinstrument.h -o build/moc_magnifierinstrument.cpp
-
-build/moc_colorpickerinstrument.cpp: ../sources/instruments/abstractinstrument.h \
-		../sources/instruments/colorpickerinstrument.h \
-		build/moc_predefs.h \
-		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/maifee/Desktop/personal_first/EasyPaint/sources -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../sources/instruments/colorpickerinstrument.h -o build/moc_colorpickerinstrument.cpp
 
 build/moc_selectioninstrument.cpp: ../sources/instruments/abstractselection.h \
 		../sources/instruments/abstractinstrument.h \
@@ -993,7 +981,7 @@ build/imagearea.o: ../sources/imagearea.cpp ../sources/imagearea.h \
 		../sources/instruments/fillinstrument.h \
 		../sources/instruments/sprayinstrument.h \
 		../sources/instruments/magnifierinstrument.h \
-		../sources/instruments/colorpickerinstrument.h \
+		../sources/instruments/colorpickerpaletteinstrument.h \
 		../sources/instruments/selectioninstrument.h \
 		../sources/instruments/abstractselection.h \
 		../sources/instruments/curvelineinstrument.h \
@@ -1147,14 +1135,6 @@ build/magnifierinstrument.o: ../sources/instruments/magnifierinstrument.cpp ../s
 		../sources/easypaintenums.h \
 		../sources/additionaltools.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/magnifierinstrument.o ../sources/instruments/magnifierinstrument.cpp
-
-build/colorpickerinstrument.o: ../sources/instruments/colorpickerinstrument.cpp ../sources/instruments/colorpickerinstrument.h \
-		../sources/instruments/abstractinstrument.h \
-		../sources/imagearea.h \
-		../sources/easypaintenums.h \
-		../sources/additionaltools.h \
-		../sources/datasingleton.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/colorpickerinstrument.o ../sources/instruments/colorpickerinstrument.cpp
 
 build/selectioninstrument.o: ../sources/instruments/selectioninstrument.cpp ../sources/instruments/selectioninstrument.h \
 		../sources/instruments/abstractselection.h \
@@ -1317,9 +1297,6 @@ build/moc_sprayinstrument.o: build/moc_sprayinstrument.cpp
 
 build/moc_magnifierinstrument.o: build/moc_magnifierinstrument.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/moc_magnifierinstrument.o build/moc_magnifierinstrument.cpp
-
-build/moc_colorpickerinstrument.o: build/moc_colorpickerinstrument.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/moc_colorpickerinstrument.o build/moc_colorpickerinstrument.cpp
 
 build/moc_selectioninstrument.o: build/moc_selectioninstrument.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/moc_selectioninstrument.o build/moc_selectioninstrument.cpp
