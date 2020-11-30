@@ -36,7 +36,7 @@
 #include "instruments/fillinstrument.h"
 #include "instruments/sprayinstrument.h"
 #include "instruments/magnifierinstrument.h"
-#include "instruments/colorpickerinstrument.h"
+#include "instruments/colorpickerpaletteinstrument.h"
 #include "instruments/selectioninstrument.h"
 #include "instruments/curvelineinstrument.h"
 #include "instruments/textinstrument.h"
@@ -146,7 +146,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     mInstrumentsHandlers[FILL] = new FillInstrument(this);
     mInstrumentsHandlers[SPRAY] = new SprayInstrument(this);
     mInstrumentsHandlers[MAGNIFIER] = new MagnifierInstrument(this);
-    mInstrumentsHandlers[COLORPICKER] = new ColorpickerInstrument(this);
+    mInstrumentsHandlers[COLORPICKERPALETTE] = new ColorpickerPaletteInstrument(this);
     mInstrumentsHandlers[CURVELINE] = new CurveLineInstrument(this);
     mInstrumentsHandlers[TEXT] = new TextInstrument(this);
 
@@ -405,6 +405,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
 
     if(instrument != NONE_INSTRUMENT)
     {
+        //todo : fix segmentation-fault in color picker palette
         mInstrumentHandler->mouseMoveEvent(event, *this);
     }
 }
@@ -467,7 +468,7 @@ void ImageArea::restoreCursor()
         mCurrentCursor = new QCursor(*mPixmap);
         setCursor(*mCurrentCursor);
         break;
-    case COLORPICKER:
+    case COLORPICKERPALETTE:
         mPixmap = new QPixmap(":/media/instruments-icons/cursor_pipette.png");
         mCurrentCursor = new QCursor(*mPixmap);
         setCursor(*mCurrentCursor);
@@ -496,7 +497,7 @@ void ImageArea::drawCursor()
     QPoint center(13, 13);
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case NONE_INSTRUMENT: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
+    case NONE_INSTRUMENT: case LINE: case COLORPICKERPALETTE: case MAGNIFIER: case  SPRAY:
     case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case INSTRUMENTS_COUNT:
     case CURVELINE: case TEXT:
         break;
@@ -507,7 +508,7 @@ void ImageArea::drawCursor()
     painter.begin(mPixmap);
     switch(DataSingleton::Instance()->getInstrument())
     {
-    case NONE_INSTRUMENT: case LINE: case COLORPICKER: case MAGNIFIER: case  SPRAY:
+    case NONE_INSTRUMENT: case LINE: case COLORPICKERPALETTE: case MAGNIFIER: case  SPRAY:
     case FILL: case RECTANGLE: case ELLIPSE: case CURSOR: case INSTRUMENTS_COUNT:
     case CURVELINE: case TEXT:
         break;

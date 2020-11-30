@@ -21,7 +21,7 @@ MOC_DIR = build
 UI_DIR = build
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
+    mainwindow.cpp \
     imagearea.cpp \
     datasingleton.cpp \
     additionaltools.cpp \
@@ -44,9 +44,9 @@ SOURCES += main.cpp\
     instruments/fillinstrument.cpp \
     instruments/sprayinstrument.cpp \
     instruments/magnifierinstrument.cpp \
-    instruments/colorpickerinstrument.cpp \
     instruments/selectioninstrument.cpp \
     instruments/curvelineinstrument.cpp \
+    instruments/colorpickerpaletteinstrument.cpp \
     instruments/textinstrument.cpp \
     effects/abstracteffect.cpp \
     effects/negativeeffect.cpp \
@@ -84,10 +84,10 @@ HEADERS  += mainwindow.h \
     instruments/fillinstrument.h \
     instruments/sprayinstrument.h \
     instruments/magnifierinstrument.h \
-    instruments/colorpickerinstrument.h \
     instruments/selectioninstrument.h \
     instruments/curvelineinstrument.h \
     instruments/textinstrument.h \
+    instruments/colorpickerpaletteinstrument.h \
     effects/abstracteffect.h \
     effects/negativeeffect.h \
     effects/grayeffect.h \
